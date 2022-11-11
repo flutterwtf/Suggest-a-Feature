@@ -1,0 +1,36 @@
+name: suggest_a_feature
+description: Suggest a Feature
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ">=2.16.1 <3.0.0"
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  bot_toast: ^4.0.1
+  cached_network_image: ^3.2.0
+  extended_image: ^6.3.1
+  flutter_bloc: ^8.0.1
+  flutter_svg: ^1.0.3
+  http: ^0.13.4
+  intl: ^0.17.0
+  rxdart: ^0.27.3
+
+  sliding_sheet:
+    git:
+      url: https://gitlab+deploy-token-547341:NRrK4ohMCyQXqLmHgSwW@gitlab.com/sheep-apps/sliding_sheet.git
+      ref: master
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  assets:
+    - assets/
