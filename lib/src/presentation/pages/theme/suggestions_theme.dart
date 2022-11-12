@@ -84,7 +84,10 @@ class SuggestionsTheme {
   });
 
   TextStyle get base => TextStyle(
-      fontFamily: fontFamily, color: primaryTextColor, fontFamilyFallback: ['sans-serif']);
+        fontFamily: fontFamily,
+        color: primaryTextColor,
+        fontFamilyFallback: ['sans-serif'],
+      );
 
   TextStyle get textXXL => base.copyWith(fontSize: FontSizes.sixeXXL);
 
