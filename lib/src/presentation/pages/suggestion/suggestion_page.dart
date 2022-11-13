@@ -91,14 +91,17 @@ class _SuggestionPageState extends State<SuggestionPage> {
               backgroundColor: theme.primaryBackgroundColor,
               body: _mainContent(state),
             ),
-            Padding(
+            Container(
               padding: const EdgeInsets.only(bottom: Dimensions.marginSmall),
+              alignment: Alignment.bottomCenter,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Flexible(child: _newCommentButton()),
                   const SizedBox(width: Dimensions.marginDefault),
-                  Flexible(child: _upvoteButton(state)),
+                  state.suggestion.isVoted
+                      ? const SizedBox.shrink()
+                      : Flexible(child: _upvoteButton(state)),
                 ],
               ),
             ),
