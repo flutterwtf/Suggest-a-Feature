@@ -16,8 +16,8 @@ abstract class ISuggestionRepository {
 
   void upvote(int suggestionId);
   void downvote(int suggestionId);
-  void addNotifyToUpdateUser(int suggestionId);
-  void deleteNotifyToUpdateUser(int suggestionId);
+  Future<void> addNotifyToUpdateUser(int suggestionId);
+  Future<void> deleteNotifyToUpdateUser(int suggestionId);
 
   void refreshSuggestions(Suggestion suggestion, {bool saveComments});
 

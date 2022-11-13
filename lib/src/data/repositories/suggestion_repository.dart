@@ -80,7 +80,7 @@ class SuggestionRepository implements ISuggestionRepository {
   }
 
   @override
-  void addNotifyToUpdateUser(int suggestionId) async {
+  Future<void> addNotifyToUpdateUser(int suggestionId) async {
     final result = await _suggestionsDataSource.addNotifyToUpdateUser(suggestionId);
     final suggestion = (await getSuggestionById(suggestionId)).data;
     if (result.success() && suggestion != null) {
@@ -89,7 +89,7 @@ class SuggestionRepository implements ISuggestionRepository {
   }
 
   @override
-  void deleteNotifyToUpdateUser(int suggestionId) async {
+  Future<void> deleteNotifyToUpdateUser(int suggestionId) async {
     final result = await _suggestionsDataSource.deleteNotifyToUpdateUser(suggestionId);
     final suggestion = (await getSuggestionById(suggestionId)).data;
     if (result.success() && suggestion != null) {
