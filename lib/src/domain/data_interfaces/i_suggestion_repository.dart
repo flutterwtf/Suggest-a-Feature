@@ -9,18 +9,18 @@ abstract class ISuggestionRepository {
   Map<String, SuggestionAuthor?> get userInfo;
 
   void initSuggestions();
-  Future<Wrapper<Suggestion>> getSuggestionById(int suggestionId);
+  Future<Wrapper<Suggestion>> getSuggestionById(String suggestionId);
   Future<Wrapper<Suggestion>> createSuggestion(CreateSuggestionModel suggestion);
   Future<Wrapper<Suggestion>> updateSuggestion(Suggestion suggestion);
-  Future<void> deleteSuggestion(int suggestionId);
+  Future<void> deleteSuggestion(String suggestionId);
 
-  void upvote(int suggestionId);
-  void downvote(int suggestionId);
-  void addNotifyToUpdateUser(int suggestionId);
-  void deleteNotifyToUpdateUser(int suggestionId);
+  void upvote(String suggestionId);
+  void downvote(String suggestionId);
+  void addNotifyToUpdateUser(String suggestionId);
+  void deleteNotifyToUpdateUser(String suggestionId);
 
   void refreshSuggestions(Suggestion suggestion, {bool saveComments});
 
-  Future<Wrapper<List<Comment>>> getAllComments(int suggestionId);
+  Future<Wrapper<List<Comment>>> getAllComments(String suggestionId);
   Future<Wrapper<Comment>> createComment(CreateCommentModel comment);
 }

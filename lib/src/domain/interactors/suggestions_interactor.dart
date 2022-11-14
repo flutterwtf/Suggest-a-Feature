@@ -10,7 +10,7 @@ class SuggestionsInteractor {
 
   void initSuggestions() => _suggestionRepository.initSuggestions();
 
-  void upvote(int suggestionId) => _suggestionRepository.upvote(suggestionId);
+  void upvote(String suggestionId) => _suggestionRepository.upvote(suggestionId);
 
-  void downvote(int suggestionId) => _suggestionRepository.downvote(suggestionId);
+  void downvote(String suggestionId) => _suggestionRepository.downvote(suggestionId);
 }

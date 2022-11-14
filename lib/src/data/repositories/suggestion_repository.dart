@@ -45,7 +45,7 @@ class SuggestionRepository implements ISuggestionRepository {
   }
 
   @override
-  Future<Wrapper<Suggestion>> getSuggestionById(int suggestionId) {
+  Future<Wrapper<Suggestion>> getSuggestionById(String suggestionId) {
     return _suggestionsDataSource.getSuggestionById(suggestionId);
   }
 
@@ -70,7 +70,7 @@ class SuggestionRepository implements ISuggestionRepository {
   }
 
   @override
-  Future<void> deleteSuggestion(int suggestionId) async {
+  Future<void> deleteSuggestion(String suggestionId) async {
     final result = await _suggestionsDataSource.deleteSuggestionById(suggestionId);
     if (result.success() && result.data != null) {
       final suggestions = List<Suggestion>.from(this.suggestions)
@@ -80,7 +80,7 @@ class SuggestionRepository implements ISuggestionRepository {
   }
 
   @override
-  void addNotifyToUpdateUser(int suggestionId) async {
+  void addNotifyToUpdateUser(String suggestionId) async {
     final result = await _suggestionsDataSource.addNotifyToUpdateUser(suggestionId);
     final suggestion = (await getSuggestionById(suggestionId)).data;
     if (result.success() && suggestion != null) {
@@ -89,7 +89,7 @@ class SuggestionRepository implements ISuggestionRepository {
   }
 
   @override
-  void deleteNotifyToUpdateUser(int suggestionId) async {
+  void deleteNotifyToUpdateUser(String suggestionId) async {
     final result = await _suggestionsDataSource.deleteNotifyToUpdateUser(suggestionId);
     final suggestion = (await getSuggestionById(suggestionId)).data;
     if (result.success() && suggestion != null) {
@@ -98,7 +98,7 @@ class SuggestionRepository implements ISuggestionRepository {
   }
 
   @override
-  void downvote(int suggestionId) async {
+  void downvote(String suggestionId) async {
     final result = await _suggestionsDataSource.downvote(suggestionId);
     final suggestion = (await getSuggestionById(suggestionId)).data;
     if (result.success() && suggestion != null) {
@@ -107,7 +107,7 @@ class SuggestionRepository implements ISuggestionRepository {
   }
 
   @override
-  void upvote(int suggestionId) async {
+  void upvote(String suggestionId) async {
     final result = await _suggestionsDataSource.upvote(suggestionId);
     final suggestion = (await getSuggestionById(suggestionId)).data;
     if (result.success() && suggestion != null) {
@@ -116,7 +116,7 @@ class SuggestionRepository implements ISuggestionRepository {
   }
 
   @override
-  Future<Wrapper<List<Comment>>> getAllComments(int suggestionId) {
+  Future<Wrapper<List<Comment>>> getAllComments(String suggestionId) {
     return _suggestionsDataSource.getAllComments(suggestionId);
   }
 

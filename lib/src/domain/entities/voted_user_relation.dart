@@ -1,6 +1,6 @@
 class CreateVotedUserRelationModel {
   final String userId;
-  final int suggestionId;
+  final String suggestionId;
 
   const CreateVotedUserRelationModel({
     required this.userId,

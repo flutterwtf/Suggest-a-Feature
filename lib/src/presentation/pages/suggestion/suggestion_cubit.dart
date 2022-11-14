@@ -53,7 +53,7 @@ class SuggestionCubit extends Cubit<SuggestionState> {
     }
   }
 
-  void _loadComments(OnGetUserById getUserById, int suggestionId) async {
+  void _loadComments(OnGetUserById getUserById, String suggestionId) async {
     final comments = await _suggestionInteractor.getAllComments(suggestionId);
     if (comments.data != null) {
       final extendedComments = await Future.wait(

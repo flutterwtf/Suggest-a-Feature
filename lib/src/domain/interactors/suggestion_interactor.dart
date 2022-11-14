@@ -13,23 +13,23 @@ class SuggestionInteractor {
 
   Map<String, SuggestionAuthor?> get userInfo => _suggestionRepository.userInfo;
 
-  Future<void> deleteSuggestion(int suggestionId) {
+  Future<void> deleteSuggestion(String suggestionId) {
     return _suggestionRepository.deleteSuggestion(suggestionId);
   }
 
-  void upvote(int suggestionId) {
+  void upvote(String suggestionId) {
     _suggestionRepository.upvote(suggestionId);
   }
 
-  void downvote(int suggestionId) {
+  void downvote(String suggestionId) {
     _suggestionRepository.downvote(suggestionId);
   }
 
-  void addNotifyToUpdateUser(int suggestionId) {
+  void addNotifyToUpdateUser(String suggestionId) {
     _suggestionRepository.addNotifyToUpdateUser(suggestionId);
   }
 
-  void deleteNotifyToUpdateUser(int suggestionId) {
+  void deleteNotifyToUpdateUser(String suggestionId) {
     _suggestionRepository.deleteNotifyToUpdateUser(suggestionId);
   }
 
@@ -37,7 +37,7 @@ class SuggestionInteractor {
     _suggestionRepository.refreshSuggestions(suggestion, saveComments: saveComments);
   }
 
-  Future<Wrapper<List<Comment>>> getAllComments(int suggestionId) {
+  Future<Wrapper<List<Comment>>> getAllComments(String suggestionId) {
     return _suggestionRepository.getAllComments(suggestionId);
   }
 
