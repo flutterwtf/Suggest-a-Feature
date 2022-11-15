@@ -13,4 +13,11 @@ class CreateVotedUserRelationModel {
       'suggestion_id': suggestionId,
     };
   }
+
+  factory CreateVotedUserRelationModel.fromJson({required Map<String, dynamic> json}) {
+    return CreateVotedUserRelationModel(
+      userId: json['user_id'],
+      suggestionId: json['suggestion_id'],
+    );
+  }
 }

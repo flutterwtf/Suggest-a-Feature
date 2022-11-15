@@ -63,7 +63,7 @@ class SuggestionRepository implements ISuggestionRepository {
   Future<Wrapper<Suggestion>> updateSuggestion(Suggestion suggestion) async {
     final result = await _suggestionsDataSource.updateSuggestion(suggestion);
     final updatedSuggestion = (await getSuggestionById(suggestion.id)).data;
-    if (result.data != null && updatedSuggestion != null) {
+    if (result.success() && updatedSuggestion != null) {
       refreshSuggestions(updatedSuggestion);
     }
     return result;
@@ -72,7 +72,7 @@ class SuggestionRepository implements ISuggestionRepository {
   @override
   Future<void> deleteSuggestion(String suggestionId) async {
     final result = await _suggestionsDataSource.deleteSuggestionById(suggestionId);
-    if (result.success() && result.data != null) {
+    if (result.success()) {
       final suggestions = List<Suggestion>.from(this.suggestions)
         ..removeWhere((e) => e.id == suggestionId);
       _suggestionsSubject.add(suggestions);
