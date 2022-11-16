@@ -7,6 +7,5 @@ export 'src/domain/entities/voted_user_relation.dart';
 export 'src/domain/utils/wrapper.dart';
 export 'src/l10n/suggestions_localizations.dart';
 export 'src/presentation/pages/suggestions/suggestions_page.dart';
-export 'src/presentation/pages/theme/package_themes.dart';
 export 'src/presentation/pages/theme/suggestions_theme.dart';
 export 'src/presentation/utils/typedefs.dart';
