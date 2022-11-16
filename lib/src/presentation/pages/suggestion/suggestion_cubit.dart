@@ -169,10 +169,10 @@ class SuggestionCubit extends Cubit<SuggestionState> {
     );
   }
 
-  void changeNotification(bool isNotificationOn) {
+  void changeNotification(bool isNotificationOn) async {
     isNotificationOn
-        ? _suggestionInteractor.addNotifyToUpdateUser(state.suggestion.id)
-        : _suggestionInteractor.deleteNotifyToUpdateUser(state.suggestion.id);
+        ? await _suggestionInteractor.addNotifyToUpdateUser(state.suggestion.id)
+        : await _suggestionInteractor.deleteNotifyToUpdateUser(state.suggestion.id);
     emit(
       state.newState(
         suggestion: state.suggestion.copyWith(shouldNotifyAfterCompleted: isNotificationOn),
