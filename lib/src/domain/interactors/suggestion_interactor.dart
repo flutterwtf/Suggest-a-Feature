@@ -25,11 +25,11 @@ class SuggestionInteractor {
     _suggestionRepository.downvote(suggestionId);
   }
 
-  Future<void> addNotifyToUpdateUser(int suggestionId) async {
+  Future<void> addNotifyToUpdateUser(String suggestionId) async {
     await _suggestionRepository.addNotifyToUpdateUser(suggestionId);
   }
 
-  Future<void> deleteNotifyToUpdateUser(int suggestionId) async {
+  Future<void> deleteNotifyToUpdateUser(String suggestionId) async {
     await _suggestionRepository.deleteNotifyToUpdateUser(suggestionId);
   }
 

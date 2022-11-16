@@ -19,5 +19,5 @@ abstract class SuggestionsDataSource {
   Future<Wrapper<Comment>> getCommentById(String commentId);
   Future<Wrapper<Comment>> createComment(CreateCommentModel comment);
   Future<Wrapper<Comment>> updateComment(Comment comment);
-  Future<Wrapper<Comment>> deleteCommentById(int commentId);
+  Future<Wrapper<Comment>> deleteCommentById(String commentId);
 }
