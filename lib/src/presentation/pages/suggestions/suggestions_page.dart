@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
+import 'package:suggest_a_feature/src/domain/entities/suggestion_author.dart';
 
 import '../../../data/interfaces/i_suggestions_data_source.dart';
 import '../../../domain/entities/suggestion.dart';
@@ -23,12 +24,25 @@ import 'suggestions_cubit.dart';
 import 'suggestions_state.dart';
 
 class SuggestionsPage extends StatefulWidget {
+  /// The current user id.
   final String userId;
+
+  /// Additional headers for the image provider, for example for authentication.
   final Map<String, String>? imageHeaders;
+
+  /// Implementation of [SuggestionsDataSource].
   final SuggestionsDataSource suggestionsDataSource;
+
+  /// Current module theme.
   final SuggestionsTheme theme;
+
+  /// Callback processing the upload of photos.
   final OnUploadMultiplePhotosCallback onUploadMultiplePhotos;
+
+  /// Callback processing saving photos to the gallery.
   final OnSaveToGalleryCallback onSaveToGallery;
+
+  /// Callback callback returning the current user [SuggestionAuthor].
   final OnGetUserById onGetUserById;
 
   SuggestionsPage({

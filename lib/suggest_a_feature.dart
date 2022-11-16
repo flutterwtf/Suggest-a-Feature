@@ -1,3 +1,5 @@
+library suggest_a_feature;
+
 export 'src/data/interfaces/i_suggestions_data_source.dart';
 export 'src/domain/entities/comment.dart';
 export 'src/domain/entities/subscribed_user_relation.dart';
