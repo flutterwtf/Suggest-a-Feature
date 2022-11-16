@@ -14,10 +14,10 @@ abstract class ISuggestionRepository {
   Future<Wrapper<Suggestion>> updateSuggestion(Suggestion suggestion);
   Future<void> deleteSuggestion(String suggestionId);
 
-  void upvote(String suggestionId);
-  void downvote(String suggestionId);
-  void addNotifyToUpdateUser(String suggestionId);
-  void deleteNotifyToUpdateUser(String suggestionId);
+  void upvote(int suggestionId);
+  void downvote(int suggestionId);
+  Future<void> addNotifyToUpdateUser(int suggestionId);
+  Future<void> deleteNotifyToUpdateUser(int suggestionId);
 
   void refreshSuggestions(Suggestion suggestion, {bool saveComments});
 
