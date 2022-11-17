@@ -31,15 +31,17 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
     emit(state.newState(savingImageResultMessageType: SavingResultMessageType.none));
   }
 
-  void addUploadedPhotos(Future<List<String>> urls) async {
+  void addUploadedPhotos(Future<List<String>?> urls) async {
     emit(state.newState(isLoading: true));
     final photos = await urls;
-    emit(
-      state.newState(
-        suggestion: state.suggestion.copyWith(images: [...photos, ...state.suggestion.images]),
-        isLoading: false,
-      ),
-    );
+    if (photos != null) {
+      emit(
+        state.newState(
+          suggestion: state.suggestion.copyWith(images: [...photos, ...state.suggestion.images]),
+          isLoading: false,
+        ),
+      );
+    }
   }
 
   void removePhoto(String path) {
@@ -51,13 +53,16 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
     );
   }
 
-  void showSavingResultMessage(Future<bool> isSuccess) async {
-    emit(
-      state.newState(
-        savingImageResultMessageType:
-            await isSuccess ? SavingResultMessageType.success : SavingResultMessageType.fail,
-      ),
-    );
+  void showSavingResultMessage(Future<bool?> isSuccess) async {
+    final savingResult = await isSuccess;
+    if (savingResult != null) {
+      emit(
+        state.newState(
+          savingImageResultMessageType:
+              savingResult ? SavingResultMessageType.success : SavingResultMessageType.fail,
+        ),
+      );
+    }
   }
 
   void changeSuggestionAnonymity(bool isAnonymous) {

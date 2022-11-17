@@ -10,7 +10,6 @@ import '../../di/injector.dart';
 import '../../utils/assets_strings.dart';
 import '../../utils/dimensions.dart';
 import '../../utils/rendering.dart';
-import '../../utils/typedefs.dart';
 import '../../utils/context_utils.dart';
 import '../suggestion/create_edit/create_edit_suggestion_bottom_sheet.dart';
 import '../suggestion/suggestion_page.dart';
@@ -23,21 +22,17 @@ import 'suggestions_cubit.dart';
 import 'suggestions_state.dart';
 
 class SuggestionsPage extends StatefulWidget {
+  final bool handlePhotos;
   final String userId;
   final Map<String, String>? imageHeaders;
   final SuggestionsDataSource suggestionsDataSource;
   final SuggestionsTheme theme;
-  final OnUploadMultiplePhotosCallback onUploadMultiplePhotos;
-  final OnSaveToGalleryCallback onSaveToGallery;
-  final OnGetUserById onGetUserById;
 
   SuggestionsPage({
+    this.handlePhotos = false,
     required this.userId,
     required this.suggestionsDataSource,
     required this.theme,
-    required this.onUploadMultiplePhotos,
-    required this.onSaveToGallery,
-    required this.onGetUserById,
     this.imageHeaders,
   }) {
     i.init(
@@ -162,10 +157,11 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
 
   Widget _bottomSheet() {
     return CreateEditSuggestionBottomSheet(
+      handlePhotos: widget.handlePhotos,
       controller: _sheetController,
       onClose: ([_]) => _sheetController.collapse()?.then((_) => _cubit.closeCreateBottomSheet()),
-      onSaveToGallery: widget.onSaveToGallery,
-      onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
+      onSaveToGallery: widget.suggestionsDataSource.saveToGallery,
+      onUploadMultiplePhotos: widget.suggestionsDataSource.uploadMultiplePhotos,
     );
   }
 
@@ -297,10 +293,12 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
                       onClick: () => Navigator.of(context).push(
                         CupertinoPageRoute(
                           builder: (_) => SuggestionPage(
+                            handlePhotos: widget.handlePhotos,
                             suggestion: suggestions[index - 1],
-                            onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
-                            onSaveToGallery: widget.onSaveToGallery,
-                            onGetUserById: widget.onGetUserById,
+                            onUploadMultiplePhotos:
+                                widget.suggestionsDataSource.uploadMultiplePhotos,
+                            onSaveToGallery: widget.suggestionsDataSource.saveToGallery,
+                            onGetUserById: widget.suggestionsDataSource.getUserById,
                           ),
                         ),
                       ),
