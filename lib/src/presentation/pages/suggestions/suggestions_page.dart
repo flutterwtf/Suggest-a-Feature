@@ -22,10 +22,19 @@ import 'suggestions_cubit.dart';
 import 'suggestions_state.dart';
 
 class SuggestionsPage extends StatefulWidget {
+  /// flag for the ability to handle photos
   final bool handlePhotos;
+
+  /// The current user id.
   final String userId;
+
+  /// Additional headers for the image provider, for example for authentication.
   final Map<String, String>? imageHeaders;
+
+  /// Implementation of [SuggestionsDataSource].
   final SuggestionsDataSource suggestionsDataSource;
+
+  /// Current module theme.
   final SuggestionsTheme theme;
 
   SuggestionsPage({
