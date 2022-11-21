@@ -94,9 +94,9 @@ class Suggestion {
       authorId: json['author_id'],
       isAnonymous: json['is_anonymous'],
       shouldNotifyAfterCompleted: json['should_notify_after_completed'] ?? false,
-      creationTime: json['creation_time'].runtimeType == DateTime
-          ? json['creation_time']
-          : fromDateTime(json['creation_time']),
+      creationTime: json['creation_time'].runtimeType == String
+          ? fromDateTime(json['creation_time'])
+          : json['creation_time'],
       isVoted: json['is_voted'] ?? false,
       status: SuggestionStatus.values.firstWhere((e) => describeEnum(e) == json['status']),
     );

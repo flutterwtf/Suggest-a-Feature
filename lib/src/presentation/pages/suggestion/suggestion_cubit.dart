@@ -39,7 +39,6 @@ class SuggestionCubit extends Cubit<SuggestionState> {
     _suggestionSubscription = _suggestionInteractor.suggestionsStream.listen(_onNewSuggestions);
     _loadComments(getUserById, suggestion.id);
     if (!suggestion.isAnonymous) {
-      final user = await getUserById(suggestion.authorId);
       _loadAuthorProfile(getUserById, suggestion.authorId);
     }
   }
