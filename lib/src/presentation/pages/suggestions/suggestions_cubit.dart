@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../domain/entities/suggestion.dart';
-import '../../../domain/interactors/suggestions_interactor.dart';
+import '../../../domain/interactors/suggestion_interactor.dart';
 import 'suggestions_state.dart';
 
 class SuggestionsCubit extends Cubit<SuggestionsState> {
-  final SuggestionsInteractor _suggestionsInteractor;
+  final SuggestionInteractor _suggestionsInteractor;
   StreamSubscription<List<Suggestion>>? _suggestionSubscription;
 
   SuggestionsCubit(this._suggestionsInteractor)

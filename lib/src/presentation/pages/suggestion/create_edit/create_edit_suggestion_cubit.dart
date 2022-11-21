@@ -1,13 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../domain/entities/suggestion.dart';
-import '../../../../domain/interactors/create_edit_suggestion_interactor.dart';
+import '../../../../domain/interactors/suggestion_interactor.dart';
 import '../../../di/injector.dart';
 import '../../../utils/image_utils.dart';
 import 'create_edit_suggestion_state.dart';
 
 class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
-  final CreateEditSuggestionInteractor _createEditInteractor;
+  final SuggestionInteractor _createEditInteractor;
 
   CreateEditSuggestionCubit(this._createEditInteractor)
       : super(
