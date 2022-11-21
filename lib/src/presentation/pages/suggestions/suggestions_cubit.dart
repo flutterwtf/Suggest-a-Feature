@@ -3,14 +3,14 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../domain/entities/suggestion.dart';
-import '../../../domain/interactors/suggestions_interactor.dart';
+import '../../../domain/interactors/suggestion_interactor.dart';
 import 'suggestions_state.dart';
 
 class SuggestionsCubit extends Cubit<SuggestionsState> {
-  final SuggestionsInteractor _suggestionsInteractor;
+  final SuggestionInteractor _suggestionInteractor;
   StreamSubscription<List<Suggestion>>? _suggestionSubscription;
 
-  SuggestionsCubit(this._suggestionsInteractor)
+  SuggestionsCubit(this._suggestionInteractor)
       : super(
           SuggestionsState(
             requests: [],
@@ -22,8 +22,8 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
 
   void init() {
     _suggestionSubscription?.cancel();
-    _suggestionSubscription = _suggestionsInteractor.suggestionsStream.listen(_onNewSuggestions);
-    _suggestionsInteractor.initSuggestions();
+    _suggestionSubscription = _suggestionInteractor.suggestionsStream.listen(_onNewSuggestions);
+    _suggestionInteractor.initSuggestions();
   }
 
   void dispose() {
@@ -69,8 +69,8 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
     final upvotesCount = newList[i].upvotesCount;
 
     !isVoted
-        ? _suggestionsInteractor.upvote(newList[i].id)
-        : _suggestionsInteractor.downvote(newList[i].id);
+        ? _suggestionInteractor.upvote(newList[i].id)
+        : _suggestionInteractor.downvote(newList[i].id);
     newList[i] = newList[i].copyWith(
       isVoted: !isVoted,
       upvotesCount: !isVoted ? upvotesCount + 1 : upvotesCount - 1,
