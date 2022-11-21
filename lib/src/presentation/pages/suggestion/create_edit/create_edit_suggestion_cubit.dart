@@ -7,9 +7,9 @@ import '../../../utils/image_utils.dart';
 import 'create_edit_suggestion_state.dart';
 
 class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
-  final SuggestionInteractor _createEditInteractor;
+  final SuggestionInteractor _suggestionInteractor;
 
-  CreateEditSuggestionCubit(this._createEditInteractor)
+  CreateEditSuggestionCubit(this._suggestionInteractor)
       : super(
           CreateEditSuggestionState(
             suggestion: Suggestion.empty(),
@@ -103,7 +103,7 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
       return;
     }
     if (state.isEditing) {
-      await _createEditInteractor.updateSuggestion(state.suggestion);
+      await _suggestionInteractor.updateSuggestion(state.suggestion);
     } else {
       final model = CreateSuggestionModel(
         title: state.suggestion.title,
@@ -114,7 +114,7 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
         authorId: i.userId,
         isAnonymous: state.suggestion.isAnonymous,
       );
-      await _createEditInteractor.createSuggestion(model);
+      await _suggestionInteractor.createSuggestion(model);
     }
     emit(state.newState(isSubmitted: true));
   }
