@@ -1,10 +1,11 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../presentation/utils/date_utils.dart';
 import 'comment.dart';
 import 'utils/suggestion_utils.dart';
 
-class Suggestion {
+class Suggestion extends Equatable {
   final int id;
   final String title;
   final String? description;
@@ -108,6 +109,23 @@ class Suggestion {
       'images': images,
     };
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        title,
+        description,
+        labels,
+        images,
+        comments,
+        upvotesCount,
+        authorId,
+        isAnonymous,
+        shouldNotifyAfterCompleted,
+        creationTime,
+        isVoted,
+        status,
+      ];
 }
 
 enum SuggestionStatus { requests, inProgress, completed }

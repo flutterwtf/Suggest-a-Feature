@@ -3,28 +3,34 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i6;
+import 'dart:async' as _i8;
+import 'dart:ui' as _i5;
 
-import 'package:flutter_bloc/flutter_bloc.dart' as _i13;
+import 'package:flutter/material.dart' as _i6;
+import 'package:flutter_bloc/flutter_bloc.dart' as _i15;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:suggest_a_feature/src/data/interfaces/i_suggestions_data_source.dart'
+    as _i17;
 import 'package:suggest_a_feature/src/data/repositories/suggestion_repository.dart'
-    as _i5;
-import 'package:suggest_a_feature/src/domain/entities/comment.dart' as _i9;
-import 'package:suggest_a_feature/src/domain/entities/suggestion.dart' as _i7;
+    as _i7;
+import 'package:suggest_a_feature/src/domain/entities/comment.dart' as _i11;
+import 'package:suggest_a_feature/src/domain/entities/suggestion.dart' as _i9;
 import 'package:suggest_a_feature/src/domain/entities/suggestion_author.dart'
-    as _i8;
-import 'package:suggest_a_feature/src/domain/interactors/suggestion_interactor.dart'
     as _i10;
+import 'package:suggest_a_feature/src/domain/interactors/suggestion_interactor.dart'
+    as _i12;
 import 'package:suggest_a_feature/src/domain/utils/wrapper.dart' as _i2;
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/suggestion_cubit.dart'
-    as _i11;
+    as _i13;
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/suggestion_state.dart'
     as _i3;
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_cubit.dart'
-    as _i14;
+    as _i16;
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_state.dart'
     as _i4;
-import 'package:suggest_a_feature/src/presentation/utils/typedefs.dart' as _i12;
+import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart'
+    as _i18;
+import 'package:suggest_a_feature/src/presentation/utils/typedefs.dart' as _i14;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -69,33 +75,57 @@ class _FakeSuggestionsState_2 extends _i1.SmartFake
         );
 }
 
+class _FakeColor_3 extends _i1.SmartFake implements _i5.Color {
+  _FakeColor_3(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeTextStyle_4 extends _i1.SmartFake implements _i6.TextStyle {
+  _FakeTextStyle_4(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+
+  @override
+  String toString({_i6.DiagnosticLevel? minLevel = _i6.DiagnosticLevel.info}) =>
+      super.toString();
+}
+
 /// A class which mocks [SuggestionRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSuggestionRepository extends _i1.Mock
-    implements _i5.SuggestionRepository {
+    implements _i7.SuggestionRepository {
   MockSuggestionRepository() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i6.Stream<List<_i7.Suggestion>> get suggestionsStream => (super.noSuchMethod(
+  _i8.Stream<List<_i9.Suggestion>> get suggestionsStream => (super.noSuchMethod(
         Invocation.getter(#suggestionsStream),
-        returnValue: _i6.Stream<List<_i7.Suggestion>>.empty(),
-      ) as _i6.Stream<List<_i7.Suggestion>>);
+        returnValue: _i8.Stream<List<_i9.Suggestion>>.empty(),
+      ) as _i8.Stream<List<_i9.Suggestion>>);
   @override
-  List<_i7.Suggestion> get suggestions => (super.noSuchMethod(
+  List<_i9.Suggestion> get suggestions => (super.noSuchMethod(
         Invocation.getter(#suggestions),
-        returnValue: <_i7.Suggestion>[],
-      ) as List<_i7.Suggestion>);
+        returnValue: <_i9.Suggestion>[],
+      ) as List<_i9.Suggestion>);
   @override
-  Map<String, _i8.SuggestionAuthor?> get userInfo => (super.noSuchMethod(
+  Map<String, _i10.SuggestionAuthor?> get userInfo => (super.noSuchMethod(
         Invocation.getter(#userInfo),
-        returnValue: <String, _i8.SuggestionAuthor?>{},
-      ) as Map<String, _i8.SuggestionAuthor?>);
+        returnValue: <String, _i10.SuggestionAuthor?>{},
+      ) as Map<String, _i10.SuggestionAuthor?>);
   @override
   void refreshSuggestions(
-    _i7.Suggestion? suggestion, {
+    _i9.Suggestion? suggestion, {
     bool? saveComments = true,
   }) =>
       super.noSuchMethod(
@@ -115,85 +145,85 @@ class MockSuggestionRepository extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  _i6.Future<_i2.Wrapper<_i7.Suggestion>> getSuggestionById(
+  _i8.Future<_i2.Wrapper<_i9.Suggestion>> getSuggestionById(
           int? suggestionId) =>
       (super.noSuchMethod(
         Invocation.method(
           #getSuggestionById,
           [suggestionId],
         ),
-        returnValue: _i6.Future<_i2.Wrapper<_i7.Suggestion>>.value(
-            _FakeWrapper_0<_i7.Suggestion>(
+        returnValue: _i8.Future<_i2.Wrapper<_i9.Suggestion>>.value(
+            _FakeWrapper_0<_i9.Suggestion>(
           this,
           Invocation.method(
             #getSuggestionById,
             [suggestionId],
           ),
         )),
-      ) as _i6.Future<_i2.Wrapper<_i7.Suggestion>>);
+      ) as _i8.Future<_i2.Wrapper<_i9.Suggestion>>);
   @override
-  _i6.Future<_i2.Wrapper<_i7.Suggestion>> createSuggestion(
-          _i7.CreateSuggestionModel? suggestion) =>
+  _i8.Future<_i2.Wrapper<_i9.Suggestion>> createSuggestion(
+          _i9.CreateSuggestionModel? suggestion) =>
       (super.noSuchMethod(
         Invocation.method(
           #createSuggestion,
           [suggestion],
         ),
-        returnValue: _i6.Future<_i2.Wrapper<_i7.Suggestion>>.value(
-            _FakeWrapper_0<_i7.Suggestion>(
+        returnValue: _i8.Future<_i2.Wrapper<_i9.Suggestion>>.value(
+            _FakeWrapper_0<_i9.Suggestion>(
           this,
           Invocation.method(
             #createSuggestion,
             [suggestion],
           ),
         )),
-      ) as _i6.Future<_i2.Wrapper<_i7.Suggestion>>);
+      ) as _i8.Future<_i2.Wrapper<_i9.Suggestion>>);
   @override
-  _i6.Future<_i2.Wrapper<_i7.Suggestion>> updateSuggestion(
-          _i7.Suggestion? suggestion) =>
+  _i8.Future<_i2.Wrapper<_i9.Suggestion>> updateSuggestion(
+          _i9.Suggestion? suggestion) =>
       (super.noSuchMethod(
         Invocation.method(
           #updateSuggestion,
           [suggestion],
         ),
-        returnValue: _i6.Future<_i2.Wrapper<_i7.Suggestion>>.value(
-            _FakeWrapper_0<_i7.Suggestion>(
+        returnValue: _i8.Future<_i2.Wrapper<_i9.Suggestion>>.value(
+            _FakeWrapper_0<_i9.Suggestion>(
           this,
           Invocation.method(
             #updateSuggestion,
             [suggestion],
           ),
         )),
-      ) as _i6.Future<_i2.Wrapper<_i7.Suggestion>>);
+      ) as _i8.Future<_i2.Wrapper<_i9.Suggestion>>);
   @override
-  _i6.Future<void> deleteSuggestion(int? suggestionId) => (super.noSuchMethod(
+  _i8.Future<void> deleteSuggestion(int? suggestionId) => (super.noSuchMethod(
         Invocation.method(
           #deleteSuggestion,
           [suggestionId],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
   @override
-  _i6.Future<void> addNotifyToUpdateUser(int? suggestionId) =>
+  _i8.Future<void> addNotifyToUpdateUser(int? suggestionId) =>
       (super.noSuchMethod(
         Invocation.method(
           #addNotifyToUpdateUser,
           [suggestionId],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
   @override
-  _i6.Future<void> deleteNotifyToUpdateUser(int? suggestionId) =>
+  _i8.Future<void> deleteNotifyToUpdateUser(int? suggestionId) =>
       (super.noSuchMethod(
         Invocation.method(
           #deleteNotifyToUpdateUser,
           [suggestionId],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
   @override
   void downvote(int? suggestionId) => super.noSuchMethod(
         Invocation.method(
@@ -211,60 +241,60 @@ class MockSuggestionRepository extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  _i6.Future<_i2.Wrapper<List<_i9.Comment>>> getAllComments(
+  _i8.Future<_i2.Wrapper<List<_i11.Comment>>> getAllComments(
           int? suggestionId) =>
       (super.noSuchMethod(
         Invocation.method(
           #getAllComments,
           [suggestionId],
         ),
-        returnValue: _i6.Future<_i2.Wrapper<List<_i9.Comment>>>.value(
-            _FakeWrapper_0<List<_i9.Comment>>(
+        returnValue: _i8.Future<_i2.Wrapper<List<_i11.Comment>>>.value(
+            _FakeWrapper_0<List<_i11.Comment>>(
           this,
           Invocation.method(
             #getAllComments,
             [suggestionId],
           ),
         )),
-      ) as _i6.Future<_i2.Wrapper<List<_i9.Comment>>>);
+      ) as _i8.Future<_i2.Wrapper<List<_i11.Comment>>>);
   @override
-  _i6.Future<_i2.Wrapper<_i9.Comment>> createComment(
-          _i9.CreateCommentModel? comment) =>
+  _i8.Future<_i2.Wrapper<_i11.Comment>> createComment(
+          _i11.CreateCommentModel? comment) =>
       (super.noSuchMethod(
         Invocation.method(
           #createComment,
           [comment],
         ),
-        returnValue: _i6.Future<_i2.Wrapper<_i9.Comment>>.value(
-            _FakeWrapper_0<_i9.Comment>(
+        returnValue: _i8.Future<_i2.Wrapper<_i11.Comment>>.value(
+            _FakeWrapper_0<_i11.Comment>(
           this,
           Invocation.method(
             #createComment,
             [comment],
           ),
         )),
-      ) as _i6.Future<_i2.Wrapper<_i9.Comment>>);
+      ) as _i8.Future<_i2.Wrapper<_i11.Comment>>);
 }
 
 /// A class which mocks [SuggestionInteractor].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSuggestionInteractor extends _i1.Mock
-    implements _i10.SuggestionInteractor {
+    implements _i12.SuggestionInteractor {
   MockSuggestionInteractor() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i6.Stream<List<_i7.Suggestion>> get suggestionsStream => (super.noSuchMethod(
+  _i8.Stream<List<_i9.Suggestion>> get suggestionsStream => (super.noSuchMethod(
         Invocation.getter(#suggestionsStream),
-        returnValue: _i6.Stream<List<_i7.Suggestion>>.empty(),
-      ) as _i6.Stream<List<_i7.Suggestion>>);
+        returnValue: _i8.Stream<List<_i9.Suggestion>>.empty(),
+      ) as _i8.Stream<List<_i9.Suggestion>>);
   @override
-  Map<String, _i8.SuggestionAuthor?> get userInfo => (super.noSuchMethod(
+  Map<String, _i10.SuggestionAuthor?> get userInfo => (super.noSuchMethod(
         Invocation.getter(#userInfo),
-        returnValue: <String, _i8.SuggestionAuthor?>{},
-      ) as Map<String, _i8.SuggestionAuthor?>);
+        returnValue: <String, _i10.SuggestionAuthor?>{},
+      ) as Map<String, _i10.SuggestionAuthor?>);
   @override
   void initSuggestions() => super.noSuchMethod(
         Invocation.method(
@@ -274,48 +304,48 @@ class MockSuggestionInteractor extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  _i6.Future<_i2.Wrapper<_i7.Suggestion>> createSuggestion(
-          _i7.CreateSuggestionModel? suggestion) =>
+  _i8.Future<_i2.Wrapper<_i9.Suggestion>> createSuggestion(
+          _i9.CreateSuggestionModel? suggestion) =>
       (super.noSuchMethod(
         Invocation.method(
           #createSuggestion,
           [suggestion],
         ),
-        returnValue: _i6.Future<_i2.Wrapper<_i7.Suggestion>>.value(
-            _FakeWrapper_0<_i7.Suggestion>(
+        returnValue: _i8.Future<_i2.Wrapper<_i9.Suggestion>>.value(
+            _FakeWrapper_0<_i9.Suggestion>(
           this,
           Invocation.method(
             #createSuggestion,
             [suggestion],
           ),
         )),
-      ) as _i6.Future<_i2.Wrapper<_i7.Suggestion>>);
+      ) as _i8.Future<_i2.Wrapper<_i9.Suggestion>>);
   @override
-  _i6.Future<_i2.Wrapper<_i7.Suggestion>> updateSuggestion(
-          _i7.Suggestion? suggestion) =>
+  _i8.Future<_i2.Wrapper<_i9.Suggestion>> updateSuggestion(
+          _i9.Suggestion? suggestion) =>
       (super.noSuchMethod(
         Invocation.method(
           #updateSuggestion,
           [suggestion],
         ),
-        returnValue: _i6.Future<_i2.Wrapper<_i7.Suggestion>>.value(
-            _FakeWrapper_0<_i7.Suggestion>(
+        returnValue: _i8.Future<_i2.Wrapper<_i9.Suggestion>>.value(
+            _FakeWrapper_0<_i9.Suggestion>(
           this,
           Invocation.method(
             #updateSuggestion,
             [suggestion],
           ),
         )),
-      ) as _i6.Future<_i2.Wrapper<_i7.Suggestion>>);
+      ) as _i8.Future<_i2.Wrapper<_i9.Suggestion>>);
   @override
-  _i6.Future<void> deleteSuggestion(int? suggestionId) => (super.noSuchMethod(
+  _i8.Future<void> deleteSuggestion(int? suggestionId) => (super.noSuchMethod(
         Invocation.method(
           #deleteSuggestion,
           [suggestionId],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
   @override
   void upvote(int? suggestionId) => super.noSuchMethod(
         Invocation.method(
@@ -333,28 +363,28 @@ class MockSuggestionInteractor extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  _i6.Future<void> addNotifyToUpdateUser(int? suggestionId) =>
+  _i8.Future<void> addNotifyToUpdateUser(int? suggestionId) =>
       (super.noSuchMethod(
         Invocation.method(
           #addNotifyToUpdateUser,
           [suggestionId],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
   @override
-  _i6.Future<void> deleteNotifyToUpdateUser(int? suggestionId) =>
+  _i8.Future<void> deleteNotifyToUpdateUser(int? suggestionId) =>
       (super.noSuchMethod(
         Invocation.method(
           #deleteNotifyToUpdateUser,
           [suggestionId],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
   @override
   void refreshSuggestions(
-    _i7.Suggestion? suggestion, {
+    _i9.Suggestion? suggestion, {
     bool? saveComments = false,
   }) =>
       super.noSuchMethod(
@@ -366,45 +396,45 @@ class MockSuggestionInteractor extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  _i6.Future<_i2.Wrapper<List<_i9.Comment>>> getAllComments(
+  _i8.Future<_i2.Wrapper<List<_i11.Comment>>> getAllComments(
           int? suggestionId) =>
       (super.noSuchMethod(
         Invocation.method(
           #getAllComments,
           [suggestionId],
         ),
-        returnValue: _i6.Future<_i2.Wrapper<List<_i9.Comment>>>.value(
-            _FakeWrapper_0<List<_i9.Comment>>(
+        returnValue: _i8.Future<_i2.Wrapper<List<_i11.Comment>>>.value(
+            _FakeWrapper_0<List<_i11.Comment>>(
           this,
           Invocation.method(
             #getAllComments,
             [suggestionId],
           ),
         )),
-      ) as _i6.Future<_i2.Wrapper<List<_i9.Comment>>>);
+      ) as _i8.Future<_i2.Wrapper<List<_i11.Comment>>>);
   @override
-  _i6.Future<_i2.Wrapper<_i9.Comment>> createComment(
-          _i9.CreateCommentModel? comment) =>
+  _i8.Future<_i2.Wrapper<_i11.Comment>> createComment(
+          _i11.CreateCommentModel? comment) =>
       (super.noSuchMethod(
         Invocation.method(
           #createComment,
           [comment],
         ),
-        returnValue: _i6.Future<_i2.Wrapper<_i9.Comment>>.value(
-            _FakeWrapper_0<_i9.Comment>(
+        returnValue: _i8.Future<_i2.Wrapper<_i11.Comment>>.value(
+            _FakeWrapper_0<_i11.Comment>(
           this,
           Invocation.method(
             #createComment,
             [comment],
           ),
         )),
-      ) as _i6.Future<_i2.Wrapper<_i9.Comment>>);
+      ) as _i8.Future<_i2.Wrapper<_i11.Comment>>);
 }
 
 /// A class which mocks [SuggestionCubit].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSuggestionCubit extends _i1.Mock implements _i11.SuggestionCubit {
+class MockSuggestionCubit extends _i1.Mock implements _i13.SuggestionCubit {
   MockSuggestionCubit() {
     _i1.throwOnMissingStub(this);
   }
@@ -418,10 +448,10 @@ class MockSuggestionCubit extends _i1.Mock implements _i11.SuggestionCubit {
         ),
       ) as _i3.SuggestionState);
   @override
-  _i6.Stream<_i3.SuggestionState> get stream => (super.noSuchMethod(
+  _i8.Stream<_i3.SuggestionState> get stream => (super.noSuchMethod(
         Invocation.getter(#stream),
-        returnValue: _i6.Stream<_i3.SuggestionState>.empty(),
-      ) as _i6.Stream<_i3.SuggestionState>);
+        returnValue: _i8.Stream<_i3.SuggestionState>.empty(),
+      ) as _i8.Stream<_i3.SuggestionState>);
   @override
   bool get isClosed => (super.noSuchMethod(
         Invocation.getter(#isClosed),
@@ -429,8 +459,8 @@ class MockSuggestionCubit extends _i1.Mock implements _i11.SuggestionCubit {
       ) as bool);
   @override
   void init(
-    _i7.Suggestion? suggestion,
-    _i12.OnGetUserById? getUserById,
+    _i9.Suggestion? suggestion,
+    _i14.OnGetUserById? getUserById,
   ) =>
       super.noSuchMethod(
         Invocation.method(
@@ -507,7 +537,7 @@ class MockSuggestionCubit extends _i1.Mock implements _i11.SuggestionCubit {
         returnValueForMissingStub: null,
       );
   @override
-  void showSavingResultMessage(_i6.Future<bool>? isSuccess) =>
+  void showSavingResultMessage(_i8.Future<bool>? isSuccess) =>
       super.noSuchMethod(
         Invocation.method(
           #showSavingResultMessage,
@@ -519,7 +549,7 @@ class MockSuggestionCubit extends _i1.Mock implements _i11.SuggestionCubit {
   void createComment(
     String? text,
     bool? isAnonymous,
-    _i12.OnGetUserById? getUserById,
+    _i14.OnGetUserById? getUserById,
   ) =>
       super.noSuchMethod(
         Invocation.method(
@@ -565,7 +595,7 @@ class MockSuggestionCubit extends _i1.Mock implements _i11.SuggestionCubit {
         returnValueForMissingStub: null,
       );
   @override
-  void onChange(_i13.Change<_i3.SuggestionState>? change) => super.noSuchMethod(
+  void onChange(_i15.Change<_i3.SuggestionState>? change) => super.noSuchMethod(
         Invocation.method(
           #onChange,
           [change],
@@ -603,20 +633,20 @@ class MockSuggestionCubit extends _i1.Mock implements _i11.SuggestionCubit {
         returnValueForMissingStub: null,
       );
   @override
-  _i6.Future<void> close() => (super.noSuchMethod(
+  _i8.Future<void> close() => (super.noSuchMethod(
         Invocation.method(
           #close,
           [],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
 }
 
 /// A class which mocks [SuggestionsCubit].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSuggestionsCubit extends _i1.Mock implements _i14.SuggestionsCubit {
+class MockSuggestionsCubit extends _i1.Mock implements _i16.SuggestionsCubit {
   MockSuggestionsCubit() {
     _i1.throwOnMissingStub(this);
   }
@@ -630,10 +660,10 @@ class MockSuggestionsCubit extends _i1.Mock implements _i14.SuggestionsCubit {
         ),
       ) as _i4.SuggestionsState);
   @override
-  _i6.Stream<_i4.SuggestionsState> get stream => (super.noSuchMethod(
+  _i8.Stream<_i4.SuggestionsState> get stream => (super.noSuchMethod(
         Invocation.getter(#stream),
-        returnValue: _i6.Stream<_i4.SuggestionsState>.empty(),
-      ) as _i6.Stream<_i4.SuggestionsState>);
+        returnValue: _i8.Stream<_i4.SuggestionsState>.empty(),
+      ) as _i8.Stream<_i4.SuggestionsState>);
   @override
   bool get isClosed => (super.noSuchMethod(
         Invocation.getter(#isClosed),
@@ -657,7 +687,7 @@ class MockSuggestionsCubit extends _i1.Mock implements _i14.SuggestionsCubit {
       );
   @override
   void vote(
-    _i7.SuggestionStatus? status,
+    _i9.SuggestionStatus? status,
     int? i,
   ) =>
       super.noSuchMethod(
@@ -687,7 +717,7 @@ class MockSuggestionsCubit extends _i1.Mock implements _i14.SuggestionsCubit {
         returnValueForMissingStub: null,
       );
   @override
-  void changeActiveTab(_i7.SuggestionStatus? activeTab) => super.noSuchMethod(
+  void changeActiveTab(_i9.SuggestionStatus? activeTab) => super.noSuchMethod(
         Invocation.method(
           #changeActiveTab,
           [activeTab],
@@ -703,7 +733,7 @@ class MockSuggestionsCubit extends _i1.Mock implements _i14.SuggestionsCubit {
         returnValueForMissingStub: null,
       );
   @override
-  void onChange(_i13.Change<_i4.SuggestionsState>? change) =>
+  void onChange(_i15.Change<_i4.SuggestionsState>? change) =>
       super.noSuchMethod(
         Invocation.method(
           #onChange,
@@ -742,12 +772,681 @@ class MockSuggestionsCubit extends _i1.Mock implements _i14.SuggestionsCubit {
         returnValueForMissingStub: null,
       );
   @override
-  _i6.Future<void> close() => (super.noSuchMethod(
+  _i8.Future<void> close() => (super.noSuchMethod(
         Invocation.method(
           #close,
           [],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
+}
+
+/// A class which mocks [SuggestionsDataSource].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockSuggestionsDataSource extends _i1.Mock
+    implements _i17.SuggestionsDataSource {
+  MockSuggestionsDataSource() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  String get userId => (super.noSuchMethod(
+        Invocation.getter(#userId),
+        returnValue: '',
+      ) as String);
+  @override
+  _i8.Future<_i2.Wrapper<List<_i9.Suggestion>>> getAllSuggestions() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getAllSuggestions,
+          [],
+        ),
+        returnValue: _i8.Future<_i2.Wrapper<List<_i9.Suggestion>>>.value(
+            _FakeWrapper_0<List<_i9.Suggestion>>(
+          this,
+          Invocation.method(
+            #getAllSuggestions,
+            [],
+          ),
+        )),
+      ) as _i8.Future<_i2.Wrapper<List<_i9.Suggestion>>>);
+  @override
+  _i8.Future<_i2.Wrapper<_i9.Suggestion>> createSuggestion(
+          _i9.CreateSuggestionModel? suggestion) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #createSuggestion,
+          [suggestion],
+        ),
+        returnValue: _i8.Future<_i2.Wrapper<_i9.Suggestion>>.value(
+            _FakeWrapper_0<_i9.Suggestion>(
+          this,
+          Invocation.method(
+            #createSuggestion,
+            [suggestion],
+          ),
+        )),
+      ) as _i8.Future<_i2.Wrapper<_i9.Suggestion>>);
+  @override
+  _i8.Future<_i2.Wrapper<_i9.Suggestion>> getSuggestionById(
+          int? suggestionId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getSuggestionById,
+          [suggestionId],
+        ),
+        returnValue: _i8.Future<_i2.Wrapper<_i9.Suggestion>>.value(
+            _FakeWrapper_0<_i9.Suggestion>(
+          this,
+          Invocation.method(
+            #getSuggestionById,
+            [suggestionId],
+          ),
+        )),
+      ) as _i8.Future<_i2.Wrapper<_i9.Suggestion>>);
+  @override
+  _i8.Future<_i2.Wrapper<_i9.Suggestion>> updateSuggestion(
+          _i9.Suggestion? suggestion) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateSuggestion,
+          [suggestion],
+        ),
+        returnValue: _i8.Future<_i2.Wrapper<_i9.Suggestion>>.value(
+            _FakeWrapper_0<_i9.Suggestion>(
+          this,
+          Invocation.method(
+            #updateSuggestion,
+            [suggestion],
+          ),
+        )),
+      ) as _i8.Future<_i2.Wrapper<_i9.Suggestion>>);
+  @override
+  _i8.Future<_i2.Wrapper<_i9.Suggestion>> deleteSuggestionById(
+          int? suggestionId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteSuggestionById,
+          [suggestionId],
+        ),
+        returnValue: _i8.Future<_i2.Wrapper<_i9.Suggestion>>.value(
+            _FakeWrapper_0<_i9.Suggestion>(
+          this,
+          Invocation.method(
+            #deleteSuggestionById,
+            [suggestionId],
+          ),
+        )),
+      ) as _i8.Future<_i2.Wrapper<_i9.Suggestion>>);
+  @override
+  _i8.Future<_i2.Wrapper<void>> upvote(int? suggestionId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #upvote,
+          [suggestionId],
+        ),
+        returnValue: _i8.Future<_i2.Wrapper<void>>.value(_FakeWrapper_0<void>(
+          this,
+          Invocation.method(
+            #upvote,
+            [suggestionId],
+          ),
+        )),
+      ) as _i8.Future<_i2.Wrapper<void>>);
+  @override
+  _i8.Future<_i2.Wrapper<void>> downvote(int? suggestionId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #downvote,
+          [suggestionId],
+        ),
+        returnValue: _i8.Future<_i2.Wrapper<void>>.value(_FakeWrapper_0<void>(
+          this,
+          Invocation.method(
+            #downvote,
+            [suggestionId],
+          ),
+        )),
+      ) as _i8.Future<_i2.Wrapper<void>>);
+  @override
+  _i8.Future<_i2.Wrapper<void>> addNotifyToUpdateUser(int? suggestionId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #addNotifyToUpdateUser,
+          [suggestionId],
+        ),
+        returnValue: _i8.Future<_i2.Wrapper<void>>.value(_FakeWrapper_0<void>(
+          this,
+          Invocation.method(
+            #addNotifyToUpdateUser,
+            [suggestionId],
+          ),
+        )),
+      ) as _i8.Future<_i2.Wrapper<void>>);
+  @override
+  _i8.Future<_i2.Wrapper<void>> deleteNotifyToUpdateUser(int? suggestionId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteNotifyToUpdateUser,
+          [suggestionId],
+        ),
+        returnValue: _i8.Future<_i2.Wrapper<void>>.value(_FakeWrapper_0<void>(
+          this,
+          Invocation.method(
+            #deleteNotifyToUpdateUser,
+            [suggestionId],
+          ),
+        )),
+      ) as _i8.Future<_i2.Wrapper<void>>);
+  @override
+  _i8.Future<_i2.Wrapper<List<_i11.Comment>>> getAllComments(
+          int? suggestionId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getAllComments,
+          [suggestionId],
+        ),
+        returnValue: _i8.Future<_i2.Wrapper<List<_i11.Comment>>>.value(
+            _FakeWrapper_0<List<_i11.Comment>>(
+          this,
+          Invocation.method(
+            #getAllComments,
+            [suggestionId],
+          ),
+        )),
+      ) as _i8.Future<_i2.Wrapper<List<_i11.Comment>>>);
+  @override
+  _i8.Future<_i2.Wrapper<_i11.Comment>> getCommentById(int? commentId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getCommentById,
+          [commentId],
+        ),
+        returnValue: _i8.Future<_i2.Wrapper<_i11.Comment>>.value(
+            _FakeWrapper_0<_i11.Comment>(
+          this,
+          Invocation.method(
+            #getCommentById,
+            [commentId],
+          ),
+        )),
+      ) as _i8.Future<_i2.Wrapper<_i11.Comment>>);
+  @override
+  _i8.Future<_i2.Wrapper<_i11.Comment>> createComment(
+          _i11.CreateCommentModel? comment) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #createComment,
+          [comment],
+        ),
+        returnValue: _i8.Future<_i2.Wrapper<_i11.Comment>>.value(
+            _FakeWrapper_0<_i11.Comment>(
+          this,
+          Invocation.method(
+            #createComment,
+            [comment],
+          ),
+        )),
+      ) as _i8.Future<_i2.Wrapper<_i11.Comment>>);
+  @override
+  _i8.Future<_i2.Wrapper<_i11.Comment>> updateComment(_i11.Comment? comment) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateComment,
+          [comment],
+        ),
+        returnValue: _i8.Future<_i2.Wrapper<_i11.Comment>>.value(
+            _FakeWrapper_0<_i11.Comment>(
+          this,
+          Invocation.method(
+            #updateComment,
+            [comment],
+          ),
+        )),
+      ) as _i8.Future<_i2.Wrapper<_i11.Comment>>);
+  @override
+  _i8.Future<_i2.Wrapper<_i11.Comment>> deleteCommentById(int? commentId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteCommentById,
+          [commentId],
+        ),
+        returnValue: _i8.Future<_i2.Wrapper<_i11.Comment>>.value(
+            _FakeWrapper_0<_i11.Comment>(
+          this,
+          Invocation.method(
+            #deleteCommentById,
+            [commentId],
+          ),
+        )),
+      ) as _i8.Future<_i2.Wrapper<_i11.Comment>>);
+}
+
+/// A class which mocks [SuggestionsTheme].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockSuggestionsTheme extends _i1.Mock implements _i18.SuggestionsTheme {
+  MockSuggestionsTheme() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Color get primaryBackgroundColor => (super.noSuchMethod(
+        Invocation.getter(#primaryBackgroundColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#primaryBackgroundColor),
+        ),
+      ) as _i5.Color);
+  @override
+  _i5.Color get secondaryBackgroundColor => (super.noSuchMethod(
+        Invocation.getter(#secondaryBackgroundColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#secondaryBackgroundColor),
+        ),
+      ) as _i5.Color);
+  @override
+  _i5.Color get thirdBackgroundColor => (super.noSuchMethod(
+        Invocation.getter(#thirdBackgroundColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#thirdBackgroundColor),
+        ),
+      ) as _i5.Color);
+  @override
+  _i5.Color get bottomSheetBackgroundColor => (super.noSuchMethod(
+        Invocation.getter(#bottomSheetBackgroundColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#bottomSheetBackgroundColor),
+        ),
+      ) as _i5.Color);
+  @override
+  String get fontFamily => (super.noSuchMethod(
+        Invocation.getter(#fontFamily),
+        returnValue: '',
+      ) as String);
+  @override
+  _i5.Color get primaryTextColor => (super.noSuchMethod(
+        Invocation.getter(#primaryTextColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#primaryTextColor),
+        ),
+      ) as _i5.Color);
+  @override
+  _i5.Color get secondaryTextColor => (super.noSuchMethod(
+        Invocation.getter(#secondaryTextColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#secondaryTextColor),
+        ),
+      ) as _i5.Color);
+  @override
+  _i5.Color get primaryIconColor => (super.noSuchMethod(
+        Invocation.getter(#primaryIconColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#primaryIconColor),
+        ),
+      ) as _i5.Color);
+  @override
+  _i5.Color get secondaryIconColor => (super.noSuchMethod(
+        Invocation.getter(#secondaryIconColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#secondaryIconColor),
+        ),
+      ) as _i5.Color);
+  @override
+  _i5.Color get actionColor => (super.noSuchMethod(
+        Invocation.getter(#actionColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#actionColor),
+        ),
+      ) as _i5.Color);
+  @override
+  _i5.Color get actionPressedColor => (super.noSuchMethod(
+        Invocation.getter(#actionPressedColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#actionPressedColor),
+        ),
+      ) as _i5.Color);
+  @override
+  _i5.Color get actionBackgroundColor => (super.noSuchMethod(
+        Invocation.getter(#actionBackgroundColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#actionBackgroundColor),
+        ),
+      ) as _i5.Color);
+  @override
+  _i5.Color get dividerColor => (super.noSuchMethod(
+        Invocation.getter(#dividerColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#dividerColor),
+        ),
+      ) as _i5.Color);
+  @override
+  _i5.Color get dialogBarrierColor => (super.noSuchMethod(
+        Invocation.getter(#dialogBarrierColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#dialogBarrierColor),
+        ),
+      ) as _i5.Color);
+  @override
+  _i5.Color get elevatedButtonColor => (super.noSuchMethod(
+        Invocation.getter(#elevatedButtonColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#elevatedButtonColor),
+        ),
+      ) as _i5.Color);
+  @override
+  _i5.Color get pressedElevatedButtonColor => (super.noSuchMethod(
+        Invocation.getter(#pressedElevatedButtonColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#pressedElevatedButtonColor),
+        ),
+      ) as _i5.Color);
+  @override
+  _i5.Color get elevatedButtonTextColor => (super.noSuchMethod(
+        Invocation.getter(#elevatedButtonTextColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#elevatedButtonTextColor),
+        ),
+      ) as _i5.Color);
+  @override
+  _i5.Color get focusedTextButtonColor => (super.noSuchMethod(
+        Invocation.getter(#focusedTextButtonColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#focusedTextButtonColor),
+        ),
+      ) as _i5.Color);
+  @override
+  _i5.Color get focusedTextColor => (super.noSuchMethod(
+        Invocation.getter(#focusedTextColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#focusedTextColor),
+        ),
+      ) as _i5.Color);
+  @override
+  _i5.Color get focusedTextFieldBorderlineColor => (super.noSuchMethod(
+        Invocation.getter(#focusedTextFieldBorderlineColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#focusedTextFieldBorderlineColor),
+        ),
+      ) as _i5.Color);
+  @override
+  _i5.Color get focusedTonalButtonColor => (super.noSuchMethod(
+        Invocation.getter(#focusedTonalButtonColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#focusedTonalButtonColor),
+        ),
+      ) as _i5.Color);
+  @override
+  _i5.Color get enabledTextColor => (super.noSuchMethod(
+        Invocation.getter(#enabledTextColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#enabledTextColor),
+        ),
+      ) as _i5.Color);
+  @override
+  _i5.Color get disabledTextColor => (super.noSuchMethod(
+        Invocation.getter(#disabledTextColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#disabledTextColor),
+        ),
+      ) as _i5.Color);
+  @override
+  _i5.Color get disabledTextButtonColor => (super.noSuchMethod(
+        Invocation.getter(#disabledTextButtonColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#disabledTextButtonColor),
+        ),
+      ) as _i5.Color);
+  @override
+  _i5.Color get tonalButtonColor => (super.noSuchMethod(
+        Invocation.getter(#tonalButtonColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#tonalButtonColor),
+        ),
+      ) as _i5.Color);
+  @override
+  _i5.Color get errorColor => (super.noSuchMethod(
+        Invocation.getter(#errorColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#errorColor),
+        ),
+      ) as _i5.Color);
+  @override
+  _i5.Color get fade => (super.noSuchMethod(
+        Invocation.getter(#fade),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#fade),
+        ),
+      ) as _i5.Color);
+  @override
+  _i5.Color get fabColor => (super.noSuchMethod(
+        Invocation.getter(#fabColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#fabColor),
+        ),
+      ) as _i5.Color);
+  @override
+  _i5.Color get upvoteArrowColor => (super.noSuchMethod(
+        Invocation.getter(#upvoteArrowColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#upvoteArrowColor),
+        ),
+      ) as _i5.Color);
+  @override
+  _i5.Color get activatedUpvoteArrowColor => (super.noSuchMethod(
+        Invocation.getter(#activatedUpvoteArrowColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#activatedUpvoteArrowColor),
+        ),
+      ) as _i5.Color);
+  @override
+  _i5.Color get requestsTabColor => (super.noSuchMethod(
+        Invocation.getter(#requestsTabColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#requestsTabColor),
+        ),
+      ) as _i5.Color);
+  @override
+  _i5.Color get inProgressTabColor => (super.noSuchMethod(
+        Invocation.getter(#inProgressTabColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#inProgressTabColor),
+        ),
+      ) as _i5.Color);
+  @override
+  _i5.Color get completedTabColor => (super.noSuchMethod(
+        Invocation.getter(#completedTabColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#completedTabColor),
+        ),
+      ) as _i5.Color);
+  @override
+  _i5.Color get featureLabelColor => (super.noSuchMethod(
+        Invocation.getter(#featureLabelColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#featureLabelColor),
+        ),
+      ) as _i5.Color);
+  @override
+  _i5.Color get bugLabelColor => (super.noSuchMethod(
+        Invocation.getter(#bugLabelColor),
+        returnValue: _FakeColor_3(
+          this,
+          Invocation.getter(#bugLabelColor),
+        ),
+      ) as _i5.Color);
+  @override
+  _i6.TextStyle get base => (super.noSuchMethod(
+        Invocation.getter(#base),
+        returnValue: _FakeTextStyle_4(
+          this,
+          Invocation.getter(#base),
+        ),
+      ) as _i6.TextStyle);
+  @override
+  _i6.TextStyle get textXXL => (super.noSuchMethod(
+        Invocation.getter(#textXXL),
+        returnValue: _FakeTextStyle_4(
+          this,
+          Invocation.getter(#textXXL),
+        ),
+      ) as _i6.TextStyle);
+  @override
+  _i6.TextStyle get textL => (super.noSuchMethod(
+        Invocation.getter(#textL),
+        returnValue: _FakeTextStyle_4(
+          this,
+          Invocation.getter(#textL),
+        ),
+      ) as _i6.TextStyle);
+  @override
+  _i6.TextStyle get textM => (super.noSuchMethod(
+        Invocation.getter(#textM),
+        returnValue: _FakeTextStyle_4(
+          this,
+          Invocation.getter(#textM),
+        ),
+      ) as _i6.TextStyle);
+  @override
+  _i6.TextStyle get textMPlus => (super.noSuchMethod(
+        Invocation.getter(#textMPlus),
+        returnValue: _FakeTextStyle_4(
+          this,
+          Invocation.getter(#textMPlus),
+        ),
+      ) as _i6.TextStyle);
+  @override
+  _i6.TextStyle get textS => (super.noSuchMethod(
+        Invocation.getter(#textS),
+        returnValue: _FakeTextStyle_4(
+          this,
+          Invocation.getter(#textS),
+        ),
+      ) as _i6.TextStyle);
+  @override
+  _i6.TextStyle get textXXLBold => (super.noSuchMethod(
+        Invocation.getter(#textXXLBold),
+        returnValue: _FakeTextStyle_4(
+          this,
+          Invocation.getter(#textXXLBold),
+        ),
+      ) as _i6.TextStyle);
+  @override
+  _i6.TextStyle get textLBold => (super.noSuchMethod(
+        Invocation.getter(#textLBold),
+        returnValue: _FakeTextStyle_4(
+          this,
+          Invocation.getter(#textLBold),
+        ),
+      ) as _i6.TextStyle);
+  @override
+  _i6.TextStyle get textMSecondary => (super.noSuchMethod(
+        Invocation.getter(#textMSecondary),
+        returnValue: _FakeTextStyle_4(
+          this,
+          Invocation.getter(#textMSecondary),
+        ),
+      ) as _i6.TextStyle);
+  @override
+  _i6.TextStyle get textMPlusBold => (super.noSuchMethod(
+        Invocation.getter(#textMPlusBold),
+        returnValue: _FakeTextStyle_4(
+          this,
+          Invocation.getter(#textMPlusBold),
+        ),
+      ) as _i6.TextStyle);
+  @override
+  _i6.TextStyle get textMBold => (super.noSuchMethod(
+        Invocation.getter(#textMBold),
+        returnValue: _FakeTextStyle_4(
+          this,
+          Invocation.getter(#textMBold),
+        ),
+      ) as _i6.TextStyle);
+  @override
+  _i6.TextStyle get textMSecondaryBold => (super.noSuchMethod(
+        Invocation.getter(#textMSecondaryBold),
+        returnValue: _FakeTextStyle_4(
+          this,
+          Invocation.getter(#textMSecondaryBold),
+        ),
+      ) as _i6.TextStyle);
+}
+
+/// A class which mocks [CreateCommentModel].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockCreateCommentModel extends _i1.Mock
+    implements _i11.CreateCommentModel {
+  MockCreateCommentModel() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  String get authorId => (super.noSuchMethod(
+        Invocation.getter(#authorId),
+        returnValue: '',
+      ) as String);
+  @override
+  bool get isAnonymous => (super.noSuchMethod(
+        Invocation.getter(#isAnonymous),
+        returnValue: false,
+      ) as bool);
+  @override
+  String get text => (super.noSuchMethod(
+        Invocation.getter(#text),
+        returnValue: '',
+      ) as String);
+  @override
+  int get suggestionId => (super.noSuchMethod(
+        Invocation.getter(#suggestionId),
+        returnValue: 0,
+      ) as int);
+  @override
+  List<Object?> get props => (super.noSuchMethod(
+        Invocation.getter(#props),
+        returnValue: <Object?>[],
+      ) as List<Object?>);
+  @override
+  Map<String, dynamic> toJson() => (super.noSuchMethod(
+        Invocation.method(
+          #toJson,
+          [],
+        ),
+        returnValue: <String, dynamic>{},
+      ) as Map<String, dynamic>);
 }

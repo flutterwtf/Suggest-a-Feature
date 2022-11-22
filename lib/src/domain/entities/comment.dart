@@ -1,7 +1,9 @@
+import 'package:equatable/equatable.dart';
+
 import '../../presentation/utils/date_utils.dart';
 import 'suggestion_author.dart';
 
-class Comment {
+class Comment extends Equatable {
   final int id;
   final int suggestionId;
   final SuggestionAuthor author;
@@ -53,9 +55,19 @@ class Comment {
       creationTime: creationTime ?? this.creationTime,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        suggestionId,
+        author,
+        isAnonymous,
+        text,
+        creationTime,
+      ];
 }
 
-class CreateCommentModel {
+class CreateCommentModel extends Equatable {
   final String authorId;
   final bool isAnonymous;
   final String text;
@@ -76,4 +88,12 @@ class CreateCommentModel {
       'suggestion_id': suggestionId,
     };
   }
+
+  @override
+  List<Object?> get props => [
+        authorId,
+        isAnonymous,
+        text,
+        suggestionId,
+      ];
 }

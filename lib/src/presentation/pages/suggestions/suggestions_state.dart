@@ -1,6 +1,8 @@
+import 'package:equatable/equatable.dart';
+
 import '../../../domain/entities/suggestion.dart';
 
-class SuggestionsState {
+class SuggestionsState extends Equatable {
   final List<Suggestion> requests;
   final List<Suggestion> inProgress;
   final List<Suggestion> completed;
@@ -30,4 +32,13 @@ class SuggestionsState {
       isCreateBottomSheetOpened: isCreateBottomSheetOpened ?? this.isCreateBottomSheetOpened,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        requests,
+        inProgress,
+        completed,
+        activeTab,
+        isCreateBottomSheetOpened,
+      ];
 }
