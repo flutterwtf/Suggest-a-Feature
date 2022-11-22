@@ -163,10 +163,10 @@ class CreateEditSuggestionBottomSheetState extends State<CreateEditSuggestionBot
             const SizedBox(height: Dimensions.marginBig),
             Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
             _labelItems(state.suggestion.labels),
-            (state.suggestion.images.isNotEmpty || !widget.handlePhotos)
-                ? const SizedBox.shrink()
-                : _dividerWithIndent(),
-            widget.handlePhotos ? _photoPickerItem(state) : Container(),
+            if (widget.handlePhotos) ...[
+              state.suggestion.images.isNotEmpty ? const SizedBox.shrink() : _dividerWithIndent(),
+              _photoPickerItem(state),
+            ],
             if (!state.isEditing) ...[
               _dividerWithIndent(),
               const SizedBox(height: Dimensions.marginSmall),
