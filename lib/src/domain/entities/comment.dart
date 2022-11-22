@@ -2,8 +2,8 @@ import '../../presentation/utils/date_utils.dart';
 import 'suggestion_author.dart';
 
 class Comment {
-  final int id;
-  final int suggestionId;
+  final String id;
+  final String suggestionId;
   final SuggestionAuthor author;
   final bool isAnonymous;
   final String text;
@@ -25,7 +25,9 @@ class Comment {
       author: SuggestionAuthor.empty(id: json['author_id']),
       isAnonymous: json['is_anonymous'],
       text: json['text'],
-      creationTime: fromDateTime(json['creation_time']),
+      creationTime: json['creation_time'].runtimeType == String
+          ? fromDateTime(json['creation_time'])
+          : json['creation_time'],
     );
   }
 
@@ -37,8 +39,8 @@ class Comment {
   }
 
   Comment copyWith({
-    int? id,
-    int? suggestionId,
+    String? id,
+    String? suggestionId,
     SuggestionAuthor? author,
     bool? isAnonymous,
     String? text,
@@ -59,7 +61,7 @@ class CreateCommentModel {
   final String authorId;
   final bool isAnonymous;
   final String text;
-  final int suggestionId;
+  final String suggestionId;
 
   const CreateCommentModel({
     required this.authorId,

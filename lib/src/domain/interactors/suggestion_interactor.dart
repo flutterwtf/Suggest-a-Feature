@@ -23,19 +23,19 @@ class SuggestionInteractor {
     return _suggestionRepository.updateSuggestion(suggestion);
   }
 
-  Future<void> deleteSuggestion(int suggestionId) {
+  Future<void> deleteSuggestion(String suggestionId) {
     return _suggestionRepository.deleteSuggestion(suggestionId);
   }
 
-  void upvote(int suggestionId) => _suggestionRepository.upvote(suggestionId);
+  void upvote(String suggestionId) => _suggestionRepository.upvote(suggestionId);
 
-  void downvote(int suggestionId) => _suggestionRepository.downvote(suggestionId);
+  void downvote(String suggestionId) => _suggestionRepository.downvote(suggestionId);
 
-  Future<void> addNotifyToUpdateUser(int suggestionId) async {
+  Future<void> addNotifyToUpdateUser(String suggestionId) async {
     await _suggestionRepository.addNotifyToUpdateUser(suggestionId);
   }
 
-  Future<void> deleteNotifyToUpdateUser(int suggestionId) async {
+  Future<void> deleteNotifyToUpdateUser(String suggestionId) async {
     await _suggestionRepository.deleteNotifyToUpdateUser(suggestionId);
   }
 
@@ -43,7 +43,7 @@ class SuggestionInteractor {
     _suggestionRepository.refreshSuggestions(suggestion, saveComments: saveComments);
   }
 
-  Future<Wrapper<List<Comment>>> getAllComments(int suggestionId) {
+  Future<Wrapper<List<Comment>>> getAllComments(String suggestionId) {
     return _suggestionRepository.getAllComments(suggestionId);
   }
 
