@@ -31,9 +31,10 @@ void main() {
 
       setUp(() {
         i.init(
-            theme: mockSuggestionsTheme,
-            userId: '1',
-            suggestionsDataSource: mockSuggestionsDataSource);
+          theme: mockSuggestionsTheme,
+          userId: '1',
+          suggestionsDataSource: mockSuggestionsDataSource,
+        );
       });
 
       blocTest<SuggestionCubit, SuggestionState>(
