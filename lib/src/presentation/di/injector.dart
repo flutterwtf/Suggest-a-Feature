@@ -3,9 +3,7 @@ import '../../data/interfaces/i_cache_data_source.dart';
 import '../../data/interfaces/i_suggestions_data_source.dart';
 import '../../data/repositories/suggestion_repository.dart';
 import '../../domain/data_interfaces/i_suggestion_repository.dart';
-import '../../domain/interactors/create_edit_suggestion_interactor.dart';
 import '../../domain/interactors/suggestion_interactor.dart';
-import '../../domain/interactors/suggestions_interactor.dart';
 import '../pages/suggestion/create_edit/create_edit_suggestion_cubit.dart';
 import '../pages/suggestion/suggestion_cubit.dart';
 import '../pages/suggestions/suggestions_cubit.dart';
@@ -58,17 +56,12 @@ class _Injector {
 
   ISuggestionRepository get suggestionRepository => _suggestionRepository;
 
-  SuggestionsInteractor get suggestionsInteractor => SuggestionsInteractor(suggestionRepository);
-
   SuggestionInteractor get suggestionInteractor => SuggestionInteractor(suggestionRepository);
 
-  CreateEditSuggestionInteractor get createEditSuggestionInteractor =>
-      CreateEditSuggestionInteractor(suggestionRepository);
-
-  SuggestionsCubit get suggestionsCubit => SuggestionsCubit(suggestionsInteractor);
+  SuggestionsCubit get suggestionsCubit => SuggestionsCubit(suggestionInteractor);
 
   SuggestionCubit get suggestionCubit => SuggestionCubit(suggestionInteractor);
 
   CreateEditSuggestionCubit get createEditSuggestionCubit =>
-      CreateEditSuggestionCubit(createEditSuggestionInteractor);
+      CreateEditSuggestionCubit(suggestionInteractor);
 }
