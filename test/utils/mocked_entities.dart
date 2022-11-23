@@ -5,8 +5,18 @@ final mockedSuggestionAuthor = const SuggestionAuthor(
   username: 'username',
 );
 
+final mockedCreateSuggestionModel = CreateSuggestionModel(
+  title: 'Suggestion',
+  description: 'Description',
+  labels: [],
+  images: [],
+  authorId: '1',
+  isAnonymous: false,
+  status: SuggestionStatus.requests,
+);
+
 final mockedSuggestion = Suggestion(
-  id: 1,
+  id: '1',
   title: 'Suggestion',
   description: 'Description',
   labels: [],
@@ -22,7 +32,7 @@ final mockedSuggestion = Suggestion(
 );
 
 final mockedSuggestion2 = Suggestion(
-  id: 2,
+  id: '2',
   title: 'Suggestion2',
   description: 'Description2',
   labels: [],
@@ -38,8 +48,8 @@ final mockedSuggestion2 = Suggestion(
 );
 
 final mockedComment = Comment(
-  id: 1,
-  suggestionId: 1,
+  id: '1',
+  suggestionId: '1',
   author: mockedSuggestionAuthor,
   isAnonymous: true,
   text: 'Comment1',
