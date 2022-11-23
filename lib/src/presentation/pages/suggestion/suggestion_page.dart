@@ -31,6 +31,7 @@ import 'suggestion_cubit.dart';
 import 'suggestion_state.dart';
 
 class SuggestionPage extends StatefulWidget {
+  final bool handlePhotos;
   final Suggestion suggestion;
   final OnUploadMultiplePhotosCallback onUploadMultiplePhotos;
   final OnSaveToGalleryCallback onSaveToGallery;
@@ -38,6 +39,7 @@ class SuggestionPage extends StatefulWidget {
 
   const SuggestionPage({
     Key? key,
+    required this.handlePhotos,
     required this.suggestion,
     required this.onUploadMultiplePhotos,
     required this.onSaveToGallery,
@@ -124,7 +126,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
             _userInfo(state.author, state.suggestion.isAnonymous),
             _suggestionInfo(state.suggestion),
             const SizedBox(height: Dimensions.marginSmall),
-            if (state.suggestion.images.isNotEmpty) ...[
+            if (widget.handlePhotos && state.suggestion.images.isNotEmpty) ...[
               _attachedImages(state.suggestion.images),
               const SizedBox(height: Dimensions.marginSmall),
             ],
@@ -219,6 +221,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
   Widget _openCreateEditBottomSheet(Suggestion suggestion) {
     final sheetController = SheetController();
     return CreateEditSuggestionBottomSheet(
+      handlePhotos: widget.handlePhotos,
       onClose: ([_]) async {
         await sheetController.collapse();
         _cubit.closeBottomSheet();

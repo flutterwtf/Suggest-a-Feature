@@ -46,14 +46,16 @@ class SuggestionCubit extends Cubit<SuggestionState> {
   void _loadAuthorProfile(OnGetUserById getUserById, String userId) async {
     if (!_suggestionInteractor.userInfo.containsKey(userId)) {
       final author = await getUserById(userId);
-      _suggestionInteractor.userInfo[userId] = author;
-      emit(state.newState(author: author));
+      if (author != null) {
+        _suggestionInteractor.userInfo[userId] = author;
+        emit(state.newState(author: author));
+      }
     } else {
       emit(state.newState(author: _suggestionInteractor.userInfo[userId]));
     }
   }
 
-  void _loadComments(OnGetUserById getUserById, int suggestionId) async {
+  void _loadComments(OnGetUserById getUserById, String suggestionId) async {
     final comments = await _suggestionInteractor.getAllComments(suggestionId);
     if (comments.data != null) {
       final extendedComments = await Future.wait(
@@ -109,13 +111,16 @@ class SuggestionCubit extends Cubit<SuggestionState> {
     emit(state.newState(suggestion: suggestions.firstWhere((e) => e.id == state.suggestion.id)));
   }
 
-  void showSavingResultMessage(Future<bool> isSuccess) async {
-    emit(
-      state.newState(
-        savingImageResultMessageType:
-            await isSuccess ? SavingResultMessageType.success : SavingResultMessageType.fail,
-      ),
-    );
+  void showSavingResultMessage(Future<bool?> isSuccess) async {
+    final savingResult = await isSuccess;
+    if (savingResult != null) {
+      emit(
+        state.newState(
+          savingImageResultMessageType:
+              savingResult ? SavingResultMessageType.success : SavingResultMessageType.fail,
+        ),
+      );
+    }
   }
 
   void createComment(String text, bool isAnonymous, OnGetUserById getUserById) async {

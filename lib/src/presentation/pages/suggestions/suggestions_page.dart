@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
-import 'package:suggest_a_feature/src/domain/entities/suggestion_author.dart';
 
 import '../../../data/interfaces/i_suggestions_data_source.dart';
 import '../../../domain/entities/suggestion.dart';
@@ -11,7 +10,6 @@ import '../../di/injector.dart';
 import '../../utils/assets_strings.dart';
 import '../../utils/dimensions.dart';
 import '../../utils/rendering.dart';
-import '../../utils/typedefs.dart';
 import '../../utils/context_utils.dart';
 import '../suggestion/create_edit/create_edit_suggestion_bottom_sheet.dart';
 import '../suggestion/suggestion_page.dart';
@@ -24,6 +22,9 @@ import 'suggestions_cubit.dart';
 import 'suggestions_state.dart';
 
 class SuggestionsPage extends StatefulWidget {
+  /// flag for the ability to handle photos
+  final bool handlePhotos;
+
   /// The current user id.
   final String userId;
 
@@ -36,22 +37,11 @@ class SuggestionsPage extends StatefulWidget {
   /// Current module theme.
   final SuggestionsTheme theme;
 
-  /// Callback processing the upload of photos.
-  final OnUploadMultiplePhotosCallback onUploadMultiplePhotos;
-
-  /// Callback processing saving photos to the gallery.
-  final OnSaveToGalleryCallback onSaveToGallery;
-
-  /// Callback callback returning the current user [SuggestionAuthor].
-  final OnGetUserById onGetUserById;
-
   SuggestionsPage({
+    this.handlePhotos = false,
     required this.userId,
     required this.suggestionsDataSource,
     required this.theme,
-    required this.onUploadMultiplePhotos,
-    required this.onSaveToGallery,
-    required this.onGetUserById,
     this.imageHeaders,
   }) {
     i.init(
@@ -176,10 +166,11 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
 
   Widget _bottomSheet() {
     return CreateEditSuggestionBottomSheet(
+      handlePhotos: widget.handlePhotos,
       controller: _sheetController,
       onClose: ([_]) => _sheetController.collapse()?.then((_) => _cubit.closeCreateBottomSheet()),
-      onSaveToGallery: widget.onSaveToGallery,
-      onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
+      onSaveToGallery: widget.suggestionsDataSource.saveToGallery,
+      onUploadMultiplePhotos: widget.suggestionsDataSource.uploadMultiplePhotos,
     );
   }
 
@@ -311,10 +302,12 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
                       onClick: () => Navigator.of(context).push(
                         CupertinoPageRoute(
                           builder: (_) => SuggestionPage(
+                            handlePhotos: widget.handlePhotos,
                             suggestion: suggestions[index - 1],
-                            onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
-                            onSaveToGallery: widget.onSaveToGallery,
-                            onGetUserById: widget.onGetUserById,
+                            onUploadMultiplePhotos:
+                                widget.suggestionsDataSource.uploadMultiplePhotos,
+                            onSaveToGallery: widget.suggestionsDataSource.saveToGallery,
+                            onGetUserById: widget.suggestionsDataSource.getUserById,
                           ),
                         ),
                       ),
