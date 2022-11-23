@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../presentation/utils/date_utils.dart';
@@ -110,6 +111,23 @@ class Suggestion {
       'images': images,
     };
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        title,
+        description,
+        labels,
+        images,
+        comments,
+        upvotesCount,
+        authorId,
+        isAnonymous,
+        shouldNotifyAfterCompleted,
+        creationTime,
+        isVoted,
+        status,
+      ];
 }
 
 enum SuggestionStatus { requests, inProgress, completed }

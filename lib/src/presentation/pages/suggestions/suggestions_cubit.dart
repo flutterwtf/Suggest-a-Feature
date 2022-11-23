@@ -64,7 +64,7 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
   }
 
   List<Suggestion> _changeListElement(List<Suggestion> suggestionsList, int i) {
-    var newList = suggestionsList;
+    var newList = [...suggestionsList];
     final isVoted = newList[i].isVoted;
     final upvotesCount = newList[i].upvotesCount;
 
