@@ -1,4 +1,6 @@
-class Wrapper<T> {
+import 'package:equatable/equatable.dart';
+
+class Wrapper<T> extends Equatable {
   final T? data;
   final int status;
 
@@ -10,4 +12,10 @@ class Wrapper<T> {
   bool success() {
     return status >= 200 && status < 400;
   }
+
+  @override
+  List<Object?> get props => [
+        data,
+        status,
+      ];
 }
