@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import '../../presentation/utils/date_utils.dart';
 import 'suggestion_author.dart';
 
-class Comment {
+class Comment extends Equatable {
   final String id;
   final String suggestionId;
   final SuggestionAuthor author;
@@ -65,7 +65,6 @@ class Comment {
         author,
         isAnonymous,
         text,
-        creationTime,
       ];
 }
 
