@@ -5,7 +5,7 @@ import '../../presentation/utils/date_utils.dart';
 import 'comment.dart';
 import 'utils/suggestion_utils.dart';
 
-class Suggestion {
+class Suggestion extends Equatable {
   final String id;
   final String title;
   final String? description;
@@ -124,7 +124,6 @@ class Suggestion {
         authorId,
         isAnonymous,
         shouldNotifyAfterCompleted,
-        creationTime,
         isVoted,
         status,
       ];
