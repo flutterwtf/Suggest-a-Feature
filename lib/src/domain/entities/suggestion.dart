@@ -86,7 +86,7 @@ class Suggestion extends Equatable {
 
   factory Suggestion.fromJson({required Map<String, dynamic> json}) {
     return Suggestion(
-      id: json['suggestion_id'],
+      id: json['suggestion_id'].toString(),
       title: json['title'],
       description: json['description'],
       labels: (json['labels'] as List).cast<String>().map(LabelExt.labelType).toList(),
