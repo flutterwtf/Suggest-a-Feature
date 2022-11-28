@@ -5,6 +5,16 @@ final mockedSuggestionAuthor = const SuggestionAuthor(
   username: 'username',
 );
 
+final mockedCreateSuggestionModel = CreateSuggestionModel(
+  title: 'Suggestion',
+  description: 'Description',
+  labels: [],
+  images: [],
+  authorId: '1',
+  isAnonymous: false,
+  status: SuggestionStatus.requests,
+);
+
 final mockedSuggestion = Suggestion(
   id: '1',
   title: 'Suggestion',
