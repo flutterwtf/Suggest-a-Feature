@@ -29,14 +29,12 @@ import 'create_edit_suggestion_state.dart';
 
 class CreateEditSuggestionBottomSheet extends StatefulWidget {
   final Suggestion? suggestion;
-  final bool handlePhotos;
   final VoidCallback onClose;
   final SheetController controller;
-  final OnUploadMultiplePhotosCallback onUploadMultiplePhotos;
-  final OnSaveToGalleryCallback onSaveToGallery;
+  final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
+  final OnSaveToGalleryCallback? onSaveToGallery;
 
   const CreateEditSuggestionBottomSheet({
-    required this.handlePhotos,
     required this.onClose,
     required this.controller,
     required this.onUploadMultiplePhotos,
@@ -163,7 +161,7 @@ class CreateEditSuggestionBottomSheetState extends State<CreateEditSuggestionBot
             const SizedBox(height: Dimensions.marginBig),
             Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
             _labelItems(state.suggestion.labels),
-            if (widget.handlePhotos) ...[
+            if (widget.onUploadMultiplePhotos != null) ...[
               state.suggestion.images.isNotEmpty ? const SizedBox.shrink() : _dividerWithIndent(),
               _photoPickerItem(state),
             ],
@@ -257,7 +255,7 @@ class CreateEditSuggestionBottomSheetState extends State<CreateEditSuggestionBot
                         final availableNumOfPhotos =
                             maxPhotosForOneSuggestion - state.suggestion.images.length;
                         availableNumOfPhotos > 0
-                            ? _cubit.addUploadedPhotos(widget.onUploadMultiplePhotos(
+                            ? _cubit.addUploadedPhotos(widget.onUploadMultiplePhotos!(
                                 availableNumOfPhotos: availableNumOfPhotos))
                             : BotToast.showText(text: context.localization.eventPhotosRestriction);
                       },
@@ -309,7 +307,7 @@ class CreateEditSuggestionBottomSheetState extends State<CreateEditSuggestionBot
                         ? Dimensions.smallSize
                         : Dimensions.defaultSize,
                   ),
-            onClick: () => _cubit.addUploadedPhotos(widget.onUploadMultiplePhotos(
+            onClick: () => _cubit.addUploadedPhotos(widget.onUploadMultiplePhotos!(
               availableNumOfPhotos: maxPhotosForOneSuggestion,
             )),
             verticalPadding: Dimensions.marginDefault,
@@ -339,7 +337,9 @@ class CreateEditSuggestionBottomSheetState extends State<CreateEditSuggestionBot
         return PhotoView(
           initialIndex: state.openPhotoIndex!,
           onDeleteClick: _cubit.removePhoto,
-          onDownloadClick: (path) => _cubit.showSavingResultMessage(widget.onSaveToGallery(path)),
+          onDownloadClick: widget.onSaveToGallery != null
+              ? (path) => _cubit.showSavingResultMessage(widget.onSaveToGallery!(path))
+              : null,
           photos: state.suggestion.images,
           previousNavBarColor: theme.thirdBackgroundColor,
         );

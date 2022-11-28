@@ -28,8 +28,9 @@ import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions
     as _i17;
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_state.dart'
     as _i4;
+import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart'
+    as _i7;
 import 'package:suggest_a_feature/src/presentation/utils/typedefs.dart' as _i15;
-import 'package:suggest_a_feature/suggest_a_feature.dart' as _i7;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -1037,34 +1038,6 @@ class MockSuggestionsDataSource extends _i1.Mock
           ),
         )),
       ) as _i9.Future<_i2.Wrapper<_i12.Comment>>);
-  @override
-  _i9.Future<List<String>?> uploadMultiplePhotos(
-          {required int? availableNumOfPhotos}) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #uploadMultiplePhotos,
-          [],
-          {#availableNumOfPhotos: availableNumOfPhotos},
-        ),
-        returnValue: _i9.Future<List<String>?>.value(),
-      ) as _i9.Future<List<String>?>);
-  @override
-  _i9.Future<bool?> saveToGallery(String? url) => (super.noSuchMethod(
-        Invocation.method(
-          #saveToGallery,
-          [url],
-        ),
-        returnValue: _i9.Future<bool?>.value(),
-      ) as _i9.Future<bool?>);
-  @override
-  _i9.Future<_i11.SuggestionAuthor?> getUserById(String? id) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getUserById,
-          [id],
-        ),
-        returnValue: _i9.Future<_i11.SuggestionAuthor?>.value(),
-      ) as _i9.Future<_i11.SuggestionAuthor?>);
 }
 
 /// A class which mocks [SuggestionsTheme].

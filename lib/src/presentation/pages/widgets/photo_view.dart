@@ -9,7 +9,7 @@ import 'zoomable_image_widget.dart';
 class PhotoView extends StatefulWidget {
   final List<String> photos;
   final Function(String)? onDeleteClick;
-  final Function(String) onDownloadClick;
+  final Function(String)? onDownloadClick;
   final int initialIndex;
   final Color previousNavBarColor;
 
@@ -82,12 +82,14 @@ class _PhotoViewState extends State<PhotoView> {
                       ),
                       const SizedBox(width: Dimensions.marginDefault),
                     ],
-                    SuggestionsIconButton(
-                      padding: const EdgeInsets.all(Dimensions.marginMicro),
-                      imageIcon: AssetStrings.downloadIconImage,
-                      onClick: () => widget.onDownloadClick(widget.photos[_currentIndex]),
-                      color: Colors.white,
-                    ),
+                    if (widget.onDownloadClick != null) ...[
+                      SuggestionsIconButton(
+                        padding: const EdgeInsets.all(Dimensions.marginMicro),
+                        imageIcon: AssetStrings.downloadIconImage,
+                        onClick: () => widget.onDownloadClick!(widget.photos[_currentIndex]),
+                        color: Colors.white,
+                      ),
+                    ],
                   ],
                 ),
               ],

@@ -22,8 +22,8 @@ class Comment extends Equatable {
 
   factory Comment.fromJson({required Map<String, dynamic> json}) {
     return Comment(
-      id: json['comment_id'],
-      suggestionId: json['suggestion_id'],
+      id: json['comment_id'].toString(),
+      suggestionId: json['suggestion_id'].toString(),
       author: SuggestionAuthor.empty(id: json['author_id']),
       isAnonymous: json['is_anonymous'],
       text: json['text'],

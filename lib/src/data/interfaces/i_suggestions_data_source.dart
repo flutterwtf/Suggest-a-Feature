@@ -1,4 +1,3 @@
-import '../../../suggest_a_feature.dart';
 import '../../domain/entities/comment.dart';
 import '../../domain/entities/suggestion.dart';
 import '../../domain/utils/wrapper.dart';
@@ -54,10 +53,4 @@ abstract class SuggestionsDataSource {
   Future<Wrapper<Comment>> updateComment(Comment comment);
 
   Future<Wrapper<Comment>> deleteCommentById(String commentId);
-
-  Future<List<String>?> uploadMultiplePhotos({required int availableNumOfPhotos});
-
-  Future<bool?> saveToGallery(String url);
-
-  Future<SuggestionAuthor?> getUserById(String id);
 }
