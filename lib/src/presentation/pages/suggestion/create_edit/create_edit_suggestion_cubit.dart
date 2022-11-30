@@ -1,15 +1,15 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../domain/entities/suggestion.dart';
-import '../../../../domain/interactors/create_edit_suggestion_interactor.dart';
+import '../../../../domain/interactors/suggestion_interactor.dart';
 import '../../../di/injector.dart';
 import '../../../utils/image_utils.dart';
 import 'create_edit_suggestion_state.dart';
 
 class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
-  final CreateEditSuggestionInteractor _createEditInteractor;
+  final SuggestionInteractor _suggestionInteractor;
 
-  CreateEditSuggestionCubit(this._createEditInteractor)
+  CreateEditSuggestionCubit(this._suggestionInteractor)
       : super(
           CreateEditSuggestionState(
             suggestion: Suggestion.empty(),
@@ -31,15 +31,17 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
     emit(state.newState(savingImageResultMessageType: SavingResultMessageType.none));
   }
 
-  void addUploadedPhotos(Future<List<String>> urls) async {
+  void addUploadedPhotos(Future<List<String>?> urls) async {
     emit(state.newState(isLoading: true));
     final photos = await urls;
-    emit(
-      state.newState(
-        suggestion: state.suggestion.copyWith(images: [...photos, ...state.suggestion.images]),
-        isLoading: false,
-      ),
-    );
+    if (photos != null) {
+      emit(
+        state.newState(
+          suggestion: state.suggestion.copyWith(images: [...photos, ...state.suggestion.images]),
+          isLoading: false,
+        ),
+      );
+    }
   }
 
   void removePhoto(String path) {
@@ -51,13 +53,16 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
     );
   }
 
-  void showSavingResultMessage(Future<bool> isSuccess) async {
-    emit(
-      state.newState(
-        savingImageResultMessageType:
-            await isSuccess ? SavingResultMessageType.success : SavingResultMessageType.fail,
-      ),
-    );
+  void showSavingResultMessage(Future<bool?> isSuccess) async {
+    final savingResult = await isSuccess;
+    if (savingResult != null) {
+      emit(
+        state.newState(
+          savingImageResultMessageType:
+              savingResult ? SavingResultMessageType.success : SavingResultMessageType.fail,
+        ),
+      );
+    }
   }
 
   void changeSuggestionAnonymity(bool isAnonymous) {
@@ -103,7 +108,7 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
       return;
     }
     if (state.isEditing) {
-      await _createEditInteractor.updateSuggestion(state.suggestion);
+      await _suggestionInteractor.updateSuggestion(state.suggestion);
     } else {
       final model = CreateSuggestionModel(
         title: state.suggestion.title,
@@ -114,7 +119,7 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
         authorId: i.userId,
         isAnonymous: state.suggestion.isAnonymous,
       );
-      await _createEditInteractor.createSuggestion(model);
+      await _suggestionInteractor.createSuggestion(model);
     }
     emit(state.newState(isSubmitted: true));
   }

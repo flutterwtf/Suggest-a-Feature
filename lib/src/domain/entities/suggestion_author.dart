@@ -1,4 +1,6 @@
-class SuggestionAuthor {
+import 'package:equatable/equatable.dart';
+
+class SuggestionAuthor extends Equatable {
   final String id;
   final String username;
   final String? avatar;
@@ -18,4 +20,11 @@ class SuggestionAuthor {
   });
 
   const SuggestionAuthor.empty({String? id}) : this(id: id ?? '', username: '');
+
+  @override
+  List<Object?> get props => [
+        id,
+        username,
+        avatar,
+      ];
 }

@@ -1,8 +1,10 @@
+import 'package:equatable/equatable.dart';
+
 import '../../../domain/entities/suggestion.dart';
 import '../../../domain/entities/suggestion_author.dart';
 import '../../utils/image_utils.dart';
 
-class SuggestionState {
+class SuggestionState extends Equatable {
   final bool isPopped;
   final bool isEditable;
   final SuggestionAuthor author;
@@ -37,6 +39,16 @@ class SuggestionState {
           savingImageResultMessageType ?? this.savingImageResultMessageType,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        isPopped,
+        isEditable,
+        author,
+        suggestion,
+        bottomSheetType,
+        savingImageResultMessageType,
+      ];
 }
 
 enum SuggestionBottomSheetType {

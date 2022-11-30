@@ -29,12 +29,14 @@ import 'create_edit_suggestion_state.dart';
 
 class CreateEditSuggestionBottomSheet extends StatefulWidget {
   final Suggestion? suggestion;
+  final bool handlePhotos;
   final VoidCallback onClose;
   final SheetController controller;
   final OnUploadMultiplePhotosCallback onUploadMultiplePhotos;
   final OnSaveToGalleryCallback onSaveToGallery;
 
   const CreateEditSuggestionBottomSheet({
+    required this.handlePhotos,
     required this.onClose,
     required this.controller,
     required this.onUploadMultiplePhotos,
@@ -161,8 +163,10 @@ class CreateEditSuggestionBottomSheetState extends State<CreateEditSuggestionBot
             const SizedBox(height: Dimensions.marginBig),
             Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
             _labelItems(state.suggestion.labels),
-            state.suggestion.images.isNotEmpty ? const SizedBox.shrink() : _dividerWithIndent(),
-            _photoPickerItem(state),
+            if (widget.handlePhotos) ...[
+              state.suggestion.images.isNotEmpty ? const SizedBox.shrink() : _dividerWithIndent(),
+              _photoPickerItem(state),
+            ],
             if (!state.isEditing) ...[
               _dividerWithIndent(),
               const SizedBox(height: Dimensions.marginSmall),

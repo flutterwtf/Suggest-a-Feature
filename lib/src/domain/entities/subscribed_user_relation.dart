@@ -1,6 +1,6 @@
 class CreateSubscribedUserRelationModel {
   final String userId;
-  final int suggestionId;
+  final String suggestionId;
 
   const CreateSubscribedUserRelationModel({
     required this.userId,

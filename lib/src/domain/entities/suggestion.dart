@@ -1,11 +1,12 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../presentation/utils/date_utils.dart';
 import 'comment.dart';
 import 'utils/suggestion_utils.dart';
 
-class Suggestion {
-  final int id;
+class Suggestion extends Equatable {
+  final String id;
   final String title;
   final String? description;
   final List<SuggestionLabel> labels;
@@ -45,14 +46,14 @@ class Suggestion {
     this.isVoted = false,
     this.labels = const [],
     this.comments = const [],
-    this.id = 0,
+    this.id = '0',
     this.authorId = '',
     this.description = '',
     DateTime? creationTime,
   }) : creationTime = creationTime ?? DateTime.now();
 
   Suggestion copyWith({
-    int? id,
+    String? id,
     String? title,
     String? description,
     List<Comment>? comments,
@@ -94,7 +95,9 @@ class Suggestion {
       authorId: json['author_id'],
       isAnonymous: json['is_anonymous'],
       shouldNotifyAfterCompleted: json['should_notify_after_completed'] ?? false,
-      creationTime: fromDateTime(json['creation_time']),
+      creationTime: json['creation_time'].runtimeType == String
+          ? fromDateTime(json['creation_time'])
+          : json['creation_time'],
       isVoted: json['is_voted'] ?? false,
       status: SuggestionStatus.values.firstWhere((e) => describeEnum(e) == json['status']),
     );
@@ -108,6 +111,22 @@ class Suggestion {
       'images': images,
     };
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        title,
+        description,
+        labels,
+        images,
+        comments,
+        upvotesCount,
+        authorId,
+        isAnonymous,
+        shouldNotifyAfterCompleted,
+        isVoted,
+        status,
+      ];
 }
 
 enum SuggestionStatus { requests, inProgress, completed }

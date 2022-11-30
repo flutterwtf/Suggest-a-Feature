@@ -13,31 +13,37 @@ class SuggestionInteractor {
 
   Map<String, SuggestionAuthor?> get userInfo => _suggestionRepository.userInfo;
 
-  Future<void> deleteSuggestion(int suggestionId) {
+  void initSuggestions() => _suggestionRepository.initSuggestions();
+
+  Future<Wrapper<Suggestion>> createSuggestion(CreateSuggestionModel suggestion) {
+    return _suggestionRepository.createSuggestion(suggestion);
+  }
+
+  Future<Wrapper<Suggestion>> updateSuggestion(Suggestion suggestion) {
+    return _suggestionRepository.updateSuggestion(suggestion);
+  }
+
+  Future<void> deleteSuggestion(String suggestionId) {
     return _suggestionRepository.deleteSuggestion(suggestionId);
   }
 
-  void upvote(int suggestionId) {
-    _suggestionRepository.upvote(suggestionId);
+  void upvote(String suggestionId) => _suggestionRepository.upvote(suggestionId);
+
+  void downvote(String suggestionId) => _suggestionRepository.downvote(suggestionId);
+
+  Future<void> addNotifyToUpdateUser(String suggestionId) async {
+    await _suggestionRepository.addNotifyToUpdateUser(suggestionId);
   }
 
-  void downvote(int suggestionId) {
-    _suggestionRepository.downvote(suggestionId);
-  }
-
-  void addNotifyToUpdateUser(int suggestionId) {
-    _suggestionRepository.addNotifyToUpdateUser(suggestionId);
-  }
-
-  void deleteNotifyToUpdateUser(int suggestionId) {
-    _suggestionRepository.deleteNotifyToUpdateUser(suggestionId);
+  Future<void> deleteNotifyToUpdateUser(String suggestionId) async {
+    await _suggestionRepository.deleteNotifyToUpdateUser(suggestionId);
   }
 
   void refreshSuggestions(Suggestion suggestion, {bool saveComments = false}) {
     _suggestionRepository.refreshSuggestions(suggestion, saveComments: saveComments);
   }
 
-  Future<Wrapper<List<Comment>>> getAllComments(int suggestionId) {
+  Future<Wrapper<List<Comment>>> getAllComments(String suggestionId) {
     return _suggestionRepository.getAllComments(suggestionId);
   }
 
