@@ -1,10 +1,10 @@
 # Suggest a feature
 
-This Flutter package is a ready-made module for collecting suggestions from users and displaying the progress of their implementation.  
+This Flutter package is a ready-made module which allows other developers to implement additional menu in their own mobile app where users can share their suggestions about the application in real time, discuss them with others, and vote for each other`s suggestions    
   
 Here is a small demo:
 
-[![](https://media.giphy.com/media/fbcqgpyyceyYLqiZfa/giphy.gif)](https://media.giphy.com/media/fbcqgpyyceyYLqiZfa/giphy.gif)
+![gif](/assets/suggest_a_feature.gif)
 
 ## Usage
 
