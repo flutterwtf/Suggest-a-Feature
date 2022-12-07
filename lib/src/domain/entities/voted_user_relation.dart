@@ -1,4 +1,6 @@
-class CreateVotedUserRelationModel {
+import 'package:equatable/equatable.dart';
+
+class CreateVotedUserRelationModel extends Equatable {
   final String userId;
   final String suggestionId;
 
@@ -20,4 +22,10 @@ class CreateVotedUserRelationModel {
       suggestionId: json['suggestion_id'],
     );
   }
+
+  @override
+  List<Object?> get props => [
+        userId,
+        suggestionId,
+      ];
 }
