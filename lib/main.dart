@@ -26,27 +26,23 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
 class MySuggestionDataSource implements SuggestionsDataSource {
   final _suggestions = <Suggestion>[];
   final _comments = <Comment>[];
-  final _votedUserRelation = <CreateVotedUserRelationModel>[];
-  final _subscribedUserRelation = <CreateSubscribedUserRelationModel>[];
-
   final _suggestionAuthor = const SuggestionAuthor(id: '1', username: 'Author');
+
+  MySuggestionDataSource({required this.userId});
 
   @override
   final String userId;
-
-  MySuggestionDataSource({
-    required this.userId,
-  });
 
   String _generateCommentId() {
     if (_comments.isEmpty) {
       return '1';
     } else {
       var lastId = int.parse(_comments.last.id);
-      lastId++;
+      ++lastId;
       return lastId.toString();
     }
   }
@@ -56,7 +52,7 @@ class MySuggestionDataSource implements SuggestionsDataSource {
       return '1';
     } else {
       var lastId = int.parse(_suggestions.last.id);
-      lastId++;
+      ++lastId;
       return lastId.toString();
     }
   }
@@ -80,12 +76,16 @@ class MySuggestionDataSource implements SuggestionsDataSource {
     final suggestion = Suggestion(
       id: _generateSuggestionId(),
       title: suggestionModel.title,
+      description: suggestionModel.description,
+      labels: suggestionModel.labels,
+      images: suggestionModel.images,
       authorId: suggestionModel.authorId,
       isAnonymous: suggestionModel.isAnonymous,
       creationTime: DateTime.now(),
       status: suggestionModel.status,
     );
     _suggestions.add(suggestion);
+
     return Wrapper(data: suggestion);
   }
 
@@ -97,72 +97,58 @@ class MySuggestionDataSource implements SuggestionsDataSource {
 
   @override
   Future<Wrapper<void>> addNotifyToUpdateUser(String suggestionId) async {
-    _subscribedUserRelation.add(
-      CreateSubscribedUserRelationModel(suggestionId: suggestionId, userId: userId),
+    final suggestionIndex = _suggestions.indexWhere(((element) => element.id == suggestionId));
+    Set<String> modifiedSet = {..._suggestions[suggestionIndex].notifyUserIds, userId};
+    _suggestions[suggestionIndex] = _suggestions[suggestionIndex].copyWith(
+      notifyUserIds: modifiedSet,
     );
     return Wrapper(status: 200);
   }
 
   @override
   Future<Wrapper<void>> deleteNotifyToUpdateUser(String suggestionId) async {
-    _subscribedUserRelation.removeWhere(
-      (element) => element.suggestionId == suggestionId && element.userId == userId,
+    final suggestionIndex = _suggestions.indexWhere(((element) => element.id == suggestionId));
+    Set<String> modifiedSet = {..._suggestions[suggestionIndex].notifyUserIds..remove(userId)};
+    _suggestions[suggestionIndex] = _suggestions[suggestionIndex].copyWith(
+      notifyUserIds: modifiedSet,
     );
     return Wrapper(status: 200);
   }
 
   @override
   Future<Wrapper<Suggestion>> deleteSuggestionById(String suggestionId) async {
-    _comments.removeWhere((suggestion) => suggestion.id == suggestionId);
+    _suggestions.removeWhere((suggestion) => suggestion.id == suggestionId);
     return Wrapper(status: 200);
   }
 
   @override
   Future<Wrapper<void>> upvote(String suggestionId) async {
-    _votedUserRelation.add(
-      CreateVotedUserRelationModel(suggestionId: suggestionId, userId: userId),
+    final suggestionIndex = _suggestions.indexWhere(((element) => element.id == suggestionId));
+    Set<String> modifiedSet = {..._suggestions[suggestionIndex].votedUserIds, userId};
+    _suggestions[suggestionIndex] = _suggestions[suggestionIndex].copyWith(
+      votedUserIds: modifiedSet,
     );
     return Wrapper(status: 200);
   }
 
   @override
   Future<Wrapper<void>> downvote(String suggestionId) async {
-    _votedUserRelation.removeWhere(
-      (element) => element.suggestionId == suggestionId && element.userId == userId,
+    final suggestionIndex = _suggestions.indexWhere(((element) => element.id == suggestionId));
+    Set<String> modifiedSet = {..._suggestions[suggestionIndex].votedUserIds..remove(userId)};
+    _suggestions[suggestionIndex] = _suggestions[suggestionIndex].copyWith(
+      votedUserIds: modifiedSet,
     );
     return Wrapper(status: 200);
   }
 
   @override
-  Future<Wrapper<List<Comment>>> getAllComments(String suggestionId) async {
-    return Wrapper(data: _comments);
-  }
-
-  Suggestion _mockSuggestionSqlJoin(Suggestion suggestion) {
-    final shouldNotifyAfterCompleted = _subscribedUserRelation.contains(
-      CreateSubscribedUserRelationModel(suggestionId: suggestion.id, userId: userId),
-    );
-    final isVoted = _votedUserRelation.contains(
-      CreateVotedUserRelationModel(suggestionId: suggestion.id, userId: userId),
-    );
-    final upvotesCount = _votedUserRelation
-        .where((element) => element.suggestionId == suggestion.id)
-        .toList()
-        .length;
-
-    final fullInfoSuggestion = suggestion.copyWith(
-      shouldNotifyAfterCompleted: shouldNotifyAfterCompleted,
-      isVoted: isVoted,
-      upvotesCount: upvotesCount,
-    );
-
-    return fullInfoSuggestion;
+  Future<Wrapper<Suggestion>> getSuggestionById(String suggestionId) async {
+    return Wrapper(data: _suggestions.firstWhere((suggestion) => suggestion.id == suggestionId));
   }
 
   @override
   Future<Wrapper<List<Suggestion>>> getAllSuggestions() async {
-    final suggestions = _suggestions.map((element) => _mockSuggestionSqlJoin(element)).toList();
-    return Wrapper(data: suggestions);
+    return Wrapper(data: _suggestions);
   }
 
   @override
@@ -171,10 +157,9 @@ class MySuggestionDataSource implements SuggestionsDataSource {
   }
 
   @override
-  Future<Wrapper<Suggestion>> getSuggestionById(String suggestionId) async {
+  Future<Wrapper<List<Comment>>> getAllComments(String suggestionId) async {
     return Wrapper(
-      data: _mockSuggestionSqlJoin(
-          _suggestions.firstWhere((suggestion) => suggestion.id == suggestionId)),
+      data: _comments.where((comment) => comment.suggestionId == suggestionId).toList(),
     );
   }
 

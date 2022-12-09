@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain/entities/suggestion.dart';
 import '../../../domain/interactors/suggestion_interactor.dart';
 import 'suggestions_state.dart';
+import '../../di/injector.dart' as injector;
 
 class SuggestionsCubit extends Cubit<SuggestionsState> {
   final SuggestionInteractor _suggestionInteractor;
@@ -65,15 +66,17 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
 
   List<Suggestion> _changeListElement(List<Suggestion> suggestionsList, int i) {
     var newList = [...suggestionsList];
-    final isVoted = newList[i].isVoted;
-    final upvotesCount = newList[i].upvotesCount;
+    final isVoted = newList[i].votedUserIds.contains(injector.i.userId);
+    final newVotedUserIds = {...newList[i].votedUserIds};
 
     !isVoted
         ? _suggestionInteractor.upvote(newList[i].id)
         : _suggestionInteractor.downvote(newList[i].id);
+
     newList[i] = newList[i].copyWith(
-      isVoted: !isVoted,
-      upvotesCount: !isVoted ? upvotesCount + 1 : upvotesCount - 1,
+      votedUserIds: !isVoted
+          ? {...newVotedUserIds..add(injector.i.userId)}
+          : {...newVotedUserIds..remove(injector.i.userId)},
     );
     return newList;
   }

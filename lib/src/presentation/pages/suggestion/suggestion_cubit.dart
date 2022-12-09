@@ -158,8 +158,8 @@ class SuggestionCubit extends Cubit<SuggestionState> {
   }
 
   void vote() {
-    final isVoted = state.suggestion.isVoted;
-    final upvotesCount = state.suggestion.upvotesCount;
+    final isVoted = state.suggestion.votedUserIds.contains(i.userId);
+    final newVotedUserIds = {...state.suggestion.votedUserIds};
 
     !isVoted
         ? _suggestionInteractor.upvote(state.suggestion.id)
@@ -167,20 +167,27 @@ class SuggestionCubit extends Cubit<SuggestionState> {
     emit(
       state.newState(
         suggestion: state.suggestion.copyWith(
-          isVoted: !isVoted,
-          upvotesCount: !isVoted ? upvotesCount + 1 : upvotesCount - 1,
+          votedUserIds: !isVoted
+              ? {...newVotedUserIds..add(i.userId)}
+              : {...newVotedUserIds..remove(i.userId)},
         ),
       ),
     );
   }
 
   void changeNotification(bool isNotificationOn) async {
+    final newNotifyUserIds = {...state.suggestion.notifyUserIds};
+
     isNotificationOn
         ? await _suggestionInteractor.addNotifyToUpdateUser(state.suggestion.id)
         : await _suggestionInteractor.deleteNotifyToUpdateUser(state.suggestion.id);
     emit(
       state.newState(
-        suggestion: state.suggestion.copyWith(shouldNotifyAfterCompleted: isNotificationOn),
+        suggestion: state.suggestion.copyWith(
+          notifyUserIds: isNotificationOn
+              ? {...newNotifyUserIds..add(i.userId)}
+              : {...newNotifyUserIds..remove(i.userId)},
+        ),
       ),
     );
   }

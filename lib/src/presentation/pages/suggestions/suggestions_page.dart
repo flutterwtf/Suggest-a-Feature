@@ -311,8 +311,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
                         CupertinoPageRoute(
                           builder: (_) => SuggestionPage(
                             suggestion: suggestions[index - 1],
-                            onUploadMultiplePhotos:
-                                widget.onUploadMultiplePhotos,
+                            onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
                             onSaveToGallery: widget.onSaveToGallery,
                             onGetUserById: widget.onGetUserById,
                           ),
@@ -453,7 +452,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
       behavior: HitTestBehavior.translucent,
       onTap: () => _cubit.vote(status, index),
       child: VotesCounter(
-        isVoted: suggestion.isVoted,
+        isVoted: suggestion.votedUserIds.contains(widget.userId),
         upvotesCount: suggestion.upvotesCount,
       ),
     );
