@@ -94,8 +94,8 @@ class Suggestion extends Equatable {
           ? fromDateTime(json['creation_time'])
           : json['creation_time'],
       status: SuggestionStatus.values.firstWhere((e) => describeEnum(e) == json['status']),
-      votedUserIds: (json['voted_user_ids'] as Set).cast<String>(),
-      notifyUserIds: (json['notify_user_ids'] as Set).cast<String>(),
+      votedUserIds: (json['voted_user_ids'] ?? []).cast<String>().toSet(),
+      notifyUserIds: (json['notify_user_ids'] ?? []).cast<String>().toSet(),
     );
   }
 
