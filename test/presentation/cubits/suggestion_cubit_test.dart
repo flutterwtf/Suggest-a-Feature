@@ -102,8 +102,7 @@ void main() {
             savingImageResultMessageType: SavingResultMessageType.none,
             bottomSheetType: SuggestionBottomSheetType.none,
             suggestion: mockedSuggestion.copyWith(
-              isVoted: true,
-              upvotesCount: 1,
+              votedUserIds: {mockedSuggestionAuthor.id},
             ),
           ),
         ],
@@ -123,8 +122,7 @@ void main() {
           savingImageResultMessageType: SavingResultMessageType.none,
           bottomSheetType: SuggestionBottomSheetType.none,
           suggestion: mockedSuggestion.copyWith(
-            isVoted: true,
-            upvotesCount: 1,
+            votedUserIds: {},
           ),
         ),
         act: (cubit) => cubit.vote(),
@@ -148,7 +146,7 @@ void main() {
             savingImageResultMessageType: SavingResultMessageType.none,
             bottomSheetType: SuggestionBottomSheetType.none,
             suggestion: mockedSuggestion.copyWith(
-              shouldNotifyAfterCompleted: true,
+              notifyUserIds: {mockedSuggestionAuthor.id},
             ),
           ),
         ],
@@ -168,7 +166,7 @@ void main() {
           savingImageResultMessageType: SavingResultMessageType.none,
           bottomSheetType: SuggestionBottomSheetType.none,
           suggestion: mockedSuggestion.copyWith(
-            shouldNotifyAfterCompleted: true,
+            notifyUserIds: {},
           ),
         ),
         act: (cubit) => cubit.changeNotification(false),

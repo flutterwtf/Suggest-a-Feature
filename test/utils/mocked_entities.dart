@@ -21,14 +21,13 @@ final mockedSuggestion = Suggestion(
   description: 'Description',
   labels: [],
   images: [],
-  upvotesCount: 0,
   authorId: '1',
   isAnonymous: false,
-  shouldNotifyAfterCompleted: false,
   creationTime: DateTime(2022),
-  isVoted: false,
   status: SuggestionStatus.requests,
   comments: [],
+  votedUserIds: {},
+  notifyUserIds: {},
 );
 
 final mockedSuggestion2 = Suggestion(
@@ -37,14 +36,13 @@ final mockedSuggestion2 = Suggestion(
   description: 'Description2',
   labels: [],
   images: [],
-  upvotesCount: 0,
   authorId: '1',
   isAnonymous: true,
-  shouldNotifyAfterCompleted: false,
   creationTime: DateTime(2022),
-  isVoted: false,
   status: SuggestionStatus.requests,
   comments: [],
+  votedUserIds: {},
+  notifyUserIds: {},
 );
 
 final mockedComment = Comment(
