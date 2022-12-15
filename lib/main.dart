@@ -26,11 +26,10 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
 class MySuggestionDataSource implements SuggestionsDataSource {
-  final _suggestions = <Suggestion>[];
-  final _comments = <Comment>[];
   final _suggestionAuthor = const SuggestionAuthor(id: '1', username: 'Author');
+  Map<String, dynamic> suggestions = <String, Suggestion>{};
+  Map<String, dynamic> comments = <String, Comment>{};
 
   MySuggestionDataSource({required this.userId});
 
@@ -38,20 +37,20 @@ class MySuggestionDataSource implements SuggestionsDataSource {
   final String userId;
 
   String _generateCommentId() {
-    if (_comments.isEmpty) {
+    if (comments.isEmpty) {
       return '1';
     } else {
-      var lastId = int.parse(_comments.last.id);
+      var lastId = int.parse(comments.values.last.id);
       ++lastId;
       return lastId.toString();
     }
   }
 
   String _generateSuggestionId() {
-    if (_suggestions.isEmpty) {
+    if (suggestions.isEmpty) {
       return '1';
     } else {
-      var lastId = int.parse(_suggestions.last.id);
+      var lastId = int.parse(suggestions.values.last.id);
       ++lastId;
       return lastId.toString();
     }
@@ -67,7 +66,7 @@ class MySuggestionDataSource implements SuggestionsDataSource {
       text: commentModel.text,
       creationTime: DateTime.now(),
     );
-    _comments.add(comment);
+    comments[comment.id] = comment;
     return Wrapper(data: comment);
   }
 
@@ -84,96 +83,94 @@ class MySuggestionDataSource implements SuggestionsDataSource {
       creationTime: DateTime.now(),
       status: suggestionModel.status,
     );
-    _suggestions.add(suggestion);
-
-    return Wrapper(data: suggestion);
+    suggestions[suggestion.id] = suggestion;
+    final createdSuggestion = await getSuggestionById(suggestion.id);
+    return Wrapper(data: createdSuggestion.data);
   }
 
   @override
   Future<Wrapper<Comment>> deleteCommentById(String commentId) async {
-    _comments.removeWhere((comment) => comment.id == commentId);
-    return Wrapper(status: 200);
+    comments.remove(commentId);
+    return Wrapper();
   }
 
   @override
   Future<Wrapper<void>> addNotifyToUpdateUser(String suggestionId) async {
-    final suggestionIndex = _suggestions.indexWhere(((element) => element.id == suggestionId));
-    Set<String> modifiedSet = {..._suggestions[suggestionIndex].notifyUserIds, userId};
-    _suggestions[suggestionIndex] = _suggestions[suggestionIndex].copyWith(
+    final suggestionIndex = suggestions[suggestionId];
+    Set<String> modifiedSet = {...suggestions[suggestionIndex]!.notifyUserIds, userId};
+    suggestions[suggestionIndex] = suggestions[suggestionIndex]!.copyWith(
       notifyUserIds: modifiedSet,
     );
-    return Wrapper(status: 200);
+    return Wrapper();
   }
 
   @override
   Future<Wrapper<void>> deleteNotifyToUpdateUser(String suggestionId) async {
-    final suggestionIndex = _suggestions.indexWhere(((element) => element.id == suggestionId));
-    Set<String> modifiedSet = {..._suggestions[suggestionIndex].notifyUserIds..remove(userId)};
-    _suggestions[suggestionIndex] = _suggestions[suggestionIndex].copyWith(
+    final suggestionIndex = suggestions[suggestionId];
+    Set<String> modifiedSet = {...suggestions[suggestionIndex]!.notifyUserIds..remove(userId)};
+    suggestions[suggestionIndex] = suggestions[suggestionIndex]!.copyWith(
       notifyUserIds: modifiedSet,
     );
-    return Wrapper(status: 200);
+    return Wrapper();
   }
 
   @override
   Future<Wrapper<Suggestion>> deleteSuggestionById(String suggestionId) async {
-    _suggestions.removeWhere((suggestion) => suggestion.id == suggestionId);
-    return Wrapper(status: 200);
+    suggestions.remove(suggestionId);
+    return Wrapper();
   }
 
   @override
   Future<Wrapper<void>> upvote(String suggestionId) async {
-    final suggestionIndex = _suggestions.indexWhere(((element) => element.id == suggestionId));
-    Set<String> modifiedSet = {..._suggestions[suggestionIndex].votedUserIds, userId};
-    _suggestions[suggestionIndex] = _suggestions[suggestionIndex].copyWith(
+    final Set<String> modifiedSet = {...suggestions[suggestionId]!.votedUserIds, userId};
+    suggestions[suggestionId] = suggestions[suggestionId]!.copyWith(
       votedUserIds: modifiedSet,
     );
-    return Wrapper(status: 200);
+    return Wrapper();
   }
 
   @override
   Future<Wrapper<void>> downvote(String suggestionId) async {
-    final suggestionIndex = _suggestions.indexWhere(((element) => element.id == suggestionId));
-    Set<String> modifiedSet = {..._suggestions[suggestionIndex].votedUserIds..remove(userId)};
-    _suggestions[suggestionIndex] = _suggestions[suggestionIndex].copyWith(
+    final Set<String> modifiedSet = {...suggestions[suggestionId]!.votedUserIds..remove(userId)};
+    suggestions[suggestionId] = suggestions[suggestionId]!.copyWith(
       votedUserIds: modifiedSet,
     );
-    return Wrapper(status: 200);
+    return Wrapper();
   }
 
   @override
   Future<Wrapper<Suggestion>> getSuggestionById(String suggestionId) async {
-    return Wrapper(data: _suggestions.firstWhere((suggestion) => suggestion.id == suggestionId));
+    return Wrapper(data: suggestions[suggestionId]);
   }
 
   @override
   Future<Wrapper<List<Suggestion>>> getAllSuggestions() async {
-    return Wrapper(data: _suggestions);
+    return Wrapper(
+      data: suggestions.isNotEmpty ? suggestions.values.cast<Suggestion>().toList() : null,
+    );
   }
 
   @override
   Future<Wrapper<Comment>> getCommentById(String commentId) async {
-    return Wrapper(data: _comments.firstWhere((comment) => comment.id == commentId));
+    return Wrapper(data: comments[commentId]);
   }
 
   @override
   Future<Wrapper<List<Comment>>> getAllComments(String suggestionId) async {
     return Wrapper(
-      data: _comments.where((comment) => comment.suggestionId == suggestionId).toList(),
+      data: comments.isNotEmpty ? comments.values.cast<Comment>().toList() : null,
     );
   }
 
   @override
   Future<Wrapper<Comment>> updateComment(Comment comment) async {
-    final commentIndex = _comments.indexWhere((element) => element.id == comment.id);
-    _comments[commentIndex] = comment;
-    return Wrapper(status: 200);
+    comments[comment.id] = comment;
+    return Wrapper();
   }
 
   @override
   Future<Wrapper<Suggestion>> updateSuggestion(Suggestion suggestion) async {
-    final suggestionIndex = _suggestions.indexWhere((element) => element.id == suggestion.id);
-    _suggestions[suggestionIndex] = suggestion;
-    return Wrapper(status: 200);
+    suggestions[suggestion.id] = suggestion;
+    return Wrapper();
   }
 }
