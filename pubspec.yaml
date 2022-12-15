@@ -1,5 +1,5 @@
 name: suggest_a_feature
-description: Suggest a Feature
+description: Ready-made Flutter package for collecting suggestions from users.
 version: 0.0.1
 publish_to: none
 
