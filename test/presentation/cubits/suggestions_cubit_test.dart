@@ -19,7 +19,9 @@ void main() {
         isCreateBottomSheetOpened: false,
         activeTab: SuggestionStatus.requests,
       );
-      final upvotedSuggestion = mockedSuggestion2.copyWith(isVoted: true, upvotesCount: 1);
+      final upvotedSuggestion = mockedSuggestion2.copyWith(
+        votedUserIds: {mockedSuggestionAuthor.id},
+      );
 
       blocTest<SuggestionsCubit, SuggestionsState>(
         'open CreateBottomSheet',

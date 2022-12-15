@@ -99,7 +99,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
                 children: [
                   Flexible(child: _newCommentButton()),
                   const SizedBox(width: Dimensions.marginDefault),
-                  state.suggestion.isVoted
+                  state.suggestion.votedUserIds.contains(i.userId)
                       ? const SizedBox.shrink()
                       : Flexible(child: _upvoteButton(state)),
                 ],
@@ -129,7 +129,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
               const SizedBox(height: Dimensions.marginSmall),
             ],
             if (state.suggestion.comments.isNotEmpty) _commentList(state.suggestion.comments),
-            state.suggestion.isVoted
+            state.suggestion.votedUserIds.contains(i.userId)
                 ? const SizedBox(
                     height: Dimensions.size2x * 2 + Dimensions.marginMiddle,
                   )
@@ -166,7 +166,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
       case SuggestionBottomSheetType.confirmation:
         return _openConfirmationBottomSheet(context.localization.deletionQuestion);
       case SuggestionBottomSheetType.notification:
-        return _openNotificationBottomSheet(state.suggestion.shouldNotifyAfterCompleted);
+        return _openNotificationBottomSheet(state.suggestion.notifyUserIds.contains(i.userId));
       case SuggestionBottomSheetType.editDelete:
         return _openEditDeleteBottomSheet(state.suggestion);
       case SuggestionBottomSheetType.createEdit:
@@ -298,7 +298,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
           ),
           const SizedBox(height: Dimensions.marginDefault + 5),
           _suggestionHeaderContent(
-            isVoted: suggestion.isVoted,
+            isVoted: suggestion.votedUserIds.contains(i.userId),
             upvotesCount: suggestion.upvotesCount,
             title: suggestion.title,
           ),
@@ -488,7 +488,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
 
   Widget _upvoteButton(SuggestionState state) {
     return Visibility(
-      visible: !state.suggestion.isVoted,
+      visible: !state.suggestion.votedUserIds.contains(i.userId),
       child: Align(
         alignment: Alignment.bottomCenter,
         child: Padding(

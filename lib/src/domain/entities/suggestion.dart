@@ -12,13 +12,14 @@ class Suggestion extends Equatable {
   final List<SuggestionLabel> labels;
   final List<String> images;
   final List<Comment> comments;
-  final int upvotesCount;
   final String authorId;
   final bool isAnonymous;
-  final bool shouldNotifyAfterCompleted;
   final DateTime creationTime;
-  final bool isVoted;
   final SuggestionStatus status;
+  final Set<String> votedUserIds;
+  final Set<String> notifyUserIds;
+
+  int get upvotesCount => votedUserIds.length;
 
   const Suggestion({
     required this.id,
@@ -28,28 +29,26 @@ class Suggestion extends Equatable {
     required this.isAnonymous,
     required this.creationTime,
     required this.status,
-    this.upvotesCount = 0,
     this.labels = const [],
     this.images = const [],
     this.comments = const [],
-    this.shouldNotifyAfterCompleted = false,
-    this.isVoted = false,
+    this.notifyUserIds = const {},
+    this.votedUserIds = const {},
   });
 
   Suggestion.empty({
     this.title = '',
     this.isAnonymous = false,
-    this.upvotesCount = 0,
-    this.shouldNotifyAfterCompleted = false,
     this.images = const [],
     this.status = SuggestionStatus.requests,
-    this.isVoted = false,
     this.labels = const [],
     this.comments = const [],
     this.id = '0',
     this.authorId = '',
     this.description = '',
     DateTime? creationTime,
+    this.notifyUserIds = const {},
+    this.votedUserIds = const {},
   }) : creationTime = creationTime ?? DateTime.now();
 
   Suggestion copyWith({
@@ -59,13 +58,12 @@ class Suggestion extends Equatable {
     List<Comment>? comments,
     List<String>? images,
     List<SuggestionLabel>? labels,
-    int? upvotesCount,
     String? authorId,
     bool? isAnonymous,
-    bool? shouldNotifyAfterCompleted,
     DateTime? creationTime,
-    bool? isVoted,
     SuggestionStatus? status,
+    Set<String>? votedUserIds,
+    Set<String>? notifyUserIds,
   }) {
     return Suggestion(
       id: id ?? this.id,
@@ -74,13 +72,12 @@ class Suggestion extends Equatable {
       images: images ?? this.images,
       labels: labels ?? this.labels,
       comments: comments ?? this.comments,
-      upvotesCount: upvotesCount ?? this.upvotesCount,
       authorId: authorId ?? this.authorId,
       isAnonymous: isAnonymous ?? this.isAnonymous,
-      shouldNotifyAfterCompleted: shouldNotifyAfterCompleted ?? this.shouldNotifyAfterCompleted,
       creationTime: creationTime ?? this.creationTime,
-      isVoted: isVoted ?? this.isVoted,
       status: status ?? this.status,
+      votedUserIds: votedUserIds ?? this.votedUserIds,
+      notifyUserIds: notifyUserIds ?? this.notifyUserIds,
     );
   }
 
@@ -91,15 +88,14 @@ class Suggestion extends Equatable {
       description: json['description'],
       labels: (json['labels'] as List).cast<String>().map(LabelExt.labelType).toList(),
       images: (json['images'] as List).cast<String>(),
-      upvotesCount: json['upvotes_count'] ?? 0,
       authorId: json['author_id'],
       isAnonymous: json['is_anonymous'],
-      shouldNotifyAfterCompleted: json['should_notify_after_completed'] ?? false,
       creationTime: json['creation_time'].runtimeType == String
           ? fromDateTime(json['creation_time'])
           : json['creation_time'],
-      isVoted: json['is_voted'] ?? false,
       status: SuggestionStatus.values.firstWhere((e) => describeEnum(e) == json['status']),
+      votedUserIds: (json['voted_user_ids'] ?? []).cast<String>().toSet(),
+      notifyUserIds: (json['notify_user_ids'] ?? []).cast<String>().toSet(),
     );
   }
 
@@ -120,12 +116,11 @@ class Suggestion extends Equatable {
         labels,
         images,
         comments,
-        upvotesCount,
         authorId,
         isAnonymous,
-        shouldNotifyAfterCompleted,
-        isVoted,
         status,
+        votedUserIds,
+        notifyUserIds,
       ];
 }
 
