@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -72,7 +73,7 @@ class SuggestionCubit extends Cubit<SuggestionState> {
       );
       _suggestionInteractor.refreshSuggestions(state.suggestion);
     } catch (e) {
-      return;
+      log('comments loading error: $e');
     }
   }
 
@@ -150,7 +151,7 @@ class SuggestionCubit extends Cubit<SuggestionState> {
       );
       _suggestionInteractor.refreshSuggestions(state.suggestion);
     } catch (e) {
-      return;
+      log('comment creation error: $e');
     }
   }
 

@@ -352,10 +352,10 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
         header = context.localization.inProgressHeader;
         description = context.localization.inProgressDescription;
         break;
-      // ignore: no_default_cases
-      default:
+      case SuggestionStatus.completed:
         header = context.localization.completedHeader;
         description = context.localization.completedDescription;
+        break;
     }
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: Dimensions.margin2x),

@@ -173,8 +173,6 @@ class _SuggestionPageState extends State<SuggestionPage> {
       case SuggestionBottomSheetType.createComment:
         return _openCreateCommentBottomSheet();
       case SuggestionBottomSheetType.none:
-      // ignore: no_default_cases
-      default:
         return Container();
     }
   }

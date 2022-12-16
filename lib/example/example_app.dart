@@ -1,7 +1,6 @@
-// ignore_for_file: avoid_dynamic_calls
-
 import 'package:flutter/material.dart';
-import 'suggest_a_feature.dart';
+// ignore: prefer_relative_imports
+import 'package:suggest_a_feature/suggest_a_feature.dart';
 
 void main() => runApp(const MyApp());
 
@@ -13,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Suggest a feature Example',
+      title: 'Suggest a feature Example page',
       home: Scaffold(
         body: SuggestionsPage(
           onGetUserById: (String id) => Future<SuggestionAuthor>(
