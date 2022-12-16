@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import '../../../utils/dimensions.dart';
 import '../../../utils/context_utils.dart';
+import '../../../utils/dimensions.dart';
 import '../../theme/suggestions_theme.dart';
 
 class BottomSheetActions extends StatelessWidget {
@@ -107,7 +107,7 @@ class _NewSuggestionTextButtonState extends State<NewSuggestionTextButton> {
         ),
         child: Text(
           widget.title,
-          style: theme.textMBold.copyWith(color: textColor),
+          style: theme.textSmallPlusBold.copyWith(color: textColor),
         ),
       ),
     );

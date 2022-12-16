@@ -15,7 +15,7 @@ class SuggestionInteractor {
 
   void initSuggestions() => _suggestionRepository.initSuggestions();
 
-  Future<Wrapper<Suggestion>> createSuggestion(CreateSuggestionModel suggestion) {
+  Future<Suggestion> createSuggestion(CreateSuggestionModel suggestion) {
     return _suggestionRepository.createSuggestion(suggestion);
   }
 

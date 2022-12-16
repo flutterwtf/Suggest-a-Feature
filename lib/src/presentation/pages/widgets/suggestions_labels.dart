@@ -40,7 +40,7 @@ class SuggestionLabels extends StatelessWidget {
         const SizedBox(width: 11),
         Text(
           label.labelName(context),
-          style: theme.textMBold.copyWith(
+          style: theme.textSmallPlusBold.copyWith(
             color: label.labelColor(),
           ),
         ),

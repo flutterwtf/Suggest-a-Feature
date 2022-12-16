@@ -31,7 +31,7 @@ class VotesCounter extends StatelessWidget {
               fit: BoxFit.none,
             ),
           ),
-          Text('$upvotesCount', style: theme.textMBold),
+          Text('$upvotesCount', style: theme.textSmallPlusBold),
         ],
       ),
     );

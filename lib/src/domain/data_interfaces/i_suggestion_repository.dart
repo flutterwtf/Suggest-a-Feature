@@ -10,7 +10,7 @@ abstract class ISuggestionRepository {
 
   void initSuggestions();
   Future<Wrapper<Suggestion>> getSuggestionById(String suggestionId);
-  Future<Wrapper<Suggestion>> createSuggestion(CreateSuggestionModel suggestion);
+  Future<Suggestion> createSuggestion(CreateSuggestionModel suggestion);
   Future<Wrapper<Suggestion>> updateSuggestion(Suggestion suggestion);
   Future<void> deleteSuggestion(String suggestionId);
 

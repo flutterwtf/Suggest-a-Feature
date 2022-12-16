@@ -37,7 +37,7 @@ void main() {
 
     test('create suggestion', () async {
       when(mockSuggestionRepository.createSuggestion(createSuggestionModel))
-          .thenAnswer((_) => Future.value(response));
+          .thenAnswer((_) => Future.value(response.data));
 
       expect(await suggestionInteractor.createSuggestion(createSuggestionModel), response);
     });

@@ -60,7 +60,7 @@ class _NotificationSuggestionBottomSheetState extends State<NotificationSuggesti
                       Text(
                         context.localization.notifyMe,
                         textAlign: TextAlign.start,
-                        style: theme.textMPlus,
+                        style: theme.textMedium,
                       ),
                       const SizedBox(height: Dimensions.marginMicro),
                       Text(

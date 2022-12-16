@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../utils/assets_strings.dart';
-import '../../utils/dimensions.dart';
 import '../../utils/context_utils.dart';
+import '../../utils/dimensions.dart';
 import '../theme/suggestions_theme.dart';
 import 'dotted_border.dart';
 

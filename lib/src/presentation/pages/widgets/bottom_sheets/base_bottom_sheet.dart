@@ -147,7 +147,7 @@ class _BaseBottomSheetState extends State<BaseBottomSheet> with TickerProviderSt
                         ),
                         child: Text(
                           widget.title!,
-                          style: theme.textXXLBold,
+                          style: theme.textLargeBold,
                         ),
                       ),
                     widget.contentBuilder(context, state),

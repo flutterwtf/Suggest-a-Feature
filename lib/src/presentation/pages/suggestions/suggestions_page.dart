@@ -276,11 +276,11 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
           child: Text(
             text,
             style: isActive
-                ? theme.textMBold.copyWith(
+                ? theme.textSmallPlusBold.copyWith(
                     color: color,
                     height: textHeight,
                   )
-                : theme.textMSecondary.copyWith(height: textHeight),
+                : theme.textSmallPlusSecondary.copyWith(height: textHeight),
           ),
         ),
       ],
@@ -362,8 +362,8 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
             textAlign: TextAlign.center,
             text: TextSpan(
               children: [
-                TextSpan(text: header, style: theme.textMPlusBold),
-                TextSpan(text: ' ($length)', style: theme.textM),
+                TextSpan(text: header, style: theme.textMediumBold),
+                TextSpan(text: ' ($length)', style: theme.textSmallPlus),
               ],
             ),
           ),
@@ -371,7 +371,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
           Text(
             description,
             textAlign: TextAlign.center,
-            style: theme.textM,
+            style: theme.textSmallPlus,
           ),
         ],
       ),
@@ -414,13 +414,13 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
                       children: [
                         Text(
                           suggestion.title,
-                          style: theme.textMBold,
+                          style: theme.textSmallPlusBold,
                         ),
                         const SizedBox(height: Dimensions.marginSmall),
                         if (suggestion.description != null)
                           Text(
                             suggestion.description!,
-                            style: theme.textM,
+                            style: theme.textSmallPlus,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             softWrap: true,

@@ -8,10 +8,10 @@ import '../../../../domain/entities/suggestion.dart';
 import '../../../di/injector.dart';
 import '../../../utils/assets_strings.dart';
 import '../../../utils/constants/numeric_constants.dart';
+import '../../../utils/context_utils.dart';
 import '../../../utils/dimensions.dart';
 import '../../../utils/image_utils.dart';
 import '../../../utils/typedefs.dart';
-import '../../../utils/context_utils.dart';
 import '../../theme/suggestions_theme.dart';
 import '../../widgets/add_event_photo_button.dart';
 import '../../widgets/bottom_sheets/base_bottom_sheet.dart';
@@ -95,7 +95,7 @@ class CreateEditSuggestionBottomSheetState extends State<CreateEditSuggestionBot
         }
         _cubit.reset();
       },
-      builder: (context, state) {
+      builder: (BuildContext context, CreateEditSuggestionState state) {
         if (state.isLabelsBottomSheetOpen) {
           return _labelsBottomSheet(state.suggestion.labels);
         } else if (!state.isPhotoViewOpen) {
@@ -196,7 +196,7 @@ class CreateEditSuggestionBottomSheetState extends State<CreateEditSuggestionBot
     return ClickableListItem(
       title: Text(
         context.localization.labels,
-        style: theme.textMSecondaryBold,
+        style: theme.textSmallPlusSecondaryBold,
       ),
       trailing: labels.isNotEmpty
           ? SuggestionLabels(labels: labels)
@@ -262,7 +262,7 @@ class CreateEditSuggestionBottomSheetState extends State<CreateEditSuggestionBot
                       child: AddPhotoButton(
                         width: state.suggestion.images.length > 2 ? _tileWidth * 0.9 : _tileWidth,
                         height: (MediaQuery.of(context).size.width - 80) / 3,
-                        style: theme.textMBold,
+                        style: theme.textSmallPlusBold,
                         isLoading: state.isLoading,
                       ),
                     );
@@ -292,7 +292,7 @@ class CreateEditSuggestionBottomSheetState extends State<CreateEditSuggestionBot
         : ClickableListItem(
             title: Text(
               context.localization.addPhoto,
-              style: theme.textMSecondaryBold,
+              style: theme.textSmallPlusSecondaryBold,
             ),
             trailing: state.isLoading
                 ? CircularProgressIndicator(
@@ -318,7 +318,7 @@ class CreateEditSuggestionBottomSheetState extends State<CreateEditSuggestionBot
     return ClickableListItem(
       title: Text(
         context.localization.postAnonymously,
-        style: theme.textMSecondaryBold,
+        style: theme.textSmallPlusSecondaryBold,
       ),
       trailing: SuggestionsSwitch(
         value: isAnonymously,

@@ -8,32 +8,31 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
-  flutter:
-    sdk: flutter
-  flutter_localizations:
-    sdk: flutter
-
   bot_toast: ^4.0.1
   cached_network_image: ^3.2.0
+  equatable: ^2.0.5
   extended_image: ^6.3.1
+  flutter:
+    sdk: flutter
   flutter_bloc: ^8.0.1
+  flutter_localizations:
+    sdk: flutter
   flutter_svg: ^1.0.3
   http: ^0.13.4
   intl: ^0.17.0
   rxdart: ^0.27.3
-  equatable: ^2.0.5
 
   sliding_sheet:
     git:
-      url: https://gitlab+deploy-token-547341:NRrK4ohMCyQXqLmHgSwW@gitlab.com/sheep-apps/sliding_sheet.git
+      url: https://github.com/flutterwtf/sliding_sheet
       ref: master
 
 dev_dependencies:
+  bloc_test: ^9.1.0
   build_runner: ^2.3.0
   flutter_test:
     sdk: flutter
   mockito: ^5.3.2
-  bloc_test: ^9.1.0
 
 flutter:
   assets:

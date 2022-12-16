@@ -60,7 +60,7 @@ class _SuggestionsElevatedButtonState extends State<SuggestionsElevatedButton> {
               ],
               Text(
                 widget.buttonText,
-                style: theme.textMBold.copyWith(
+                style: theme.textSmallPlusBold.copyWith(
                   color: widget.textColor ?? theme.elevatedButtonTextColor,
                 ),
               ),

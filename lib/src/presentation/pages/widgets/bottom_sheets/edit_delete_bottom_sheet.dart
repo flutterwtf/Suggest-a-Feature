@@ -3,9 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 
 import '../../../utils/assets_strings.dart';
-import '../../../utils/dimensions.dart';
 import '../../../utils/context_utils.dart';
 import '../../../utils/date_utils.dart';
+import '../../../utils/dimensions.dart';
 import '../../theme/suggestions_theme.dart';
 import '../clickable_list_item.dart';
 import 'base_bottom_sheet.dart';
@@ -65,7 +65,7 @@ class _EditDeleteSuggestionBottomSheetState extends State<EditDeleteSuggestionBo
   Widget _leadingText() {
     return Text(
       widget.creationDate.formatEditSuggestion(context.localization.localeName),
-      style: theme.textLBold,
+      style: theme.textMediumPlusBold,
     );
   }
 
@@ -73,7 +73,7 @@ class _EditDeleteSuggestionBottomSheetState extends State<EditDeleteSuggestionBo
     return ClickableListItem(
       title: Text(
         context.localization.edit,
-        style: theme.textLBold,
+        style: theme.textMediumPlusBold,
       ),
       leading: SvgPicture.asset(
         AssetStrings.penIconImage,
@@ -90,7 +90,7 @@ class _EditDeleteSuggestionBottomSheetState extends State<EditDeleteSuggestionBo
     return ClickableListItem(
       title: Text(
         context.localization.delete,
-        style: theme.textLBold.copyWith(color: theme.errorColor),
+        style: theme.textMediumPlusBold.copyWith(color: theme.errorColor),
       ),
       leading: SvgPicture.asset(
         AssetStrings.deleteIconImage,

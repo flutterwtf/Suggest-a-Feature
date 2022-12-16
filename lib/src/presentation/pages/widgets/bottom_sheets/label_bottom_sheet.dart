@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 
 import '../../../../domain/entities/suggestion.dart';
-import '../../../utils/dimensions.dart';
 import '../../../utils/context_utils.dart';
+import '../../../utils/dimensions.dart';
 import '../../theme/suggestions_theme.dart';
 import '../suggestions_labels.dart';
 import 'base_bottom_sheet.dart';

@@ -8,9 +8,9 @@ import '../../../domain/entities/suggestion.dart';
 import '../../../domain/entities/suggestion_author.dart';
 import '../../di/injector.dart';
 import '../../utils/assets_strings.dart';
-import '../../utils/dimensions.dart';
 import '../../utils/context_utils.dart';
 import '../../utils/date_utils.dart';
+import '../../utils/dimensions.dart';
 import '../../utils/image_utils.dart';
 import '../../utils/typedefs.dart';
 import '../theme/suggestions_theme.dart';
@@ -252,12 +252,12 @@ class _SuggestionPageState extends State<SuggestionPage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Text(context.localization.postedBy, style: theme.textMSecondary),
+          Text(context.localization.postedBy, style: theme.textSmallPlusSecondary),
           _avatar(author.avatar),
           Expanded(
             child: Text(
               author.username.isEmpty ? context.localization.anonymousAuthorName : author.username,
-              style: theme.textM,
+              style: theme.textSmallPlus,
             ),
           ),
         ],
@@ -308,7 +308,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
               padding: const EdgeInsets.only(left: Dimensions.marginSmall),
               child: Text(
                 suggestion.description!,
-                style: theme.textM,
+                style: theme.textSmallPlus,
               ),
             ),
             const SizedBox(height: Dimensions.marginDefault),
@@ -339,7 +339,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
         ),
         const SizedBox(width: Dimensions.marginSmall),
         Expanded(
-          child: Text(title, style: theme.textMPlusBold),
+          child: Text(title, style: theme.textMediumBold),
         ),
       ],
     );
@@ -360,7 +360,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
         children: [
           Text(
             context.localization.attachedPhotos,
-            style: theme.textMSecondaryBold,
+            style: theme.textSmallPlusSecondaryBold,
           ),
           const SizedBox(height: Dimensions.marginMiddle),
           Wrap(
@@ -421,7 +421,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
           ),
           child: Text(
             context.localization.commentsTitle,
-            style: theme.textMBold.copyWith(color: theme.secondaryTextColor),
+            style: theme.textSmallPlusBold.copyWith(color: theme.secondaryTextColor),
           ),
         ),
         Wrap(runSpacing: 2, children: comments.map(_commentCard).toList()),
@@ -450,12 +450,12 @@ class _SuggestionPageState extends State<SuggestionPage> {
                   comment.author.username.isEmpty
                       ? context.localization.anonymousAuthorName
                       : comment.author.username,
-                  style: theme.textMBold,
+                  style: theme.textSmallPlusBold,
                 ),
               ),
               Text(
                 comment.creationTime.formatComment(context.localization.localeName),
-                style: theme.textMSecondary,
+                style: theme.textSmallPlusSecondary,
               ),
             ],
           ),
@@ -463,7 +463,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
             padding: const EdgeInsets.only(left: Dimensions.margin3x),
             child: Text(
               comment.text,
-              style: theme.textM,
+              style: theme.textSmallPlus,
               softWrap: true,
             ),
           ),

@@ -104,7 +104,7 @@ class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
     return ClickableListItem(
       title: Text(
         context.localization.postAnonymously,
-        style: theme.textMSecondaryBold,
+        style: theme.textSmallPlusSecondaryBold,
       ),
       trailing: SuggestionsSwitch(
         value: _isAnonymously,

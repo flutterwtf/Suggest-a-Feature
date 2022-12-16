@@ -50,13 +50,13 @@ class SuggestionRepository implements ISuggestionRepository {
   }
 
   @override
-  Future<Wrapper<Suggestion>> createSuggestion(CreateSuggestionModel suggestion) async {
-    final result = await _suggestionsDataSource.createSuggestion(suggestion);
-    if (result.data != null) {
-      final suggestions = List<Suggestion>.from(this.suggestions)..add(result.data!);
-      _suggestionsSubject.add(suggestions);
-    }
-    return result;
+  Future<Suggestion> createSuggestion(CreateSuggestionModel suggestion) async {
+    final createdSuggestion = await _suggestionsDataSource.createSuggestion(suggestion);
+
+    final suggestions = List<Suggestion>.from(this.suggestions)..add(createdSuggestion);
+    _suggestionsSubject.add(suggestions);
+
+    return createdSuggestion;
   }
 
   @override

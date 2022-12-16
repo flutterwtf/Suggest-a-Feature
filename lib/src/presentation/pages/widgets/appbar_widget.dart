@@ -38,7 +38,7 @@ class SuggestionsAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       title: Text(
         screenTitle,
-        style: theme.textMPlusBold,
+        style: theme.textMediumBold,
       ),
       actions: trailing != null ? [trailing!] : null,
       key: key,

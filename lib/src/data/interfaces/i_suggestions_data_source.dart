@@ -6,20 +6,31 @@ abstract class SuggestionsDataSource {
   /// The current user id.
   String get userId;
 
-  Future<Wrapper<List<Suggestion>>> getAllSuggestions();
-
   /// Creates suggestion.
   ///
   /// Uses a [CreateSuggestionModel] type parameter, which does not have an id field.
   /// The [Wrapper.data] field type is [Suggestion], which contains the id generated
   /// by the database.
-  Future<Wrapper<Suggestion>> createSuggestion(CreateSuggestionModel suggestion);
+  Future<Suggestion> createSuggestion(CreateSuggestionModel suggestion);
 
   Future<Wrapper<Suggestion>> getSuggestionById(String suggestionId);
+
+  Future<Wrapper<List<Suggestion>>> getAllSuggestions();
 
   Future<Wrapper<Suggestion>> updateSuggestion(Suggestion suggestion);
 
   Future<Wrapper<Suggestion>> deleteSuggestionById(String suggestionId);
+
+  /// Creates comment.
+  ///
+  /// Uses a [CreateCommentModel] type parameter, which does not have an id field.
+  /// The [Wrapper.data] field type is [Comment], which contains the id generated
+  /// by the database.
+  Future<Wrapper<Comment>> createComment(CreateCommentModel comment);
+
+  Future<Wrapper<List<Comment>>> getAllComments(String suggestionId);
+
+  Future<Wrapper<Comment>> deleteCommentById(String commentId);
 
   /// Adds a vote to the suggestion, raising its priority.
   ///
@@ -38,19 +49,4 @@ abstract class SuggestionsDataSource {
 
   /// Unsubscribes the user to change the status of the suggestion.
   Future<Wrapper<void>> deleteNotifyToUpdateUser(String suggestionId);
-
-  Future<Wrapper<List<Comment>>> getAllComments(String suggestionId);
-
-  Future<Wrapper<Comment>> getCommentById(String commentId);
-
-  /// Creates comment.
-  ///
-  /// Uses a [CreateCommentModel] type parameter, which does not have an id field.
-  /// The [Wrapper.data] field type is [Comment], which contains the id generated
-  /// by the database.
-  Future<Wrapper<Comment>> createComment(CreateCommentModel comment);
-
-  Future<Wrapper<Comment>> updateComment(Comment comment);
-
-  Future<Wrapper<Comment>> deleteCommentById(String commentId);
 }
