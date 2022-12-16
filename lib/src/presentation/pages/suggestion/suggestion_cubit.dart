@@ -73,7 +73,7 @@ class SuggestionCubit extends Cubit<SuggestionState> {
       );
       _suggestionInteractor.refreshSuggestions(state.suggestion);
     } catch (e) {
-      log('comments loading error: $e');
+      log('Comments loading error', error: e);
     }
   }
 
@@ -151,7 +151,7 @@ class SuggestionCubit extends Cubit<SuggestionState> {
       );
       _suggestionInteractor.refreshSuggestions(state.suggestion);
     } catch (e) {
-      log('comment creation error: $e');
+      log('Comment creation error', error: e);
     }
   }
 
