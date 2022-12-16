@@ -42,7 +42,7 @@ void main() {
         'create comment',
         build: () {
           when(mockSuggestionInteractor.createComment(mockedCreateCommentModel))
-              .thenAnswer((_) async => Wrapper(data: mockedComment));
+              .thenAnswer((_) async => mockedComment);
           return SuggestionCubit(
             mockSuggestionInteractor,
           );

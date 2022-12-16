@@ -12,16 +12,13 @@ void main() {
   final MockSuggestionRepository mockSuggestionRepository = MockSuggestionRepository();
   final SuggestionInteractor suggestionInteractor = SuggestionInteractor(mockSuggestionRepository);
 
-  final Suggestion suggestion = mockedSuggestion;
   final CreateSuggestionModel createSuggestionModel = mockedCreateSuggestionModel;
   final Comment comment = mockedComment;
   final CreateCommentModel createCommentModel = mockedCreateCommentModel;
 
-  final Wrapper<Suggestion> response = Wrapper<Suggestion>(data: suggestion);
-
   group('suggestion interactor', () {
     test('suggestions stream', () async {
-      final List<Suggestion> suggestionsList = <Suggestion>[suggestion];
+      final List<Suggestion> suggestionsList = <Suggestion>[mockedSuggestion];
 
       when(mockSuggestionRepository.suggestionsStream)
           .thenAnswer((_) => Stream.fromIterable([suggestionsList]));
@@ -30,36 +27,34 @@ void main() {
     });
 
     test('update suggestion', () async {
-      when(mockSuggestionRepository.updateSuggestion(suggestion))
-          .thenAnswer((_) => Future.value(response));
+      when(mockSuggestionRepository.updateSuggestion(mockedSuggestion))
+          .thenAnswer((_) => Future.value(mockedSuggestion));
 
-      expect(await suggestionInteractor.updateSuggestion(suggestion), response);
+      expect(await suggestionInteractor.updateSuggestion(mockedSuggestion), mockedSuggestion);
     });
 
     test('create suggestion', () async {
       when(mockSuggestionRepository.createSuggestion(createSuggestionModel))
-          .thenAnswer((_) => Future.value(response.data));
+          .thenAnswer((_) => Future.value(mockedSuggestion));
 
-      expect(await suggestionInteractor.createSuggestion(createSuggestionModel), response);
+      expect(await suggestionInteractor.createSuggestion(createSuggestionModel), mockedSuggestion);
     });
 
     test('get all comments', () async {
       final List<Comment> suggestionsList = <Comment>[comment];
-      final Wrapper<List<Comment>> response = Wrapper(data: suggestionsList);
+      final List<Comment> response = suggestionsList;
 
-      when(mockSuggestionRepository.getAllComments(suggestion.id))
+      when(mockSuggestionRepository.getAllComments(mockedSuggestion.id))
           .thenAnswer((_) => Future.value(response));
 
-      expect(await suggestionInteractor.getAllComments(suggestion.id), response);
+      expect(await suggestionInteractor.getAllComments(mockedSuggestion.id), response);
     });
 
     test('create comment', () async {
-      final Wrapper<Comment> response = Wrapper(data: comment);
-
       when(mockSuggestionRepository.createComment(createCommentModel))
-          .thenAnswer((_) => Future.value(response));
+          .thenAnswer((_) => Future.value(comment));
 
-      expect(await suggestionInteractor.createComment(createCommentModel), response);
+      expect(await suggestionInteractor.createComment(createCommentModel), comment);
     });
   });
 }

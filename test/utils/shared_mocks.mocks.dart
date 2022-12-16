@@ -7,30 +7,29 @@ import 'dart:async' as _i10;
 import 'dart:ui' as _i6;
 
 import 'package:flutter/material.dart' as _i7;
-import 'package:flutter_bloc/flutter_bloc.dart' as _i16;
+import 'package:flutter_bloc/flutter_bloc.dart' as _i15;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:suggest_a_feature/src/data/interfaces/i_suggestions_data_source.dart'
-    as _i18;
+    as _i17;
 import 'package:suggest_a_feature/src/data/repositories/suggestion_repository.dart'
     as _i9;
-import 'package:suggest_a_feature/src/domain/entities/comment.dart' as _i12;
-import 'package:suggest_a_feature/src/domain/entities/suggestion.dart' as _i3;
+import 'package:suggest_a_feature/src/domain/entities/comment.dart' as _i3;
+import 'package:suggest_a_feature/src/domain/entities/suggestion.dart' as _i2;
 import 'package:suggest_a_feature/src/domain/entities/suggestion_author.dart'
     as _i11;
 import 'package:suggest_a_feature/src/domain/interactors/suggestion_interactor.dart'
-    as _i13;
-import 'package:suggest_a_feature/src/domain/utils/wrapper.dart' as _i2;
+    as _i12;
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/suggestion_cubit.dart'
-    as _i14;
+    as _i13;
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/suggestion_state.dart'
     as _i4;
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_cubit.dart'
-    as _i17;
+    as _i16;
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_state.dart'
     as _i5;
 import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart'
     as _i8;
-import 'package:suggest_a_feature/src/presentation/utils/typedefs.dart' as _i15;
+import 'package:suggest_a_feature/src/presentation/utils/typedefs.dart' as _i14;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -43,8 +42,8 @@ import 'package:suggest_a_feature/src/presentation/utils/typedefs.dart' as _i15;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeWrapper_0<T> extends _i1.SmartFake implements _i2.Wrapper<T> {
-  _FakeWrapper_0(
+class _FakeSuggestion_0 extends _i1.SmartFake implements _i2.Suggestion {
+  _FakeSuggestion_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -53,8 +52,8 @@ class _FakeWrapper_0<T> extends _i1.SmartFake implements _i2.Wrapper<T> {
         );
 }
 
-class _FakeSuggestion_1 extends _i1.SmartFake implements _i3.Suggestion {
-  _FakeSuggestion_1(
+class _FakeComment_1 extends _i1.SmartFake implements _i3.Comment {
+  _FakeComment_1(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -130,16 +129,16 @@ class MockSuggestionRepository extends _i1.Mock
   }
 
   @override
-  _i10.Stream<List<_i3.Suggestion>> get suggestionsStream =>
+  _i10.Stream<List<_i2.Suggestion>> get suggestionsStream =>
       (super.noSuchMethod(
         Invocation.getter(#suggestionsStream),
-        returnValue: _i10.Stream<List<_i3.Suggestion>>.empty(),
-      ) as _i10.Stream<List<_i3.Suggestion>>);
+        returnValue: _i10.Stream<List<_i2.Suggestion>>.empty(),
+      ) as _i10.Stream<List<_i2.Suggestion>>);
   @override
-  List<_i3.Suggestion> get suggestions => (super.noSuchMethod(
+  List<_i2.Suggestion> get suggestions => (super.noSuchMethod(
         Invocation.getter(#suggestions),
-        returnValue: <_i3.Suggestion>[],
-      ) as List<_i3.Suggestion>);
+        returnValue: <_i2.Suggestion>[],
+      ) as List<_i2.Suggestion>);
   @override
   Map<String, _i11.SuggestionAuthor?> get userInfo => (super.noSuchMethod(
         Invocation.getter(#userInfo),
@@ -147,7 +146,7 @@ class MockSuggestionRepository extends _i1.Mock
       ) as Map<String, _i11.SuggestionAuthor?>);
   @override
   void refreshSuggestions(
-    _i3.Suggestion? suggestion, {
+    _i2.Suggestion? suggestion, {
     bool? saveComments = true,
   }) =>
       super.noSuchMethod(
@@ -159,63 +158,60 @@ class MockSuggestionRepository extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  void initSuggestions() => super.noSuchMethod(
+  _i10.Future<void> initSuggestions() => (super.noSuchMethod(
         Invocation.method(
           #initSuggestions,
           [],
         ),
-        returnValueForMissingStub: null,
-      );
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
   @override
-  _i10.Future<_i2.Wrapper<_i3.Suggestion>> getSuggestionById(
-          String? suggestionId) =>
+  _i10.Future<_i2.Suggestion> getSuggestionById(String? suggestionId) =>
       (super.noSuchMethod(
         Invocation.method(
           #getSuggestionById,
           [suggestionId],
         ),
-        returnValue: _i10.Future<_i2.Wrapper<_i3.Suggestion>>.value(
-            _FakeWrapper_0<_i3.Suggestion>(
+        returnValue: _i10.Future<_i2.Suggestion>.value(_FakeSuggestion_0(
           this,
           Invocation.method(
             #getSuggestionById,
             [suggestionId],
           ),
         )),
-      ) as _i10.Future<_i2.Wrapper<_i3.Suggestion>>);
+      ) as _i10.Future<_i2.Suggestion>);
   @override
-  _i10.Future<_i3.Suggestion> createSuggestion(
-          _i3.CreateSuggestionModel? suggestion) =>
+  _i10.Future<_i2.Suggestion> createSuggestion(
+          _i2.CreateSuggestionModel? suggestion) =>
       (super.noSuchMethod(
         Invocation.method(
           #createSuggestion,
           [suggestion],
         ),
-        returnValue: _i10.Future<_i3.Suggestion>.value(_FakeSuggestion_1(
+        returnValue: _i10.Future<_i2.Suggestion>.value(_FakeSuggestion_0(
           this,
           Invocation.method(
             #createSuggestion,
             [suggestion],
           ),
         )),
-      ) as _i10.Future<_i3.Suggestion>);
+      ) as _i10.Future<_i2.Suggestion>);
   @override
-  _i10.Future<_i2.Wrapper<_i3.Suggestion>> updateSuggestion(
-          _i3.Suggestion? suggestion) =>
+  _i10.Future<_i2.Suggestion> updateSuggestion(_i2.Suggestion? suggestion) =>
       (super.noSuchMethod(
         Invocation.method(
           #updateSuggestion,
           [suggestion],
         ),
-        returnValue: _i10.Future<_i2.Wrapper<_i3.Suggestion>>.value(
-            _FakeWrapper_0<_i3.Suggestion>(
+        returnValue: _i10.Future<_i2.Suggestion>.value(_FakeSuggestion_0(
           this,
           Invocation.method(
             #updateSuggestion,
             [suggestion],
           ),
         )),
-      ) as _i10.Future<_i2.Wrapper<_i3.Suggestion>>);
+      ) as _i10.Future<_i2.Suggestion>);
   @override
   _i10.Future<void> deleteSuggestion(String? suggestionId) =>
       (super.noSuchMethod(
@@ -247,72 +243,64 @@ class MockSuggestionRepository extends _i1.Mock
         returnValueForMissingStub: _i10.Future<void>.value(),
       ) as _i10.Future<void>);
   @override
-  void downvote(String? suggestionId) => super.noSuchMethod(
+  _i10.Future<void> downvote(String? suggestionId) => (super.noSuchMethod(
         Invocation.method(
           #downvote,
           [suggestionId],
         ),
-        returnValueForMissingStub: null,
-      );
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
   @override
-  void upvote(String? suggestionId) => super.noSuchMethod(
+  _i10.Future<void> upvote(String? suggestionId) => (super.noSuchMethod(
         Invocation.method(
           #upvote,
           [suggestionId],
         ),
-        returnValueForMissingStub: null,
-      );
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
   @override
-  _i10.Future<_i2.Wrapper<List<_i12.Comment>>> getAllComments(
-          String? suggestionId) =>
+  _i10.Future<List<_i3.Comment>> getAllComments(String? suggestionId) =>
       (super.noSuchMethod(
         Invocation.method(
           #getAllComments,
           [suggestionId],
         ),
-        returnValue: _i10.Future<_i2.Wrapper<List<_i12.Comment>>>.value(
-            _FakeWrapper_0<List<_i12.Comment>>(
-          this,
-          Invocation.method(
-            #getAllComments,
-            [suggestionId],
-          ),
-        )),
-      ) as _i10.Future<_i2.Wrapper<List<_i12.Comment>>>);
+        returnValue: _i10.Future<List<_i3.Comment>>.value(<_i3.Comment>[]),
+      ) as _i10.Future<List<_i3.Comment>>);
   @override
-  _i10.Future<_i2.Wrapper<_i12.Comment>> createComment(
-          _i12.CreateCommentModel? comment) =>
+  _i10.Future<_i3.Comment> createComment(_i3.CreateCommentModel? comment) =>
       (super.noSuchMethod(
         Invocation.method(
           #createComment,
           [comment],
         ),
-        returnValue: _i10.Future<_i2.Wrapper<_i12.Comment>>.value(
-            _FakeWrapper_0<_i12.Comment>(
+        returnValue: _i10.Future<_i3.Comment>.value(_FakeComment_1(
           this,
           Invocation.method(
             #createComment,
             [comment],
           ),
         )),
-      ) as _i10.Future<_i2.Wrapper<_i12.Comment>>);
+      ) as _i10.Future<_i3.Comment>);
 }
 
 /// A class which mocks [SuggestionInteractor].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSuggestionInteractor extends _i1.Mock
-    implements _i13.SuggestionInteractor {
+    implements _i12.SuggestionInteractor {
   MockSuggestionInteractor() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i10.Stream<List<_i3.Suggestion>> get suggestionsStream =>
+  _i10.Stream<List<_i2.Suggestion>> get suggestionsStream =>
       (super.noSuchMethod(
         Invocation.getter(#suggestionsStream),
-        returnValue: _i10.Stream<List<_i3.Suggestion>>.empty(),
-      ) as _i10.Stream<List<_i3.Suggestion>>);
+        returnValue: _i10.Stream<List<_i2.Suggestion>>.empty(),
+      ) as _i10.Stream<List<_i2.Suggestion>>);
   @override
   Map<String, _i11.SuggestionAuthor?> get userInfo => (super.noSuchMethod(
         Invocation.getter(#userInfo),
@@ -327,38 +315,36 @@ class MockSuggestionInteractor extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  _i10.Future<_i3.Suggestion> createSuggestion(
-          _i3.CreateSuggestionModel? suggestion) =>
+  _i10.Future<_i2.Suggestion> createSuggestion(
+          _i2.CreateSuggestionModel? suggestion) =>
       (super.noSuchMethod(
         Invocation.method(
           #createSuggestion,
           [suggestion],
         ),
-        returnValue: _i10.Future<_i3.Suggestion>.value(_FakeSuggestion_1(
+        returnValue: _i10.Future<_i2.Suggestion>.value(_FakeSuggestion_0(
           this,
           Invocation.method(
             #createSuggestion,
             [suggestion],
           ),
         )),
-      ) as _i10.Future<_i3.Suggestion>);
+      ) as _i10.Future<_i2.Suggestion>);
   @override
-  _i10.Future<_i2.Wrapper<_i3.Suggestion>> updateSuggestion(
-          _i3.Suggestion? suggestion) =>
+  _i10.Future<_i2.Suggestion> updateSuggestion(_i2.Suggestion? suggestion) =>
       (super.noSuchMethod(
         Invocation.method(
           #updateSuggestion,
           [suggestion],
         ),
-        returnValue: _i10.Future<_i2.Wrapper<_i3.Suggestion>>.value(
-            _FakeWrapper_0<_i3.Suggestion>(
+        returnValue: _i10.Future<_i2.Suggestion>.value(_FakeSuggestion_0(
           this,
           Invocation.method(
             #updateSuggestion,
             [suggestion],
           ),
         )),
-      ) as _i10.Future<_i2.Wrapper<_i3.Suggestion>>);
+      ) as _i10.Future<_i2.Suggestion>);
   @override
   _i10.Future<void> deleteSuggestion(String? suggestionId) =>
       (super.noSuchMethod(
@@ -407,7 +393,7 @@ class MockSuggestionInteractor extends _i1.Mock
       ) as _i10.Future<void>);
   @override
   void refreshSuggestions(
-    _i3.Suggestion? suggestion, {
+    _i2.Suggestion? suggestion, {
     bool? saveComments = false,
   }) =>
       super.noSuchMethod(
@@ -419,45 +405,35 @@ class MockSuggestionInteractor extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  _i10.Future<_i2.Wrapper<List<_i12.Comment>>> getAllComments(
-          String? suggestionId) =>
+  _i10.Future<List<_i3.Comment>> getAllComments(String? suggestionId) =>
       (super.noSuchMethod(
         Invocation.method(
           #getAllComments,
           [suggestionId],
         ),
-        returnValue: _i10.Future<_i2.Wrapper<List<_i12.Comment>>>.value(
-            _FakeWrapper_0<List<_i12.Comment>>(
-          this,
-          Invocation.method(
-            #getAllComments,
-            [suggestionId],
-          ),
-        )),
-      ) as _i10.Future<_i2.Wrapper<List<_i12.Comment>>>);
+        returnValue: _i10.Future<List<_i3.Comment>>.value(<_i3.Comment>[]),
+      ) as _i10.Future<List<_i3.Comment>>);
   @override
-  _i10.Future<_i2.Wrapper<_i12.Comment>> createComment(
-          _i12.CreateCommentModel? comment) =>
+  _i10.Future<_i3.Comment> createComment(_i3.CreateCommentModel? comment) =>
       (super.noSuchMethod(
         Invocation.method(
           #createComment,
           [comment],
         ),
-        returnValue: _i10.Future<_i2.Wrapper<_i12.Comment>>.value(
-            _FakeWrapper_0<_i12.Comment>(
+        returnValue: _i10.Future<_i3.Comment>.value(_FakeComment_1(
           this,
           Invocation.method(
             #createComment,
             [comment],
           ),
         )),
-      ) as _i10.Future<_i2.Wrapper<_i12.Comment>>);
+      ) as _i10.Future<_i3.Comment>);
 }
 
 /// A class which mocks [SuggestionCubit].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSuggestionCubit extends _i1.Mock implements _i14.SuggestionCubit {
+class MockSuggestionCubit extends _i1.Mock implements _i13.SuggestionCubit {
   MockSuggestionCubit() {
     _i1.throwOnMissingStub(this);
   }
@@ -481,11 +457,11 @@ class MockSuggestionCubit extends _i1.Mock implements _i14.SuggestionCubit {
         returnValue: false,
       ) as bool);
   @override
-  void init(
-    _i3.Suggestion? suggestion,
-    _i15.OnGetUserById? getUserById,
+  _i10.Future<void> init(
+    _i2.Suggestion? suggestion,
+    _i14.OnGetUserById? getUserById,
   ) =>
-      super.noSuchMethod(
+      (super.noSuchMethod(
         Invocation.method(
           #init,
           [
@@ -493,8 +469,9 @@ class MockSuggestionCubit extends _i1.Mock implements _i14.SuggestionCubit {
             getUserById,
           ],
         ),
-        returnValueForMissingStub: null,
-      );
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -560,21 +537,22 @@ class MockSuggestionCubit extends _i1.Mock implements _i14.SuggestionCubit {
         returnValueForMissingStub: null,
       );
   @override
-  void showSavingResultMessage(_i10.Future<bool?>? isSuccess) =>
-      super.noSuchMethod(
+  _i10.Future<void> showSavingResultMessage(_i10.Future<bool?>? isSuccess) =>
+      (super.noSuchMethod(
         Invocation.method(
           #showSavingResultMessage,
           [isSuccess],
         ),
-        returnValueForMissingStub: null,
-      );
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
   @override
-  void createComment(
+  _i10.Future<void> createComment(
     String? text,
     bool? isAnonymous,
-    _i15.OnGetUserById? getUserById,
+    _i14.OnGetUserById? getUserById,
   ) =>
-      super.noSuchMethod(
+      (super.noSuchMethod(
         Invocation.method(
           #createComment,
           [
@@ -583,16 +561,18 @@ class MockSuggestionCubit extends _i1.Mock implements _i14.SuggestionCubit {
             getUserById,
           ],
         ),
-        returnValueForMissingStub: null,
-      );
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
   @override
-  void deleteSuggestion() => super.noSuchMethod(
+  _i10.Future<void> deleteSuggestion() => (super.noSuchMethod(
         Invocation.method(
           #deleteSuggestion,
           [],
         ),
-        returnValueForMissingStub: null,
-      );
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
   @override
   void vote() => super.noSuchMethod(
         Invocation.method(
@@ -602,13 +582,15 @@ class MockSuggestionCubit extends _i1.Mock implements _i14.SuggestionCubit {
         returnValueForMissingStub: null,
       );
   @override
-  void changeNotification(bool? isNotificationOn) => super.noSuchMethod(
+  _i10.Future<void> changeNotification(bool? isNotificationOn) =>
+      (super.noSuchMethod(
         Invocation.method(
           #changeNotification,
           [isNotificationOn],
         ),
-        returnValueForMissingStub: null,
-      );
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
   @override
   void emit(_i4.SuggestionState? state) => super.noSuchMethod(
         Invocation.method(
@@ -618,7 +600,7 @@ class MockSuggestionCubit extends _i1.Mock implements _i14.SuggestionCubit {
         returnValueForMissingStub: null,
       );
   @override
-  void onChange(_i16.Change<_i4.SuggestionState>? change) => super.noSuchMethod(
+  void onChange(_i15.Change<_i4.SuggestionState>? change) => super.noSuchMethod(
         Invocation.method(
           #onChange,
           [change],
@@ -669,7 +651,7 @@ class MockSuggestionCubit extends _i1.Mock implements _i14.SuggestionCubit {
 /// A class which mocks [SuggestionsCubit].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSuggestionsCubit extends _i1.Mock implements _i17.SuggestionsCubit {
+class MockSuggestionsCubit extends _i1.Mock implements _i16.SuggestionsCubit {
   MockSuggestionsCubit() {
     _i1.throwOnMissingStub(this);
   }
@@ -710,7 +692,7 @@ class MockSuggestionsCubit extends _i1.Mock implements _i17.SuggestionsCubit {
       );
   @override
   void vote(
-    _i3.SuggestionStatus? status,
+    _i2.SuggestionStatus? status,
     int? i,
   ) =>
       super.noSuchMethod(
@@ -740,7 +722,7 @@ class MockSuggestionsCubit extends _i1.Mock implements _i17.SuggestionsCubit {
         returnValueForMissingStub: null,
       );
   @override
-  void changeActiveTab(_i3.SuggestionStatus? activeTab) => super.noSuchMethod(
+  void changeActiveTab(_i2.SuggestionStatus? activeTab) => super.noSuchMethod(
         Invocation.method(
           #changeActiveTab,
           [activeTab],
@@ -756,7 +738,7 @@ class MockSuggestionsCubit extends _i1.Mock implements _i17.SuggestionsCubit {
         returnValueForMissingStub: null,
       );
   @override
-  void onChange(_i16.Change<_i5.SuggestionsState>? change) =>
+  void onChange(_i15.Change<_i5.SuggestionsState>? change) =>
       super.noSuchMethod(
         Invocation.method(
           #onChange,
@@ -809,7 +791,7 @@ class MockSuggestionsCubit extends _i1.Mock implements _i17.SuggestionsCubit {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSuggestionsDataSource extends _i1.Mock
-    implements _i18.SuggestionsDataSource {
+    implements _i17.SuggestionsDataSource {
   MockSuggestionsDataSource() {
     _i1.throwOnMissingStub(this);
   }
@@ -820,231 +802,141 @@ class MockSuggestionsDataSource extends _i1.Mock
         returnValue: '',
       ) as String);
   @override
-  _i10.Future<_i3.Suggestion> createSuggestion(
-          _i3.CreateSuggestionModel? suggestion) =>
+  _i10.Future<_i2.Suggestion> createSuggestion(
+          _i2.CreateSuggestionModel? suggestion) =>
       (super.noSuchMethod(
         Invocation.method(
           #createSuggestion,
           [suggestion],
         ),
-        returnValue: _i10.Future<_i3.Suggestion>.value(_FakeSuggestion_1(
+        returnValue: _i10.Future<_i2.Suggestion>.value(_FakeSuggestion_0(
           this,
           Invocation.method(
             #createSuggestion,
             [suggestion],
           ),
         )),
-      ) as _i10.Future<_i3.Suggestion>);
+      ) as _i10.Future<_i2.Suggestion>);
   @override
-  _i10.Future<_i2.Wrapper<_i3.Suggestion>> getSuggestionById(
-          String? suggestionId) =>
+  _i10.Future<_i2.Suggestion> getSuggestionById(String? suggestionId) =>
       (super.noSuchMethod(
         Invocation.method(
           #getSuggestionById,
           [suggestionId],
         ),
-        returnValue: _i10.Future<_i2.Wrapper<_i3.Suggestion>>.value(
-            _FakeWrapper_0<_i3.Suggestion>(
+        returnValue: _i10.Future<_i2.Suggestion>.value(_FakeSuggestion_0(
           this,
           Invocation.method(
             #getSuggestionById,
             [suggestionId],
           ),
         )),
-      ) as _i10.Future<_i2.Wrapper<_i3.Suggestion>>);
+      ) as _i10.Future<_i2.Suggestion>);
   @override
-  _i10.Future<_i2.Wrapper<List<_i3.Suggestion>>> getAllSuggestions() =>
-      (super.noSuchMethod(
+  _i10.Future<List<_i2.Suggestion>> getAllSuggestions() => (super.noSuchMethod(
         Invocation.method(
           #getAllSuggestions,
           [],
         ),
-        returnValue: _i10.Future<_i2.Wrapper<List<_i3.Suggestion>>>.value(
-            _FakeWrapper_0<List<_i3.Suggestion>>(
-          this,
-          Invocation.method(
-            #getAllSuggestions,
-            [],
-          ),
-        )),
-      ) as _i10.Future<_i2.Wrapper<List<_i3.Suggestion>>>);
+        returnValue:
+            _i10.Future<List<_i2.Suggestion>>.value(<_i2.Suggestion>[]),
+      ) as _i10.Future<List<_i2.Suggestion>>);
   @override
-  _i10.Future<_i2.Wrapper<_i3.Suggestion>> updateSuggestion(
-          _i3.Suggestion? suggestion) =>
+  _i10.Future<_i2.Suggestion> updateSuggestion(_i2.Suggestion? suggestion) =>
       (super.noSuchMethod(
         Invocation.method(
           #updateSuggestion,
           [suggestion],
         ),
-        returnValue: _i10.Future<_i2.Wrapper<_i3.Suggestion>>.value(
-            _FakeWrapper_0<_i3.Suggestion>(
+        returnValue: _i10.Future<_i2.Suggestion>.value(_FakeSuggestion_0(
           this,
           Invocation.method(
             #updateSuggestion,
             [suggestion],
           ),
         )),
-      ) as _i10.Future<_i2.Wrapper<_i3.Suggestion>>);
+      ) as _i10.Future<_i2.Suggestion>);
   @override
-  _i10.Future<_i2.Wrapper<_i3.Suggestion>> deleteSuggestionById(
-          String? suggestionId) =>
+  _i10.Future<void> deleteSuggestionById(String? suggestionId) =>
       (super.noSuchMethod(
         Invocation.method(
           #deleteSuggestionById,
           [suggestionId],
         ),
-        returnValue: _i10.Future<_i2.Wrapper<_i3.Suggestion>>.value(
-            _FakeWrapper_0<_i3.Suggestion>(
-          this,
-          Invocation.method(
-            #deleteSuggestionById,
-            [suggestionId],
-          ),
-        )),
-      ) as _i10.Future<_i2.Wrapper<_i3.Suggestion>>);
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
   @override
-  _i10.Future<_i2.Wrapper<_i12.Comment>> createComment(
-          _i12.CreateCommentModel? comment) =>
+  _i10.Future<_i3.Comment> createComment(_i3.CreateCommentModel? comment) =>
       (super.noSuchMethod(
         Invocation.method(
           #createComment,
           [comment],
         ),
-        returnValue: _i10.Future<_i2.Wrapper<_i12.Comment>>.value(
-            _FakeWrapper_0<_i12.Comment>(
+        returnValue: _i10.Future<_i3.Comment>.value(_FakeComment_1(
           this,
           Invocation.method(
             #createComment,
             [comment],
           ),
         )),
-      ) as _i10.Future<_i2.Wrapper<_i12.Comment>>);
+      ) as _i10.Future<_i3.Comment>);
   @override
-  _i10.Future<_i2.Wrapper<_i12.Comment>> getCommentById(String? commentId) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getCommentById,
-          [commentId],
-        ),
-        returnValue: _i10.Future<_i2.Wrapper<_i12.Comment>>.value(
-            _FakeWrapper_0<_i12.Comment>(
-          this,
-          Invocation.method(
-            #getCommentById,
-            [commentId],
-          ),
-        )),
-      ) as _i10.Future<_i2.Wrapper<_i12.Comment>>);
-  @override
-  _i10.Future<_i2.Wrapper<List<_i12.Comment>>> getAllComments(
-          String? suggestionId) =>
+  _i10.Future<List<_i3.Comment>> getAllComments(String? suggestionId) =>
       (super.noSuchMethod(
         Invocation.method(
           #getAllComments,
           [suggestionId],
         ),
-        returnValue: _i10.Future<_i2.Wrapper<List<_i12.Comment>>>.value(
-            _FakeWrapper_0<List<_i12.Comment>>(
-          this,
-          Invocation.method(
-            #getAllComments,
-            [suggestionId],
-          ),
-        )),
-      ) as _i10.Future<_i2.Wrapper<List<_i12.Comment>>>);
+        returnValue: _i10.Future<List<_i3.Comment>>.value(<_i3.Comment>[]),
+      ) as _i10.Future<List<_i3.Comment>>);
   @override
-  _i10.Future<_i2.Wrapper<_i12.Comment>> updateComment(_i12.Comment? comment) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #updateComment,
-          [comment],
-        ),
-        returnValue: _i10.Future<_i2.Wrapper<_i12.Comment>>.value(
-            _FakeWrapper_0<_i12.Comment>(
-          this,
-          Invocation.method(
-            #updateComment,
-            [comment],
-          ),
-        )),
-      ) as _i10.Future<_i2.Wrapper<_i12.Comment>>);
-  @override
-  _i10.Future<_i2.Wrapper<_i12.Comment>> deleteCommentById(String? commentId) =>
-      (super.noSuchMethod(
+  _i10.Future<void> deleteCommentById(String? commentId) => (super.noSuchMethod(
         Invocation.method(
           #deleteCommentById,
           [commentId],
         ),
-        returnValue: _i10.Future<_i2.Wrapper<_i12.Comment>>.value(
-            _FakeWrapper_0<_i12.Comment>(
-          this,
-          Invocation.method(
-            #deleteCommentById,
-            [commentId],
-          ),
-        )),
-      ) as _i10.Future<_i2.Wrapper<_i12.Comment>>);
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
   @override
-  _i10.Future<_i2.Wrapper<void>> upvote(String? suggestionId) =>
-      (super.noSuchMethod(
+  _i10.Future<void> upvote(String? suggestionId) => (super.noSuchMethod(
         Invocation.method(
           #upvote,
           [suggestionId],
         ),
-        returnValue: _i10.Future<_i2.Wrapper<void>>.value(_FakeWrapper_0<void>(
-          this,
-          Invocation.method(
-            #upvote,
-            [suggestionId],
-          ),
-        )),
-      ) as _i10.Future<_i2.Wrapper<void>>);
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
   @override
-  _i10.Future<_i2.Wrapper<void>> downvote(String? suggestionId) =>
-      (super.noSuchMethod(
+  _i10.Future<void> downvote(String? suggestionId) => (super.noSuchMethod(
         Invocation.method(
           #downvote,
           [suggestionId],
         ),
-        returnValue: _i10.Future<_i2.Wrapper<void>>.value(_FakeWrapper_0<void>(
-          this,
-          Invocation.method(
-            #downvote,
-            [suggestionId],
-          ),
-        )),
-      ) as _i10.Future<_i2.Wrapper<void>>);
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
   @override
-  _i10.Future<_i2.Wrapper<void>> addNotifyToUpdateUser(String? suggestionId) =>
+  _i10.Future<void> addNotifyToUpdateUser(String? suggestionId) =>
       (super.noSuchMethod(
         Invocation.method(
           #addNotifyToUpdateUser,
           [suggestionId],
         ),
-        returnValue: _i10.Future<_i2.Wrapper<void>>.value(_FakeWrapper_0<void>(
-          this,
-          Invocation.method(
-            #addNotifyToUpdateUser,
-            [suggestionId],
-          ),
-        )),
-      ) as _i10.Future<_i2.Wrapper<void>>);
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
   @override
-  _i10.Future<_i2.Wrapper<void>> deleteNotifyToUpdateUser(
-          String? suggestionId) =>
+  _i10.Future<void> deleteNotifyToUpdateUser(String? suggestionId) =>
       (super.noSuchMethod(
         Invocation.method(
           #deleteNotifyToUpdateUser,
           [suggestionId],
         ),
-        returnValue: _i10.Future<_i2.Wrapper<void>>.value(_FakeWrapper_0<void>(
-          this,
-          Invocation.method(
-            #deleteNotifyToUpdateUser,
-            [suggestionId],
-          ),
-        )),
-      ) as _i10.Future<_i2.Wrapper<void>>);
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
 }
 
 /// A class which mocks [SuggestionsTheme].

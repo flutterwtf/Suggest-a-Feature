@@ -6,7 +6,6 @@ import '../../../domain/entities/comment.dart';
 import '../../../domain/entities/suggestion.dart';
 import '../../../domain/entities/suggestion_author.dart';
 import '../../../domain/interactors/suggestion_interactor.dart';
-import '../../../domain/utils/wrapper.dart';
 import '../../di/injector.dart';
 import '../../utils/image_utils.dart';
 import '../../utils/typedefs.dart';
@@ -57,11 +56,10 @@ class SuggestionCubit extends Cubit<SuggestionState> {
   }
 
   Future<void> _loadComments(OnGetUserById getUserById, String suggestionId) async {
-    final Wrapper<List<Comment>> comments =
-        await _suggestionInteractor.getAllComments(suggestionId);
-    if (comments.data != null) {
+    try {
+      final List<Comment> comments = await _suggestionInteractor.getAllComments(suggestionId);
       final List<Comment> extendedComments = await Future.wait(
-        comments.data!.map(
+        comments.map(
           (Comment e) async => e.copyWith(
             author: e.isAnonymous ? null : await getUserById(e.author.id),
           ),
@@ -73,6 +71,8 @@ class SuggestionCubit extends Cubit<SuggestionState> {
         ),
       );
       _suggestionInteractor.refreshSuggestions(state.suggestion);
+    } catch (e) {
+      return;
     }
   }
 
@@ -127,29 +127,30 @@ class SuggestionCubit extends Cubit<SuggestionState> {
   }
 
   Future<void> createComment(String text, bool isAnonymous, OnGetUserById getUserById) async {
-    final Wrapper<Comment> comment = await _suggestionInteractor.createComment(
-      CreateCommentModel(
-        authorId: i.userId,
-        isAnonymous: isAnonymous,
-        text: text,
-        suggestionId: state.suggestion.id,
-      ),
-    );
-    if (comment.success() && comment.data != null) {
+    try {
+      final Comment comment = await _suggestionInteractor.createComment(
+        CreateCommentModel(
+          authorId: i.userId,
+          isAnonymous: isAnonymous,
+          text: text,
+          suggestionId: state.suggestion.id,
+        ),
+      );
       emit(
         state.newState(
           suggestion: state.suggestion.copyWith(
             comments: <Comment>[
               ...state.suggestion.comments,
-              comment.data!.copyWith(
-                author:
-                    comment.data!.isAnonymous ? null : await getUserById(comment.data!.author.id),
+              comment.copyWith(
+                author: comment.isAnonymous ? null : await getUserById(comment.author.id),
               ),
             ],
           ),
         ),
       );
       _suggestionInteractor.refreshSuggestions(state.suggestion);
+    } catch (e) {
+      return;
     }
   }
 
