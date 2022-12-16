@@ -21,6 +21,7 @@ class SuggestionsTextField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
 
   const SuggestionsTextField({
+    Key? key,
     required this.controller,
     this.hintText = '',
     this.onChanged,
@@ -32,7 +33,7 @@ class SuggestionsTextField extends StatelessWidget {
     this.textAlign = TextAlign.start,
     this.textInputAction,
     this.inputFormatters,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +86,7 @@ class SuggestionsTextField extends StatelessWidget {
             : null,
       ),
       textCapitalization: TextCapitalization.sentences,
-      onChanged: (text) => onChanged?.call(text),
+      onChanged: (String text) => onChanged?.call(text),
       inputFormatters: inputFormatters,
     );
   }
@@ -119,7 +120,7 @@ class SuggestionsTextField extends StatelessWidget {
       ),
       padding: padding,
       textCapitalization: TextCapitalization.sentences,
-      onChanged: (text) => onChanged?.call(text),
+      onChanged: (String text) => onChanged?.call(text),
     );
   }
 }

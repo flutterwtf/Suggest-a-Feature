@@ -41,7 +41,7 @@ class ConfirmationBottomSheet extends StatelessWidget {
       previousNavBarColor: theme.primaryBackgroundColor,
       previousStatusBarColor: theme.primaryBackgroundColor,
       controller: controller,
-      onClose: ([closureType]) {
+      onClose: ([ClosureType? closureType]) {
         if (closureType == ClosureType.backButton) {
           onCancel();
         } else {
@@ -49,7 +49,7 @@ class ConfirmationBottomSheet extends StatelessWidget {
         }
       },
       showDimming: showDimming,
-      contentBuilder: (context, sheetState) {
+      contentBuilder: (BuildContext context, SheetState sheetState) {
         return ListView(
           physics: const NeverScrollableScrollPhysics(),
           padding: const EdgeInsets.only(

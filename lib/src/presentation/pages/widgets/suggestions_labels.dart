@@ -15,21 +15,21 @@ class SuggestionLabels extends StatelessWidget {
     return Wrap(
       spacing: Dimensions.marginBig,
       runSpacing: Dimensions.marginMiddle,
-      children: labels.map((label) => _label(label, context)).toList(),
+      children: labels.map((SuggestionLabel label) => _label(label, context)).toList(),
     );
   }
 
   Widget _label(SuggestionLabel label, BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
-      children: [
+      children: <Widget>[
         Container(
           width: Dimensions.microSize,
           height: Dimensions.microSize,
           decoration: BoxDecoration(
             color: label.labelColor(),
             shape: BoxShape.circle,
-            boxShadow: [
+            boxShadow: <BoxShadow>[
               BoxShadow(
                 color: label.labelColor().withOpacity(0.16),
                 spreadRadius: 5,

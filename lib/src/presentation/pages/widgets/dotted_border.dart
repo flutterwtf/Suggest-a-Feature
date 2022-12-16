@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 // ignore_for_file: constant_identifier_names
@@ -25,16 +27,17 @@ class DottedBorder extends StatelessWidget {
   final _PathBuilder? customPath;
 
   DottedBorder({
+    Key? key,
     required this.child,
     this.color = Colors.black,
     this.strokeWidth = 1.5,
     this.borderType = BorderType.Circle,
     this.dashPattern = const <double>[3, 1],
     this.padding = EdgeInsets.zero,
-    this.radius = const Radius.circular(0),
+    this.radius = Radius.zero,
     this.strokeCap = StrokeCap.butt,
     this.customPath,
-  }) {
+  }) : super(key: key) {
     assert(_isValidDashPattern(dashPattern), 'Invalid dash pattern');
   }
 
@@ -67,10 +70,16 @@ class DottedBorder extends StatelessWidget {
   /// * Cannot be null or empty
   /// * If [dashPattern] has only 1 element, it cannot be 0
   bool _isValidDashPattern(List<double>? dashPattern) {
-    final _dashSet = dashPattern?.toSet();
-    if (_dashSet == null) return false;
-    if (_dashSet.length == 1 && _dashSet.elementAt(0) == 0.0) return false;
-    if (_dashSet.isEmpty) return false;
+    final Set<double>? dashSet = dashPattern?.toSet();
+    if (dashSet == null) {
+      return false;
+    }
+    if (dashSet.length == 1 && dashSet.elementAt(0) == 0.0) {
+      return false;
+    }
+    if (dashSet.isEmpty) {
+      return false;
+    }
     return true;
   }
 }
@@ -94,32 +103,33 @@ class _DashPainter extends CustomPainter {
     this.dashPattern = const <double>[3, 1],
     this.color = Colors.black,
     this.borderType = BorderType.Rect,
-    this.radius = const Radius.circular(0),
+    this.radius = Radius.zero,
     this.strokeCap = StrokeCap.butt,
     this.customPath,
   }) {
+    // ignore: prefer_asserts_in_initializer_lists
     assert(dashPattern.isNotEmpty, 'Dash Pattern cannot be empty');
   }
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
+    final Paint paint = Paint()
       ..strokeWidth = strokeWidth
       ..color = color
       ..strokeCap = strokeCap
       ..style = PaintingStyle.stroke;
 
-    Path _path;
+    Path path;
     if (customPath != null) {
-      _path = _dashPath(
+      path = _dashPath(
         customPath!(size),
-        dashArray: _CircularIntervalList(dashPattern),
+        dashArray: _CircularIntervalList<double>(dashPattern),
       );
     } else {
-      _path = _getPath(size);
+      path = _getPath(size);
     }
 
-    canvas.drawPath(_path, paint);
+    canvas.drawPath(path, paint);
   }
 
   /// Returns a [Path] based on the the [borderType] parameter
@@ -140,14 +150,14 @@ class _DashPainter extends CustomPainter {
         break;
     }
 
-    return _dashPath(path, dashArray: _CircularIntervalList(dashPattern));
+    return _dashPath(path, dashArray: _CircularIntervalList<double>(dashPattern));
   }
 
   /// Returns a circular path of [size]
   Path _getCirclePath(Size size) {
-    final w = size.width;
-    final h = size.height;
-    final s = size.shortestSide;
+    final double w = size.width;
+    final double h = size.height;
+    final double s = size.shortestSide;
 
     return Path()
       ..addRRect(
@@ -231,12 +241,12 @@ Path _dashPath(
 
   dashOffset = dashOffset ?? const _DashOffset.absolute(0.0);
 
-  final dest = Path();
-  for (final metric in source.computeMetrics()) {
-    var distance = dashOffset._calculate(metric.length);
-    var draw = true;
+  final Path dest = Path();
+  for (final PathMetric metric in source.computeMetrics()) {
+    double distance = dashOffset._calculate(metric.length);
+    bool draw = true;
     while (distance < metric.length) {
-      final len = dashArray.next;
+      final double len = dashArray.next;
       if (draw) {
         dest.addPath(metric.extractPath(distance, distance + len), Offset.zero);
       }
@@ -259,6 +269,7 @@ class _DashOffset {
   /// of the segment being dashed.
   ///
   /// `percentage` will be clamped between 0.0 and 1.0.
+  // ignore: unused_element
   _DashOffset.percentage(double percentage)
       : _rawVal = percentage.clamp(0.0, 1.0),
         _dashOffsetType = _DashOffsetType.Percentage;

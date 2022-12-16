@@ -1,5 +1,7 @@
+// ignore_for_file: avoid_dynamic_calls
+
 import 'package:flutter/material.dart';
-import 'package:suggest_a_feature/suggest_a_feature.dart';
+import 'suggest_a_feature.dart';
 
 void main() => runApp(const MyApp());
 
@@ -14,7 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'Suggest a feature Example',
       home: Scaffold(
         body: SuggestionsPage(
-          onGetUserById: (String id) => Future(
+          onGetUserById: (String id) => Future<SuggestionAuthor>(
             () => const SuggestionAuthor(id: '1', username: 'Author'),
           ),
           suggestionsDataSource: MySuggestionDataSource(userId: '1'),
@@ -40,7 +42,8 @@ class MySuggestionDataSource implements SuggestionsDataSource {
     if (comments.isEmpty) {
       return '1';
     } else {
-      int lastId = int.parse(comments.values.last.id);
+      final Comment lastAddedComment = comments.values.last;
+      int lastId = int.parse(lastAddedComment.id);
       ++lastId;
       return lastId.toString();
     }
@@ -50,7 +53,8 @@ class MySuggestionDataSource implements SuggestionsDataSource {
     if (suggestions.isEmpty) {
       return '1';
     } else {
-      int lastId = int.parse(suggestions.values.last.id);
+      final Suggestion lastAddedSuggestion = suggestions.values.last;
+      int lastId = int.parse(lastAddedSuggestion.id);
       ++lastId;
       return lastId.toString();
     }

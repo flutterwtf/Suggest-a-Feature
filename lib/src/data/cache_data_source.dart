@@ -3,5 +3,5 @@ import 'interfaces/i_cache_data_source.dart';
 
 class CacheDataSource extends ICacheDataSource {
   @override
-  final Map<String, SuggestionAuthor> userInfo = {};
+  final Map<String, SuggestionAuthor> userInfo = <String, SuggestionAuthor>{};
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: always_specify_types
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:suggest_a_feature/src/domain/interactors/suggestion_interactor.dart';
@@ -7,20 +9,19 @@ import '../utils/mocked_entities.dart';
 import '../utils/shared_mocks.mocks.dart';
 
 void main() {
-  final mockSuggestionRepository = MockSuggestionRepository();
+  final MockSuggestionRepository mockSuggestionRepository = MockSuggestionRepository();
+  final SuggestionInteractor suggestionInteractor = SuggestionInteractor(mockSuggestionRepository);
 
-  final suggestionInteractor = SuggestionInteractor(mockSuggestionRepository);
+  final Suggestion suggestion = mockedSuggestion;
+  final CreateSuggestionModel createSuggestionModel = mockedCreateSuggestionModel;
+  final Comment comment = mockedComment;
+  final CreateCommentModel createCommentModel = mockedCreateCommentModel;
 
-  final suggestion = mockedSuggestion;
-  final createSuggestionModel = mockedCreateSuggestionModel;
-  final comment = mockedComment;
-  final createCommentModel = mockedCreateCommentModel;
-
-  final response = Wrapper<Suggestion>(data: suggestion);
+  final Wrapper<Suggestion> response = Wrapper<Suggestion>(data: suggestion);
 
   group('suggestion interactor', () {
     test('suggestions stream', () async {
-      final suggestionsList = <Suggestion>[suggestion];
+      final List<Suggestion> suggestionsList = <Suggestion>[suggestion];
 
       when(mockSuggestionRepository.suggestionsStream)
           .thenAnswer((_) => Stream.fromIterable([suggestionsList]));
@@ -43,8 +44,8 @@ void main() {
     });
 
     test('get all comments', () async {
-      final suggestionsList = <Comment>[comment];
-      final response = Wrapper(data: suggestionsList);
+      final List<Comment> suggestionsList = <Comment>[comment];
+      final Wrapper<List<Comment>> response = Wrapper(data: suggestionsList);
 
       when(mockSuggestionRepository.getAllComments(suggestion.id))
           .thenAnswer((_) => Future.value(response));
@@ -53,7 +54,7 @@ void main() {
     });
 
     test('create comment', () async {
-      final response = Wrapper(data: comment);
+      final Wrapper<Comment> response = Wrapper(data: comment);
 
       when(mockSuggestionRepository.createComment(createCommentModel))
           .thenAnswer((_) => Future.value(response));

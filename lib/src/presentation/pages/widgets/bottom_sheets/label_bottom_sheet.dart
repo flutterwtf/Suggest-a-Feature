@@ -16,18 +16,19 @@ class LabelBottomSheet extends StatefulWidget {
   final List<SuggestionLabel> selectedLabels;
 
   const LabelBottomSheet({
+    Key? key,
     required this.onCancel,
     required this.onDone,
     required this.controller,
     required this.selectedLabels,
-  });
+  }) : super(key: key);
 
   @override
   _LabelBottomSheetState createState() => _LabelBottomSheetState();
 }
 
 class _LabelBottomSheetState extends State<LabelBottomSheet> {
-  final List<SuggestionLabel> selectedLabels = [];
+  final List<SuggestionLabel> selectedLabels = <SuggestionLabel>[];
 
   @override
   void initState() {
@@ -43,7 +44,7 @@ class _LabelBottomSheetState extends State<LabelBottomSheet> {
       controller: widget.controller,
       previousNavBarColor: theme.bottomSheetBackgroundColor,
       previousStatusBarColor: theme.thirdBackgroundColor,
-      onClose: ([closureType]) async {
+      onClose: ([ClosureType? closureType]) async {
         if (closureType == ClosureType.backButton) {
           widget.onCancel();
         } else {
@@ -52,12 +53,12 @@ class _LabelBottomSheetState extends State<LabelBottomSheet> {
         }
       },
       backgroundColor: theme.bottomSheetBackgroundColor,
-      contentBuilder: (context, sheetState) {
+      contentBuilder: (BuildContext context, SheetState sheetState) {
         return ListView(
           padding: const EdgeInsets.only(bottom: Dimensions.marginMiddle),
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          children: [
+          children: <Widget>[
             DecoratedBox(
               decoration: BoxDecoration(
                 border: Border(
@@ -103,8 +104,8 @@ class _LabelBottomSheetState extends State<LabelBottomSheet> {
   Widget _labelItem(SuggestionLabel label) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        SuggestionLabels(labels: [label]),
+      children: <Widget>[
+        SuggestionLabels(labels: <SuggestionLabel>[label]),
         GestureDetector(
           onTap: () => setState(() {
             if (!selectedLabels.contains(label)) {
@@ -113,7 +114,7 @@ class _LabelBottomSheetState extends State<LabelBottomSheet> {
               selectedLabels.remove(label);
             }
           }),
-          child: Container(
+          child: SizedBox(
             height: Dimensions.defaultSize,
             width: Dimensions.defaultSize,
             child: Container(

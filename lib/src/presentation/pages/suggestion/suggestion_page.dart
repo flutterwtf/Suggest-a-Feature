@@ -45,6 +45,7 @@ class SuggestionPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _SuggestionPageState createState() => _SuggestionPageState();
 }
 
@@ -67,12 +68,12 @@ class _SuggestionPageState extends State<SuggestionPage> {
   Widget build(BuildContext context) {
     return BlocConsumer<SuggestionCubit, SuggestionState>(
       bloc: _cubit,
-      listenWhen: (previous, current) {
+      listenWhen: (SuggestionState previous, SuggestionState current) {
         return previous.savingImageResultMessageType == SavingResultMessageType.none &&
                 current.savingImageResultMessageType != SavingResultMessageType.none ||
             !previous.isPopped && current.isPopped;
       },
-      listener: (context, state) {
+      listener: (BuildContext context, SuggestionState state) {
         if (state.savingImageResultMessageType != SavingResultMessageType.none) {
           state.savingImageResultMessageType == SavingResultMessageType.success
               ? BotToast.showText(text: context.localization.savingImageSuccess)
@@ -83,9 +84,9 @@ class _SuggestionPageState extends State<SuggestionPage> {
         }
         _cubit.reset();
       },
-      builder: (context, state) {
+      builder: (BuildContext context, SuggestionState state) {
         return Stack(
-          children: [
+          children: <Widget>[
             Scaffold(
               appBar: _appBar(state),
               backgroundColor: theme.primaryBackgroundColor,
@@ -96,12 +97,13 @@ class _SuggestionPageState extends State<SuggestionPage> {
               alignment: Alignment.bottomCenter,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
+                children: <Widget>[
                   Flexible(child: _newCommentButton()),
                   const SizedBox(width: Dimensions.marginDefault),
-                  state.suggestion.votedUserIds.contains(i.userId)
-                      ? const SizedBox.shrink()
-                      : Flexible(child: _upvoteButton(state)),
+                  if (state.suggestion.votedUserIds.contains(i.userId))
+                    const SizedBox.shrink()
+                  else
+                    Flexible(child: _upvoteButton(state)),
                 ],
               ),
             ),
@@ -114,28 +116,25 @@ class _SuggestionPageState extends State<SuggestionPage> {
 
   Widget _mainContent(SuggestionState state) {
     return NotificationListener<OverscrollIndicatorNotification>(
-      onNotification: (overscroll) {
+      onNotification: (OverscrollIndicatorNotification overscroll) {
         overscroll.disallowIndicator();
         return true;
       },
       child: SingleChildScrollView(
         child: Column(
-          children: [
+          children: <Widget>[
             _userInfo(state.author, state.suggestion.isAnonymous),
             _suggestionInfo(state.suggestion),
             const SizedBox(height: Dimensions.marginSmall),
-            if (state.suggestion.images.isNotEmpty) ...[
+            if (state.suggestion.images.isNotEmpty) ...<Widget>[
               _attachedImages(state.suggestion.images),
               const SizedBox(height: Dimensions.marginSmall),
             ],
             if (state.suggestion.comments.isNotEmpty) _commentList(state.suggestion.comments),
-            state.suggestion.votedUserIds.contains(i.userId)
-                ? const SizedBox(
-                    height: Dimensions.size2x * 2 + Dimensions.marginMiddle,
-                  )
-                : const SizedBox(
-                    height: Dimensions.size2x * 3 + Dimensions.margin2x,
-                  ),
+            if (state.suggestion.votedUserIds.contains(i.userId))
+              const SizedBox(height: Dimensions.size2x * 2 + Dimensions.marginMiddle)
+            else
+              const SizedBox(height: Dimensions.size2x * 3 + Dimensions.margin2x),
           ],
         ),
       ),
@@ -174,20 +173,21 @@ class _SuggestionPageState extends State<SuggestionPage> {
       case SuggestionBottomSheetType.createComment:
         return _openCreateCommentBottomSheet();
       case SuggestionBottomSheetType.none:
+      // ignore: no_default_cases
       default:
         return Container();
     }
   }
 
   Widget _openCreateCommentBottomSheet() {
-    final sheetController = SheetController();
+    final SheetController sheetController = SheetController();
     return CreateCommentBottomSheet(
       controller: sheetController,
       onClose: ([_]) async {
         await sheetController.collapse();
         _cubit.closeBottomSheet();
       },
-      onCreateComment: (text, isAnonymous) => _cubit.createComment(
+      onCreateComment: (String text, bool isAnonymous) => _cubit.createComment(
         text,
         isAnonymous,
         widget.onGetUserById,
@@ -196,7 +196,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
   }
 
   Widget _openNotificationBottomSheet(bool isNotificationOn) {
-    final sheetController = SheetController();
+    final SheetController sheetController = SheetController();
     return NotificationSuggestionBottomSheet(
       controller: sheetController,
       isNotificationOn: isNotificationOn,
@@ -206,7 +206,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
   }
 
   Widget _openEditDeleteBottomSheet(Suggestion suggestion) {
-    final sheetController = SheetController();
+    final SheetController sheetController = SheetController();
     return EditDeleteSuggestionBottomSheet(
       creationDate: suggestion.creationTime,
       controller: sheetController,
@@ -217,7 +217,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
   }
 
   Widget _openCreateEditBottomSheet(Suggestion suggestion) {
-    final sheetController = SheetController();
+    final SheetController sheetController = SheetController();
     return CreateEditSuggestionBottomSheet(
       onClose: ([_]) async {
         await sheetController.collapse();
@@ -231,7 +231,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
   }
 
   Widget _openConfirmationBottomSheet(String confirmationQuestion) {
-    final sheetController = SheetController();
+    final SheetController sheetController = SheetController();
     return ConfirmationBottomSheet(
       controller: sheetController,
       question: confirmationQuestion,
@@ -250,7 +250,6 @@ class _SuggestionPageState extends State<SuggestionPage> {
     return Padding(
       padding: const EdgeInsets.all(Dimensions.marginDefault),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Text(context.localization.postedBy, style: theme.textSmallPlusSecondary),
           _avatar(author.avatar),
@@ -291,7 +290,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           Padding(
             padding: const EdgeInsets.only(left: Dimensions.margin3x + 5),
             child: SuggestionLabels(labels: suggestion.labels),
@@ -303,7 +302,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
             title: suggestion.title,
           ),
           const SizedBox(height: Dimensions.marginDefault),
-          if (suggestion.description != null) ...[
+          if (suggestion.description != null) ...<Widget>[
             Padding(
               padding: const EdgeInsets.only(left: Dimensions.marginSmall),
               child: Text(
@@ -325,7 +324,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
   }) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+      children: <Widget>[
         GestureDetector(
           behavior: HitTestBehavior.translucent,
           onTap: _cubit.vote,
@@ -357,7 +356,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
       color: theme.secondaryBackgroundColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           Text(
             context.localization.attachedPhotos,
             style: theme.textSmallPlusSecondaryBold,
@@ -366,7 +365,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
           Wrap(
             spacing: Dimensions.marginDefault,
             runSpacing: Dimensions.marginDefault,
-            children: images.map((image) => _wrappedAttachedImage(images, image)).toList(),
+            children: images.map((String image) => _wrappedAttachedImage(images, image)).toList(),
           ),
         ],
       ),
@@ -381,10 +380,10 @@ class _SuggestionPageState extends State<SuggestionPage> {
           barrierColor: Colors.black,
           context: context,
           useRootNavigator: false,
-          builder: (context) {
+          builder: (BuildContext context) {
             return PhotoView(
               onDownloadClick: widget.onSaveToGallery != null
-                  ? (path) => _cubit.showSavingResultMessage(widget.onSaveToGallery!(path))
+                  ? (String path) => _cubit.showSavingResultMessage(widget.onSaveToGallery!(path))
                   : null,
               initialIndex: images.indexOf(attachedImage),
               photos: images,
@@ -401,8 +400,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
           borderRadius: BorderRadius.all(Radius.circular(Dimensions.smallCircularRadius)),
         ),
         child: FittedBox(
-          child: SuggestionsNetworkImage(url: attachedImage),
           fit: BoxFit.cover,
+          child: SuggestionsNetworkImage(url: attachedImage),
         ),
       ),
     );
@@ -411,7 +410,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
   Widget _commentList(List<Comment> comments) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+      children: <Widget>[
         Container(
           width: double.infinity,
           color: theme.secondaryBackgroundColor,
@@ -435,10 +434,10 @@ class _SuggestionPageState extends State<SuggestionPage> {
       color: theme.secondaryBackgroundColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+            children: <Widget>[
               AvatarWidget(
                 backgroundColor: theme.primaryBackgroundColor,
                 avatar: comment.author.avatar,

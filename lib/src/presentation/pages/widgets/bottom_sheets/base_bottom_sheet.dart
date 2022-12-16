@@ -7,7 +7,7 @@ import '../../theme/suggestions_theme.dart';
 
 typedef OnDismissCallback = void Function([ClosureType? closureType]);
 
-const bottomSheetOpenCloseDuration = Duration(milliseconds: 200);
+const Duration bottomSheetOpenCloseDuration = Duration(milliseconds: 200);
 
 class BaseBottomSheet extends StatefulWidget {
   final String? title;
@@ -33,6 +33,7 @@ class BaseBottomSheet extends StatefulWidget {
   final Color previousStatusBarColor;
 
   const BaseBottomSheet({
+    Key? key,
     required this.contentBuilder,
     required this.controller,
     required this.onClose,
@@ -53,8 +54,8 @@ class BaseBottomSheet extends StatefulWidget {
     this.paintNavBarToShadowColor = false,
     this.contentPadding = EdgeInsets.zero,
     this.loadingStatus = LoadingStatus.empty,
-    this.additionalSnappings = const [],
-  });
+    this.additionalSnappings = const <double>[],
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _BaseBottomSheetState();
@@ -113,31 +114,28 @@ class _BaseBottomSheetState extends State<BaseBottomSheet> with TickerProviderSt
             openDuration: widget.openDuration,
             controller: widget.controller,
             color: widget.backgroundColor,
-            elevation: 0,
             cornerRadius: Dimensions.smallCircularRadius,
             snapSpec: SnapSpec(
-              snap: true,
-              snappings: [
+              snappings: <double>[
                 0,
                 1,
                 if (widget.initialSnapping != 1) widget.initialSnapping,
                 ...widget.additionalSnappings,
               ],
               initialSnap: widget.initialSnapping,
-              positioning: SnapPositioning.relativeToAvailableSpace,
-              onSnap: (state, snap) {
+              onSnap: (SheetState state, double? snap) {
                 if (state.isCollapsed) {
                   _onDismiss(ClosureType.swipeDown);
                 }
               },
             ),
             headerBuilder: _headerBuilder,
-            builder: (context, state) {
+            builder: (BuildContext context, SheetState state) {
               return Padding(
                 padding: widget.contentPadding,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: <Widget>[
                     if (widget.title != null)
                       Padding(
                         padding: EdgeInsets.only(
@@ -165,7 +163,7 @@ class _BaseBottomSheetState extends State<BaseBottomSheet> with TickerProviderSt
   Widget _headerBuilder(BuildContext context, SheetState state) {
     return Column(
       mainAxisSize: MainAxisSize.min,
-      children: [
+      children: <Widget>[
         _grabbing(),
         if (widget.headerBuilder != null) widget.headerBuilder!.call(context, state),
       ],
@@ -174,9 +172,9 @@ class _BaseBottomSheetState extends State<BaseBottomSheet> with TickerProviderSt
 
   Widget _grabbing() {
     return SheetListenerBuilder(
-      builder: (context, state) {
+      builder: (BuildContext context, SheetState state) {
         if (state.extent != 1) {
-          return Container(
+          return SizedBox(
             height: state.extent > 0.95
                 ? (1 - state.extent) / 0.05 * Dimensions.grabbingHeight
                 : Dimensions.grabbingHeight,

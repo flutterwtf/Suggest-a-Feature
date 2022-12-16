@@ -35,12 +35,13 @@ class CreateEditSuggestionBottomSheet extends StatefulWidget {
   final OnSaveToGalleryCallback? onSaveToGallery;
 
   const CreateEditSuggestionBottomSheet({
+    Key? key,
     required this.onClose,
     required this.controller,
     required this.onUploadMultiplePhotos,
     required this.onSaveToGallery,
     this.suggestion,
-  });
+  }) : super(key: key);
 
   @override
   CreateEditSuggestionBottomSheetState createState() => CreateEditSuggestionBottomSheetState();
@@ -77,13 +78,13 @@ class CreateEditSuggestionBottomSheetState extends State<CreateEditSuggestionBot
   Widget build(BuildContext context) {
     return BlocConsumer<CreateEditSuggestionCubit, CreateEditSuggestionState>(
       bloc: _cubit,
-      listenWhen: (previous, current) {
+      listenWhen: (CreateEditSuggestionState previous, CreateEditSuggestionState current) {
         return (previous.savingImageResultMessageType == SavingResultMessageType.none &&
                 current.savingImageResultMessageType != SavingResultMessageType.none) ||
             (!previous.isSubmitted && current.isSubmitted) ||
             (previous.isPhotoViewOpen != current.isPhotoViewOpen);
       },
-      listener: (context, state) {
+      listener: (BuildContext context, CreateEditSuggestionState state) {
         if (state.savingImageResultMessageType != SavingResultMessageType.none) {
           state.savingImageResultMessageType == SavingResultMessageType.success
               ? BotToast.showText(text: context.localization.savingImageSuccess)
@@ -116,7 +117,7 @@ class CreateEditSuggestionBottomSheetState extends State<CreateEditSuggestionBot
       previousNavBarColor: theme.primaryBackgroundColor,
       previousStatusBarColor: theme.primaryBackgroundColor,
       initialSnapping: 0.85,
-      contentBuilder: (context, sheetState) {
+      contentBuilder: (BuildContext context, SheetState sheetState) {
         return ListView(
           padding: const EdgeInsets.symmetric(
             vertical: Dimensions.marginSmall,
@@ -134,7 +135,7 @@ class CreateEditSuggestionBottomSheetState extends State<CreateEditSuggestionBot
                 Dimensions.marginSmall,
                 Dimensions.marginDefault,
               ),
-              onChanged: (text) {
+              onChanged: (String text) {
                 if (state.suggestion.title != text) {
                   _cubit.changeSuggestionTitle(text);
                 }
@@ -152,7 +153,7 @@ class CreateEditSuggestionBottomSheetState extends State<CreateEditSuggestionBot
                 Dimensions.marginSmall,
                 Dimensions.marginDefault,
               ),
-              onChanged: (text) {
+              onChanged: (String text) {
                 if (state.suggestion.description != text) {
                   _cubit.changeSuggestionDescription(text);
                 }
@@ -161,11 +162,14 @@ class CreateEditSuggestionBottomSheetState extends State<CreateEditSuggestionBot
             const SizedBox(height: Dimensions.marginBig),
             Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
             _labelItems(state.suggestion.labels),
-            if (widget.onUploadMultiplePhotos != null) ...[
-              state.suggestion.images.isNotEmpty ? const SizedBox.shrink() : _dividerWithIndent(),
+            if (widget.onUploadMultiplePhotos != null) ...<Widget>[
+              if (state.suggestion.images.isNotEmpty)
+                const SizedBox.shrink()
+              else
+                _dividerWithIndent(),
               _photoPickerItem(state),
             ],
-            if (!state.isEditing) ...[
+            if (!state.isEditing) ...<Widget>[
               _dividerWithIndent(),
               const SizedBox(height: Dimensions.marginSmall),
               _postAnonymously(isAnonymously: state.suggestion.isAnonymous),
@@ -185,7 +189,7 @@ class CreateEditSuggestionBottomSheetState extends State<CreateEditSuggestionBot
       onCancel: ([_]) => _labelsSheetController
           .collapse()
           ?.then((_) => _cubit.changeLabelsBottomSheetStatus(false)),
-      onDone: (labels) {
+      onDone: (List<SuggestionLabel> labels) {
         _cubit.selectLabels(labels);
         _labelsSheetController.collapse()?.then((_) => _cubit.changeLabelsBottomSheetStatus(false));
       },
@@ -236,11 +240,11 @@ class CreateEditSuggestionBottomSheetState extends State<CreateEditSuggestionBot
   }
 
   Widget _photoPickerItem(CreateEditSuggestionState state) {
-    final _tileWidth = state.suggestion.images.length == 1
+    final double tileWidth = state.suggestion.images.length == 1
         ? (MediaQuery.of(context).size.width - Dimensions.margin3x) / 2
         : (MediaQuery.of(context).size.width - Dimensions.margin4x) / 3;
     return state.suggestion.images.isNotEmpty
-        ? Container(
+        ? SizedBox(
             height: MediaQuery.of(context).size.height * Dimensions.smallSize / 100,
             child: Padding(
               padding: const EdgeInsets.only(bottom: Dimensions.marginMiddle),
@@ -248,11 +252,11 @@ class CreateEditSuggestionBottomSheetState extends State<CreateEditSuggestionBot
                 physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
                 itemCount: state.suggestion.images.length + 1,
-                itemBuilder: (context, i) {
+                itemBuilder: (BuildContext context, int i) {
                   if (i == 0) {
                     return GestureDetector(
                       onTap: () {
-                        final availableNumOfPhotos =
+                        final int availableNumOfPhotos =
                             maxPhotosForOneSuggestion - state.suggestion.images.length;
                         availableNumOfPhotos > 0
                             ? _cubit.addUploadedPhotos(widget.onUploadMultiplePhotos!(
@@ -260,7 +264,7 @@ class CreateEditSuggestionBottomSheetState extends State<CreateEditSuggestionBot
                             : BotToast.showText(text: context.localization.eventPhotosRestriction);
                       },
                       child: AddPhotoButton(
-                        width: state.suggestion.images.length > 2 ? _tileWidth * 0.9 : _tileWidth,
+                        width: state.suggestion.images.length > 2 ? tileWidth * 0.9 : tileWidth,
                         height: (MediaQuery.of(context).size.width - 80) / 3,
                         style: theme.textSmallPlusBold,
                         isLoading: state.isLoading,
@@ -271,16 +275,19 @@ class CreateEditSuggestionBottomSheetState extends State<CreateEditSuggestionBot
                       onTap: () => _cubit.onPhotoClick(i - 1),
                       child: Container(
                         margin: const EdgeInsets.only(right: Dimensions.marginDefault),
-                        width: _tileWidth,
+                        width: tileWidth,
                         height: 98,
                         clipBehavior: Clip.hardEdge,
                         decoration: const BoxDecoration(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(Dimensions.smallCircularRadius)),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(Dimensions.smallCircularRadius),
+                          ),
                         ),
                         child: FittedBox(
-                          child: SuggestionsNetworkImage(url: state.suggestion.images[i - 1]),
                           fit: BoxFit.cover,
+                          child: SuggestionsNetworkImage(
+                            url: state.suggestion.images[i - 1],
+                          ),
                         ),
                       ),
                     );
@@ -327,18 +334,18 @@ class CreateEditSuggestionBottomSheetState extends State<CreateEditSuggestionBot
     );
   }
 
-  void _openPhotoView(CreateEditSuggestionState state) async {
+  Future<void> _openPhotoView(CreateEditSuggestionState state) async {
     await showDialog(
       useSafeArea: false,
       barrierColor: Colors.black,
       context: context,
       useRootNavigator: false,
-      builder: (context) {
+      builder: (BuildContext context) {
         return PhotoView(
           initialIndex: state.openPhotoIndex!,
           onDeleteClick: _cubit.removePhoto,
           onDownloadClick: widget.onSaveToGallery != null
-              ? (path) => _cubit.showSavingResultMessage(widget.onSaveToGallery!(path))
+              ? (String path) => _cubit.showSavingResultMessage(widget.onSaveToGallery!(path))
               : null,
           photos: state.suggestion.images,
           previousNavBarColor: theme.thirdBackgroundColor,
@@ -353,7 +360,7 @@ class _PhotoPreview extends StatefulWidget {
   final List<String> suggestionImages;
   final VoidCallback onPreviewClick;
 
-  _PhotoPreview({
+  const _PhotoPreview({
     required this.suggestionImages,
     required this.onPreviewClick,
   });
@@ -372,12 +379,11 @@ class _PhotoPreviewState extends State<_PhotoPreview> {
             ? Dimensions.microSize + Dimensions.smallSize * widget.suggestionImages.length
             : Dimensions.veryBigSize,
         child: Stack(
-          children: [
+          children: <Widget>[
             if (widget.suggestionImages.isNotEmpty)
               SizedBox(
                 width: Dimensions.defaultSize,
                 child: SmallPhotoPreview(
-                  size: Dimensions.defaultSize,
                   src: widget.suggestionImages[0],
                   heroTag: 'photo_view',
                   backgroundColor: theme.secondaryBackgroundColor,
@@ -388,7 +394,6 @@ class _PhotoPreviewState extends State<_PhotoPreview> {
                 width: Dimensions.largeSize,
                 padding: const EdgeInsets.only(left: Dimensions.marginDefault),
                 child: SmallPhotoPreview(
-                  size: Dimensions.defaultSize,
                   src: widget.suggestionImages[1],
                   heroTag: 'photo_view',
                   backgroundColor: theme.secondaryBackgroundColor,
@@ -399,7 +404,6 @@ class _PhotoPreviewState extends State<_PhotoPreview> {
                 width: Dimensions.veryBigSize,
                 padding: const EdgeInsets.only(left: Dimensions.margin2x),
                 child: SmallPhotoPreview(
-                  size: Dimensions.defaultSize,
                   src: widget.suggestionImages[2],
                   heroTag: 'photo_view',
                   backgroundColor: theme.secondaryBackgroundColor,

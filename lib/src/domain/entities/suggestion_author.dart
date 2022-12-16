@@ -5,6 +5,12 @@ class SuggestionAuthor extends Equatable {
   final String username;
   final String? avatar;
 
+  const SuggestionAuthor({
+    required this.id,
+    this.avatar,
+    required this.username,
+  });
+
   factory SuggestionAuthor.fromJson(Map<String, dynamic> json) {
     return SuggestionAuthor(
       id: json['id'].toString(),
@@ -13,16 +19,10 @@ class SuggestionAuthor extends Equatable {
     );
   }
 
-  const SuggestionAuthor({
-    required this.id,
-    this.avatar,
-    required this.username,
-  });
-
   const SuggestionAuthor.empty({String? id}) : this(id: id ?? '', username: '');
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props => <Object?>[
         id,
         username,
         avatar,

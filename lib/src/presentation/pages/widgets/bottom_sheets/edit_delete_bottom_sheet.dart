@@ -18,12 +18,13 @@ class EditDeleteSuggestionBottomSheet extends StatefulWidget {
   final DateTime creationDate;
 
   const EditDeleteSuggestionBottomSheet({
+    Key? key,
     required this.onCancel,
     required this.onEditClick,
     required this.onDeleteClick,
     required this.controller,
     required this.creationDate,
-  });
+  }) : super(key: key);
 
   @override
   _EditDeleteSuggestionBottomSheetState createState() => _EditDeleteSuggestionBottomSheetState();
@@ -38,7 +39,7 @@ class _EditDeleteSuggestionBottomSheetState extends State<EditDeleteSuggestionBo
       backgroundColor: theme.bottomSheetBackgroundColor,
       previousNavBarColor: theme.primaryBackgroundColor,
       previousStatusBarColor: theme.primaryBackgroundColor,
-      contentBuilder: (context, sheetState) {
+      contentBuilder: (BuildContext context, SheetState sheetState) {
         return ListView(
           padding: const EdgeInsets.only(
             top: Dimensions.marginDefault,
@@ -46,7 +47,7 @@ class _EditDeleteSuggestionBottomSheetState extends State<EditDeleteSuggestionBo
           ),
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          children: [
+          children: <Widget>[
             Column(
               children: <Widget>[
                 _leadingText(),

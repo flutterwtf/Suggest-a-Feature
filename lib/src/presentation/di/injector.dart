@@ -9,6 +9,7 @@ import '../pages/suggestion/suggestion_cubit.dart';
 import '../pages/suggestions/suggestions_cubit.dart';
 import '../pages/theme/suggestions_theme.dart';
 
+// ignore: library_private_types_in_public_api
 _Injector get i => _Injector();
 
 class _Injector {

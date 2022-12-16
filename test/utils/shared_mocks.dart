@@ -6,7 +6,7 @@ import 'package:suggest_a_feature/src/presentation/pages/suggestion/suggestion_c
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_cubit.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
 
-@GenerateMocks([
+@GenerateMocks(<Type>[
   SuggestionRepository,
   SuggestionInteractor,
   SuggestionCubit,

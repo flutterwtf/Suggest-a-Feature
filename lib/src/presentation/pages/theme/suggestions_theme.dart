@@ -201,7 +201,7 @@ class SuggestionsTheme {
   TextStyle get base => TextStyle(
         fontFamily: fontFamily,
         color: primaryTextColor,
-        fontFamilyFallback: ['sans-serif'],
+        fontFamilyFallback: const <String>['sans-serif'],
       );
 
   TextStyle get textSmall => base.copyWith(fontSize: FontSizes.small);

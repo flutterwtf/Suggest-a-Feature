@@ -14,7 +14,7 @@ class Wrapper<T> extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props => <Object?>[
         data,
         status,
       ];

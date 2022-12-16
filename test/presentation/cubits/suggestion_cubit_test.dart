@@ -14,11 +14,11 @@ void main() {
   group(
     'suggestion cubit',
     () {
-      final mockSuggestionInteractor = MockSuggestionInteractor();
-      final mockSuggestionsTheme = MockSuggestionsTheme();
-      final mockSuggestionsDataSource = MockSuggestionsDataSource();
+      final MockSuggestionInteractor mockSuggestionInteractor = MockSuggestionInteractor();
+      final MockSuggestionsTheme mockSuggestionsTheme = MockSuggestionsTheme();
+      final MockSuggestionsDataSource mockSuggestionsDataSource = MockSuggestionsDataSource();
 
-      final emptySuggestionState = SuggestionState(
+      final SuggestionState emptySuggestionState = SuggestionState(
         isPopped: false,
         isEditable: false,
         author: const SuggestionAuthor.empty(),
@@ -27,7 +27,8 @@ void main() {
         suggestion: mockedSuggestion,
       );
 
-      final commentedSuggestion = mockedSuggestion.copyWith(comments: [mockedComment]);
+      final Suggestion commentedSuggestion =
+          mockedSuggestion.copyWith(comments: <Comment>[mockedComment]);
 
       setUp(() {
         i.init(
@@ -41,18 +42,18 @@ void main() {
         'create comment',
         build: () {
           when(mockSuggestionInteractor.createComment(mockedCreateCommentModel))
-              .thenAnswer((_) async => Wrapper(data: mockedComment, status: 200));
+              .thenAnswer((_) async => Wrapper(data: mockedComment));
           return SuggestionCubit(
             mockSuggestionInteractor,
           );
         },
         seed: () => emptySuggestionState,
-        act: (cubit) => cubit.createComment(
+        act: (SuggestionCubit cubit) => cubit.createComment(
           'Comment1',
           true,
-          (id) async => mockedSuggestionAuthor,
+          (String id) async => mockedSuggestionAuthor,
         ),
-        expect: () => [
+        expect: () => <SuggestionState>[
           SuggestionState(
             isPopped: false,
             isEditable: false,
@@ -72,8 +73,8 @@ void main() {
           );
         },
         seed: () => emptySuggestionState,
-        act: (cubit) => cubit.deleteSuggestion(),
-        expect: () => [
+        act: (SuggestionCubit cubit) => cubit.deleteSuggestion(),
+        expect: () => <SuggestionState>[
           SuggestionState(
             isPopped: true,
             isEditable: false,
@@ -93,8 +94,8 @@ void main() {
           );
         },
         seed: () => emptySuggestionState,
-        act: (cubit) => cubit.vote(),
-        expect: () => [
+        act: (SuggestionCubit cubit) => cubit.vote(),
+        expect: () => <SuggestionState>[
           SuggestionState(
             isPopped: false,
             isEditable: false,
@@ -102,7 +103,7 @@ void main() {
             savingImageResultMessageType: SavingResultMessageType.none,
             bottomSheetType: SuggestionBottomSheetType.none,
             suggestion: mockedSuggestion.copyWith(
-              votedUserIds: {mockedSuggestionAuthor.id},
+              votedUserIds: <String>{mockedSuggestionAuthor.id},
             ),
           ),
         ],
@@ -122,11 +123,11 @@ void main() {
           savingImageResultMessageType: SavingResultMessageType.none,
           bottomSheetType: SuggestionBottomSheetType.none,
           suggestion: mockedSuggestion.copyWith(
-            votedUserIds: {},
+            votedUserIds: <String>{},
           ),
         ),
-        act: (cubit) => cubit.vote(),
-        expect: () => [emptySuggestionState],
+        act: (SuggestionCubit cubit) => cubit.vote(),
+        expect: () => <SuggestionState>[emptySuggestionState],
       );
 
       blocTest<SuggestionCubit, SuggestionState>(
@@ -137,8 +138,8 @@ void main() {
           );
         },
         seed: () => emptySuggestionState,
-        act: (cubit) => cubit.changeNotification(true),
-        expect: () => [
+        act: (SuggestionCubit cubit) => cubit.changeNotification(true),
+        expect: () => <SuggestionState>[
           SuggestionState(
             isPopped: false,
             isEditable: false,
@@ -146,7 +147,7 @@ void main() {
             savingImageResultMessageType: SavingResultMessageType.none,
             bottomSheetType: SuggestionBottomSheetType.none,
             suggestion: mockedSuggestion.copyWith(
-              notifyUserIds: {mockedSuggestionAuthor.id},
+              notifyUserIds: <String>{mockedSuggestionAuthor.id},
             ),
           ),
         ],
@@ -166,11 +167,11 @@ void main() {
           savingImageResultMessageType: SavingResultMessageType.none,
           bottomSheetType: SuggestionBottomSheetType.none,
           suggestion: mockedSuggestion.copyWith(
-            notifyUserIds: {},
+            notifyUserIds: <String>{},
           ),
         ),
-        act: (cubit) => cubit.changeNotification(false),
-        expect: () => [emptySuggestionState],
+        act: (SuggestionCubit cubit) => cubit.changeNotification(false),
+        expect: () => <SuggestionState>[emptySuggestionState],
       );
 
       blocTest<SuggestionCubit, SuggestionState>(
@@ -181,8 +182,8 @@ void main() {
           );
         },
         seed: () => emptySuggestionState,
-        act: (cubit) => cubit.showSavingResultMessage(Future.value(true)),
-        expect: () => [
+        act: (SuggestionCubit cubit) => cubit.showSavingResultMessage(Future<bool>.value(true)),
+        expect: () => <SuggestionState>[
           SuggestionState(
             isPopped: false,
             isEditable: false,
@@ -202,8 +203,8 @@ void main() {
           );
         },
         seed: () => emptySuggestionState,
-        act: (cubit) => cubit.showSavingResultMessage(Future.value(false)),
-        expect: () => [
+        act: (SuggestionCubit cubit) => cubit.showSavingResultMessage(Future<bool>.value(false)),
+        expect: () => <SuggestionState>[
           SuggestionState(
             isPopped: false,
             isEditable: false,
@@ -223,8 +224,8 @@ void main() {
           );
         },
         seed: () => emptySuggestionState,
-        act: (cubit) => cubit.openCreateCommentBottomSheet(),
-        expect: () => [
+        act: (SuggestionCubit cubit) => cubit.openCreateCommentBottomSheet(),
+        expect: () => <SuggestionState>[
           SuggestionState(
             isPopped: false,
             isEditable: false,
