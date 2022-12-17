@@ -88,8 +88,8 @@ class Suggestion extends Equatable {
       id: json['suggestion_id'].toString(),
       title: json['title'],
       description: json['description'],
-      labels: (json['labels'] as List<String>).cast<String>().map(LabelExt.labelType).toList(),
-      images: (json['images'] as List<String>).cast<String>(),
+      labels: (json['labels'] as List<dynamic>).cast<String>().map(LabelExt.labelType).toList(),
+      images: (json['images'] as List<dynamic>).cast<String>(),
       authorId: json['author_id'],
       isAnonymous: json['is_anonymous'],
       creationTime: json['creation_time'].runtimeType == String
