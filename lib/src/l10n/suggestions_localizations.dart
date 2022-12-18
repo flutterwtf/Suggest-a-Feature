@@ -61,6 +61,7 @@ import 'suggestions_localizations_ru.dart';
 /// property.
 abstract class SuggestionsLocalizations {
   SuggestionsLocalizations(String locale)
+      // ignore: noop_primitive_operations
       : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;

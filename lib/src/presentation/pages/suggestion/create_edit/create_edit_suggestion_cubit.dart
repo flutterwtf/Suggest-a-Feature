@@ -31,13 +31,14 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
     emit(state.newState(savingImageResultMessageType: SavingResultMessageType.none));
   }
 
-  void addUploadedPhotos(Future<List<String>?> urls) async {
+  Future<void> addUploadedPhotos(Future<List<String>?> urls) async {
     emit(state.newState(isLoading: true));
-    final photos = await urls;
+    final List<String>? photos = await urls;
     if (photos != null) {
       emit(
         state.newState(
-          suggestion: state.suggestion.copyWith(images: [...photos, ...state.suggestion.images]),
+          suggestion:
+              state.suggestion.copyWith(images: <String>[...photos, ...state.suggestion.images]),
           isLoading: false,
         ),
       );
@@ -53,8 +54,8 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
     );
   }
 
-  void showSavingResultMessage(Future<bool?> isSuccess) async {
-    final savingResult = await isSuccess;
+  Future<void> showSavingResultMessage(Future<bool?> isSuccess) async {
+    final bool? savingResult = await isSuccess;
     if (savingResult != null) {
       emit(
         state.newState(
@@ -110,10 +111,9 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
     if (state.isEditing) {
       await _suggestionInteractor.updateSuggestion(state.suggestion);
     } else {
-      final model = CreateSuggestionModel(
+      final CreateSuggestionModel model = CreateSuggestionModel(
         title: state.suggestion.title,
-        description:
-            state.suggestion.description?.isNotEmpty == true ? state.suggestion.description : null,
+        description: state.suggestion.description,
         labels: state.suggestion.labels,
         images: state.suggestion.images,
         authorId: i.userId,

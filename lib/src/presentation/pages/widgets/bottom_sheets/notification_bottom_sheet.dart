@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 
-import '../../../utils/dimensions.dart';
 import '../../../utils/context_utils.dart';
+import '../../../utils/dimensions.dart';
 import '../../theme/suggestions_theme.dart';
 import '../switch.dart';
 import 'base_bottom_sheet.dart';
@@ -14,11 +14,12 @@ class NotificationSuggestionBottomSheet extends StatefulWidget {
   final bool isNotificationOn;
 
   const NotificationSuggestionBottomSheet({
+    Key? key,
     required this.onCancel,
     required this.onChangeNotification,
     required this.controller,
     required this.isNotificationOn,
-  });
+  }) : super(key: key);
 
   @override
   _NotificationSuggestionBottomSheetState createState() =>
@@ -42,7 +43,7 @@ class _NotificationSuggestionBottomSheetState extends State<NotificationSuggesti
       backgroundColor: theme.bottomSheetBackgroundColor,
       previousNavBarColor: theme.primaryBackgroundColor,
       previousStatusBarColor: theme.primaryBackgroundColor,
-      contentBuilder: (context, sheetState) {
+      contentBuilder: (BuildContext context, SheetState sheetState) {
         return ListView(
           padding: const EdgeInsets.symmetric(
             vertical: Dimensions.marginSmall,
@@ -50,17 +51,17 @@ class _NotificationSuggestionBottomSheetState extends State<NotificationSuggesti
           ),
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          children: [
+          children: <Widget>[
             Row(
-              children: [
+              children: <Widget>[
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: <Widget>[
                       Text(
                         context.localization.notifyMe,
                         textAlign: TextAlign.start,
-                        style: theme.textMPlus,
+                        style: theme.textMedium,
                       ),
                       const SizedBox(height: Dimensions.marginMicro),
                       Text(
@@ -73,7 +74,7 @@ class _NotificationSuggestionBottomSheetState extends State<NotificationSuggesti
                 ),
                 SuggestionsSwitch(
                   value: _isNotificationOn,
-                  onChanged: (value) {
+                  onChanged: (bool value) {
                     setState(() => _isNotificationOn = value);
                     widget.onChangeNotification(value);
                   },

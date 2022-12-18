@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,7 +28,7 @@ class SuggestionCubit extends Cubit<SuggestionState> {
           ),
         );
 
-  void init(Suggestion suggestion, OnGetUserById getUserById) async {
+  Future<void> init(Suggestion suggestion, OnGetUserById getUserById) async {
     emit(
       state.newState(
         suggestion: suggestion,
@@ -43,9 +44,9 @@ class SuggestionCubit extends Cubit<SuggestionState> {
     }
   }
 
-  void _loadAuthorProfile(OnGetUserById getUserById, String userId) async {
+  Future<void> _loadAuthorProfile(OnGetUserById getUserById, String userId) async {
     if (!_suggestionInteractor.userInfo.containsKey(userId)) {
-      final author = await getUserById(userId);
+      final SuggestionAuthor? author = await getUserById(userId);
       if (author != null) {
         _suggestionInteractor.userInfo[userId] = author;
         emit(state.newState(author: author));
@@ -55,12 +56,12 @@ class SuggestionCubit extends Cubit<SuggestionState> {
     }
   }
 
-  void _loadComments(OnGetUserById getUserById, String suggestionId) async {
-    final comments = await _suggestionInteractor.getAllComments(suggestionId);
-    if (comments.data != null) {
-      final extendedComments = await Future.wait(
-        comments.data!.map(
-          (e) async => e.copyWith(
+  Future<void> _loadComments(OnGetUserById getUserById, String suggestionId) async {
+    try {
+      final List<Comment> comments = await _suggestionInteractor.getAllComments(suggestionId);
+      final List<Comment> extendedComments = await Future.wait(
+        comments.map(
+          (Comment e) async => e.copyWith(
             author: e.isAnonymous ? null : await getUserById(e.author.id),
           ),
         ),
@@ -71,6 +72,8 @@ class SuggestionCubit extends Cubit<SuggestionState> {
         ),
       );
       _suggestionInteractor.refreshSuggestions(state.suggestion);
+    } catch (e) {
+      log('Comments loading error', error: e);
     }
   }
 
@@ -108,11 +111,12 @@ class SuggestionCubit extends Cubit<SuggestionState> {
   }
 
   void _onNewSuggestions(List<Suggestion> suggestions) {
-    emit(state.newState(suggestion: suggestions.firstWhere((e) => e.id == state.suggestion.id)));
+    emit(state.newState(
+        suggestion: suggestions.firstWhere((Suggestion e) => e.id == state.suggestion.id)));
   }
 
-  void showSavingResultMessage(Future<bool?> isSuccess) async {
-    final savingResult = await isSuccess;
+  Future<void> showSavingResultMessage(Future<bool?> isSuccess) async {
+    final bool? savingResult = await isSuccess;
     if (savingResult != null) {
       emit(
         state.newState(
@@ -123,34 +127,35 @@ class SuggestionCubit extends Cubit<SuggestionState> {
     }
   }
 
-  void createComment(String text, bool isAnonymous, OnGetUserById getUserById) async {
-    final comment = await _suggestionInteractor.createComment(
-      CreateCommentModel(
-        authorId: i.userId,
-        isAnonymous: isAnonymous,
-        text: text,
-        suggestionId: state.suggestion.id,
-      ),
-    );
-    if (comment.success() && comment.data != null) {
+  Future<void> createComment(String text, bool isAnonymous, OnGetUserById getUserById) async {
+    try {
+      final Comment comment = await _suggestionInteractor.createComment(
+        CreateCommentModel(
+          authorId: i.userId,
+          isAnonymous: isAnonymous,
+          text: text,
+          suggestionId: state.suggestion.id,
+        ),
+      );
       emit(
         state.newState(
           suggestion: state.suggestion.copyWith(
-            comments: [
+            comments: <Comment>[
               ...state.suggestion.comments,
-              comment.data!.copyWith(
-                author:
-                    comment.data!.isAnonymous ? null : await getUserById(comment.data!.author.id),
+              comment.copyWith(
+                author: comment.isAnonymous ? null : await getUserById(comment.author.id),
               ),
             ],
           ),
         ),
       );
       _suggestionInteractor.refreshSuggestions(state.suggestion);
+    } catch (e) {
+      log('Comment creation error', error: e);
     }
   }
 
-  void deleteSuggestion() async {
+  Future<void> deleteSuggestion() async {
     _suggestionSubscription?.cancel();
     _suggestionSubscription = null;
     await _suggestionInteractor.deleteSuggestion(state.suggestion.id);
@@ -158,8 +163,8 @@ class SuggestionCubit extends Cubit<SuggestionState> {
   }
 
   void vote() {
-    final isVoted = state.suggestion.votedUserIds.contains(i.userId);
-    final newVotedUserIds = {...state.suggestion.votedUserIds};
+    final bool isVoted = state.suggestion.votedUserIds.contains(i.userId);
+    final Set<String> newVotedUserIds = <String>{...state.suggestion.votedUserIds};
 
     !isVoted
         ? _suggestionInteractor.upvote(state.suggestion.id)
@@ -168,15 +173,15 @@ class SuggestionCubit extends Cubit<SuggestionState> {
       state.newState(
         suggestion: state.suggestion.copyWith(
           votedUserIds: !isVoted
-              ? {...newVotedUserIds..add(i.userId)}
-              : {...newVotedUserIds..remove(i.userId)},
+              ? <String>{...newVotedUserIds..add(i.userId)}
+              : <String>{...newVotedUserIds..remove(i.userId)},
         ),
       ),
     );
   }
 
-  void changeNotification(bool isNotificationOn) async {
-    final newNotifyUserIds = {...state.suggestion.notifyUserIds};
+  Future<void> changeNotification(bool isNotificationOn) async {
+    final Set<String> newNotifyUserIds = <String>{...state.suggestion.notifyUserIds};
 
     isNotificationOn
         ? await _suggestionInteractor.addNotifyToUpdateUser(state.suggestion.id)
@@ -185,8 +190,8 @@ class SuggestionCubit extends Cubit<SuggestionState> {
       state.newState(
         suggestion: state.suggestion.copyWith(
           notifyUserIds: isNotificationOn
-              ? {...newNotifyUserIds..add(i.userId)}
-              : {...newNotifyUserIds..remove(i.userId)},
+              ? <String>{...newNotifyUserIds..add(i.userId)}
+              : <String>{...newNotifyUserIds..remove(i.userId)},
         ),
       ),
     );

@@ -1,7 +1,6 @@
 import '../entities/comment.dart';
 import '../entities/suggestion.dart';
 import '../entities/suggestion_author.dart';
-import '../utils/wrapper.dart';
 
 abstract class ISuggestionRepository {
   Stream<List<Suggestion>> get suggestionsStream;
@@ -9,9 +8,9 @@ abstract class ISuggestionRepository {
   Map<String, SuggestionAuthor?> get userInfo;
 
   void initSuggestions();
-  Future<Wrapper<Suggestion>> getSuggestionById(String suggestionId);
-  Future<Wrapper<Suggestion>> createSuggestion(CreateSuggestionModel suggestion);
-  Future<Wrapper<Suggestion>> updateSuggestion(Suggestion suggestion);
+  Future<Suggestion> getSuggestionById(String suggestionId);
+  Future<Suggestion> createSuggestion(CreateSuggestionModel suggestion);
+  Future<Suggestion> updateSuggestion(Suggestion suggestion);
   Future<void> deleteSuggestion(String suggestionId);
 
   void upvote(String suggestionId);
@@ -21,6 +20,6 @@ abstract class ISuggestionRepository {
 
   void refreshSuggestions(Suggestion suggestion, {bool saveComments});
 
-  Future<Wrapper<List<Comment>>> getAllComments(String suggestionId);
-  Future<Wrapper<Comment>> createComment(CreateCommentModel comment);
+  Future<List<Comment>> getAllComments(String suggestionId);
+  Future<Comment> createComment(CreateCommentModel comment);
 }

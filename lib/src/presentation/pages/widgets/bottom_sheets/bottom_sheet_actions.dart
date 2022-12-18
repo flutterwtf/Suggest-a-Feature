@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import '../../../utils/dimensions.dart';
 import '../../../utils/context_utils.dart';
+import '../../../utils/dimensions.dart';
 import '../../theme/suggestions_theme.dart';
 
 class BottomSheetActions extends StatelessWidget {
@@ -75,12 +75,12 @@ class _NewSuggestionTextButtonState extends State<NewSuggestionTextButton> {
 
   @override
   Widget build(BuildContext context) {
-    var color = widget.enabled
+    Color color = widget.enabled
         ? widget.isTonal
             ? theme.tonalButtonColor
             : Colors.transparent
         : theme.disabledTextButtonColor;
-    var textColor = widget.enabled ? theme.enabledTextColor : theme.disabledTextColor;
+    Color textColor = widget.enabled ? theme.enabledTextColor : theme.disabledTextColor;
     if (_pressed) {
       color = widget.isTonal ? theme.focusedTonalButtonColor : theme.focusedTextButtonColor;
       textColor = theme.focusedTextColor;
@@ -88,13 +88,19 @@ class _NewSuggestionTextButtonState extends State<NewSuggestionTextButton> {
     return GestureDetector(
       onTap: widget.enabled ? widget.onClick : widget.onDisabledClick?.call,
       onTapDown: (_) => setState(() {
-        if (widget.enabled) _pressed = true;
+        if (widget.enabled) {
+          _pressed = true;
+        }
       }),
       onTapUp: (_) => setState(() {
-        if (widget.enabled) _pressed = false;
+        if (widget.enabled) {
+          _pressed = false;
+        }
       }),
       onTapCancel: () => setState(() {
-        if (widget.enabled) _pressed = false;
+        if (widget.enabled) {
+          _pressed = false;
+        }
       }),
       child: Container(
         alignment: Alignment.center,
@@ -107,7 +113,7 @@ class _NewSuggestionTextButtonState extends State<NewSuggestionTextButton> {
         ),
         child: Text(
           widget.title,
-          style: theme.textMBold.copyWith(color: textColor),
+          style: theme.textSmallPlusBold.copyWith(color: textColor),
         ),
       ),
     );

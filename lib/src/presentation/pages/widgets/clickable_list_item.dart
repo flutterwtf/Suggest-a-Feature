@@ -33,13 +33,13 @@ class _ClickableListItemState extends State<ClickableListItem> {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: widget.onClick,
-      onPanDown: (tapDetails) {
+      onPanDown: (DragDownDetails tapDetails) {
         setState(() => pressed = true);
       },
       onPanCancel: () {
         setState(() => pressed = false);
       },
-      onPanUpdate: (details) {
+      onPanUpdate: (DragUpdateDetails details) {
         setState(() => pressed = false);
       },
       child: Container(

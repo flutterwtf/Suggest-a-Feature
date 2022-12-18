@@ -11,16 +11,15 @@ void main() {
   group(
     'suggestions cubit',
     () {
-      final mockSuggestionInteractor = MockSuggestionInteractor();
-      final emptySuggestionsState = SuggestionsState(
-        requests: [mockedSuggestion, mockedSuggestion2],
-        inProgress: [mockedSuggestion, mockedSuggestion2],
-        completed: [mockedSuggestion, mockedSuggestion2],
+      final MockSuggestionInteractor mockSuggestionInteractor = MockSuggestionInteractor();
+      final SuggestionsState emptySuggestionsState = SuggestionsState(
+        requests: <Suggestion>[mockedSuggestion, mockedSuggestion2],
+        inProgress: <Suggestion>[mockedSuggestion, mockedSuggestion2],
+        completed: <Suggestion>[mockedSuggestion, mockedSuggestion2],
         isCreateBottomSheetOpened: false,
-        activeTab: SuggestionStatus.requests,
       );
-      final upvotedSuggestion = mockedSuggestion2.copyWith(
-        votedUserIds: {mockedSuggestionAuthor.id},
+      final Suggestion upvotedSuggestion = mockedSuggestion2.copyWith(
+        votedUserIds: <String>{mockedSuggestionAuthor.id},
       );
 
       blocTest<SuggestionsCubit, SuggestionsState>(
@@ -31,12 +30,12 @@ void main() {
           );
         },
         seed: () => emptySuggestionsState,
-        act: (cubit) => cubit.openCreateBottomSheet(),
-        expect: () => [
+        act: (SuggestionsCubit cubit) => cubit.openCreateBottomSheet(),
+        expect: () => <SuggestionsState>[
           SuggestionsState(
-            requests: [mockedSuggestion, mockedSuggestion2],
-            inProgress: [mockedSuggestion, mockedSuggestion2],
-            completed: [mockedSuggestion, mockedSuggestion2],
+            requests: <Suggestion>[mockedSuggestion, mockedSuggestion2],
+            inProgress: <Suggestion>[mockedSuggestion, mockedSuggestion2],
+            completed: <Suggestion>[mockedSuggestion, mockedSuggestion2],
             isCreateBottomSheetOpened: true,
           ),
         ],
@@ -50,13 +49,13 @@ void main() {
           );
         },
         seed: () => SuggestionsState(
-          requests: [mockedSuggestion, mockedSuggestion2],
-          inProgress: [mockedSuggestion, mockedSuggestion2],
-          completed: [mockedSuggestion, mockedSuggestion2],
+          requests: <Suggestion>[mockedSuggestion, mockedSuggestion2],
+          inProgress: <Suggestion>[mockedSuggestion, mockedSuggestion2],
+          completed: <Suggestion>[mockedSuggestion, mockedSuggestion2],
           isCreateBottomSheetOpened: true,
         ),
-        act: (cubit) => cubit.closeCreateBottomSheet(),
-        expect: () => [emptySuggestionsState],
+        act: (SuggestionsCubit cubit) => cubit.closeCreateBottomSheet(),
+        expect: () => <SuggestionsState>[emptySuggestionsState],
       );
 
       blocTest<SuggestionsCubit, SuggestionsState>(
@@ -67,12 +66,12 @@ void main() {
           );
         },
         seed: () => emptySuggestionsState,
-        act: (cubit) => cubit.changeActiveTab(SuggestionStatus.completed),
-        expect: () => [
+        act: (SuggestionsCubit cubit) => cubit.changeActiveTab(SuggestionStatus.completed),
+        expect: () => <SuggestionsState>[
           SuggestionsState(
-            requests: [mockedSuggestion, mockedSuggestion2],
-            inProgress: [mockedSuggestion, mockedSuggestion2],
-            completed: [mockedSuggestion, mockedSuggestion2],
+            requests: <Suggestion>[mockedSuggestion, mockedSuggestion2],
+            inProgress: <Suggestion>[mockedSuggestion, mockedSuggestion2],
+            completed: <Suggestion>[mockedSuggestion, mockedSuggestion2],
             isCreateBottomSheetOpened: false,
             activeTab: SuggestionStatus.completed,
           ),
@@ -87,12 +86,12 @@ void main() {
           );
         },
         seed: () => emptySuggestionsState,
-        act: (cubit) async => cubit.vote(SuggestionStatus.requests, 1),
-        expect: () => [
+        act: (SuggestionsCubit cubit) async => cubit.vote(SuggestionStatus.requests, 1),
+        expect: () => <SuggestionsState>[
           SuggestionsState(
-            requests: [mockedSuggestion, upvotedSuggestion],
-            inProgress: [mockedSuggestion, mockedSuggestion2],
-            completed: [mockedSuggestion, mockedSuggestion2],
+            requests: <Suggestion>[mockedSuggestion, upvotedSuggestion],
+            inProgress: <Suggestion>[mockedSuggestion, mockedSuggestion2],
+            completed: <Suggestion>[mockedSuggestion, mockedSuggestion2],
             isCreateBottomSheetOpened: false,
           ),
         ],

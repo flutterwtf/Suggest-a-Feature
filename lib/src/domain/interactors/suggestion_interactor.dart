@@ -2,7 +2,6 @@ import '../data_interfaces/i_suggestion_repository.dart';
 import '../entities/comment.dart';
 import '../entities/suggestion.dart';
 import '../entities/suggestion_author.dart';
-import '../utils/wrapper.dart';
 
 class SuggestionInteractor {
   final ISuggestionRepository _suggestionRepository;
@@ -15,11 +14,11 @@ class SuggestionInteractor {
 
   void initSuggestions() => _suggestionRepository.initSuggestions();
 
-  Future<Wrapper<Suggestion>> createSuggestion(CreateSuggestionModel suggestion) {
+  Future<Suggestion> createSuggestion(CreateSuggestionModel suggestion) {
     return _suggestionRepository.createSuggestion(suggestion);
   }
 
-  Future<Wrapper<Suggestion>> updateSuggestion(Suggestion suggestion) {
+  Future<Suggestion> updateSuggestion(Suggestion suggestion) {
     return _suggestionRepository.updateSuggestion(suggestion);
   }
 
@@ -43,11 +42,11 @@ class SuggestionInteractor {
     _suggestionRepository.refreshSuggestions(suggestion, saveComments: saveComments);
   }
 
-  Future<Wrapper<List<Comment>>> getAllComments(String suggestionId) {
+  Future<List<Comment>> getAllComments(String suggestionId) {
     return _suggestionRepository.getAllComments(suggestionId);
   }
 
-  Future<Wrapper<Comment>> createComment(CreateCommentModel comment) {
+  Future<Comment> createComment(CreateCommentModel comment) {
     return _suggestionRepository.createComment(comment);
   }
 }

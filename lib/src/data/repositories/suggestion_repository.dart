@@ -4,7 +4,6 @@ import '../../domain/data_interfaces/i_suggestion_repository.dart';
 import '../../domain/entities/comment.dart';
 import '../../domain/entities/suggestion.dart';
 import '../../domain/entities/suggestion_author.dart';
-import '../../domain/utils/wrapper.dart';
 import '../interfaces/i_cache_data_source.dart';
 import '../interfaces/i_suggestions_data_source.dart';
 
@@ -14,7 +13,7 @@ class SuggestionRepository implements ISuggestionRepository {
 
   SuggestionRepository(this._suggestionsDataSource, this._cacheDataSource);
 
-  final BehaviorSubject<List<Suggestion>> _suggestionsSubject = BehaviorSubject();
+  final BehaviorSubject<List<Suggestion>> _suggestionsSubject = BehaviorSubject<List<Suggestion>>();
 
   @override
   Stream<List<Suggestion>> get suggestionsStream => _suggestionsSubject;
@@ -27,8 +26,9 @@ class SuggestionRepository implements ISuggestionRepository {
 
   @override
   void refreshSuggestions(Suggestion suggestion, {bool saveComments = true}) {
-    final suggestions = List<Suggestion>.from(this.suggestions);
-    final removedSuggestion = suggestions.firstWhere((e) => e.id == suggestion.id);
+    final List<Suggestion> suggestions = List<Suggestion>.from(this.suggestions);
+    final Suggestion removedSuggestion =
+        suggestions.firstWhere((Suggestion e) => e.id == suggestion.id);
     suggestions.remove(removedSuggestion);
     _suggestionsSubject.add(
       suggestions
@@ -39,31 +39,32 @@ class SuggestionRepository implements ISuggestionRepository {
   }
 
   @override
-  void initSuggestions() async {
-    final suggestions = (await _suggestionsDataSource.getAllSuggestions()).data;
-    _suggestionsSubject.add(suggestions ?? []);
+  Future<void> initSuggestions() async {
+    final List<Suggestion> suggestions = await _suggestionsDataSource.getAllSuggestions();
+    _suggestionsSubject.add(suggestions);
   }
 
   @override
-  Future<Wrapper<Suggestion>> getSuggestionById(String suggestionId) {
+  Future<Suggestion> getSuggestionById(String suggestionId) {
     return _suggestionsDataSource.getSuggestionById(suggestionId);
   }
 
   @override
-  Future<Wrapper<Suggestion>> createSuggestion(CreateSuggestionModel suggestion) async {
-    final result = await _suggestionsDataSource.createSuggestion(suggestion);
-    if (result.data != null) {
-      final suggestions = List<Suggestion>.from(this.suggestions)..add(result.data!);
-      _suggestionsSubject.add(suggestions);
-    }
-    return result;
+  Future<Suggestion> createSuggestion(CreateSuggestionModel suggestion) async {
+    final Suggestion createdSuggestion = await _suggestionsDataSource.createSuggestion(suggestion);
+
+    final List<Suggestion> suggestions = List<Suggestion>.from(this.suggestions)
+      ..add(createdSuggestion);
+    _suggestionsSubject.add(suggestions);
+
+    return createdSuggestion;
   }
 
   @override
-  Future<Wrapper<Suggestion>> updateSuggestion(Suggestion suggestion) async {
-    final result = await _suggestionsDataSource.updateSuggestion(suggestion);
-    final updatedSuggestion = (await getSuggestionById(suggestion.id)).data;
-    if (result.success() && updatedSuggestion != null) {
+  Future<Suggestion> updateSuggestion(Suggestion suggestion) async {
+    final Suggestion result = await _suggestionsDataSource.updateSuggestion(suggestion);
+    final Suggestion updatedSuggestion = await getSuggestionById(suggestion.id);
+    if (updatedSuggestion != null) {
       refreshSuggestions(updatedSuggestion);
     }
     return result;
@@ -71,58 +72,56 @@ class SuggestionRepository implements ISuggestionRepository {
 
   @override
   Future<void> deleteSuggestion(String suggestionId) async {
-    final result = await _suggestionsDataSource.deleteSuggestionById(suggestionId);
-    if (result.success()) {
-      final suggestions = List<Suggestion>.from(this.suggestions)
-        ..removeWhere((e) => e.id == suggestionId);
-      _suggestionsSubject.add(suggestions);
-    }
+    await _suggestionsDataSource.deleteSuggestionById(suggestionId);
+    final List<Suggestion> suggestions = List<Suggestion>.from(this.suggestions)
+      ..removeWhere((Suggestion e) => e.id == suggestionId);
+    _suggestionsSubject.add(suggestions);
   }
 
   @override
   Future<void> addNotifyToUpdateUser(String suggestionId) async {
-    final result = await _suggestionsDataSource.addNotifyToUpdateUser(suggestionId);
-    final suggestion = (await getSuggestionById(suggestionId)).data;
-    if (result.success() && suggestion != null) {
+    await _suggestionsDataSource.addNotifyToUpdateUser(suggestionId);
+    final Suggestion suggestion = await getSuggestionById(suggestionId);
+    if (suggestion != null) {
       refreshSuggestions(suggestion);
     }
   }
 
   @override
   Future<void> deleteNotifyToUpdateUser(String suggestionId) async {
-    final result = await _suggestionsDataSource.deleteNotifyToUpdateUser(suggestionId);
-    final suggestion = (await getSuggestionById(suggestionId)).data;
-    if (result.success() && suggestion != null) {
+    await _suggestionsDataSource.deleteNotifyToUpdateUser(suggestionId);
+    final Suggestion suggestion = await getSuggestionById(suggestionId);
+    if (suggestion != null) {
       refreshSuggestions(suggestion);
     }
   }
 
   @override
-  void downvote(String suggestionId) async {
-    final result = await _suggestionsDataSource.downvote(suggestionId);
-    final suggestion = (await getSuggestionById(suggestionId)).data;
-    if (result.success() && suggestion != null) {
+  Future<void> downvote(String suggestionId) async {
+    await _suggestionsDataSource.downvote(suggestionId);
+    final Suggestion suggestion = await getSuggestionById(suggestionId);
+    if (suggestion != null) {
       refreshSuggestions(suggestion);
     }
   }
 
   @override
-  void upvote(String suggestionId) async {
-    final result = await _suggestionsDataSource.upvote(suggestionId);
-    final suggestion = (await getSuggestionById(suggestionId)).data;
-    if (result.success() && suggestion != null) {
+  Future<void> upvote(String suggestionId) async {
+    await _suggestionsDataSource.upvote(suggestionId);
+    final Suggestion suggestion = await getSuggestionById(suggestionId);
+    if (suggestion != null) {
       refreshSuggestions(suggestion);
     }
   }
 
   @override
-  Future<Wrapper<List<Comment>>> getAllComments(String suggestionId) {
+  Future<List<Comment>> getAllComments(String suggestionId) {
     return _suggestionsDataSource.getAllComments(suggestionId);
   }
 
   @override
-  Future<Wrapper<Comment>> createComment(CreateCommentModel comment) async {
-    final result = await _suggestionsDataSource.createComment(comment);
+  Future<Comment> createComment(CreateCommentModel comment) async {
+    final Comment result = await _suggestionsDataSource.createComment(comment);
     return result;
   }
 }

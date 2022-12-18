@@ -33,10 +33,10 @@ class _SuggestionsIconButtonState extends State<SuggestionsIconButton> {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () => widget.onClick(),
-      onTapDown: (tapDetails) {
+      onTapDown: (TapDownDetails tapDetails) {
         setState(() => pressed = true);
       },
-      onTapUp: (tapDetails) {
+      onTapUp: (TapUpDetails tapDetails) {
         setState(() => pressed = false);
       },
       onTapCancel: () {

@@ -16,7 +16,7 @@ class SuggestionsFab extends StatefulWidget {
   final EdgeInsets padding;
   final EdgeInsets margin;
 
-  SuggestionsFab({
+  const SuggestionsFab({
     Key? key,
     required this.onClick,
     required this.imageIcon,
@@ -68,14 +68,14 @@ class _SuggestionsFabState extends State<SuggestionsFab> with SingleTickerProvid
           borderRadius: BorderRadius.circular(widget.borderRadius),
         ),
         child: Stack(
-          children: [
+          children: <Widget>[
             Positioned(
+              right: -widget.size / 4,
+              bottom: -widget.size / 2,
               child: _AnimatedCircle(
                 animation: animation,
                 color: widget.splashColor ?? theme.fabColor,
               ),
-              right: -widget.size / 4,
-              bottom: -widget.size / 2,
             ),
             Center(
               child: SvgPicture.asset(
@@ -104,7 +104,7 @@ class _AnimatedCircle extends AnimatedWidget {
 
   @override
   Widget build(BuildContext context) {
-    final animation = listenable as Animation<double>;
+    final Animation<double> animation = listenable as Animation<double>;
     return Center(
       child: Container(
         height: animation.value,

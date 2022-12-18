@@ -9,7 +9,7 @@ class SuggestionsState extends Equatable {
   final SuggestionStatus activeTab;
   final bool isCreateBottomSheetOpened;
 
-  SuggestionsState({
+  const SuggestionsState({
     required this.requests,
     required this.inProgress,
     required this.completed,
@@ -34,7 +34,7 @@ class SuggestionsState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props => <Object?>[
         requests,
         inProgress,
         completed,

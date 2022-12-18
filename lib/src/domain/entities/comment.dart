@@ -27,6 +27,7 @@ class Comment extends Equatable {
       author: SuggestionAuthor.empty(id: json['author_id']),
       isAnonymous: json['is_anonymous'],
       text: json['text'],
+      // ignore: avoid_dynamic_calls
       creationTime: json['creation_time'].runtimeType == String
           ? fromDateTime(json['creation_time'])
           : json['creation_time'],
@@ -34,7 +35,7 @@ class Comment extends Equatable {
   }
 
   Map<String, dynamic> toUpdatingJson() {
-    return {
+    return <String, dynamic>{
       'text': text,
       'is_anonymous': isAnonymous,
     };
@@ -59,7 +60,7 @@ class Comment extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props => <Object?>[
         id,
         suggestionId,
         author,
@@ -82,7 +83,7 @@ class CreateCommentModel extends Equatable {
   });
 
   Map<String, dynamic> toJson() {
-    return {
+    return <String, dynamic>{
       'author_id': authorId,
       'is_anonymous': isAnonymous,
       'text': text,
@@ -91,7 +92,7 @@ class CreateCommentModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props => <Object?>[
         authorId,
         isAnonymous,
         text,

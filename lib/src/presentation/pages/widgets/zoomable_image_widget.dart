@@ -36,7 +36,7 @@ class _ZoomableImageState extends State<ZoomableImage> with SingleTickerProvider
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: double.maxFinite,
       width: double.maxFinite,
       child: ExtendedImage(
@@ -46,26 +46,21 @@ class _ZoomableImageState extends State<ZoomableImage> with SingleTickerProvider
         ),
         fit: BoxFit.contain,
         mode: ExtendedImageMode.gesture,
-        initGestureConfigHandler: (state) {
+        initGestureConfigHandler: (ExtendedImageState state) {
           return GestureConfig(
             minScale: 1,
             animationMinScale: 1,
             maxScale: 3.0,
             animationMaxScale: 3.5,
-            speed: 1.0,
-            inertialSpeed: 100.0,
-            initialScale: 1.0,
-            inPageView: false,
-            initialAlignment: InitialAlignment.center,
-            gestureDetailsIsChanged: (details) {
-              var isZoomed = details!.totalScale! > 1 ? true : false;
+            gestureDetailsIsChanged: (GestureDetails? details) {
+              final bool isZoomed = details!.totalScale! > 1;
               widget.changeZoomStatus(isZoomed);
             },
           );
         },
-        onDoubleTap: (state) {
-          var pointerDownPosition = state.pointerDownPosition;
-          var begin = state.gestureDetails!.totalScale!;
+        onDoubleTap: (ExtendedImageGestureState state) {
+          final Offset? pointerDownPosition = state.pointerDownPosition;
+          final double begin = state.gestureDetails!.totalScale!;
           double end;
 
           _animation?.removeListener(_animationListener);

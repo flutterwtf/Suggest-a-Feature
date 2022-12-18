@@ -14,13 +14,14 @@ class SuggestionsElevatedButton extends StatefulWidget {
   final bool isLoading;
 
   const SuggestionsElevatedButton({
+    Key? key,
     required this.buttonText,
     required this.onClick,
     this.isLoading = false,
     this.backgroundColor,
     this.textColor,
     this.imageIcon,
-  });
+  }) : super(key: key);
 
   @override
   _SuggestionsElevatedButtonState createState() => _SuggestionsElevatedButtonState();
@@ -33,39 +34,20 @@ class _SuggestionsElevatedButtonState extends State<SuggestionsElevatedButton> {
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTap: () => widget.isLoading ? () => {} : widget.onClick(),
-      onTapDown: (tapDetails) {
+      onTap: () => widget.isLoading ? () => <dynamic, dynamic>{} : widget.onClick(),
+      onTapDown: (TapDownDetails tapDetails) {
         setState(() => _isPressed = true);
       },
-      onTapUp: (tapDetails) {
+      onTapUp: (TapUpDetails tapDetails) {
         setState(() => _isPressed = false);
       },
       onTapCancel: () {
         setState(() => _isPressed = false);
       },
-      child: Container(
+      child: SizedBox(
         height: Dimensions.buttonHeight,
         child: ElevatedButton(
           onPressed: widget.onClick,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (widget.imageIcon != null) ...[
-                SvgPicture.asset(
-                  widget.imageIcon!,
-                  package: AssetStrings.packageName,
-                  color: theme.elevatedButtonTextColor,
-                ),
-                const SizedBox(width: Dimensions.marginSmall),
-              ],
-              Text(
-                widget.buttonText,
-                style: theme.textMBold.copyWith(
-                  color: widget.textColor ?? theme.elevatedButtonTextColor,
-                ),
-              ),
-            ],
-          ),
           style: TextButton.styleFrom(
             padding: EdgeInsets.zero,
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -76,6 +58,25 @@ class _SuggestionsElevatedButtonState extends State<SuggestionsElevatedButton> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(Dimensions.smallCircularRadius),
             ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              if (widget.imageIcon != null) ...<Widget>[
+                SvgPicture.asset(
+                  widget.imageIcon!,
+                  package: AssetStrings.packageName,
+                  color: theme.elevatedButtonTextColor,
+                ),
+                const SizedBox(width: Dimensions.marginSmall),
+              ],
+              Text(
+                widget.buttonText,
+                style: theme.textSmallPlusBold.copyWith(
+                  color: widget.textColor ?? theme.elevatedButtonTextColor,
+                ),
+              ),
+            ],
           ),
         ),
       ),

@@ -29,7 +29,7 @@ class PhotoView extends StatefulWidget {
 class _PhotoViewState extends State<PhotoView> {
   late PageController _galleryPageController;
   late int _currentIndex;
-  final _touchPositions = <int, Offset>{};
+  final Map<int, Offset> _touchPositions = <int, Offset>{};
   ScrollPhysics _scrollPhysics = const _CustomPageViewScrollPhysics();
   bool _isZoomed = false;
 
@@ -51,7 +51,7 @@ class _PhotoViewState extends State<PhotoView> {
         systemNavigationBarIconBrightness: Brightness.dark,
       ),
       child: Column(
-        children: [
+        children: <Widget>[
           Container(
             height: kToolbarHeight + MediaQuery.of(context).padding.top,
             padding: EdgeInsets.only(
@@ -61,19 +61,17 @@ class _PhotoViewState extends State<PhotoView> {
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              children: <Widget>[
                 SuggestionsIconButton(
                   onClick: Navigator.of(context).pop,
-                  padding: const EdgeInsets.all(Dimensions.marginMicro),
                   imageIcon: AssetStrings.backIconImage,
                   color: Colors.white,
                 ),
                 Row(
-                  children: [
-                    if (widget.onDeleteClick != null) ...[
+                  children: <Widget>[
+                    if (widget.onDeleteClick != null) ...<Widget>[
                       SuggestionsIconButton(
                         imageIcon: AssetStrings.deleteIconImage,
-                        padding: const EdgeInsets.all(Dimensions.marginMicro),
                         onClick: () {
                           Navigator.of(context).pop();
                           widget.onDeleteClick!(widget.photos[_currentIndex]);
@@ -82,9 +80,8 @@ class _PhotoViewState extends State<PhotoView> {
                       ),
                       const SizedBox(width: Dimensions.marginDefault),
                     ],
-                    if (widget.onDownloadClick != null) ...[
+                    if (widget.onDownloadClick != null) ...<Widget>[
                       SuggestionsIconButton(
-                        padding: const EdgeInsets.all(Dimensions.marginMicro),
                         imageIcon: AssetStrings.downloadIconImage,
                         onClick: () => widget.onDownloadClick!(widget.photos[_currentIndex]),
                         color: Colors.white,
@@ -99,15 +96,15 @@ class _PhotoViewState extends State<PhotoView> {
             child: Hero(
               tag: 'photo_view',
               child: Listener(
-                onPointerDown: (opd) {
+                onPointerDown: (PointerDownEvent opd) {
                   _touchPositions[opd.pointer] = opd.position;
                   _changeScrollPhysics();
                 },
-                onPointerCancel: (opc) {
+                onPointerCancel: (PointerCancelEvent opc) {
                   _touchPositions.remove(opc.pointer);
                   _changeScrollPhysics();
                 },
-                onPointerUp: (opu) {
+                onPointerUp: (PointerUpEvent opu) {
                   _touchPositions.remove(opu.pointer);
                   _changeScrollPhysics();
                 },
@@ -115,8 +112,8 @@ class _PhotoViewState extends State<PhotoView> {
                   physics: _scrollPhysics,
                   itemCount: widget.photos.length,
                   controller: _galleryPageController,
-                  onPageChanged: (pageIndex) => _currentIndex = pageIndex,
-                  itemBuilder: (context, index) {
+                  onPageChanged: (int pageIndex) => _currentIndex = pageIndex,
+                  itemBuilder: (BuildContext context, int index) {
                     return ZoomableImage(
                       imageUrl: widget.photos[index],
                       changeScrollPhysics: _changeScrollPhysics,
@@ -157,7 +154,7 @@ class _CustomPageViewScrollPhysics extends ScrollPhysics {
 
   @override
   _CustomPageViewScrollPhysics applyTo(ScrollPhysics? ancestor) {
-    return _CustomPageViewScrollPhysics(parent: buildParent(ancestor)!);
+    return _CustomPageViewScrollPhysics(parent: buildParent(ancestor));
   }
 
   @override

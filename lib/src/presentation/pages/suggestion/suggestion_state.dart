@@ -12,7 +12,7 @@ class SuggestionState extends Equatable {
   final SavingResultMessageType savingImageResultMessageType;
   final SuggestionBottomSheetType bottomSheetType;
 
-  SuggestionState({
+  const SuggestionState({
     required this.isPopped,
     required this.isEditable,
     required this.author,
@@ -41,7 +41,7 @@ class SuggestionState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props => <Object?>[
         isPopped,
         isEditable,
         author,

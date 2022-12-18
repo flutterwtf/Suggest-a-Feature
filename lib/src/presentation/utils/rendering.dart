@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 final Paint _hidingGradientPaint = Paint();
 final Paint _hidingSolidPaint = Paint();
-const _hidingGradientHeight = 56.0;
+const double _hidingGradientHeight = 56.0;
 
 void renderHidings({
   required Canvas canvas,
@@ -12,18 +12,19 @@ void renderHidings({
   required double contentMarginBottom,
   required Color backgroundColor,
 }) {
-  final topGradient = LinearGradient(
+  final LinearGradient topGradient = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
-    colors: [backgroundColor, backgroundColor.withOpacity(0.0)],
+    colors: <Color>[backgroundColor, backgroundColor.withOpacity(0.0)],
   );
-  final bottomGradient = LinearGradient(
+  final LinearGradient bottomGradient = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
-    colors: [backgroundColor.withOpacity(0.0), backgroundColor],
+    colors: <Color>[backgroundColor.withOpacity(0.0), backgroundColor],
   );
-  final topRectGradient = Rect.fromLTWH(0, contentMarginTop - 2, size.width, _hidingGradientHeight);
-  final bottomRectGradient = Rect.fromLTWH(
+  final Rect topRectGradient =
+      Rect.fromLTWH(0, contentMarginTop - 2, size.width, _hidingGradientHeight);
+  final Rect bottomRectGradient = Rect.fromLTWH(
     0,
     size.height - _hidingGradientHeight - contentMarginBottom,
     size.width,
@@ -39,8 +40,8 @@ void renderHidings({
     _hidingGradientPaint..shader = bottomGradient.createShader(bottomRectGradient),
   );
 
-  final topRectSolid = Rect.fromLTWH(0, 0, size.width, contentMarginTop);
-  final bottomRectSolid = Rect.fromLTWH(
+  final Rect topRectSolid = Rect.fromLTWH(0, 0, size.width, contentMarginTop);
+  final Rect bottomRectSolid = Rect.fromLTWH(
     0,
     size.height - contentMarginBottom,
     size.width,

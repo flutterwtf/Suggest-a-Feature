@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 
-import '../../../utils/dimensions.dart';
 import '../../../utils/context_utils.dart';
+import '../../../utils/dimensions.dart';
 import '../../theme/suggestions_theme.dart';
 import '../clickable_list_item.dart';
 import '../elevated_button.dart';
@@ -18,17 +18,18 @@ class CreateCommentBottomSheet extends StatefulWidget {
   final OnCreateComment onCreateComment;
 
   const CreateCommentBottomSheet({
+    Key? key,
     required this.controller,
     required this.onClose,
     required this.onCreateComment,
-  });
+  }) : super(key: key);
 
   @override
   _CreateCommentBottomSheetState createState() => _CreateCommentBottomSheetState();
 }
 
 class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
-  final _commentController = TextEditingController();
+  final TextEditingController _commentController = TextEditingController();
   bool _isAnonymously = false;
   bool _isShowCommentError = false;
   late FocusNode _inputFocusNode;
@@ -54,7 +55,7 @@ class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
       backgroundColor: theme.bottomSheetBackgroundColor,
       previousNavBarColor: theme.primaryBackgroundColor,
       previousStatusBarColor: theme.primaryBackgroundColor,
-      contentBuilder: (context, sheetState) {
+      contentBuilder: (BuildContext context, SheetState sheetState) {
         return ListView(
           padding: const EdgeInsets.only(
             top: Dimensions.marginSmall,
@@ -62,7 +63,7 @@ class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
           ),
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          children: [
+          children: <Widget>[
             _commentTextField(context),
             const SizedBox(height: Dimensions.marginBig),
             Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
@@ -78,7 +79,7 @@ class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
 
   Widget _commentTextField(BuildContext context) {
     return Focus(
-      onFocusChange: (hasFocus) {
+      onFocusChange: (bool hasFocus) {
         if (!hasFocus && _commentController.text.isEmpty) {
           setState(() => _isShowCommentError = true);
         } else {
@@ -104,11 +105,11 @@ class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
     return ClickableListItem(
       title: Text(
         context.localization.postAnonymously,
-        style: theme.textMSecondaryBold,
+        style: theme.textSmallPlusSecondaryBold,
       ),
       trailing: SuggestionsSwitch(
         value: _isAnonymously,
-        onChanged: (value) => setState(() => _isAnonymously = value),
+        onChanged: (bool value) => setState(() => _isAnonymously = value),
       ),
     );
   }

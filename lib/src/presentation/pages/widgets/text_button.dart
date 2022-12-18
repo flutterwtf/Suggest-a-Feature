@@ -22,17 +22,17 @@ class _SuggestionsTextButtonState extends State<SuggestionsTextButton> {
 
   @override
   Widget build(BuildContext context) {
-    var color = theme.primaryTextColor;
+    Color color = theme.primaryTextColor;
     if (_pressed) {
       color = theme.actionPressedColor;
     }
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: widget.onClick,
-      onTapDown: (tapDetails) {
+      onTapDown: (TapDownDetails tapDetails) {
         setState(() => _pressed = true);
       },
-      onTapUp: (tapDetails) {
+      onTapUp: (TapUpDetails tapDetails) {
         setState(() => _pressed = false);
       },
       onTapCancel: () {
@@ -45,12 +45,12 @@ class _SuggestionsTextButtonState extends State<SuggestionsTextButton> {
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
-          children: [
+          children: <Widget>[
             Text(
               widget.title,
               style: _pressed
-                  ? theme.textM.copyWith(color: theme.actionPressedColor)
-                  : theme.textM.copyWith(color: color),
+                  ? theme.textSmallPlus.copyWith(color: theme.actionPressedColor)
+                  : theme.textSmallPlus.copyWith(color: color),
             ),
           ],
         ),

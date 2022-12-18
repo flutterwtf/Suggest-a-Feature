@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,9 +10,9 @@ import '../../../data/interfaces/i_suggestions_data_source.dart';
 import '../../../domain/entities/suggestion.dart';
 import '../../di/injector.dart';
 import '../../utils/assets_strings.dart';
+import '../../utils/context_utils.dart';
 import '../../utils/dimensions.dart';
 import '../../utils/rendering.dart';
-import '../../utils/context_utils.dart';
 import '../../utils/typedefs.dart';
 import '../suggestion/create_edit/create_edit_suggestion_bottom_sheet.dart';
 import '../suggestion/suggestion_page.dart';
@@ -45,6 +47,7 @@ class SuggestionsPage extends StatefulWidget {
   final OnGetUserById onGetUserById;
 
   SuggestionsPage({
+    Key? key,
     required this.userId,
     required this.suggestionsDataSource,
     required this.theme,
@@ -52,7 +55,7 @@ class SuggestionsPage extends StatefulWidget {
     this.onSaveToGallery,
     this.onUploadMultiplePhotos,
     this.imageHeaders,
-  }) {
+  }) : super(key: key) {
     i.init(
         theme: theme,
         userId: userId,
@@ -90,9 +93,9 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
   Widget build(BuildContext context) {
     return BlocBuilder<SuggestionsCubit, SuggestionsState>(
       bloc: _cubit,
-      builder: (context, state) {
+      builder: (BuildContext context, SuggestionsState state) {
         return Stack(
-          children: [
+          children: <Widget>[
             Scaffold(
               appBar: SuggestionsAppBar(
                 onBackClick: Navigator.of(context).pop,
@@ -100,7 +103,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
               ),
               backgroundColor: theme.primaryBackgroundColor,
               body: Stack(
-                children: [
+                children: <Widget>[
                   _mainContent(state),
                   _bottomFab(),
                 ],
@@ -183,7 +186,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
   }
 
   Widget _tabBar(SuggestionsState state) {
-    const tabHeight = 60.0;
+    const double tabHeight = 60.0;
     return TabBar(
       indicator: BoxDecoration(
         color: theme.primaryBackgroundColor,
@@ -193,6 +196,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
       controller: _tabController,
       tabs: <Tab>[
         Tab(
+          height: tabHeight,
           child: _tabButton(
             status: SuggestionStatus.requests,
             activeImage: AssetStrings.suggestionsRequests,
@@ -201,9 +205,9 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
             text: context.localization.requests,
             state: state,
           ),
-          height: tabHeight,
         ),
         Tab(
+          height: tabHeight,
           child: _tabButton(
             status: SuggestionStatus.inProgress,
             activeImage: AssetStrings.suggestionsInProgress,
@@ -212,9 +216,9 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
             text: context.localization.inProgress,
             state: state,
           ),
-          height: tabHeight,
         ),
         Tab(
+          height: tabHeight,
           child: _tabButton(
             status: SuggestionStatus.completed,
             activeImage: AssetStrings.suggestionsCompleted,
@@ -223,7 +227,6 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
             text: context.localization.completed,
             state: state,
           ),
-          height: tabHeight,
         ),
       ],
     );
@@ -239,13 +242,12 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
   }) {
     /// We need different heights because of svg files differences (inactive icons have smaller
     /// margins);
-    const activeIconHeight = 38.0;
-    const inactiveIconHeight = 22.0;
-    const textHeight = 1.17;
-    final isActive = state.activeTab == status;
+    const double activeIconHeight = 38.0;
+    const double inactiveIconHeight = 22.0;
+    const double textHeight = 1.17;
+    final bool isActive = state.activeTab == status;
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
+      children: <Widget>[
         Stack(
           alignment: Alignment.center,
           children: <Widget>[
@@ -253,7 +255,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
               height: inactiveIconHeight,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                boxShadow: [
+                boxShadow: <BoxShadow>[
                   BoxShadow(
                     color: isActive ? color.withOpacity(0.3) : theme.secondaryBackgroundColor,
                     blurRadius: 7,
@@ -276,11 +278,11 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
           child: Text(
             text,
             style: isActive
-                ? theme.textMBold.copyWith(
+                ? theme.textSmallPlusBold.copyWith(
                     color: color,
                     height: textHeight,
                   )
-                : theme.textMSecondary.copyWith(height: textHeight),
+                : theme.textSmallPlusSecondary.copyWith(height: textHeight),
           ),
         ),
       ],
@@ -293,11 +295,11 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
     required Color color,
   }) {
     return Stack(
-      children: [
+      children: <Widget>[
         ListView.builder(
           itemCount: suggestions.length + 1,
           padding: const EdgeInsets.symmetric(horizontal: Dimensions.marginDefault),
-          itemBuilder: (context, index) {
+          itemBuilder: (BuildContext context, int index) {
             return index == 0
                 ? _listDescription(status, suggestions.length)
                 : Padding(
@@ -308,7 +310,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
                       status: status,
                       index: index - 1,
                       onClick: () => Navigator.of(context).push(
-                        CupertinoPageRoute(
+                        CupertinoPageRoute<dynamic>(
                           builder: (_) => SuggestionPage(
                             suggestion: suggestions[index - 1],
                             onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
@@ -328,7 +330,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
 
   Widget _shadows() {
     return CustomPaint(
-      size: const Size(double.infinity, double.infinity),
+      size: Size.infinite,
       foregroundPainter: ShadowsCustomPainter(
         context: context,
         contentMarginTop: -11,
@@ -350,20 +352,21 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
         header = context.localization.inProgressHeader;
         description = context.localization.inProgressDescription;
         break;
-      default:
+      case SuggestionStatus.completed:
         header = context.localization.completedHeader;
         description = context.localization.completedDescription;
+        break;
     }
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: Dimensions.margin2x),
       child: Column(
-        children: [
+        children: <Widget>[
           RichText(
             textAlign: TextAlign.center,
             text: TextSpan(
-              children: [
-                TextSpan(text: header, style: theme.textMPlusBold),
-                TextSpan(text: ' ($length)', style: theme.textM),
+              children: <TextSpan>[
+                TextSpan(text: header, style: theme.textMediumBold),
+                TextSpan(text: ' ($length)', style: theme.textSmallPlus),
               ],
             ),
           ),
@@ -371,7 +374,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
           Text(
             description,
             textAlign: TextAlign.center,
-            style: theme.textM,
+            style: theme.textSmallPlus,
           ),
         ],
       ),
@@ -389,7 +392,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
       onTap: onClick,
       child: IntrinsicHeight(
         child: Stack(
-          children: [
+          children: <Widget>[
             Container(
               padding: const EdgeInsets.only(
                 left: Dimensions.marginDefault,
@@ -405,22 +408,22 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   _voteCounter(suggestion, status, index),
                   const SizedBox(width: Dimensions.marginDefault),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: <Widget>[
                         Text(
                           suggestion.title,
-                          style: theme.textMBold,
+                          style: theme.textSmallPlusBold,
                         ),
                         const SizedBox(height: Dimensions.marginSmall),
                         if (suggestion.description != null)
                           Text(
                             suggestion.description!,
-                            style: theme.textM,
+                            style: theme.textSmallPlus,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             softWrap: true,
@@ -469,7 +472,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
             topLeft: Radius.circular(Dimensions.verySmallCircularRadius),
             bottomLeft: Radius.circular(Dimensions.verySmallCircularRadius),
           ),
-          boxShadow: [
+          boxShadow: <BoxShadow>[
             BoxShadow(
               color: color.withOpacity(0.16),
               spreadRadius: 4,

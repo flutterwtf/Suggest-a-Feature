@@ -201,28 +201,29 @@ class SuggestionsTheme {
   TextStyle get base => TextStyle(
         fontFamily: fontFamily,
         color: primaryTextColor,
-        fontFamilyFallback: ['sans-serif'],
+        fontFamilyFallback: const <String>['sans-serif'],
       );
 
-  TextStyle get textXXL => base.copyWith(fontSize: FontSizes.sixeXXL);
+  TextStyle get textSmall => base.copyWith(fontSize: FontSizes.small);
 
-  TextStyle get textL => base.copyWith(fontSize: FontSizes.sizeL);
+  TextStyle get textMedium => base.copyWith(fontSize: FontSizes.medium);
 
-  TextStyle get textM => base.copyWith(fontSize: FontSizes.sizeM);
+  TextStyle get textLarge => base.copyWith(fontSize: FontSizes.large);
 
-  TextStyle get textMPlus => base.copyWith(fontSize: FontSizes.sizeMPlus);
+  TextStyle get textSmallPlus => base.copyWith(fontSize: FontSizes.smallPlus);
 
-  TextStyle get textS => base.copyWith(fontSize: FontSizes.sizeS);
+  TextStyle get textSmallPlusSecondary => textSmallPlus.copyWith(color: secondaryTextColor);
 
-  TextStyle get textXXLBold => textXXL.copyWith(fontWeight: FontSizes.weightBold);
+  TextStyle get textMediumPlus => base.copyWith(fontSize: FontSizes.mediumPlus);
 
-  TextStyle get textLBold => textL.copyWith(fontWeight: FontSizes.weightBold);
+  TextStyle get textMediumBold => textMedium.copyWith(fontWeight: FontSizes.weightBold);
 
-  TextStyle get textMSecondary => textM.copyWith(color: secondaryTextColor);
+  TextStyle get textMediumPlusBold => textMediumPlus.copyWith(fontWeight: FontSizes.weightBold);
 
-  TextStyle get textMPlusBold => textMPlus.copyWith(fontWeight: FontSizes.weightBold);
+  TextStyle get textLargeBold => textLarge.copyWith(fontWeight: FontSizes.weightBold);
 
-  TextStyle get textMBold => textM.copyWith(fontWeight: FontSizes.weightBold);
+  TextStyle get textSmallPlusBold => textSmallPlus.copyWith(fontWeight: FontSizes.weightBold);
 
-  TextStyle get textMSecondaryBold => textMSecondary.copyWith(fontWeight: FontSizes.weightBold);
+  TextStyle get textSmallPlusSecondaryBold =>
+      textSmallPlusSecondary.copyWith(fontWeight: FontSizes.weightBold);
 }

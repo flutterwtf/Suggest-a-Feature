@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../utils/assets_strings.dart';
-import '../../utils/dimensions.dart';
 import '../../utils/context_utils.dart';
+import '../../utils/dimensions.dart';
 import '../theme/suggestions_theme.dart';
 import 'dotted_border.dart';
 
@@ -28,8 +28,7 @@ class AddPhotoButton extends StatelessWidget {
       height: height,
       margin: const EdgeInsets.symmetric(horizontal: Dimensions.marginDefault),
       child: DottedBorder(
-        dashPattern: [10, 4],
-        strokeWidth: 1.5,
+        dashPattern: const <double>[10, 4],
         borderType: BorderType.RRect,
         strokeCap: StrokeCap.round,
         color: theme.actionColor,
@@ -42,7 +41,7 @@ class AddPhotoButton extends StatelessWidget {
                 )
               : Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: <Widget>[
                     SvgPicture.asset(
                       AssetStrings.addPhotoButton,
                       package: AssetStrings.packageName,

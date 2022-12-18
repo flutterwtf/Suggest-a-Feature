@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_dynamic_calls
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
@@ -29,26 +31,26 @@ class Suggestion extends Equatable {
     required this.isAnonymous,
     required this.creationTime,
     required this.status,
-    this.labels = const [],
-    this.images = const [],
-    this.comments = const [],
-    this.notifyUserIds = const {},
-    this.votedUserIds = const {},
+    this.labels = const <SuggestionLabel>[],
+    this.images = const <String>[],
+    this.comments = const <Comment>[],
+    this.notifyUserIds = const <String>{},
+    this.votedUserIds = const <String>{},
   });
 
   Suggestion.empty({
     this.title = '',
     this.isAnonymous = false,
-    this.images = const [],
+    this.images = const <String>[],
     this.status = SuggestionStatus.requests,
-    this.labels = const [],
-    this.comments = const [],
+    this.labels = const <SuggestionLabel>[],
+    this.comments = const <Comment>[],
     this.id = '0',
     this.authorId = '',
     this.description = '',
     DateTime? creationTime,
-    this.notifyUserIds = const {},
-    this.votedUserIds = const {},
+    this.notifyUserIds = const <String>{},
+    this.votedUserIds = const <String>{},
   }) : creationTime = creationTime ?? DateTime.now();
 
   Suggestion copyWith({
@@ -86,21 +88,22 @@ class Suggestion extends Equatable {
       id: json['suggestion_id'].toString(),
       title: json['title'],
       description: json['description'],
-      labels: (json['labels'] as List).cast<String>().map(LabelExt.labelType).toList(),
-      images: (json['images'] as List).cast<String>(),
+      labels: (json['labels'] as List<dynamic>).cast<String>().map(LabelExt.labelType).toList(),
+      images: (json['images'] as List<dynamic>).cast<String>(),
       authorId: json['author_id'],
       isAnonymous: json['is_anonymous'],
       creationTime: json['creation_time'].runtimeType == String
           ? fromDateTime(json['creation_time'])
           : json['creation_time'],
-      status: SuggestionStatus.values.firstWhere((e) => describeEnum(e) == json['status']),
-      votedUserIds: (json['voted_user_ids'] ?? []).cast<String>().toSet(),
-      notifyUserIds: (json['notify_user_ids'] ?? []).cast<String>().toSet(),
+      status: SuggestionStatus.values
+          .firstWhere((SuggestionStatus e) => describeEnum(e) == json['status']),
+      votedUserIds: (json['voted_user_ids'] ?? <String>[]).cast<String>().toSet(),
+      notifyUserIds: (json['notify_user_ids'] ?? <String>[]).cast<String>().toSet(),
     );
   }
 
   Map<String, dynamic> toUpdatingJson() {
-    return {
+    return <String, dynamic>{
       'title': title,
       'description': description,
       'labels': labels.map(describeEnum).toList(),
@@ -109,7 +112,7 @@ class Suggestion extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props => <Object?>[
         id,
         title,
         description,
@@ -141,14 +144,14 @@ class CreateSuggestionModel {
     required this.title,
     this.description,
     required this.labels,
-    this.images = const [],
+    this.images = const <String>[],
     required this.authorId,
     required this.isAnonymous,
     this.status = SuggestionStatus.requests,
   });
 
   Map<String, dynamic> toJson() {
-    return {
+    return <String, dynamic>{
       'title': title,
       'description': description,
       'labels': labels.map(describeEnum).toList(),

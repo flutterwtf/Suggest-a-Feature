@@ -21,6 +21,7 @@ class SuggestionsTextField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
 
   const SuggestionsTextField({
+    Key? key,
     required this.controller,
     this.hintText = '',
     this.onChanged,
@@ -32,7 +33,7 @@ class SuggestionsTextField extends StatelessWidget {
     this.textAlign = TextAlign.start,
     this.textInputAction,
     this.inputFormatters,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +63,7 @@ class SuggestionsTextField extends StatelessWidget {
       keyboardAppearance: keyboardAppearance,
       controller: controller,
       cursorColor: theme.primaryTextColor,
-      style: theme.textM,
+      style: theme.textSmallPlus,
       autofocus: autofocus,
       maxLines: null,
       textAlign: textAlign,
@@ -71,7 +72,7 @@ class SuggestionsTextField extends StatelessWidget {
       decoration: InputDecoration(
         isDense: true,
         hintText: hintText,
-        hintStyle: theme.textM.copyWith(color: theme.primaryTextColor.withOpacity(0.7)),
+        hintStyle: theme.textSmallPlus.copyWith(color: theme.primaryTextColor.withOpacity(0.7)),
         fillColor: Colors.transparent,
         contentPadding: padding,
         border: InputBorder.none,
@@ -85,7 +86,7 @@ class SuggestionsTextField extends StatelessWidget {
             : null,
       ),
       textCapitalization: TextCapitalization.sentences,
-      onChanged: (text) => onChanged?.call(text),
+      onChanged: (String text) => onChanged?.call(text),
       inputFormatters: inputFormatters,
     );
   }
@@ -96,13 +97,15 @@ class SuggestionsTextField extends StatelessWidget {
       focusNode: focusNode,
       keyboardAppearance: keyboardAppearance,
       cursorColor: theme.primaryTextColor,
-      style: theme.textM,
+      style: theme.textSmallPlus,
       autofocus: autofocus,
       maxLines: null,
       textAlign: textAlign,
       textInputAction: textInputAction,
       placeholder: hintText,
-      placeholderStyle: theme.textM.copyWith(color: theme.primaryTextColor.withOpacity(0.7)),
+      placeholderStyle: theme.textSmallPlus.copyWith(
+        color: theme.primaryTextColor.withOpacity(0.7),
+      ),
       cursorHeight: 20,
       decoration: BoxDecoration(
         color: Colors.transparent,
@@ -117,7 +120,7 @@ class SuggestionsTextField extends StatelessWidget {
       ),
       padding: padding,
       textCapitalization: TextCapitalization.sentences,
-      onChanged: (text) => onChanged?.call(text),
+      onChanged: (String text) => onChanged?.call(text),
     );
   }
 }

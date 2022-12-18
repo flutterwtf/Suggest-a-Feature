@@ -41,7 +41,7 @@ class ConfirmationBottomSheet extends StatelessWidget {
       previousNavBarColor: theme.primaryBackgroundColor,
       previousStatusBarColor: theme.primaryBackgroundColor,
       controller: controller,
-      onClose: ([closureType]) {
+      onClose: ([ClosureType? closureType]) {
         if (closureType == ClosureType.backButton) {
           onCancel();
         } else {
@@ -49,7 +49,7 @@ class ConfirmationBottomSheet extends StatelessWidget {
         }
       },
       showDimming: showDimming,
-      contentBuilder: (context, sheetState) {
+      contentBuilder: (BuildContext context, SheetState sheetState) {
         return ListView(
           physics: const NeverScrollableScrollPhysics(),
           padding: const EdgeInsets.only(
@@ -62,7 +62,7 @@ class ConfirmationBottomSheet extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: Dimensions.marginDefault),
               child: Text(
                 question,
-                style: theme.textLBold,
+                style: theme.textMediumPlusBold,
                 textAlign: TextAlign.center,
               ),
             ),
@@ -78,7 +78,7 @@ class ConfirmationBottomSheet extends StatelessWidget {
               ),
               title: Text(
                 onConfirmText,
-                style: theme.textLBold.copyWith(color: theme.errorColor),
+                style: theme.textMediumPlusBold.copyWith(color: theme.errorColor),
                 textAlign: TextAlign.left,
               ),
             ),
@@ -94,7 +94,7 @@ class ConfirmationBottomSheet extends StatelessWidget {
               ),
               title: Text(
                 onCancelText,
-                style: theme.textLBold,
+                style: theme.textMediumPlusBold,
                 textAlign: TextAlign.left,
               ),
             ),

@@ -28,7 +28,7 @@ class BottomSheetOptionBar extends StatelessWidget {
             onClick: onCancel,
           ),
         ),
-        Text(title, style: theme.textLBold),
+        Text(title, style: theme.textMediumPlusBold),
         Align(
           alignment: Alignment.centerRight,
           child: SuggestionsTextButton(

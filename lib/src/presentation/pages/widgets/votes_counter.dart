@@ -20,7 +20,7 @@ class VotesCounter extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       child: Column(
-        children: [
+        children: <Widget>[
           SizedBox(
             height: Dimensions.bigSize,
             width: Dimensions.bigSize,
@@ -31,7 +31,7 @@ class VotesCounter extends StatelessWidget {
               fit: BoxFit.none,
             ),
           ),
-          Text('$upvotesCount', style: theme.textMBold),
+          Text('$upvotesCount', style: theme.textSmallPlusBold),
         ],
       ),
     );
