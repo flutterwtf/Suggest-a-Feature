@@ -2,6 +2,7 @@
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
 
 import '../../presentation/utils/date_utils.dart';
 import 'comment.dart';
@@ -92,9 +93,7 @@ class Suggestion extends Equatable {
       images: (json['images'] as List<dynamic>).cast<String>(),
       authorId: json['author_id'],
       isAnonymous: json['is_anonymous'],
-      creationTime: json['creation_time'].runtimeType == String
-          ? fromDateTime(json['creation_time'])
-          : json['creation_time'],
+      creationTime: fromDateTime(json['creation_time']),
       status: SuggestionStatus.values
           .firstWhere((SuggestionStatus e) => describeEnum(e) == json['status']),
       votedUserIds: (json['voted_user_ids'] ?? <String>[]).cast<String>().toSet(),
@@ -159,6 +158,7 @@ class CreateSuggestionModel {
       'author_id': authorId,
       'is_anonymous': isAnonymous,
       'status': describeEnum(status),
+      'creation_time': DateFormat('yyyy-MM-ddTHH:mm:ss').format(DateTime.now()),
     };
   }
 }

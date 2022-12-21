@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 
 import '../../presentation/utils/date_utils.dart';
 import 'suggestion_author.dart';
@@ -27,10 +28,7 @@ class Comment extends Equatable {
       author: SuggestionAuthor.empty(id: json['author_id']),
       isAnonymous: json['is_anonymous'],
       text: json['text'],
-      // ignore: avoid_dynamic_calls
-      creationTime: json['creation_time'].runtimeType == String
-          ? fromDateTime(json['creation_time'])
-          : json['creation_time'],
+      creationTime: fromDateTime(json['creation_time']),
     );
   }
 
@@ -88,6 +86,7 @@ class CreateCommentModel extends Equatable {
       'is_anonymous': isAnonymous,
       'text': text,
       'suggestion_id': suggestionId,
+      'creation_time': DateFormat('yyyy-MM-ddTHH:mm:ss').format(DateTime.now()),
     };
   }
 
