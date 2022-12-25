@@ -116,7 +116,7 @@ class SuggestionsLocalizationsEn extends SuggestionsLocalizations {
   String get newComment => 'New сomment';
 
   @override
-  String get commentHint => 'Your comment...';
+  String get commentHint => 'Your comment…';
 
   @override
   String get publish => 'Publish';

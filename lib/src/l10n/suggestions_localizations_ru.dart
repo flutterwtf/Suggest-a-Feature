@@ -98,7 +98,7 @@ class SuggestionsLocalizationsRu extends SuggestionsLocalizations {
   String get savingImageSuccess => 'Фото успешно сохранено';
 
   @override
-  String get addPhoto => 'Добавить фото';
+  String get addPhoto => 'Добавить Фото';
 
   @override
   String get cancel => 'Отмена';

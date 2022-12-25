@@ -37,5 +37,7 @@
   "commentsTitle": "Comments",
   "newComment": "New сomment",
   "commentHint": "Your comment…",
-  "publish": "Publish"
+  "publish": "Publish",
+  "add": "Add",
+  "eventPhotosRestriction": "You can attach up to 10 photos 🖼️"
 }

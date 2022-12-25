@@ -7,15 +7,16 @@ import 'package:intl/intl.dart' as intl;
 
 import 'suggestions_localizations_en.dart';
 import 'suggestions_localizations_ru.dart';
+import 'suggestions_localizations_uk.dart';
 
-/// Callers can lookup localized strings with an instance of SuggestionsLocalizations returned
-/// by `SuggestionsLocalizations.of(context)`.
+/// Callers can lookup localized strings with an instance of SuggestionsLocalizations
+/// returned by `SuggestionsLocalizations.of(context)`.
 ///
 /// Applications need to include `SuggestionsLocalizations.delegate()` in their app's
-/// localizationDelegates list, and the locales they support in the app's
-/// supportedLocales list. For example:
+/// `localizationDelegates` list, and the locales they support in the app's
+/// `supportedLocales` list. For example:
 ///
-/// ```
+/// ```dart
 /// import 'l10n/suggestions_localizations.dart';
 ///
 /// return MaterialApp(
@@ -30,14 +31,14 @@ import 'suggestions_localizations_ru.dart';
 /// Please make sure to update your pubspec.yaml to include the following
 /// packages:
 ///
-/// ```
+/// ```yaml
 /// dependencies:
 ///   # Internationalization support.
 ///   flutter_localizations:
 ///     sdk: flutter
 ///   intl: any # Use the pinned version from flutter_localizations
 ///
-///   # rest of dependencies
+///   # Rest of dependencies
 /// ```
 ///
 /// ## iOS Applications
@@ -60,9 +61,7 @@ import 'suggestions_localizations_ru.dart';
 /// be consistent with the languages listed in the SuggestionsLocalizations.supportedLocales
 /// property.
 abstract class SuggestionsLocalizations {
-  SuggestionsLocalizations(String locale)
-      // ignore: noop_primitive_operations
-      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  SuggestionsLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -70,8 +69,7 @@ abstract class SuggestionsLocalizations {
     return Localizations.of<SuggestionsLocalizations>(context, SuggestionsLocalizations);
   }
 
-  static const LocalizationsDelegate<SuggestionsLocalizations> delegate =
-      _SuggestionsLocalizationsDelegate();
+  static const LocalizationsDelegate<SuggestionsLocalizations> delegate = _SuggestionsLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -83,8 +81,7 @@ abstract class SuggestionsLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
-      <LocalizationsDelegate<dynamic>>[
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
     delegate,
     GlobalMaterialLocalizations.delegate,
     GlobalCupertinoLocalizations.delegate,
@@ -95,10 +92,7 @@ abstract class SuggestionsLocalizations {
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
     Locale('ru'),
-    Locale('fr'),
-    Locale('de'),
-    Locale('es'),
-    Locale('pt')
+    Locale('uk')
   ];
 
   /// No description provided for @suggestion.
@@ -194,13 +188,13 @@ abstract class SuggestionsLocalizations {
   /// No description provided for @title.
   ///
   /// In en, this message translates to:
-  /// **'Title'**
+  /// **'Briefly describe your suggestion'**
   String get title;
 
   /// No description provided for @description.
   ///
   /// In en, this message translates to:
-  /// **'Go into more detail about your idea'**
+  /// **'Describe your suggestion in details'**
   String get description;
 
   /// No description provided for @postAnonymously.
@@ -218,7 +212,7 @@ abstract class SuggestionsLocalizations {
   /// No description provided for @anonymousAuthorName.
   ///
   /// In en, this message translates to:
-  /// **'User'**
+  /// **'Anonymous'**
   String get anonymousAuthorName;
 
   /// No description provided for @requests.
@@ -254,7 +248,7 @@ abstract class SuggestionsLocalizations {
   /// No description provided for @inProgressDescription.
   ///
   /// In en, this message translates to:
-  /// **'New functionality will be added to the app soon!'**
+  /// **'What will be added to the app soon'**
   String get inProgressDescription;
 
   /// No description provided for @completed.
@@ -272,32 +266,26 @@ abstract class SuggestionsLocalizations {
   /// No description provided for @completedDescription.
   ///
   /// In en, this message translates to:
-  /// **'Functions that already work in the application'**
+  /// **'What’s been already implemented'**
   String get completedDescription;
 
   /// No description provided for @savingImageError.
   ///
   /// In en, this message translates to:
-  /// **'An error occurred while saving the photo'**
+  /// **'Error: can’t save the photo'**
   String get savingImageError;
 
   /// No description provided for @savingImageSuccess.
   ///
   /// In en, this message translates to:
-  /// **'Photo successfully saved to gallery'**
+  /// **'The photo has been successfully saved'**
   String get savingImageSuccess;
 
   /// No description provided for @addPhoto.
   ///
   /// In en, this message translates to:
-  /// **'Add photo'**
+  /// **'Add Photo'**
   String get addPhoto;
-
-  /// No description provided for @add.
-  ///
-  /// In en, this message translates to:
-  /// **'Add'**
-  String get add;
 
   /// No description provided for @cancel.
   ///
@@ -326,13 +314,13 @@ abstract class SuggestionsLocalizations {
   /// No description provided for @newComment.
   ///
   /// In en, this message translates to:
-  /// **'New Comment'**
+  /// **'New сomment'**
   String get newComment;
 
   /// No description provided for @commentHint.
   ///
   /// In en, this message translates to:
-  /// **'Add a comment...'**
+  /// **'Your comment…'**
   String get commentHint;
 
   /// No description provided for @publish.
@@ -341,7 +329,13 @@ abstract class SuggestionsLocalizations {
   /// **'Publish'**
   String get publish;
 
-  /// No description provided for @publish.
+  /// No description provided for @add.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get add;
+
+  /// No description provided for @eventPhotosRestriction.
   ///
   /// In en, this message translates to:
   /// **'You can attach up to 10 photos 🖼️'**
@@ -357,21 +351,26 @@ class _SuggestionsLocalizationsDelegate extends LocalizationsDelegate<Suggestion
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['en', 'ru', 'fr', 'de', 'es', 'pt'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['en', 'ru', 'uk'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_SuggestionsLocalizationsDelegate old) => false;
 }
 
 SuggestionsLocalizations lookupSuggestionsLocalizations(Locale locale) {
+
+
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en':
-      return SuggestionsLocalizationsEn();
-    case 'ru':
-      return SuggestionsLocalizationsRu();
-    default:
-      return SuggestionsLocalizationsEn();
+    case 'en': return SuggestionsLocalizationsEn();
+    case 'ru': return SuggestionsLocalizationsRu();
+    case 'uk': return SuggestionsLocalizationsUk();
   }
+
+  throw FlutterError(
+    'SuggestionsLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.'
+  );
 }
