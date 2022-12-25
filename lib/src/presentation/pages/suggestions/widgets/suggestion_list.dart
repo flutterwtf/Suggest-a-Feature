@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 import '../../../../../suggest_a_feature.dart';
 import '../../../di/injector.dart';
@@ -10,8 +9,6 @@ import 'list_description.dart';
 import 'suggestion_card.dart';
 
 class SuggestionList extends StatelessWidget {
-  final SuggestionsCubit _cubit = i.suggestionsCubit;
-
   final SuggestionStatus status;
   final List<Suggestion> suggestions;
   final Color color;
@@ -19,8 +16,9 @@ class SuggestionList extends StatelessWidget {
   final OnSaveToGalleryCallback? onSaveToGallery;
   final OnGetUserById onGetUserById;
   final String userId;
+  final Function vote;
 
-  SuggestionList({
+  const SuggestionList({
     Key? key,
     required this.status,
     required this.suggestions,
@@ -29,6 +27,7 @@ class SuggestionList extends StatelessWidget {
     this.onSaveToGallery,
     required this.onGetUserById,
     required this.userId,
+    required this.vote,
   }) : super(key: key);
 
   @override
@@ -59,7 +58,7 @@ class SuggestionList extends StatelessWidget {
                         ),
                       ),
                       userId: userId,
-                      voteCallBack: () => _cubit.vote(status, index - 1),
+                      voteCallBack: () => vote(index - 1),
                     ),
                   );
           },

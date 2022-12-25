@@ -52,15 +52,25 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
   }
 
   void vote(SuggestionStatus status, int i) {
-    if (status == SuggestionStatus.requests) {
-      final List<Suggestion> newList = _changeListElement(state.requests, i);
-      emit(state.newState(requests: newList));
-    } else if (status == SuggestionStatus.inProgress) {
-      final List<Suggestion> newList = _changeListElement(state.inProgress, i);
-      emit(state.newState(inProgress: newList));
-    } else {
-      final List<Suggestion> newList = _changeListElement(state.completed, i);
-      emit(state.newState(completed: newList));
+    switch (status) {
+      case SuggestionStatus.requests:
+        {
+          final List<Suggestion> newList = _changeListElement(state.requests, i);
+          emit(state.newState(requests: newList));
+          break;
+        }
+      case SuggestionStatus.inProgress:
+        {
+          final List<Suggestion> newList = _changeListElement(state.inProgress, i);
+          emit(state.newState(inProgress: newList));
+          break;
+        }
+      case SuggestionStatus.completed:
+        {
+          final List<Suggestion> newList = _changeListElement(state.completed, i);
+          emit(state.newState(completed: newList));
+          break;
+        }
     }
   }
 

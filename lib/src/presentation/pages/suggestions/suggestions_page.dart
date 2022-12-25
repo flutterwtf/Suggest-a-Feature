@@ -1,6 +1,5 @@
 // ignore_for_file: library_private_types_in_public_api
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
@@ -149,6 +148,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
                   onSaveToGallery: widget.onSaveToGallery,
                   onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
                   userId: widget.userId,
+                  vote: (int i) => _cubit.vote(SuggestionStatus.requests, i),
                 ),
                 SuggestionList(
                   status: SuggestionStatus.inProgress,
@@ -158,6 +158,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
                   onSaveToGallery: widget.onSaveToGallery,
                   onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
                   userId: widget.userId,
+                  vote: (int i) => _cubit.vote(SuggestionStatus.inProgress, i),
                 ),
                 SuggestionList(
                   status: SuggestionStatus.completed,
@@ -167,6 +168,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
                   onSaveToGallery: widget.onSaveToGallery,
                   onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
                   userId: widget.userId,
+                  vote: (int i) => _cubit.vote(SuggestionStatus.completed, i),
                 ),
               ],
             ),

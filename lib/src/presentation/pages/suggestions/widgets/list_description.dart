@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../suggest_a_feature.dart';
-import '../../../../domain/entities/suggestion.dart';
 import '../../../utils/context_utils.dart';
 import '../../../utils/dimensions.dart';
 
