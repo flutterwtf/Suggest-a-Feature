@@ -59,14 +59,14 @@ class MySuggestionDataSource implements SuggestionsDataSource {
   }
 
   @override
-  Future<Suggestion> getSuggestionById(String suggestionId) => suggestions[suggestionId];
+  Future<Suggestion> getSuggestionById(String suggestionId) async => suggestions[suggestionId];
 
   @override
   Future<List<Suggestion>> getAllSuggestions() async =>
       suggestions.isNotEmpty ? suggestions.values.cast<Suggestion>().toList() : <Suggestion>[];
 
   @override
-  Future<Suggestion> updateSuggestion(Suggestion suggestion) {
+  Future<Suggestion> updateSuggestion(Suggestion suggestion) async {
     suggestions[suggestion.id] = suggestion;
     return suggestions[suggestion.id];
   }
