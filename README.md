@@ -40,7 +40,7 @@ or create your own by implementing `SuggestionsDataSource` abstract class.
 
 ## Localization 
 
-At the moment the package supports 3 languages: english, russian and ukrainian. 
+At the moment the package supports 3 languages: English, Russian and Ukrainian. 
 
 ``` dart
 MaterialApp(
@@ -53,25 +53,6 @@ MaterialApp(
 ```
 `SuggestionsLocalizations` - strings localization
 `GlobalMaterialLocalizations`- date format localization
-
-# Tips
-## SQL Database 
-
-If your database case is SQL-like:
-Besides having `suggestions` and `comments` tables we highly recommend to use two additional tables with many-to-many relationship type - 
-`votes` and `subscriptions` with the following models on flutter client side:
-
-``` dart
-class CreateVotedUserRelationModel {
-  final String userId;
-  final String suggestionId;
-}
-
-class CreateSubscribedUserRelationModel {
-  final String userId;
-  final String suggestionId;
-}
-```
 
 ## Essential checks
 
