@@ -37,3 +37,43 @@ You can also either use our standard theme or create your own:
  
 If you use [firestore](https://firebase.google.cn/docs/firestore?hl=en) as a data source, you can use our ready-made implementation [Suggest a feature Firestore](TODO: add link) 
 or create your own by implementing `SuggestionsDataSource` abstract class.
+
+## Localization 
+
+At the moment the package supports 3 languages: english, russian and ukrainian. 
+
+``` dart
+MaterialApp(
+  home: SuggestionsPage(),
+  localizationsDelegates: [
+    SuggestionsLocalizations.delegate,
+    GlobalMaterialLocalizations.delegate,
+  ],
+);
+```
+`SuggestionsLocalizations` - strings localization
+`GlobalMaterialLocalizations`- date format localization
+
+# Tips
+## SQL Database 
+
+If your database case is SQL-like:
+Besides having `suggestions` and `comments` tables we highly recommend to use two additional tables with many-to-many relationship type - 
+`votes` and `subscriptions` with the following models on flutter client side:
+
+``` dart
+class CreateVotedUserRelationModel {
+  final String userId;
+  final String suggestionId;
+}
+
+class CreateSubscribedUserRelationModel {
+  final String userId;
+  final String suggestionId;
+}
+```
+
+## Essential checks
+
+For each suggestion and comment manipulation (updating or deleting) we recommend to check either user have author rights to fulfil those actions. Author rights is such a concept that only the user who created a suggestion/comment can delete or update it. If somehow happens the situation when user without author rights will try to delete/update a suggestion will be thrown an Exception.
+`onGetUserById()` function in `SuggestionsPage` constructor will help you with this.
