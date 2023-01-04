@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         body: SuggestionsPage(
           onGetUserById: (String id) => Future<SuggestionAuthor>(
-            () => const SuggestionAuthor(
+                () => const SuggestionAuthor(
               id: '1',
               username: 'Author',
             ),
