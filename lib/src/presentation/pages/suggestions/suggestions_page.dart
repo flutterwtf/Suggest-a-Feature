@@ -54,10 +54,11 @@ class SuggestionsPage extends StatefulWidget {
     this.imageHeaders,
   }) : super(key: key) {
     i.init(
-        theme: theme,
-        userId: userId,
-        imageHeaders: imageHeaders,
-        suggestionsDataSource: suggestionsDataSource);
+      theme: theme,
+      userId: userId,
+      imageHeaders: imageHeaders,
+      suggestionsDataSource: suggestionsDataSource,
+    );
   }
 
   @override

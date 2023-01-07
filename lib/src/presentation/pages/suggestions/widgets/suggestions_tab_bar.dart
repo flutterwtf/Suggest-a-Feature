@@ -10,7 +10,9 @@ import '../suggestions_state.dart';
 class SuggestionsTabBar extends StatelessWidget {
   final TabController tabController;
   final SuggestionsState state;
-  const SuggestionsTabBar({Key? key, required this.tabController, required this.state}) : super(key: key);
+
+  const SuggestionsTabBar({Key? key, required this.tabController, required this.state})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -106,10 +108,7 @@ class SuggestionsTabBar extends StatelessWidget {
           child: Text(
             text,
             style: isActive
-                ? theme.textSmallPlusBold.copyWith(
-              color: color,
-              height: textHeight,
-            )
+                ? theme.textSmallPlusBold.copyWith(color: color, height: textHeight)
                 : theme.textSmallPlusSecondary.copyWith(height: textHeight),
           ),
         ),

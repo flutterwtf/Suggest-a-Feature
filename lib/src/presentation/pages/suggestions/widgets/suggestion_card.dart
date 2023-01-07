@@ -86,11 +86,7 @@ class SuggestionCard extends StatelessWidget {
     );
   }
 
-  Widget _voteCounter(
-      Suggestion suggestion,
-      SuggestionStatus status,
-      int index,
-      ) {
+  Widget _voteCounter(Suggestion suggestion, SuggestionStatus status, int index) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: voteCallBack,
