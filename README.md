@@ -8,7 +8,12 @@ Here is a small demo:
 
 ## Usage
 
-You need to move the `SuggestionsPage`. For example:
+At first, you need to implement `SuggestionsDataSource`.
+This is an interface which we use to handle all the data-layer logic. There you can add the connection to your DB. 
+
+If you use [firestore](https://firebase.google.cn/docs/firestore?hl=en) as a data source, you can use our ready-made implementation [Suggest a feature Firestore](TODO: add link).
+
+Then you need to move the `SuggestionsPage`. For example:
 
 ``` dart
 Navigator.of(context).push(
@@ -34,9 +39,6 @@ You can also either use our standard theme or create your own:
 ``` dart
  theme: SuggestionsTheme().copyWith(...),
 ```
- 
-If you use [firestore](https://firebase.google.cn/docs/firestore?hl=en) as a data source, you can use our ready-made implementation [Suggest a feature Firestore](TODO: add link) 
-or create your own by implementing `SuggestionsDataSource` abstract class.
 
 ## Localization 
 
