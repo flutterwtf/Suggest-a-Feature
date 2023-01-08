@@ -6,7 +6,7 @@ time, discuss them with others, and vote for each other's suggestions.
 
 Here is a small demo:
 
-![gif](/assets/suggest_a_feature.gif)
+![gif](/example/assets/suggest_a_feature.gif)
 
 ## Usage
 
