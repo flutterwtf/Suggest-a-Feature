@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         body: SuggestionsPage(
           onGetUserById: (String id) => Future<SuggestionAuthor>(
-                () => const SuggestionAuthor(
+            () => const SuggestionAuthor(
               id: '1',
               username: 'Author',
             ),
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
 
 class MySuggestionDataSource implements SuggestionsDataSource {
   final SuggestionAuthor _suggestionAuthor = const SuggestionAuthor(id: '1', username: 'Author');
-  Map<String, dynamic> suggestions = <String, Suggestion>{};
+  final Map<String, dynamic> suggestions = <String, Suggestion>{};
   Map<String, dynamic> comments = <String, Comment>{};
 
   MySuggestionDataSource({required this.userId});
