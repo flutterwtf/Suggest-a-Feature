@@ -29,10 +29,7 @@ class MyApp extends StatelessWidget {
           userId: '1',
         ),
       ),
-      localizationsDelegates: [
-        SuggestionsLocalizations.delegate,
-        //GlobalMaterialLocalizations.delegate,
-      ],
+      localizationsDelegates: const [SuggestionsLocalizations.delegate],
     );
   }
 }
