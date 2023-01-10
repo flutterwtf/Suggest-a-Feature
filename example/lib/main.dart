@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 // ignore: prefer_relative_imports
 import 'package:suggest_a_feature/suggest_a_feature.dart';
@@ -12,6 +13,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    initializeDateFormatting();
     return MaterialApp(
       title: 'Suggest a feature Example page',
       home: Scaffold(
@@ -27,6 +29,10 @@ class MyApp extends StatelessWidget {
           userId: '1',
         ),
       ),
+      localizationsDelegates: [
+        SuggestionsLocalizations.delegate,
+        //GlobalMaterialLocalizations.delegate,
+      ],
     );
   }
 }
