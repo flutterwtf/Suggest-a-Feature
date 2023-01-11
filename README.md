@@ -61,6 +61,15 @@ MaterialApp(
 `SuggestionsLocalizations` - strings localization
 `GlobalMaterialLocalizations`- date format localization
 
+You also have to invoke [initializeDateFormatting()](https://api.flutter.dev/flutter/date_symbol_data_local/initializeDateFormatting.html) before `MaterialApp()` widget creation in order to support date formatting.
+
+``` dart
+initializeDateFormatting();
+return MaterialApp(
+  home: SuggestionsPage(),
+);
+```
+
 ## Essential checks
 
 For each suggestion and comment manipulation (updating or deleting) we recommend to check whether
