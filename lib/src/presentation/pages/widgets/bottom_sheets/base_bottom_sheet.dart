@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 
 import '../../../utils/dimensions.dart';
+import '../../../utils/platform_check.dart';
 import '../../theme/suggestions_theme.dart';
 
 typedef OnDismissCallback = void Function([ClosureType? closureType]);
@@ -131,25 +132,29 @@ class _BaseBottomSheetState extends State<BaseBottomSheet> with TickerProviderSt
             ),
             headerBuilder: _headerBuilder,
             builder: (BuildContext context, SheetState state) {
-              return Padding(
-                padding: widget.contentPadding,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    if (widget.title != null)
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: Dimensions.marginDefault - widget.contentPadding.horizontal,
-                          top: widget.titleTopPadding,
-                          bottom: widget.titleBottomPadding,
+              return SafeArea(
+                top: false,
+                bottom: SuggestionsPlatform.isIOS,
+                child: Padding(
+                  padding: widget.contentPadding,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      if (widget.title != null)
+                        Padding(
+                          padding: EdgeInsets.only(
+                            left: Dimensions.marginDefault - widget.contentPadding.horizontal,
+                            top: widget.titleTopPadding,
+                            bottom: widget.titleBottomPadding,
+                          ),
+                          child: Text(
+                            widget.title!,
+                            style: theme.textLargeBold,
+                          ),
                         ),
-                        child: Text(
-                          widget.title!,
-                          style: theme.textLargeBold,
-                        ),
-                      ),
-                    widget.contentBuilder(context, state),
-                  ],
+                      widget.contentBuilder(context, state),
+                    ],
+                  ),
                 ),
               );
             },

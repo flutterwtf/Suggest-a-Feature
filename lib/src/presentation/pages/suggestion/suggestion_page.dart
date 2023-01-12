@@ -12,6 +12,7 @@ import '../../utils/context_utils.dart';
 import '../../utils/date_utils.dart';
 import '../../utils/dimensions.dart';
 import '../../utils/image_utils.dart';
+import '../../utils/platform_check.dart';
 import '../../utils/typedefs.dart';
 import '../theme/suggestions_theme.dart';
 import '../widgets/appbar_widget.dart';
@@ -92,19 +93,23 @@ class _SuggestionPageState extends State<SuggestionPage> {
               backgroundColor: theme.primaryBackgroundColor,
               body: _mainContent(state),
             ),
-            Container(
-              padding: const EdgeInsets.only(bottom: Dimensions.marginSmall),
-              alignment: Alignment.bottomCenter,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  Flexible(child: _newCommentButton()),
-                  const SizedBox(width: Dimensions.marginDefault),
-                  if (state.suggestion.votedUserIds.contains(i.userId))
-                    const SizedBox.shrink()
-                  else
-                    Flexible(child: _upvoteButton(state)),
-                ],
+            SafeArea(
+              top: false,
+              bottom: SuggestionsPlatform.isIOS,
+              child: Container(
+                padding: const EdgeInsets.only(bottom: Dimensions.marginSmall),
+                alignment: Alignment.bottomCenter,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    Flexible(child: _newCommentButton()),
+                    const SizedBox(width: Dimensions.marginDefault),
+                    if (state.suggestion.votedUserIds.contains(i.userId))
+                      const SizedBox.shrink()
+                    else
+                      Flexible(child: _upvoteButton(state)),
+                  ],
+                ),
               ),
             ),
             _bottomSheet(state),
