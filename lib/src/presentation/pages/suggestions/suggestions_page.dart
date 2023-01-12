@@ -10,6 +10,7 @@ import '../../di/injector.dart';
 import '../../utils/assets_strings.dart';
 import '../../utils/context_utils.dart';
 import '../../utils/dimensions.dart';
+import '../../utils/platform_check.dart';
 import '../../utils/rendering.dart';
 import '../../utils/typedefs.dart';
 import '../suggestion/create_edit/create_edit_suggestion_bottom_sheet.dart';
@@ -181,7 +182,8 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
 
   Widget _bottomFab() {
     return Positioned(
-      bottom: Dimensions.marginDefault + MediaQuery.of(context).viewInsets.bottom,
+      bottom: (SuggestionsPlatform.isIOS ? Dimensions.margin2x : Dimensions.marginDefault) +
+          MediaQuery.of(context).viewInsets.bottom,
       right: Dimensions.marginDefault,
       child: SuggestionsFab(
         padding: const EdgeInsets.all(Dimensions.marginDefault),

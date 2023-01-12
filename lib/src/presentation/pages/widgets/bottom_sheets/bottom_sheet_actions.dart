@@ -1,9 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 
 import '../../../utils/context_utils.dart';
 import '../../../utils/dimensions.dart';
+import '../../../utils/platform_check.dart';
 import '../../theme/suggestions_theme.dart';
 
 class BottomSheetActions extends StatelessWidget {
@@ -27,7 +26,7 @@ class BottomSheetActions extends StatelessWidget {
         left: Dimensions.marginBig,
         right: Dimensions.marginBig,
         top: Dimensions.marginSmall,
-        bottom: Platform.isIOS ? Dimensions.marginBig : Dimensions.marginSmall,
+        bottom: SuggestionsPlatform.isIOS ? Dimensions.marginBig : Dimensions.marginSmall,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,

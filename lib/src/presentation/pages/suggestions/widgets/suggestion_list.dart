@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 
 import '../../../../../suggest_a_feature.dart';
-import '../../../di/injector.dart';
 import '../../../utils/dimensions.dart';
 import '../../suggestion/suggestion_page.dart';
-import '../suggestions_cubit.dart';
 import 'list_description.dart';
 import 'suggestion_card.dart';
 
