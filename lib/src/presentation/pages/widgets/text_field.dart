@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../utils/dimensions.dart';
+import '../../utils/platform_check.dart';
 import '../theme/suggestions_theme.dart';
 
 class SuggestionsTextField extends StatelessWidget {
@@ -49,7 +50,7 @@ class SuggestionsTextField extends StatelessWidget {
                 color: theme.primaryBackgroundColor,
                 borderRadius: BorderRadius.circular(Dimensions.smallCircularRadius),
               ),
-              child: Platform.isAndroid ? _androidTextField() : _iosTextField(),
+              child: SuggestionsPlatform.isIOS ? _iosTextField() : _androidTextField(),
             ),
           ),
         ],
