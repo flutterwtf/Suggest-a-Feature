@@ -14,7 +14,7 @@ At first, you need to implement `SuggestionsDataSource`. This is an interface wh
 all the data-layer logic. There you can add the connection to your DB.
 
 If you use [firestore](https://firebase.google.cn/docs/firestore?hl=en) as a data source, you can
-use our ready-made implementation [Suggest a feature Firestore](TODO: add link).
+use our ready-made implementation [Suggest a feature Firestore](https://pub.dev/packages/suggest_a_feature_firestore).
 
 Then you need to move the `SuggestionsPage`. For example:
 
