@@ -5,11 +5,22 @@ import '../../presentation/utils/date_utils.dart';
 import 'suggestion_author.dart';
 
 class Comment extends Equatable {
+  /// The id of the comment
   final String id;
+
+  /// The id of the Suggestion of the comment
   final String suggestionId;
+
+  /// The author of the comment
   final SuggestionAuthor author;
+
+  /// Whether comment was posted anonymously or not
   final bool isAnonymous;
+
+  /// Text of the comment
   final String text;
+
+  /// The time of comment creation
   final DateTime creationTime;
 
   const Comment({

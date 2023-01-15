@@ -9,17 +9,40 @@ import 'comment.dart';
 import 'utils/suggestion_utils.dart';
 
 class Suggestion extends Equatable {
+  /// The id of the suggestion
   final String id;
+
+  /// Suggestion's title
   final String title;
+
+  /// Suggestion's description
   final String? description;
+
+  /// Suggestion's labels (feature, bug)
   final List<SuggestionLabel> labels;
+
+  /// Attached images
   final List<String> images;
+
+  /// Comments to this suggestion
   final List<Comment> comments;
+
+  /// Id of the suggestion's author
   final String authorId;
+
+  /// Whether suggestion was posted anonymously or not
   final bool isAnonymous;
+
+  /// The time of suggestion creation
   final DateTime creationTime;
+
+  /// Status of the suggestion (requests, inProgress, completed)
   final SuggestionStatus status;
+
+  /// Id`s of users who have voted for this suggestion
   final Set<String> votedUserIds;
+
+  /// Id`s of users who have subscribed for this suggestion
   final Set<String> notifyUserIds;
 
   int get upvotesCount => votedUserIds.length;

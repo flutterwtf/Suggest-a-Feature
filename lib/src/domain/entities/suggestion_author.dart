@@ -1,8 +1,13 @@
 import 'package:equatable/equatable.dart';
 
 class SuggestionAuthor extends Equatable {
+  /// The id of the author
   final String id;
+
+  /// The username of the author
   final String username;
+
+  /// The avatar of the author
   final String? avatar;
 
   const SuggestionAuthor({
