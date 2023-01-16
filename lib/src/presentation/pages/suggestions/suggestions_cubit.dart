@@ -23,8 +23,7 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
 
   void init() {
     _suggestionSubscription?.cancel();
-    _suggestionSubscription =
-        _suggestionInteractor.suggestionsStream.listen(_onNewSuggestions);
+    _suggestionSubscription = _suggestionInteractor.suggestionsStream.listen(_onNewSuggestions);
     _suggestionInteractor.initSuggestions();
   }
 
@@ -37,23 +36,29 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
     emit(
       state.newState(
         requests: suggestions
-            .where((Suggestion element) =>
-                element.status == SuggestionStatus.requests)
+            .where(
+              (Suggestion element) => element.status == SuggestionStatus.requests,
+            )
             .toList(growable: false)
-          ..sort((Suggestion a, Suggestion b) =>
-              b.upvotesCount.compareTo(a.upvotesCount)),
+          ..sort(
+            (Suggestion a, Suggestion b) => b.upvotesCount.compareTo(a.upvotesCount),
+          ),
         inProgress: suggestions
-            .where((Suggestion element) =>
-                element.status == SuggestionStatus.inProgress)
+            .where(
+              (Suggestion element) => element.status == SuggestionStatus.inProgress,
+            )
             .toList(growable: false)
-          ..sort((Suggestion a, Suggestion b) =>
-              b.upvotesCount.compareTo(a.upvotesCount)),
+          ..sort(
+            (Suggestion a, Suggestion b) => b.upvotesCount.compareTo(a.upvotesCount),
+          ),
         completed: suggestions
-            .where((Suggestion element) =>
-                element.status == SuggestionStatus.completed)
+            .where(
+              (Suggestion element) => element.status == SuggestionStatus.completed,
+            )
             .toList(growable: false)
-          ..sort((Suggestion a, Suggestion b) =>
-              b.upvotesCount.compareTo(a.upvotesCount)),
+          ..sort(
+            (Suggestion a, Suggestion b) => b.upvotesCount.compareTo(a.upvotesCount),
+          ),
       ),
     );
   }
@@ -65,8 +70,7 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
         emit(state.newState(requests: newList));
         break;
       case SuggestionStatus.inProgress:
-        final List<Suggestion> newList =
-            _changeListElement(state.inProgress, i);
+        final List<Suggestion> newList = _changeListElement(state.inProgress, i);
         emit(state.newState(inProgress: newList));
         break;
       case SuggestionStatus.completed:
@@ -93,12 +97,9 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
     return newList;
   }
 
-  void openCreateBottomSheet() =>
-      emit(state.newState(isCreateBottomSheetOpened: true));
+  void openCreateBottomSheet() => emit(state.newState(isCreateBottomSheetOpened: true));
 
-  void closeCreateBottomSheet() =>
-      emit(state.newState(isCreateBottomSheetOpened: false));
+  void closeCreateBottomSheet() => emit(state.newState(isCreateBottomSheetOpened: false));
 
-  void changeActiveTab(SuggestionStatus activeTab) =>
-      emit(state.newState(activeTab: activeTab));
+  void changeActiveTab(SuggestionStatus activeTab) => emit(state.newState(activeTab: activeTab));
 }

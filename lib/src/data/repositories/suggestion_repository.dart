@@ -13,8 +13,7 @@ class SuggestionRepository implements ISuggestionRepository {
 
   SuggestionRepository(this._suggestionsDataSource, this._cacheDataSource);
 
-  final BehaviorSubject<List<Suggestion>> _suggestionsSubject =
-      BehaviorSubject<List<Suggestion>>();
+  final BehaviorSubject<List<Suggestion>> _suggestionsSubject = BehaviorSubject<List<Suggestion>>();
 
   @override
   Stream<List<Suggestion>> get suggestionsStream => _suggestionsSubject;
@@ -27,8 +26,7 @@ class SuggestionRepository implements ISuggestionRepository {
 
   @override
   void refreshSuggestions(Suggestion suggestion, {bool saveComments = true}) {
-    final List<Suggestion> suggestions =
-        List<Suggestion>.from(this.suggestions);
+    final List<Suggestion> suggestions = List<Suggestion>.from(this.suggestions);
     final Suggestion removedSuggestion =
         suggestions.firstWhere((Suggestion e) => e.id == suggestion.id);
     suggestions.remove(removedSuggestion);
@@ -36,15 +34,15 @@ class SuggestionRepository implements ISuggestionRepository {
       suggestions
         ..add(
           suggestion.copyWith(
-              comments: saveComments ? removedSuggestion.comments : null),
+            comments: saveComments ? removedSuggestion.comments : null,
+          ),
         ),
     );
   }
 
   @override
   Future<void> initSuggestions() async {
-    final List<Suggestion> suggestions =
-        await _suggestionsDataSource.getAllSuggestions();
+    final List<Suggestion> suggestions = await _suggestionsDataSource.getAllSuggestions();
     _suggestionsSubject.add(suggestions);
   }
 
@@ -55,8 +53,7 @@ class SuggestionRepository implements ISuggestionRepository {
 
   @override
   Future<Suggestion> createSuggestion(CreateSuggestionModel suggestion) async {
-    final Suggestion createdSuggestion =
-        await _suggestionsDataSource.createSuggestion(suggestion);
+    final Suggestion createdSuggestion = await _suggestionsDataSource.createSuggestion(suggestion);
 
     final List<Suggestion> suggestions = List<Suggestion>.from(this.suggestions)
       ..add(createdSuggestion);
@@ -67,8 +64,7 @@ class SuggestionRepository implements ISuggestionRepository {
 
   @override
   Future<Suggestion> updateSuggestion(Suggestion suggestion) async {
-    final Suggestion result =
-        await _suggestionsDataSource.updateSuggestion(suggestion);
+    final Suggestion result = await _suggestionsDataSource.updateSuggestion(suggestion);
     final Suggestion updatedSuggestion = await getSuggestionById(suggestion.id);
     if (updatedSuggestion != null) {
       refreshSuggestions(updatedSuggestion);

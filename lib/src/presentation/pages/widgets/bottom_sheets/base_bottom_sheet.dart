@@ -62,8 +62,7 @@ class BaseBottomSheet extends StatefulWidget {
   State<StatefulWidget> createState() => _BaseBottomSheetState();
 }
 
-class _BaseBottomSheetState extends State<BaseBottomSheet>
-    with TickerProviderStateMixin {
+class _BaseBottomSheetState extends State<BaseBottomSheet> with TickerProviderStateMixin {
   late AnimationController _dimmingController;
 
   @override
@@ -94,8 +93,8 @@ class _BaseBottomSheetState extends State<BaseBottomSheet>
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
-          systemNavigationBarColor:
-              widget.navbarColor ?? widget.backgroundColor),
+        systemNavigationBarColor: widget.navbarColor ?? widget.backgroundColor,
+      ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: DecoratedBoxTransition(
@@ -145,8 +144,7 @@ class _BaseBottomSheetState extends State<BaseBottomSheet>
                       if (widget.title != null)
                         Padding(
                           padding: EdgeInsets.only(
-                            left: Dimensions.marginDefault -
-                                widget.contentPadding.horizontal,
+                            left: Dimensions.marginDefault - widget.contentPadding.horizontal,
                             top: widget.titleTopPadding,
                             bottom: widget.titleBottomPadding,
                           ),
@@ -173,8 +171,7 @@ class _BaseBottomSheetState extends State<BaseBottomSheet>
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         _grabbing(),
-        if (widget.headerBuilder != null)
-          widget.headerBuilder!.call(context, state),
+        if (widget.headerBuilder != null) widget.headerBuilder!.call(context, state),
       ],
     );
   }

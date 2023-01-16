@@ -83,8 +83,7 @@ class _PhotoViewState extends State<PhotoView> {
                     if (widget.onDownloadClick != null) ...<Widget>[
                       SuggestionsIconButton(
                         imageIcon: AssetStrings.downloadIconImage,
-                        onClick: () => widget
-                            .onDownloadClick!(widget.photos[_currentIndex]),
+                        onClick: () => widget.onDownloadClick!(widget.photos[_currentIndex]),
                         color: Colors.white,
                       ),
                     ],
@@ -145,15 +144,15 @@ class _PhotoViewState extends State<PhotoView> {
   void dispose() {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-          systemNavigationBarColor: widget.previousNavBarColor),
+        systemNavigationBarColor: widget.previousNavBarColor,
+      ),
     );
     super.dispose();
   }
 }
 
 class _CustomPageViewScrollPhysics extends ScrollPhysics {
-  const _CustomPageViewScrollPhysics({ScrollPhysics? parent})
-      : super(parent: parent);
+  const _CustomPageViewScrollPhysics({ScrollPhysics? parent}) : super(parent: parent);
 
   @override
   _CustomPageViewScrollPhysics applyTo(ScrollPhysics? ancestor) {

@@ -150,8 +150,10 @@ class _DashPainter extends CustomPainter {
         break;
     }
 
-    return _dashPath(path,
-        dashArray: _CircularIntervalList<double>(dashPattern));
+    return _dashPath(
+      path,
+      dashArray: _CircularIntervalList<double>(dashPattern),
+    );
   }
 
   /// Returns a circular path of [size]
@@ -285,9 +287,7 @@ class _DashOffset {
   final _DashOffsetType _dashOffsetType;
 
   double _calculate(double length) {
-    return _dashOffsetType == _DashOffsetType.Absolute
-        ? _rawVal
-        : length * _rawVal;
+    return _dashOffsetType == _DashOffsetType.Absolute ? _rawVal : length * _rawVal;
   }
 
   @override

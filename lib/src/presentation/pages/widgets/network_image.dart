@@ -28,16 +28,18 @@ class SuggestionsNetworkImage extends StatelessWidget {
         filterQuality: FilterQuality.medium,
         image: CachedNetworkImageProvider(url, headers: i.imageHeaders),
         fit: boxFit,
-        loadingBuilder: (BuildContext context, Widget child,
-            ImageChunkEvent? loadingProgress) {
+        loadingBuilder: (
+          BuildContext context,
+          Widget child,
+          ImageChunkEvent? loadingProgress,
+        ) {
           if (loadingProgress == null) {
             return child;
           }
           return ColoredBox(color: noImageColor ?? theme.thirdBackgroundColor);
         },
-        errorBuilder:
-            (BuildContext context, Object object, StackTrace? stackTrace) =>
-                ColoredBox(color: noImageColor ?? theme.thirdBackgroundColor),
+        errorBuilder: (BuildContext context, Object object, StackTrace? stackTrace) =>
+            ColoredBox(color: noImageColor ?? theme.thirdBackgroundColor),
       ),
     );
   }

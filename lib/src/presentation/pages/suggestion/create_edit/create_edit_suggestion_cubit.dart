@@ -24,15 +24,20 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
         );
 
   void init(Suggestion? suggestion) {
-    emit(state.newState(
-      suggestion: suggestion,
-      isEditing: suggestion != null,
-    ));
+    emit(
+      state.newState(
+        suggestion: suggestion,
+        isEditing: suggestion != null,
+      ),
+    );
   }
 
   void reset() {
-    emit(state.newState(
-        savingImageResultMessageType: SavingResultMessageType.none));
+    emit(
+      state.newState(
+        savingImageResultMessageType: SavingResultMessageType.none,
+      ),
+    );
   }
 
   Future<void> addUploadedPhotos(Future<List<String>?> urls) async {
@@ -42,7 +47,8 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
       emit(
         state.newState(
           suggestion: state.suggestion.copyWith(
-              images: <String>[...photos, ...state.suggestion.images]),
+            images: <String>[...photos, ...state.suggestion.images],
+          ),
           isLoading: false,
         ),
       );
@@ -52,8 +58,7 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
   void removePhoto(String path) {
     emit(
       state.newState(
-        suggestion: state.suggestion
-            .copyWith(images: state.suggestion.images..remove(path)),
+        suggestion: state.suggestion.copyWith(images: state.suggestion.images..remove(path)),
         isPhotoViewOpen: false,
       ),
     );
@@ -64,17 +69,19 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
     if (savingResult != null) {
       emit(
         state.newState(
-          savingImageResultMessageType: savingResult
-              ? SavingResultMessageType.success
-              : SavingResultMessageType.fail,
+          savingImageResultMessageType:
+              savingResult ? SavingResultMessageType.success : SavingResultMessageType.fail,
         ),
       );
     }
   }
 
   void changeSuggestionAnonymity(bool isAnonymous) {
-    emit(state.newState(
-        suggestion: state.suggestion.copyWith(isAnonymous: isAnonymous)));
+    emit(
+      state.newState(
+        suggestion: state.suggestion.copyWith(isAnonymous: isAnonymous),
+      ),
+    );
   }
 
   void changeLabelsBottomSheetStatus(bool isLabelsBottomSheetOpen) {
@@ -107,8 +114,11 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
   }
 
   void selectLabels(List<SuggestionLabel> selectedLabels) {
-    emit(state.newState(
-        suggestion: state.suggestion.copyWith(labels: selectedLabels)));
+    emit(
+      state.newState(
+        suggestion: state.suggestion.copyWith(labels: selectedLabels),
+      ),
+    );
   }
 
   Future<void> saveSuggestion() async {
