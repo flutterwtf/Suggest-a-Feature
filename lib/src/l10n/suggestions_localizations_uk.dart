@@ -80,7 +80,7 @@ class SuggestionsLocalizationsUk extends SuggestionsLocalizations {
   String get inProgressHeader => 'Пропозиції у розробці';
 
   @override
-  String get inProgressDescription => 'Незабаром з\'явиться у додатку';
+  String get inProgressDescription => "Незабаром з'явиться у додатку";
 
   @override
   String get completed => 'Реалізовано';

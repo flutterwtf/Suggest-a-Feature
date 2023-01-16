@@ -61,7 +61,7 @@ import 'suggestions_localizations_uk.dart';
 /// be consistent with the languages listed in the SuggestionsLocalizations.supportedLocales
 /// property.
 abstract class SuggestionsLocalizations {
-  SuggestionsLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  SuggestionsLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale);
 
   final String localeName;
 
