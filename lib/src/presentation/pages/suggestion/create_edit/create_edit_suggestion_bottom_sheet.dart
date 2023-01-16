@@ -78,7 +78,10 @@ class CreateEditSuggestionBottomSheetState extends State<CreateEditSuggestionBot
   Widget build(BuildContext context) {
     return BlocConsumer<CreateEditSuggestionCubit, CreateEditSuggestionState>(
       bloc: _cubit,
-      listenWhen: (CreateEditSuggestionState previous, CreateEditSuggestionState current) {
+      listenWhen: (
+        CreateEditSuggestionState previous,
+        CreateEditSuggestionState current,
+      ) {
         return (previous.savingImageResultMessageType == SavingResultMessageType.none &&
                 current.savingImageResultMessageType != SavingResultMessageType.none) ||
             (!previous.isSubmitted && current.isSubmitted) ||
@@ -175,7 +178,10 @@ class CreateEditSuggestionBottomSheetState extends State<CreateEditSuggestionBot
               _postAnonymously(isAnonymously: state.suggestion.isAnonymous),
               const SizedBox(height: Dimensions.marginSmall),
             ],
-            _saveSubmitButton(isEditing: state.isEditing, isLoading: state.isLoading),
+            _saveSubmitButton(
+              isEditing: state.isEditing,
+              isLoading: state.isLoading,
+            ),
           ],
         );
       },
@@ -259,9 +265,14 @@ class CreateEditSuggestionBottomSheetState extends State<CreateEditSuggestionBot
                         final int availableNumOfPhotos =
                             maxPhotosForOneSuggestion - state.suggestion.images.length;
                         availableNumOfPhotos > 0
-                            ? _cubit.addUploadedPhotos(widget.onUploadMultiplePhotos!(
-                                availableNumOfPhotos: availableNumOfPhotos))
-                            : BotToast.showText(text: context.localization.eventPhotosRestriction);
+                            ? _cubit.addUploadedPhotos(
+                                widget.onUploadMultiplePhotos!(
+                                  availableNumOfPhotos: availableNumOfPhotos,
+                                ),
+                              )
+                            : BotToast.showText(
+                                text: context.localization.eventPhotosRestriction,
+                              );
                       },
                       child: AddPhotoButton(
                         width: state.suggestion.images.length > 2 ? tileWidth * 0.9 : tileWidth,
@@ -274,7 +285,9 @@ class CreateEditSuggestionBottomSheetState extends State<CreateEditSuggestionBot
                     return GestureDetector(
                       onTap: () => _cubit.onPhotoClick(i - 1),
                       child: Container(
-                        margin: const EdgeInsets.only(right: Dimensions.marginDefault),
+                        margin: const EdgeInsets.only(
+                          right: Dimensions.marginDefault,
+                        ),
                         width: tileWidth,
                         height: 98,
                         clipBehavior: Clip.hardEdge,
@@ -314,9 +327,11 @@ class CreateEditSuggestionBottomSheetState extends State<CreateEditSuggestionBot
                         ? Dimensions.smallSize
                         : Dimensions.defaultSize,
                   ),
-            onClick: () => _cubit.addUploadedPhotos(widget.onUploadMultiplePhotos!(
-              availableNumOfPhotos: maxPhotosForOneSuggestion,
-            )),
+            onClick: () => _cubit.addUploadedPhotos(
+              widget.onUploadMultiplePhotos!(
+                availableNumOfPhotos: maxPhotosForOneSuggestion,
+              ),
+            ),
             verticalPadding: Dimensions.marginDefault,
           );
   }

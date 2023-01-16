@@ -26,7 +26,9 @@ class BottomSheetActions extends StatelessWidget {
         left: Dimensions.marginBig,
         right: Dimensions.marginBig,
         top: Dimensions.marginSmall,
-        bottom: SuggestionsPlatform.isIOS ? Dimensions.marginBig : Dimensions.marginSmall,
+        bottom: SuggestionsPlatform.isIOS
+            ? Dimensions.marginBig
+            : Dimensions.marginSmall,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -66,7 +68,8 @@ class NewSuggestionTextButton extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<NewSuggestionTextButton> createState() => _NewSuggestionTextButtonState();
+  State<NewSuggestionTextButton> createState() =>
+      _NewSuggestionTextButtonState();
 }
 
 class _NewSuggestionTextButtonState extends State<NewSuggestionTextButton> {
@@ -79,9 +82,12 @@ class _NewSuggestionTextButtonState extends State<NewSuggestionTextButton> {
             ? theme.tonalButtonColor
             : Colors.transparent
         : theme.disabledTextButtonColor;
-    Color textColor = widget.enabled ? theme.enabledTextColor : theme.disabledTextColor;
+    Color textColor =
+        widget.enabled ? theme.enabledTextColor : theme.disabledTextColor;
     if (_pressed) {
-      color = widget.isTonal ? theme.focusedTonalButtonColor : theme.focusedTextButtonColor;
+      color = widget.isTonal
+          ? theme.focusedTonalButtonColor
+          : theme.focusedTextButtonColor;
       textColor = theme.focusedTextColor;
     }
     return GestureDetector(

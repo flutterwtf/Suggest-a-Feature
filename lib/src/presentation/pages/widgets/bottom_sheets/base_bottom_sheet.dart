@@ -93,7 +93,8 @@ class _BaseBottomSheetState extends State<BaseBottomSheet> with TickerProviderSt
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
-          systemNavigationBarColor: widget.navbarColor ?? widget.backgroundColor),
+        systemNavigationBarColor: widget.navbarColor ?? widget.backgroundColor,
+      ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: DecoratedBoxTransition(

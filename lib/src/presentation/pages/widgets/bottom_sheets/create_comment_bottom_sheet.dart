@@ -25,7 +25,8 @@ class CreateCommentBottomSheet extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _CreateCommentBottomSheetState createState() => _CreateCommentBottomSheetState();
+  _CreateCommentBottomSheetState createState() =>
+      _CreateCommentBottomSheetState();
 }
 
 class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
@@ -118,7 +119,9 @@ class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Dimensions.marginDefault),
+        padding: const EdgeInsets.symmetric(
+          horizontal: Dimensions.marginDefault,
+        ),
         child: SuggestionsElevatedButton(
           onClick: () async {
             if (_commentController.text.isNotEmpty) {

@@ -33,14 +33,18 @@ class SuggestionsFab extends StatefulWidget {
   State<SuggestionsFab> createState() => _SuggestionsFabState();
 }
 
-class _SuggestionsFabState extends State<SuggestionsFab> with SingleTickerProviderStateMixin {
+class _SuggestionsFabState extends State<SuggestionsFab>
+    with SingleTickerProviderStateMixin {
   late final AnimationController controller;
   late final Animation<double> animation;
 
   @override
   void initState() {
     super.initState();
-    controller = AnimationController(duration: const Duration(milliseconds: 1500), vsync: this);
+    controller = AnimationController(
+      duration: const Duration(milliseconds: 1500),
+      vsync: this,
+    );
     animation = Tween<double>(
       begin: widget.size / 5,
       end: widget.size * 2,

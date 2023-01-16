@@ -33,7 +33,9 @@ class SuggestionRepository implements ISuggestionRepository {
     _suggestionsSubject.add(
       suggestions
         ..add(
-          suggestion.copyWith(comments: saveComments ? removedSuggestion.comments : null),
+          suggestion.copyWith(
+            comments: saveComments ? removedSuggestion.comments : null,
+          ),
         ),
     );
   }
