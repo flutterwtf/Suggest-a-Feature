@@ -53,7 +53,9 @@ class _ClickableListItemState extends State<ClickableListItem> {
             children: <Widget>[
               if (widget.leading != null)
                 Padding(
-                  padding: const EdgeInsets.only(right: Dimensions.marginMiddle),
+                  padding: const EdgeInsets.only(
+                    right: Dimensions.marginMiddle,
+                  ),
                   child: widget.leading,
                 ),
               Expanded(

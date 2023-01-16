@@ -7,7 +7,12 @@ import '../../../utils/dimensions.dart';
 class ListDescription extends StatelessWidget {
   final SuggestionStatus status;
   final int length;
-  const ListDescription({Key? key, required this.status, required this.length}) : super(key: key);
+
+  const ListDescription({
+    Key? key,
+    required this.status,
+    required this.length,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

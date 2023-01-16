@@ -41,7 +41,8 @@ class CreateEditSuggestionState {
       isShowTitleError: isShowTitleError ?? this.isShowTitleError,
       isSubmitted: isSubmitted ?? this.isSubmitted,
       isLoading: isLoading ?? this.isLoading,
-      isLabelsBottomSheetOpen: isLabelsBottomSheetOpen ?? this.isLabelsBottomSheetOpen,
+      isLabelsBottomSheetOpen:
+          isLabelsBottomSheetOpen ?? this.isLabelsBottomSheetOpen,
       isPhotoViewOpen: isPhotoViewOpen ?? this.isPhotoViewOpen,
       savingImageResultMessageType:
           savingImageResultMessageType ?? this.savingImageResultMessageType,

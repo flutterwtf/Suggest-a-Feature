@@ -32,19 +32,21 @@ class SuggestionCubit extends Cubit<SuggestionState> {
     emit(
       state.newState(
         suggestion: suggestion,
-        isEditable:
-            i.userId == suggestion.authorId && suggestion.status == SuggestionStatus.requests,
+        isEditable: i.userId == suggestion.authorId &&
+            suggestion.status == SuggestionStatus.requests,
       ),
     );
     _suggestionSubscription?.cancel();
-    _suggestionSubscription = _suggestionInteractor.suggestionsStream.listen(_onNewSuggestions);
+    _suggestionSubscription =
+        _suggestionInteractor.suggestionsStream.listen(_onNewSuggestions);
     _loadComments(getUserById, suggestion.id);
     if (!suggestion.isAnonymous) {
       _loadAuthorProfile(getUserById, suggestion.authorId);
     }
   }
 
-  Future<void> _loadAuthorProfile(OnGetUserById getUserById, String userId) async {
+  Future<void> _loadAuthorProfile(
+      OnGetUserById getUserById, String userId) async {
     if (!_suggestionInteractor.userInfo.containsKey(userId)) {
       final SuggestionAuthor? author = await getUserById(userId);
       if (author != null) {
@@ -56,9 +58,11 @@ class SuggestionCubit extends Cubit<SuggestionState> {
     }
   }
 
-  Future<void> _loadComments(OnGetUserById getUserById, String suggestionId) async {
+  Future<void> _loadComments(
+      OnGetUserById getUserById, String suggestionId) async {
     try {
-      final List<Comment> comments = await _suggestionInteractor.getAllComments(suggestionId);
+      final List<Comment> comments =
+          await _suggestionInteractor.getAllComments(suggestionId);
       final List<Comment> extendedComments = await Future.wait(
         comments.map(
           (Comment e) async => e.copyWith(
@@ -68,7 +72,8 @@ class SuggestionCubit extends Cubit<SuggestionState> {
       );
       emit(
         state.newState(
-          suggestion: state.suggestion.copyWith(comments: extendedComments.toList()),
+          suggestion:
+              state.suggestion.copyWith(comments: extendedComments.toList()),
         ),
       );
       _suggestionInteractor.refreshSuggestions(state.suggestion);
@@ -83,7 +88,8 @@ class SuggestionCubit extends Cubit<SuggestionState> {
   }
 
   void reset() {
-    emit(state.newState(savingImageResultMessageType: SavingResultMessageType.none));
+    emit(state.newState(
+        savingImageResultMessageType: SavingResultMessageType.none));
   }
 
   void openCreateEditBottomSheet() {
@@ -91,7 +97,8 @@ class SuggestionCubit extends Cubit<SuggestionState> {
   }
 
   void openConfirmationBottomSheet() {
-    emit(state.newState(bottomSheetType: SuggestionBottomSheetType.confirmation));
+    emit(state.newState(
+        bottomSheetType: SuggestionBottomSheetType.confirmation));
   }
 
   void openEditDeleteBottomSheet() {
@@ -99,11 +106,13 @@ class SuggestionCubit extends Cubit<SuggestionState> {
   }
 
   void openNotificationBottomSheet() {
-    emit(state.newState(bottomSheetType: SuggestionBottomSheetType.notification));
+    emit(state.newState(
+        bottomSheetType: SuggestionBottomSheetType.notification));
   }
 
   void openCreateCommentBottomSheet() {
-    emit(state.newState(bottomSheetType: SuggestionBottomSheetType.createComment));
+    emit(state.newState(
+        bottomSheetType: SuggestionBottomSheetType.createComment));
   }
 
   void closeBottomSheet() {
@@ -112,7 +121,8 @@ class SuggestionCubit extends Cubit<SuggestionState> {
 
   void _onNewSuggestions(List<Suggestion> suggestions) {
     emit(state.newState(
-        suggestion: suggestions.firstWhere((Suggestion e) => e.id == state.suggestion.id)));
+        suggestion: suggestions
+            .firstWhere((Suggestion e) => e.id == state.suggestion.id)));
   }
 
   Future<void> showSavingResultMessage(Future<bool?> isSuccess) async {
@@ -120,14 +130,16 @@ class SuggestionCubit extends Cubit<SuggestionState> {
     if (savingResult != null) {
       emit(
         state.newState(
-          savingImageResultMessageType:
-              savingResult ? SavingResultMessageType.success : SavingResultMessageType.fail,
+          savingImageResultMessageType: savingResult
+              ? SavingResultMessageType.success
+              : SavingResultMessageType.fail,
         ),
       );
     }
   }
 
-  Future<void> createComment(String text, bool isAnonymous, OnGetUserById getUserById) async {
+  Future<void> createComment(
+      String text, bool isAnonymous, OnGetUserById getUserById) async {
     try {
       final Comment comment = await _suggestionInteractor.createComment(
         CreateCommentModel(
@@ -143,7 +155,9 @@ class SuggestionCubit extends Cubit<SuggestionState> {
             comments: <Comment>[
               ...state.suggestion.comments,
               comment.copyWith(
-                author: comment.isAnonymous ? null : await getUserById(comment.author.id),
+                author: comment.isAnonymous
+                    ? null
+                    : await getUserById(comment.author.id),
               ),
             ],
           ),
@@ -164,7 +178,9 @@ class SuggestionCubit extends Cubit<SuggestionState> {
 
   void vote() {
     final bool isVoted = state.suggestion.votedUserIds.contains(i.userId);
-    final Set<String> newVotedUserIds = <String>{...state.suggestion.votedUserIds};
+    final Set<String> newVotedUserIds = <String>{
+      ...state.suggestion.votedUserIds
+    };
 
     !isVoted
         ? _suggestionInteractor.upvote(state.suggestion.id)
@@ -181,11 +197,14 @@ class SuggestionCubit extends Cubit<SuggestionState> {
   }
 
   Future<void> changeNotification(bool isNotificationOn) async {
-    final Set<String> newNotifyUserIds = <String>{...state.suggestion.notifyUserIds};
+    final Set<String> newNotifyUserIds = <String>{
+      ...state.suggestion.notifyUserIds
+    };
 
     isNotificationOn
         ? await _suggestionInteractor.addNotifyToUpdateUser(state.suggestion.id)
-        : await _suggestionInteractor.deleteNotifyToUpdateUser(state.suggestion.id);
+        : await _suggestionInteractor
+            .deleteNotifyToUpdateUser(state.suggestion.id);
     emit(
       state.newState(
         suggestion: state.suggestion.copyWith(

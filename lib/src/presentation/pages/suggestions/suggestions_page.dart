@@ -66,7 +66,8 @@ class SuggestionsPage extends StatefulWidget {
   _SuggestionsPageState createState() => _SuggestionsPageState();
 }
 
-class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProviderStateMixin {
+class _SuggestionsPageState extends State<SuggestionsPage>
+    with SingleTickerProviderStateMixin {
   final SuggestionsCubit _cubit = i.suggestionsCubit;
   late final TabController _tabController;
   final SheetController _sheetController = SheetController();
@@ -76,7 +77,8 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
     _cubit.init();
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(
-      () => _cubit.changeActiveTab(SuggestionStatus.values[_tabController.index]),
+      () =>
+          _cubit.changeActiveTab(SuggestionStatus.values[_tabController.index]),
     );
     super.initState();
   }
@@ -182,7 +184,9 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
 
   Widget _bottomFab() {
     return Positioned(
-      bottom: (SuggestionsPlatform.isIOS ? Dimensions.margin2x : Dimensions.marginDefault) +
+      bottom: (SuggestionsPlatform.isIOS
+              ? Dimensions.margin2x
+              : Dimensions.marginDefault) +
           MediaQuery.of(context).viewInsets.bottom,
       right: Dimensions.marginDefault,
       child: SuggestionsFab(
@@ -197,7 +201,9 @@ class _SuggestionsPageState extends State<SuggestionsPage> with SingleTickerProv
   Widget _bottomSheet() {
     return CreateEditSuggestionBottomSheet(
       controller: _sheetController,
-      onClose: ([_]) => _sheetController.collapse()?.then((_) => _cubit.closeCreateBottomSheet()),
+      onClose: ([_]) => _sheetController
+          .collapse()
+          ?.then((_) => _cubit.closeCreateBottomSheet()),
       onSaveToGallery: widget.onSaveToGallery,
       onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
     );
