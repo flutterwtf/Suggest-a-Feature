@@ -70,12 +70,15 @@ class _SuggestionPageState extends State<SuggestionPage> {
     return BlocConsumer<SuggestionCubit, SuggestionState>(
       bloc: _cubit,
       listenWhen: (SuggestionState previous, SuggestionState current) {
-        return previous.savingImageResultMessageType == SavingResultMessageType.none &&
-                current.savingImageResultMessageType != SavingResultMessageType.none ||
+        return previous.savingImageResultMessageType ==
+                    SavingResultMessageType.none &&
+                current.savingImageResultMessageType !=
+                    SavingResultMessageType.none ||
             !previous.isPopped && current.isPopped;
       },
       listener: (BuildContext context, SuggestionState state) {
-        if (state.savingImageResultMessageType != SavingResultMessageType.none) {
+        if (state.savingImageResultMessageType !=
+            SavingResultMessageType.none) {
           state.savingImageResultMessageType == SavingResultMessageType.success
               ? BotToast.showText(text: context.localization.savingImageSuccess)
               : BotToast.showText(text: context.localization.savingImageError);
@@ -135,7 +138,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
               _attachedImages(state.suggestion.images),
               const SizedBox(height: Dimensions.marginSmall),
             ],
-            if (state.suggestion.comments.isNotEmpty) _commentList(state.suggestion.comments),
+            if (state.suggestion.comments.isNotEmpty)
+              _commentList(state.suggestion.comments),
             if (state.suggestion.votedUserIds.contains(i.userId))
               const SizedBox(
                 height: Dimensions.size2x * 2 + Dimensions.marginMiddle,
@@ -212,7 +216,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
       controller: sheetController,
       isNotificationOn: isNotificationOn,
       onChangeNotification: _cubit.changeNotification,
-      onCancel: ([_]) => sheetController.collapse()?.then((_) => _cubit.closeBottomSheet()),
+      onCancel: ([_]) =>
+          sheetController.collapse()?.then((_) => _cubit.closeBottomSheet()),
     );
   }
 
@@ -221,7 +226,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
     return EditDeleteSuggestionBottomSheet(
       creationDate: suggestion.creationTime,
       controller: sheetController,
-      onCancel: ([_]) => sheetController.collapse()?.then((_) => _cubit.closeBottomSheet()),
+      onCancel: ([_]) =>
+          sheetController.collapse()?.then((_) => _cubit.closeBottomSheet()),
       onEditClick: _cubit.openCreateEditBottomSheet,
       onDeleteClick: _cubit.openConfirmationBottomSheet,
     );
@@ -250,7 +256,9 @@ class _SuggestionPageState extends State<SuggestionPage> {
         _cubit.closeBottomSheet();
         _cubit.deleteSuggestion();
       },
-      onCancel: ([_]) => sheetController.collapse()?.then((_) => _cubit.closeBottomSheet()),
+      onCancel: ([_]) => sheetController.collapse()?.then(
+            (_) => _cubit.closeBottomSheet(),
+          ),
       onConfirmAsset: AssetStrings.checkIconImage,
       onCancelText: context.localization.cancel,
       onConfirmText: context.localization.yesDelete,
@@ -269,7 +277,9 @@ class _SuggestionPageState extends State<SuggestionPage> {
           _avatar(author.avatar),
           Expanded(
             child: Text(
-              author.username.isEmpty ? context.localization.anonymousAuthorName : author.username,
+              author.username.isEmpty
+                  ? context.localization.anonymousAuthorName
+                  : author.username,
               style: theme.textSmallPlus,
             ),
           ),
@@ -343,7 +353,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
           behavior: HitTestBehavior.translucent,
           onTap: _cubit.vote,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: Dimensions.marginSmall),
+            padding:
+                const EdgeInsets.symmetric(horizontal: Dimensions.marginSmall),
             child: VotesCounter(
               isVoted: isVoted,
               upvotesCount: upvotesCount,
@@ -379,7 +390,9 @@ class _SuggestionPageState extends State<SuggestionPage> {
           Wrap(
             spacing: Dimensions.marginDefault,
             runSpacing: Dimensions.marginDefault,
-            children: images.map((String image) => _wrappedAttachedImage(images, image)).toList(),
+            children: images
+                .map((String image) => _wrappedAttachedImage(images, image))
+                .toList(),
           ),
         ],
       ),
@@ -397,7 +410,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
           builder: (BuildContext context) {
             return PhotoView(
               onDownloadClick: widget.onSaveToGallery != null
-                  ? (String path) => _cubit.showSavingResultMessage(widget.onSaveToGallery!(path))
+                  ? (String path) => _cubit
+                      .showSavingResultMessage(widget.onSaveToGallery!(path))
                   : null,
               initialIndex: images.indexOf(attachedImage),
               photos: images,
@@ -411,7 +425,9 @@ class _SuggestionPageState extends State<SuggestionPage> {
         height: (MediaQuery.of(context).size.width - 80) / 3,
         clipBehavior: Clip.hardEdge,
         decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(Dimensions.smallCircularRadius)),
+          borderRadius: BorderRadius.all(
+            Radius.circular(Dimensions.smallCircularRadius),
+          ),
         ),
         child: FittedBox(
           fit: BoxFit.cover,
@@ -434,7 +450,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
           ),
           child: Text(
             context.localization.commentsTitle,
-            style: theme.textSmallPlusBold.copyWith(color: theme.secondaryTextColor),
+            style: theme.textSmallPlusBold
+                .copyWith(color: theme.secondaryTextColor),
           ),
         ),
         Wrap(runSpacing: 2, children: comments.map(_commentCard).toList()),
@@ -467,7 +484,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
                 ),
               ),
               Text(
-                comment.creationTime.formatComment(context.localization.localeName),
+                comment.creationTime
+                    .formatComment(context.localization.localeName),
                 style: theme.textSmallPlusSecondary,
               ),
             ],

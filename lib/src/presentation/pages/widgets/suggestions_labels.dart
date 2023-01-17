@@ -15,7 +15,9 @@ class SuggestionLabels extends StatelessWidget {
     return Wrap(
       spacing: Dimensions.marginBig,
       runSpacing: Dimensions.marginMiddle,
-      children: labels.map((SuggestionLabel label) => _label(label, context)).toList(),
+      children: labels
+          .map((SuggestionLabel label) => _label(label, context))
+          .toList(),
     );
   }
 

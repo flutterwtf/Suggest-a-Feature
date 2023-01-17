@@ -27,10 +27,12 @@ class EditDeleteSuggestionBottomSheet extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _EditDeleteSuggestionBottomSheetState createState() => _EditDeleteSuggestionBottomSheetState();
+  _EditDeleteSuggestionBottomSheetState createState() =>
+      _EditDeleteSuggestionBottomSheetState();
 }
 
-class _EditDeleteSuggestionBottomSheetState extends State<EditDeleteSuggestionBottomSheet> {
+class _EditDeleteSuggestionBottomSheetState
+    extends State<EditDeleteSuggestionBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return BaseBottomSheet(

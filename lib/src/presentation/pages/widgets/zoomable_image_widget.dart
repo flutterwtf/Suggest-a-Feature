@@ -20,7 +20,8 @@ class ZoomableImage extends StatefulWidget {
   State<ZoomableImage> createState() => _ZoomableImageState();
 }
 
-class _ZoomableImageState extends State<ZoomableImage> with SingleTickerProviderStateMixin {
+class _ZoomableImageState extends State<ZoomableImage>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _animationController;
   Animation<double>? _animation;
   Function() _animationListener = () {};

@@ -75,8 +75,8 @@ class SuggestionsTabBar extends StatelessWidget {
     required String text,
     required SuggestionsState state,
   }) {
-    /// We need different heights because of svg files differences (inactive icons have smaller
-    /// margins);
+    /// We need different heights because of svg files differences
+    /// (inactive icons have smaller margins);
     const double activeIconHeight = 38.0;
     const double inactiveIconHeight = 22.0;
     const double textHeight = 1.17;
@@ -92,7 +92,9 @@ class SuggestionsTabBar extends StatelessWidget {
                 shape: BoxShape.circle,
                 boxShadow: <BoxShadow>[
                   BoxShadow(
-                    color: isActive ? color.withOpacity(0.3) : theme.secondaryBackgroundColor,
+                    color: isActive
+                        ? color.withOpacity(0.3)
+                        : theme.secondaryBackgroundColor,
                     blurRadius: 7,
                   ),
                 ],

@@ -37,7 +37,8 @@ void renderHidings({
   );
   canvas.drawRect(
     bottomRectGradient,
-    _hidingGradientPaint..shader = bottomGradient.createShader(bottomRectGradient),
+    _hidingGradientPaint
+      ..shader = bottomGradient.createShader(bottomRectGradient),
   );
 
   final Rect topRectSolid = Rect.fromLTWH(0, 0, size.width, contentMarginTop);

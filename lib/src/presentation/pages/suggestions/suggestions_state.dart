@@ -29,7 +29,8 @@ class SuggestionsState extends Equatable {
       inProgress: inProgress ?? this.inProgress,
       completed: completed ?? this.completed,
       activeTab: activeTab ?? this.activeTab,
-      isCreateBottomSheetOpened: isCreateBottomSheetOpened ?? this.isCreateBottomSheetOpened,
+      isCreateBottomSheetOpened:
+          isCreateBottomSheetOpened ?? this.isCreateBottomSheetOpened,
     );
   }
 

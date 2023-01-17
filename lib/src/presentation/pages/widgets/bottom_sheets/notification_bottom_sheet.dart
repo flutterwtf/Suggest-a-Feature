@@ -26,7 +26,8 @@ class NotificationSuggestionBottomSheet extends StatefulWidget {
       _NotificationSuggestionBottomSheetState();
 }
 
-class _NotificationSuggestionBottomSheetState extends State<NotificationSuggestionBottomSheet> {
+class _NotificationSuggestionBottomSheetState
+    extends State<NotificationSuggestionBottomSheet> {
   late bool _isNotificationOn;
 
   @override

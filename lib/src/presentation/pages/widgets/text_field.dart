@@ -44,11 +44,15 @@ class SuggestionsTextField extends StatelessWidget {
           Expanded(
             child: Container(
               decoration: BoxDecoration(
-                border: isShowError ? Border.all(color: theme.errorColor) : null,
+                border:
+                    isShowError ? Border.all(color: theme.errorColor) : null,
                 color: theme.primaryBackgroundColor,
-                borderRadius: BorderRadius.circular(Dimensions.smallCircularRadius),
+                borderRadius:
+                    BorderRadius.circular(Dimensions.smallCircularRadius),
               ),
-              child: SuggestionsPlatform.isIOS ? _iosTextField() : _androidTextField(),
+              child: SuggestionsPlatform.isIOS
+                  ? _iosTextField()
+                  : _androidTextField(),
             ),
           ),
         ],
@@ -71,7 +75,8 @@ class SuggestionsTextField extends StatelessWidget {
       decoration: InputDecoration(
         isDense: true,
         hintText: hintText,
-        hintStyle: theme.textSmallPlus.copyWith(color: theme.primaryTextColor.withOpacity(0.7)),
+        hintStyle: theme.textSmallPlus
+            .copyWith(color: theme.primaryTextColor.withOpacity(0.7)),
         fillColor: Colors.transparent,
         contentPadding: padding,
         border: InputBorder.none,
@@ -80,7 +85,8 @@ class SuggestionsTextField extends StatelessWidget {
                 borderRadius: const BorderRadius.all(
                   Radius.circular(Dimensions.smallCircularRadius),
                 ),
-                borderSide: BorderSide(color: theme.focusedTextFieldBorderlineColor),
+                borderSide:
+                    BorderSide(color: theme.focusedTextFieldBorderlineColor),
               )
             : null,
       ),

@@ -24,7 +24,8 @@ class SuggestionsElevatedButton extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _SuggestionsElevatedButtonState createState() => _SuggestionsElevatedButtonState();
+  _SuggestionsElevatedButtonState createState() =>
+      _SuggestionsElevatedButtonState();
 }
 
 class _SuggestionsElevatedButtonState extends State<SuggestionsElevatedButton> {
@@ -34,7 +35,8 @@ class _SuggestionsElevatedButtonState extends State<SuggestionsElevatedButton> {
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTap: () => widget.isLoading ? () => <dynamic, dynamic>{} : widget.onClick(),
+      onTap: () =>
+          widget.isLoading ? () => <dynamic, dynamic>{} : widget.onClick(),
       onTapDown: (TapDownDetails tapDetails) {
         setState(() => _isPressed = true);
       },
@@ -56,7 +58,8 @@ class _SuggestionsElevatedButtonState extends State<SuggestionsElevatedButton> {
                 ? widget.backgroundColor ?? theme.pressedElevatedButtonColor
                 : widget.backgroundColor ?? theme.elevatedButtonColor,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(Dimensions.smallCircularRadius),
+              borderRadius:
+                  BorderRadius.circular(Dimensions.smallCircularRadius),
             ),
           ),
           child: Row(

@@ -11,7 +11,8 @@ void main() {
   group(
     'suggestions cubit',
     () {
-      final MockSuggestionInteractor mockSuggestionInteractor = MockSuggestionInteractor();
+      final MockSuggestionInteractor mockSuggestionInteractor =
+          MockSuggestionInteractor();
       final SuggestionsState emptySuggestionsState = SuggestionsState(
         requests: <Suggestion>[mockedSuggestion, mockedSuggestion2],
         inProgress: <Suggestion>[mockedSuggestion, mockedSuggestion2],
@@ -66,7 +67,8 @@ void main() {
           );
         },
         seed: () => emptySuggestionsState,
-        act: (SuggestionsCubit cubit) => cubit.changeActiveTab(SuggestionStatus.completed),
+        act: (SuggestionsCubit cubit) =>
+            cubit.changeActiveTab(SuggestionStatus.completed),
         expect: () => <SuggestionsState>[
           SuggestionsState(
             requests: <Suggestion>[mockedSuggestion, mockedSuggestion2],
@@ -86,7 +88,8 @@ void main() {
           );
         },
         seed: () => emptySuggestionsState,
-        act: (SuggestionsCubit cubit) async => cubit.vote(SuggestionStatus.requests, 1),
+        act: (SuggestionsCubit cubit) async =>
+            cubit.vote(SuggestionStatus.requests, 1),
         expect: () => <SuggestionsState>[
           SuggestionsState(
             requests: <Suggestion>[mockedSuggestion, upvotedSuggestion],

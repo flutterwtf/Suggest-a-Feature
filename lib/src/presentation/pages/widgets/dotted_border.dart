@@ -12,8 +12,8 @@ import 'package:flutter/material.dart';
 /// defines the width of the dashed border and [color] determines the stroke
 /// paint color. [_CircularIntervalList] is populated with the [dashPattern] to
 /// render the appropriate pattern. The [radius] property is taken into account
-/// only if the [borderType] is [BorderType.RRect]. A [customPath] can be passed in
-/// as a parameter if you want to draw a custom shaped border.
+/// only if the [borderType] is [BorderType.RRect]. A [customPath] can be
+/// passed in as a parameter if you want to draw a custom shaped border.
 
 class DottedBorder extends StatelessWidget {
   final Widget child;
@@ -287,7 +287,9 @@ class _DashOffset {
   final _DashOffsetType _dashOffsetType;
 
   double _calculate(double length) {
-    return _dashOffsetType == _DashOffsetType.Absolute ? _rawVal : length * _rawVal;
+    return _dashOffsetType == _DashOffsetType.Absolute
+        ? _rawVal
+        : length * _rawVal;
   }
 
   @override

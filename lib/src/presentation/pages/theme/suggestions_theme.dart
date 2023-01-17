@@ -159,10 +159,13 @@ class SuggestionsTheme {
     Color? fabColor,
   }) {
     return SuggestionsTheme(
-      primaryBackgroundColor: primaryBackgroundColor ?? this.primaryBackgroundColor,
-      secondaryBackgroundColor: secondaryBackgroundColor ?? this.secondaryBackgroundColor,
+      primaryBackgroundColor:
+          primaryBackgroundColor ?? this.primaryBackgroundColor,
+      secondaryBackgroundColor:
+          secondaryBackgroundColor ?? this.secondaryBackgroundColor,
       thirdBackgroundColor: thirdBackgroundColor ?? this.thirdBackgroundColor,
-      bottomSheetBackgroundColor: bottomSheetBackgroundColor ?? this.bottomSheetBackgroundColor,
+      bottomSheetBackgroundColor:
+          bottomSheetBackgroundColor ?? this.bottomSheetBackgroundColor,
       fontFamily: fontFamily ?? this.fontFamily,
       primaryTextColor: primaryTextColor ?? this.primaryTextColor,
       secondaryTextColor: secondaryTextColor ?? this.secondaryTextColor,
@@ -170,24 +173,31 @@ class SuggestionsTheme {
       secondaryIconColor: secondaryIconColor ?? this.secondaryIconColor,
       actionColor: actionColor ?? this.actionColor,
       actionPressedColor: actionPressedColor ?? this.actionPressedColor,
-      actionBackgroundColor: actionBackgroundColor ?? this.actionBackgroundColor,
+      actionBackgroundColor:
+          actionBackgroundColor ?? this.actionBackgroundColor,
       dividerColor: dividerColor ?? this.dividerColor,
       dialogBarrierColor: dialogBarrierColor ?? this.dialogBarrierColor,
       elevatedButtonColor: elevatedButtonColor ?? this.elevatedButtonColor,
-      pressedElevatedButtonColor: pressedElevatedButtonColor ?? this.pressedElevatedButtonColor,
-      elevatedButtonTextColor: elevatedButtonTextColor ?? this.elevatedButtonTextColor,
-      focusedTextButtonColor: focusedTextButtonColor ?? this.focusedTextButtonColor,
+      pressedElevatedButtonColor:
+          pressedElevatedButtonColor ?? this.pressedElevatedButtonColor,
+      elevatedButtonTextColor:
+          elevatedButtonTextColor ?? this.elevatedButtonTextColor,
+      focusedTextButtonColor:
+          focusedTextButtonColor ?? this.focusedTextButtonColor,
       focusedTextColor: focusedTextColor ?? this.focusedTextColor,
-      focusedTextFieldBorderlineColor:
-          focusedTextFieldBorderlineColor ?? this.focusedTextFieldBorderlineColor,
-      focusedTonalButtonColor: focusedTonalButtonColor ?? this.focusedTonalButtonColor,
+      focusedTextFieldBorderlineColor: focusedTextFieldBorderlineColor ??
+          this.focusedTextFieldBorderlineColor,
+      focusedTonalButtonColor:
+          focusedTonalButtonColor ?? this.focusedTonalButtonColor,
       enabledTextColor: enabledTextColor ?? this.enabledTextColor,
       disabledTextColor: disabledTextColor ?? this.disabledTextColor,
-      disabledTextButtonColor: disabledTextButtonColor ?? this.disabledTextButtonColor,
+      disabledTextButtonColor:
+          disabledTextButtonColor ?? this.disabledTextButtonColor,
       tonalButtonColor: tonalButtonColor ?? this.tonalButtonColor,
       errorColor: errorColor ?? this.errorColor,
       upvoteArrowColor: upvoteArrowColor ?? this.upvoteArrowColor,
-      activatedUpvoteArrowColor: activatedUpvoteArrowColor ?? this.activatedUpvoteArrowColor,
+      activatedUpvoteArrowColor:
+          activatedUpvoteArrowColor ?? this.activatedUpvoteArrowColor,
       requestsTabColor: requestsTabColor ?? this.requestsTabColor,
       inProgressTabColor: inProgressTabColor ?? this.inProgressTabColor,
       completedTabColor: completedTabColor ?? this.completedTabColor,
@@ -212,17 +222,22 @@ class SuggestionsTheme {
 
   TextStyle get textSmallPlus => base.copyWith(fontSize: FontSizes.smallPlus);
 
-  TextStyle get textSmallPlusSecondary => textSmallPlus.copyWith(color: secondaryTextColor);
+  TextStyle get textSmallPlusSecondary =>
+      textSmallPlus.copyWith(color: secondaryTextColor);
 
   TextStyle get textMediumPlus => base.copyWith(fontSize: FontSizes.mediumPlus);
 
-  TextStyle get textMediumBold => textMedium.copyWith(fontWeight: FontSizes.weightBold);
+  TextStyle get textMediumBold =>
+      textMedium.copyWith(fontWeight: FontSizes.weightBold);
 
-  TextStyle get textMediumPlusBold => textMediumPlus.copyWith(fontWeight: FontSizes.weightBold);
+  TextStyle get textMediumPlusBold =>
+      textMediumPlus.copyWith(fontWeight: FontSizes.weightBold);
 
-  TextStyle get textLargeBold => textLarge.copyWith(fontWeight: FontSizes.weightBold);
+  TextStyle get textLargeBold =>
+      textLarge.copyWith(fontWeight: FontSizes.weightBold);
 
-  TextStyle get textSmallPlusBold => textSmallPlus.copyWith(fontWeight: FontSizes.weightBold);
+  TextStyle get textSmallPlusBold =>
+      textSmallPlus.copyWith(fontWeight: FontSizes.weightBold);
 
   TextStyle get textSmallPlusSecondaryBold =>
       textSmallPlusSecondary.copyWith(fontWeight: FontSizes.weightBold);

@@ -14,9 +14,11 @@ void main() {
   group(
     'suggestion cubit',
     () {
-      final MockSuggestionInteractor mockSuggestionInteractor = MockSuggestionInteractor();
+      final MockSuggestionInteractor mockSuggestionInteractor =
+          MockSuggestionInteractor();
       final MockSuggestionsTheme mockSuggestionsTheme = MockSuggestionsTheme();
-      final MockSuggestionsDataSource mockSuggestionsDataSource = MockSuggestionsDataSource();
+      final MockSuggestionsDataSource mockSuggestionsDataSource =
+          MockSuggestionsDataSource();
 
       final SuggestionState emptySuggestionState = SuggestionState(
         isPopped: false,
@@ -182,7 +184,8 @@ void main() {
           );
         },
         seed: () => emptySuggestionState,
-        act: (SuggestionCubit cubit) => cubit.showSavingResultMessage(Future<bool>.value(true)),
+        act: (SuggestionCubit cubit) =>
+            cubit.showSavingResultMessage(Future<bool>.value(true)),
         expect: () => <SuggestionState>[
           SuggestionState(
             isPopped: false,
@@ -203,7 +206,8 @@ void main() {
           );
         },
         seed: () => emptySuggestionState,
-        act: (SuggestionCubit cubit) => cubit.showSavingResultMessage(Future<bool>.value(false)),
+        act: (SuggestionCubit cubit) =>
+            cubit.showSavingResultMessage(Future<bool>.value(false)),
         expect: () => <SuggestionState>[
           SuggestionState(
             isPopped: false,
