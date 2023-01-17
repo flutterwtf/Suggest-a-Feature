@@ -32,7 +32,8 @@ class _Injector {
     _userId = userId;
     _cacheDataSource = CacheDataSource();
     _suggestionsDataSource = suggestionsDataSource;
-    _suggestionRepository = SuggestionRepository(_suggestionsDataSource, _cacheDataSource);
+    _suggestionRepository =
+        SuggestionRepository(_suggestionsDataSource, _cacheDataSource);
   }
 
   late SuggestionsTheme _theme;
@@ -57,9 +58,11 @@ class _Injector {
 
   ISuggestionRepository get suggestionRepository => _suggestionRepository;
 
-  SuggestionInteractor get suggestionInteractor => SuggestionInteractor(suggestionRepository);
+  SuggestionInteractor get suggestionInteractor =>
+      SuggestionInteractor(suggestionRepository);
 
-  SuggestionsCubit get suggestionsCubit => SuggestionsCubit(suggestionInteractor);
+  SuggestionsCubit get suggestionsCubit =>
+      SuggestionsCubit(suggestionInteractor);
 
   SuggestionCubit get suggestionCubit => SuggestionCubit(suggestionInteractor);
 

@@ -58,7 +58,8 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
   void removePhoto(String path) {
     emit(
       state.newState(
-        suggestion: state.suggestion.copyWith(images: state.suggestion.images..remove(path)),
+        suggestion: state.suggestion
+            .copyWith(images: state.suggestion.images..remove(path)),
         isPhotoViewOpen: false,
       ),
     );
@@ -69,8 +70,9 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
     if (savingResult != null) {
       emit(
         state.newState(
-          savingImageResultMessageType:
-              savingResult ? SavingResultMessageType.success : SavingResultMessageType.fail,
+          savingImageResultMessageType: savingResult
+              ? SavingResultMessageType.success
+              : SavingResultMessageType.fail,
         ),
       );
     }

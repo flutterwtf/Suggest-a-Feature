@@ -112,15 +112,20 @@ class Suggestion extends Equatable {
       id: json['suggestion_id'].toString(),
       title: json['title'],
       description: json['description'],
-      labels: (json['labels'] as List<dynamic>).cast<String>().map(LabelExt.labelType).toList(),
+      labels: (json['labels'] as List<dynamic>)
+          .cast<String>()
+          .map(LabelExt.labelType)
+          .toList(),
       images: (json['images'] as List<dynamic>).cast<String>(),
       authorId: json['author_id'],
       isAnonymous: json['is_anonymous'],
       creationTime: fromDateTime(json['creation_time']),
-      status: SuggestionStatus.values
-          .firstWhere((SuggestionStatus e) => describeEnum(e) == json['status']),
-      votedUserIds: (json['voted_user_ids'] ?? <String>[]).cast<String>().toSet(),
-      notifyUserIds: (json['notify_user_ids'] ?? <String>[]).cast<String>().toSet(),
+      status: SuggestionStatus.values.firstWhere(
+          (SuggestionStatus e) => describeEnum(e) == json['status']),
+      votedUserIds:
+          (json['voted_user_ids'] ?? <String>[]).cast<String>().toSet(),
+      notifyUserIds:
+          (json['notify_user_ids'] ?? <String>[]).cast<String>().toSet(),
     );
   }
 

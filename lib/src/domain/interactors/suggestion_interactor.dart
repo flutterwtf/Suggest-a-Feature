@@ -8,7 +8,8 @@ class SuggestionInteractor {
 
   const SuggestionInteractor(this._suggestionRepository);
 
-  Stream<List<Suggestion>> get suggestionsStream => _suggestionRepository.suggestionsStream;
+  Stream<List<Suggestion>> get suggestionsStream =>
+      _suggestionRepository.suggestionsStream;
 
   Map<String, SuggestionAuthor?> get userInfo => _suggestionRepository.userInfo;
 
@@ -26,9 +27,11 @@ class SuggestionInteractor {
     return _suggestionRepository.deleteSuggestion(suggestionId);
   }
 
-  void upvote(String suggestionId) => _suggestionRepository.upvote(suggestionId);
+  void upvote(String suggestionId) =>
+      _suggestionRepository.upvote(suggestionId);
 
-  void downvote(String suggestionId) => _suggestionRepository.downvote(suggestionId);
+  void downvote(String suggestionId) =>
+      _suggestionRepository.downvote(suggestionId);
 
   Future<void> addNotifyToUpdateUser(String suggestionId) async {
     await _suggestionRepository.addNotifyToUpdateUser(suggestionId);

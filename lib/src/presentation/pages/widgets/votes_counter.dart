@@ -27,7 +27,9 @@ class VotesCounter extends StatelessWidget {
             child: SvgPicture.asset(
               AssetStrings.suggestionsUpvoteArrow,
               package: AssetStrings.packageName,
-              color: isVoted ? theme.activatedUpvoteArrowColor : theme.upvoteArrowColor,
+              color: isVoted
+                  ? theme.activatedUpvoteArrowColor
+                  : theme.upvoteArrowColor,
               fit: BoxFit.none,
             ),
           ),
