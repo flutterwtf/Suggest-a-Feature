@@ -35,7 +35,10 @@ class MyApp extends StatelessWidget {
 }
 
 class MySuggestionDataSource implements SuggestionsDataSource {
-  final SuggestionAuthor _suggestionAuthor = const SuggestionAuthor(id: '1', username: 'Author');
+  final SuggestionAuthor _suggestionAuthor = const SuggestionAuthor(
+    id: '1',
+    username: 'Author',
+  );
   final Map<String, dynamic> suggestions = <String, Suggestion>{};
   Map<String, dynamic> comments = <String, Comment>{};
 
@@ -45,7 +48,8 @@ class MySuggestionDataSource implements SuggestionsDataSource {
   final String userId;
 
   @override
-  Future<Suggestion> createSuggestion(CreateSuggestionModel suggestionModel) async {
+  Future<Suggestion> createSuggestion(
+      CreateSuggestionModel suggestionModel) async {
     final Suggestion suggestion = Suggestion(
       id: _generateSuggestionId(),
       title: suggestionModel.title,
@@ -62,11 +66,13 @@ class MySuggestionDataSource implements SuggestionsDataSource {
   }
 
   @override
-  Future<Suggestion> getSuggestionById(String suggestionId) async => suggestions[suggestionId];
+  Future<Suggestion> getSuggestionById(String suggestionId) async =>
+      suggestions[suggestionId];
 
   @override
-  Future<List<Suggestion>> getAllSuggestions() async =>
-      suggestions.isNotEmpty ? suggestions.values.cast<Suggestion>().toList() : <Suggestion>[];
+  Future<List<Suggestion>> getAllSuggestions() async => suggestions.isNotEmpty
+      ? suggestions.values.cast<Suggestion>().toList()
+      : <Suggestion>[];
 
   @override
   Future<Suggestion> updateSuggestion(Suggestion suggestion) async {
@@ -75,7 +81,8 @@ class MySuggestionDataSource implements SuggestionsDataSource {
   }
 
   @override
-  Future<void> deleteSuggestionById(String suggestionId) async => suggestions.remove(suggestionId);
+  Future<void> deleteSuggestionById(String suggestionId) async =>
+      suggestions.remove(suggestionId);
 
   @override
   Future<Comment> createComment(CreateCommentModel commentModel) async {
@@ -93,14 +100,20 @@ class MySuggestionDataSource implements SuggestionsDataSource {
 
   @override
   Future<List<Comment>> getAllComments(String suggestionId) async =>
-      comments.isNotEmpty ? comments.values.cast<Comment>().toList() : <Comment>[];
+      comments.isNotEmpty
+          ? comments.values.cast<Comment>().toList()
+          : <Comment>[];
 
   @override
-  Future<void> deleteCommentById(String commentId) async => comments.remove(commentId);
+  Future<void> deleteCommentById(String commentId) async =>
+      comments.remove(commentId);
 
   @override
   Future<void> addNotifyToUpdateUser(String suggestionId) async {
-    final Set<String> modifiedSet = <String>{...suggestions[suggestionId]!.notifyUserIds, userId};
+    final Set<String> modifiedSet = <String>{
+      ...suggestions[suggestionId]!.notifyUserIds,
+      userId
+    };
     suggestions[suggestionId] = suggestions[suggestionId]!.copyWith(
       notifyUserIds: modifiedSet,
     );
@@ -118,7 +131,10 @@ class MySuggestionDataSource implements SuggestionsDataSource {
 
   @override
   Future<void> upvote(String suggestionId) async {
-    final Set<String> modifiedSet = <String>{...suggestions[suggestionId]!.votedUserIds, userId};
+    final Set<String> modifiedSet = <String>{
+      ...suggestions[suggestionId]!.votedUserIds,
+      userId
+    };
     suggestions[suggestionId] = suggestions[suggestionId]!.copyWith(
       votedUserIds: modifiedSet,
     );

@@ -49,7 +49,9 @@ class _SuggestionsIconButtonState extends State<SuggestionsIconButton> {
           package: AssetStrings.packageName,
           width: widget.size,
           height: widget.size,
-          color: pressed ? theme.actionPressedColor : widget.color ?? theme.primaryIconColor,
+          color: pressed
+              ? theme.actionPressedColor
+              : widget.color ?? theme.primaryIconColor,
         ),
       ),
     );

@@ -143,7 +143,9 @@ class _PhotoViewState extends State<PhotoView> {
   @override
   void dispose() {
     SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(systemNavigationBarColor: widget.previousNavBarColor),
+      SystemUiOverlayStyle(
+        systemNavigationBarColor: widget.previousNavBarColor,
+      ),
     );
     super.dispose();
   }

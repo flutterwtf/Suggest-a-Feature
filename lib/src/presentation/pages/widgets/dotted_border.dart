@@ -150,7 +150,10 @@ class _DashPainter extends CustomPainter {
         break;
     }
 
-    return _dashPath(path, dashArray: _CircularIntervalList<double>(dashPattern));
+    return _dashPath(
+      path,
+      dashArray: _CircularIntervalList<double>(dashPattern),
+    );
   }
 
   /// Returns a circular path of [size]

@@ -37,7 +37,8 @@ class AddPhotoButton extends StatelessWidget {
           child: isLoading
               ? CircularProgressIndicator(
                   strokeWidth: 1.0,
-                  valueColor: AlwaysStoppedAnimation<Color>(theme.primaryIconColor),
+                  valueColor:
+                      AlwaysStoppedAnimation<Color>(theme.primaryIconColor),
                 )
               : Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -49,7 +50,8 @@ class AddPhotoButton extends StatelessWidget {
                       color: theme.primaryTextColor,
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: Dimensions.marginSmall),
+                      padding:
+                          const EdgeInsets.only(top: Dimensions.marginSmall),
                       child: Text(
                         context.localization.add,
                         style: style.copyWith(color: theme.primaryTextColor),
