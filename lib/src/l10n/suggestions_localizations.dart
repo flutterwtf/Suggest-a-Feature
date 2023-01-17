@@ -9,11 +9,13 @@ import 'suggestions_localizations_en.dart';
 import 'suggestions_localizations_ru.dart';
 import 'suggestions_localizations_uk.dart';
 
-/// Callers can lookup localized strings with an instance of SuggestionsLocalizations
+/// Callers can lookup localized strings
+/// with an instance of SuggestionsLocalizations
 /// returned by `SuggestionsLocalizations.of(context)`.
 ///
-/// Applications need to include `SuggestionsLocalizations.delegate()` in their app's
-/// `localizationDelegates` list, and the locales they support in the app's
+/// Applications need to include `SuggestionsLocalizations.delegate()` in their
+/// app's `localizationDelegates` list,
+/// and the locales they support in the app's
 /// `supportedLocales` list. For example:
 ///
 /// ```dart
@@ -58,8 +60,8 @@ import 'suggestions_localizations_uk.dart';
 /// Select and expand the newly-created Localizations item then, for each
 /// locale your application supports, add a new item and select the locale
 /// you wish to add from the pop-up menu in the Value field. This list should
-/// be consistent with the languages listed in the SuggestionsLocalizations.supportedLocales
-/// property.
+/// be consistent with the languages listed in the
+/// SuggestionsLocalizations.supportedLocales property.
 abstract class SuggestionsLocalizations {
   SuggestionsLocalizations(String locale)
       : localeName = intl.Intl.canonicalizedLocale(locale);
@@ -68,7 +70,9 @@ abstract class SuggestionsLocalizations {
 
   static SuggestionsLocalizations? of(BuildContext context) {
     return Localizations.of<SuggestionsLocalizations>(
-        context, SuggestionsLocalizations);
+      context,
+      SuggestionsLocalizations,
+    );
   }
 
   static const LocalizationsDelegate<SuggestionsLocalizations> delegate =
@@ -77,8 +81,10 @@ abstract class SuggestionsLocalizations {
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
   ///
-  /// Returns a list of localizations delegates containing this delegate along with
-  /// GlobalMaterialLocalizations.delegate, GlobalCupertinoLocalizations.delegate,
+  /// Returns a list of localizations delegates
+  /// containing this delegate along with
+  /// GlobalMaterialLocalizations.delegate,
+  /// GlobalCupertinoLocalizations.delegate,
   /// and GlobalWidgetsLocalizations.delegate.
   ///
   /// Additional delegates can be added by appending to this list in
@@ -353,7 +359,8 @@ class _SuggestionsLocalizationsDelegate
   @override
   Future<SuggestionsLocalizations> load(Locale locale) {
     return SynchronousFuture<SuggestionsLocalizations>(
-        lookupSuggestionsLocalizations(locale));
+      lookupSuggestionsLocalizations(locale),
+    );
   }
 
   @override
@@ -375,8 +382,9 @@ SuggestionsLocalizations lookupSuggestionsLocalizations(Locale locale) {
       return SuggestionsLocalizationsUk();
   }
 
-  throw FlutterError(
-      'SuggestionsLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+  throw FlutterError('SuggestionsLocalizations.delegate failed '
+      'to load unsupported locale "$locale". '
+      'This is likely '
       'an issue with the localizations generation tool. Please file an issue '
       'on GitHub with a reproducible sample app and the gen-l10n configuration '
       'that was used.');

@@ -5,6 +5,8 @@
 # "DIFFERENT FROM FLUTTER/FLUTTER" below. The file is expected to
 # be kept in sync with the master file from the flutter repo.
 
+include: package:very_good_analysis/analysis_options.yaml
+
 analyzer:
   language:
     strict-casts: false # DIFFERENT FROM FLUTTER/FLUTTER, too many violations, TODO(goderbauer): Clean this up.
@@ -15,6 +17,20 @@ analyzer:
     deprecated_member_use_from_same_package: ignore
     # Turned off until null-safe rollout is complete.
     unnecessary_null_comparison: ignore
+    unawaited_futures: ignore
+    use_decorated_box: ignore
+    parameter_assignments: ignore
+    comment_references: ignore
+    use_colored_box: ignore
+    prefer_asserts_with_message: ignore
+    cascade_invocations: ignore
+    always_use_package_imports: ignore
+    avoid_positional_boolean_parameters: ignore
+    sort_constructors_first: ignore
+    library_private_types_in_public_api: ignore
+    public_member_api_docs: ignore
+    prefer_int_literals: ignore
+    omit_local_variable_types: ignore
   exclude: # DIFFERENT FROM FLUTTER/FLUTTER
     # Ignore generated files
     - '**/*.mocks.dart' # Mockito @GenerateMocks

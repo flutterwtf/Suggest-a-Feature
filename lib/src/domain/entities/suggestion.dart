@@ -121,7 +121,8 @@ class Suggestion extends Equatable {
       isAnonymous: json['is_anonymous'],
       creationTime: fromDateTime(json['creation_time']),
       status: SuggestionStatus.values.firstWhere(
-          (SuggestionStatus e) => describeEnum(e) == json['status']),
+        (SuggestionStatus e) => describeEnum(e) == json['status'],
+      ),
       votedUserIds:
           (json['voted_user_ids'] ?? <String>[]).cast<String>().toSet(),
       notifyUserIds:

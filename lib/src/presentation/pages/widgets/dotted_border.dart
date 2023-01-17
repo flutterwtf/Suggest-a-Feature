@@ -229,8 +229,8 @@ class _DashPainter extends CustomPainter {
 
 /// Creates a new path that is drawn from the segments of `source`.
 ///
-/// Dash intervals are controled by the `dashArray` - see [_CircularIntervalList]
-/// for examples.
+/// Dash intervals are controled by the `dashArray` -
+/// see [_CircularIntervalList] for examples.
 ///
 /// `dashOffset` specifies an initial starting point for the dashing.
 ///

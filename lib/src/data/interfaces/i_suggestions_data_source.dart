@@ -7,7 +7,8 @@ abstract class SuggestionsDataSource {
 
   /// Creates suggestion.
   ///
-  /// Uses a [CreateSuggestionModel] type parameter, which does not have an id field.
+  /// Uses a [CreateSuggestionModel] type parameter, which does not have
+  /// an id field.
   /// A [Suggestion] type contains the id generated
   /// by the database.
   Future<Suggestion> createSuggestion(CreateSuggestionModel suggestion);
@@ -22,7 +23,8 @@ abstract class SuggestionsDataSource {
 
   /// Creates comment.
   ///
-  /// Uses a [CreateCommentModel] type parameter, which does not have an id field.
+  /// Uses a [CreateCommentModel] type parameter,
+  /// which does not have an id field.
   /// A [Comment] type contains the id generated
   /// by the database.
   Future<Comment> createComment(CreateCommentModel comment);
@@ -33,7 +35,8 @@ abstract class SuggestionsDataSource {
 
   /// Adds a vote to the suggestion, raising its priority.
   ///
-  /// In order to add a notification to noSql database, use the [CreateVotedUserRelationModel],
+  /// In order to add a notification to noSql database,
+  /// use the [CreateVotedUserRelationModel],
   /// which represents a many-to-many relationship.
   Future<void> upvote(String suggestionId);
 
@@ -42,7 +45,8 @@ abstract class SuggestionsDataSource {
 
   /// Subscribes the user to change the status of the suggestion.
   ///
-  /// In order to add a notification to noSql database, use the [CreateSubscribedUserRelationModel],
+  /// In order to add a notification to noSql database, use the
+  /// [CreateSubscribedUserRelationModel],
   /// which represents a many-to-many relationship.
   Future<void> addNotifyToUpdateUser(String suggestionId);
 

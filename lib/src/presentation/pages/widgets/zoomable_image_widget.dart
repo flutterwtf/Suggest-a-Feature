@@ -83,10 +83,12 @@ class _ZoomableImageState extends State<ZoomableImage>
               doubleTapPosition: pointerDownPosition,
             );
           };
-          _animation = _animationController.drive(Tween<double>(
-            begin: begin,
-            end: end,
-          ));
+          _animation = _animationController.drive(
+            Tween<double>(
+              begin: begin,
+              end: end,
+            ),
+          );
           _animation!.addListener(_animationListener);
           _animationController.forward();
         },

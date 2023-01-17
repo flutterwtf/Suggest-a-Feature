@@ -27,23 +27,29 @@ void main() {
           .thenAnswer((_) => Stream.fromIterable([suggestionsList]));
 
       expect(
-          await suggestionInteractor.suggestionsStream.first, suggestionsList);
+        await suggestionInteractor.suggestionsStream.first,
+        suggestionsList,
+      );
     });
 
     test('update suggestion', () async {
       when(mockSuggestionRepository.updateSuggestion(mockedSuggestion))
           .thenAnswer((_) => Future.value(mockedSuggestion));
 
-      expect(await suggestionInteractor.updateSuggestion(mockedSuggestion),
-          mockedSuggestion);
+      expect(
+        await suggestionInteractor.updateSuggestion(mockedSuggestion),
+        mockedSuggestion,
+      );
     });
 
     test('create suggestion', () async {
       when(mockSuggestionRepository.createSuggestion(createSuggestionModel))
           .thenAnswer((_) => Future.value(mockedSuggestion));
 
-      expect(await suggestionInteractor.createSuggestion(createSuggestionModel),
-          mockedSuggestion);
+      expect(
+        await suggestionInteractor.createSuggestion(createSuggestionModel),
+        mockedSuggestion,
+      );
     });
 
     test('get all comments', () async {
@@ -53,16 +59,20 @@ void main() {
       when(mockSuggestionRepository.getAllComments(mockedSuggestion.id))
           .thenAnswer((_) => Future.value(response));
 
-      expect(await suggestionInteractor.getAllComments(mockedSuggestion.id),
-          response);
+      expect(
+        await suggestionInteractor.getAllComments(mockedSuggestion.id),
+        response,
+      );
     });
 
     test('create comment', () async {
       when(mockSuggestionRepository.createComment(createCommentModel))
           .thenAnswer((_) => Future.value(comment));
 
-      expect(await suggestionInteractor.createComment(createCommentModel),
-          comment);
+      expect(
+        await suggestionInteractor.createComment(createCommentModel),
+        comment,
+      );
     });
   });
 }
