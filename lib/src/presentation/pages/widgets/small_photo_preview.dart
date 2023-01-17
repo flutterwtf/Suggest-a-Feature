@@ -31,7 +31,10 @@ class SmallPhotoPreview extends StatelessWidget {
       child: Hero(
         tag: heroTag,
         child: CircleAvatar(
-          backgroundImage: CachedNetworkImageProvider(src, headers: i.imageHeaders),
+          backgroundImage: CachedNetworkImageProvider(
+            src,
+            headers: i.imageHeaders,
+          ),
           backgroundColor: backgroundColor,
         ),
       ),

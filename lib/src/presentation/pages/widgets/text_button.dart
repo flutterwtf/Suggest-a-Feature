@@ -49,7 +49,9 @@ class _SuggestionsTextButtonState extends State<SuggestionsTextButton> {
             Text(
               widget.title,
               style: _pressed
-                  ? theme.textSmallPlus.copyWith(color: theme.actionPressedColor)
+                  ? theme.textSmallPlus.copyWith(
+                      color: theme.actionPressedColor,
+                    )
                   : theme.textSmallPlus.copyWith(color: color),
             ),
           ],

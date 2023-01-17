@@ -59,7 +59,9 @@ class ConfirmationBottomSheet extends StatelessWidget {
           shrinkWrap: true,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: Dimensions.marginDefault),
+              padding: const EdgeInsets.symmetric(
+                horizontal: Dimensions.marginDefault,
+              ),
               child: Text(
                 question,
                 style: theme.textMediumPlusBold,
@@ -78,7 +80,9 @@ class ConfirmationBottomSheet extends StatelessWidget {
               ),
               title: Text(
                 onConfirmText,
-                style: theme.textMediumPlusBold.copyWith(color: theme.errorColor),
+                style: theme.textMediumPlusBold.copyWith(
+                  color: theme.errorColor,
+                ),
                 textAlign: TextAlign.left,
               ),
             ),

@@ -39,7 +39,10 @@ class SuggestionInteractor {
   }
 
   void refreshSuggestions(Suggestion suggestion, {bool saveComments = false}) {
-    _suggestionRepository.refreshSuggestions(suggestion, saveComments: saveComments);
+    _suggestionRepository.refreshSuggestions(
+      suggestion,
+      saveComments: saveComments,
+    );
   }
 
   Future<List<Comment>> getAllComments(String suggestionId) {

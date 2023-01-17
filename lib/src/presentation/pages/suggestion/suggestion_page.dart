@@ -137,9 +137,13 @@ class _SuggestionPageState extends State<SuggestionPage> {
             ],
             if (state.suggestion.comments.isNotEmpty) _commentList(state.suggestion.comments),
             if (state.suggestion.votedUserIds.contains(i.userId))
-              const SizedBox(height: Dimensions.size2x * 2 + Dimensions.marginMiddle)
+              const SizedBox(
+                height: Dimensions.size2x * 2 + Dimensions.marginMiddle,
+              )
             else
-              const SizedBox(height: Dimensions.size2x * 3 + Dimensions.margin2x),
+              const SizedBox(
+                height: Dimensions.size2x * 3 + Dimensions.margin2x,
+              ),
           ],
         ),
       ),
@@ -168,9 +172,13 @@ class _SuggestionPageState extends State<SuggestionPage> {
   Widget _bottomSheet(SuggestionState state) {
     switch (state.bottomSheetType) {
       case SuggestionBottomSheetType.confirmation:
-        return _openConfirmationBottomSheet(context.localization.deletionQuestion);
+        return _openConfirmationBottomSheet(
+          context.localization.deletionQuestion,
+        );
       case SuggestionBottomSheetType.notification:
-        return _openNotificationBottomSheet(state.suggestion.notifyUserIds.contains(i.userId));
+        return _openNotificationBottomSheet(
+          state.suggestion.notifyUserIds.contains(i.userId),
+        );
       case SuggestionBottomSheetType.editDelete:
         return _openEditDeleteBottomSheet(state.suggestion);
       case SuggestionBottomSheetType.createEdit:
@@ -254,7 +262,10 @@ class _SuggestionPageState extends State<SuggestionPage> {
       padding: const EdgeInsets.all(Dimensions.marginDefault),
       child: Row(
         children: <Widget>[
-          Text(context.localization.postedBy, style: theme.textSmallPlusSecondary),
+          Text(
+            context.localization.postedBy,
+            style: theme.textSmallPlusSecondary,
+          ),
           _avatar(author.avatar),
           Expanded(
             child: Text(

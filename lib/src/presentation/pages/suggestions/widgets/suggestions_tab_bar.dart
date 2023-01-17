@@ -11,8 +11,11 @@ class SuggestionsTabBar extends StatelessWidget {
   final TabController tabController;
   final SuggestionsState state;
 
-  const SuggestionsTabBar({Key? key, required this.tabController, required this.state})
-      : super(key: key);
+  const SuggestionsTabBar({
+    Key? key,
+    required this.tabController,
+    required this.state,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +23,9 @@ class SuggestionsTabBar extends StatelessWidget {
     return TabBar(
       indicator: BoxDecoration(
         color: theme.primaryBackgroundColor,
-        borderRadius: const BorderRadius.all(Radius.circular(Dimensions.smallCircularRadius)),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(Dimensions.smallCircularRadius),
+        ),
       ),
       indicatorSize: TabBarIndicatorSize.tab,
       controller: tabController,
@@ -108,7 +113,10 @@ class SuggestionsTabBar extends StatelessWidget {
           child: Text(
             text,
             style: isActive
-                ? theme.textSmallPlusBold.copyWith(color: color, height: textHeight)
+                ? theme.textSmallPlusBold.copyWith(
+                    color: color,
+                    height: textHeight,
+                  )
                 : theme.textSmallPlusSecondary.copyWith(height: textHeight),
           ),
         ),

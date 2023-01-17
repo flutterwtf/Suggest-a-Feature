@@ -34,12 +34,14 @@ class SuggestionList extends StatelessWidget {
       children: <Widget>[
         ListView.builder(
           itemCount: suggestions.length + 1,
-          padding: const EdgeInsets.symmetric(horizontal: Dimensions.marginDefault),
+          padding:
+              const EdgeInsets.symmetric(horizontal: Dimensions.marginDefault),
           itemBuilder: (BuildContext context, int index) {
             return index == 0
                 ? ListDescription(status: status, length: suggestions.length)
                 : Padding(
-                    padding: const EdgeInsets.only(bottom: Dimensions.marginDefault),
+                    padding:
+                        const EdgeInsets.only(bottom: Dimensions.marginDefault),
                     child: SuggestionCard(
                       suggestion: suggestions[index - 1],
                       color: color,
