@@ -52,8 +52,8 @@ void main() {
         seed: () => emptySuggestionState,
         act: (SuggestionCubit cubit) => cubit.createComment(
           'Comment1',
-          true,
           (String id) async => mockedSuggestionAuthor,
+          isAnonymous: true,
         ),
         expect: () => <SuggestionState>[
           SuggestionState(
@@ -140,7 +140,9 @@ void main() {
           );
         },
         seed: () => emptySuggestionState,
-        act: (SuggestionCubit cubit) => cubit.changeNotification(true),
+        act: (SuggestionCubit cubit) => cubit.changeNotification(
+          isNotificationOn: true,
+        ),
         expect: () => <SuggestionState>[
           SuggestionState(
             isPopped: false,
@@ -172,7 +174,9 @@ void main() {
             notifyUserIds: <String>{},
           ),
         ),
-        act: (SuggestionCubit cubit) => cubit.changeNotification(false),
+        act: (SuggestionCubit cubit) => cubit.changeNotification(
+          isNotificationOn: false,
+        ),
         expect: () => <SuggestionState>[emptySuggestionState],
       );
 

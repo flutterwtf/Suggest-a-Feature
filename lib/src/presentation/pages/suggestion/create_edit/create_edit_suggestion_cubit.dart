@@ -78,7 +78,7 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
     }
   }
 
-  void changeSuggestionAnonymity(bool isAnonymous) {
+  void changeSuggestionAnonymity({required bool isAnonymous}) {
     emit(
       state.newState(
         suggestion: state.suggestion.copyWith(isAnonymous: isAnonymous),
@@ -86,11 +86,11 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
     );
   }
 
-  void changeLabelsBottomSheetStatus(bool isLabelsBottomSheetOpen) {
+  void changeLabelsBottomSheetStatus({required bool isLabelsBottomSheetOpen}) {
     emit(state.newState(isLabelsBottomSheetOpen: isLabelsBottomSheetOpen));
   }
 
-  void changePhotoViewStatus(bool isPhotoViewOpen) {
+  void changePhotoViewStatus({required bool isPhotoViewOpen}) {
     emit(state.newState(isPhotoViewOpen: isPhotoViewOpen));
   }
 

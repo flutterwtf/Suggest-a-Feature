@@ -42,7 +42,7 @@ class SuggestionsTextField extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Expanded(
-            child: Container(
+            child: DecoratedBox(
               decoration: BoxDecoration(
                 border:
                     isShowError ? Border.all(color: theme.errorColor) : null,

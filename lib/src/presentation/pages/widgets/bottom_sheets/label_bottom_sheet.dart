@@ -117,7 +117,7 @@ class _LabelBottomSheetState extends State<LabelBottomSheet> {
           child: SizedBox(
             height: Dimensions.defaultSize,
             width: Dimensions.defaultSize,
-            child: Container(
+            child: DecoratedBox(
               decoration: BoxDecoration(
                 border: Border.all(
                   color: theme.primaryIconColor,

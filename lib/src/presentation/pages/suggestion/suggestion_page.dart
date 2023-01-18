@@ -204,8 +204,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
       },
       onCreateComment: (String text, bool isAnonymous) => _cubit.createComment(
         text,
-        isAnonymous,
         widget.onGetUserById,
+        isAnonymous: isAnonymous,
       ),
     );
   }
@@ -215,7 +215,10 @@ class _SuggestionPageState extends State<SuggestionPage> {
     return NotificationSuggestionBottomSheet(
       controller: sheetController,
       isNotificationOn: isNotificationOn,
-      onChangeNotification: _cubit.changeNotification,
+      onChangeNotification: (bool isNotificationOn) =>
+          _cubit.changeNotification(
+        isNotificationOn: isNotificationOn,
+      ),
       onCancel: ([_]) =>
           sheetController.collapse()?.then((_) => _cubit.closeBottomSheet()),
     );

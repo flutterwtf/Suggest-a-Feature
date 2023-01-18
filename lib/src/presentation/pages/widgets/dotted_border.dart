@@ -240,7 +240,7 @@ Path _dashPath(
   required _CircularIntervalList<double> dashArray,
   _DashOffset? dashOffset,
 }) {
-  assert(dashArray != null); // ignore: unnecessary_null_comparison
+  assert(dashArray != null, 'dashArray = null'); // ignore: unnecessary_null_comparison
 
   dashOffset = dashOffset ?? const _DashOffset.absolute(0.0);
 

@@ -198,14 +198,18 @@ class CreateEditSuggestionBottomSheetState
     return LabelBottomSheet(
       controller: _labelsSheetController,
       selectedLabels: suggestionList,
-      onCancel: ([_]) => _labelsSheetController
-          .collapse()
-          ?.then((_) => _cubit.changeLabelsBottomSheetStatus(false)),
+      onCancel: ([_]) => _labelsSheetController.collapse()?.then(
+            (_) => _cubit.changeLabelsBottomSheetStatus(
+              isLabelsBottomSheetOpen: false,
+            ),
+          ),
       onDone: (List<SuggestionLabel> labels) {
         _cubit.selectLabels(labels);
-        _labelsSheetController
-            .collapse()
-            ?.then((_) => _cubit.changeLabelsBottomSheetStatus(false));
+        _labelsSheetController.collapse()?.then(
+              (_) => _cubit.changeLabelsBottomSheetStatus(
+                isLabelsBottomSheetOpen: false,
+              ),
+            );
       },
     );
   }
@@ -224,7 +228,9 @@ class CreateEditSuggestionBottomSheetState
               color: theme.primaryIconColor,
               height: Dimensions.defaultSize,
             ),
-      onClick: () => _cubit.changeLabelsBottomSheetStatus(true),
+      onClick: () => _cubit.changeLabelsBottomSheetStatus(
+        isLabelsBottomSheetOpen: true,
+      ),
       verticalPadding: Dimensions.marginDefault,
     );
   }
@@ -361,7 +367,9 @@ class CreateEditSuggestionBottomSheetState
       ),
       trailing: SuggestionsSwitch(
         value: isAnonymously,
-        onChanged: _cubit.changeSuggestionAnonymity,
+        onChanged: (bool isAnonymous) => _cubit.changeSuggestionAnonymity(
+          isAnonymous: isAnonymous,
+        ),
       ),
     );
   }
@@ -385,7 +393,7 @@ class CreateEditSuggestionBottomSheetState
         );
       },
     );
-    _cubit.changePhotoViewStatus(false);
+    _cubit.changePhotoViewStatus(isPhotoViewOpen: false);
   }
 }
 

@@ -159,9 +159,9 @@ class SuggestionCubit extends Cubit<SuggestionState> {
 
   Future<void> createComment(
     String text,
-    bool isAnonymous,
-    OnGetUserById getUserById,
-  ) async {
+    OnGetUserById getUserById, {
+    required bool isAnonymous,
+  }) async {
     try {
       final Comment comment = await _suggestionInteractor.createComment(
         CreateCommentModel(
@@ -218,7 +218,7 @@ class SuggestionCubit extends Cubit<SuggestionState> {
     );
   }
 
-  Future<void> changeNotification(bool isNotificationOn) async {
+  Future<void> changeNotification({required bool isNotificationOn}) async {
     final Set<String> newNotifyUserIds = <String>{
       ...state.suggestion.notifyUserIds
     };

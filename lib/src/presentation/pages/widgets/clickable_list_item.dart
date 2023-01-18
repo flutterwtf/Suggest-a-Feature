@@ -42,7 +42,7 @@ class _ClickableListItemState extends State<ClickableListItem> {
       onPanUpdate: (DragUpdateDetails details) {
         setState(() => pressed = false);
       },
-      child: Container(
+      child: ColoredBox(
         color: pressed ? theme.actionBackgroundColor : Colors.transparent,
         child: Padding(
           padding: EdgeInsets.symmetric(
