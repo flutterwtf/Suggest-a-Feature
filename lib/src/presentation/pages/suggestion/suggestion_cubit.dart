@@ -73,11 +73,13 @@ class SuggestionCubit extends Cubit<SuggestionState> {
             author: e.isAnonymous ? null : await getUserById(e.author.id),
           ),
         ),
-      );
+      )
+        ..sort(
+          (a, b) => b.creationTime.compareTo(a.creationTime),
+        );
       emit(
         state.newState(
-          suggestion:
-              state.suggestion.copyWith(comments: extendedComments.toList()),
+          suggestion: state.suggestion.copyWith(comments: extendedComments),
         ),
       );
       _suggestionInteractor.refreshSuggestions(state.suggestion);
