@@ -10,6 +10,8 @@ extension SuggestionLabelExtension on SuggestionLabel {
         return theme.featureLabelColor;
       case SuggestionLabel.bug:
         return theme.bugLabelColor;
+      case SuggestionLabel.unknown:
+        return theme.errorColor;
     }
   }
 
@@ -18,6 +20,8 @@ extension SuggestionLabelExtension on SuggestionLabel {
       case SuggestionLabel.feature:
         return context.localization.feature;
       case SuggestionLabel.bug:
+        return context.localization.bug;
+      case SuggestionLabel.unknown:
         return context.localization.bug;
     }
   }

@@ -12,7 +12,7 @@ extension LabelExt on SuggestionLabel {
       case 'bug':
         return SuggestionLabel.bug;
       default:
-        throw UnsupportedError('$type is not supported');
+        return SuggestionLabel.unknown;
     }
   }
 }

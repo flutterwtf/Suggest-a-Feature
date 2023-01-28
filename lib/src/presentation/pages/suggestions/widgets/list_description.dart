@@ -31,6 +31,8 @@ class ListDescription extends StatelessWidget {
         header = context.localization.completedHeader;
         description = context.localization.completedDescription;
         break;
+      case SuggestionStatus.unknown:
+        return const SizedBox.shrink();
     }
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: Dimensions.margin2x),
