@@ -16,6 +16,7 @@ class SuggestionLabels extends StatelessWidget {
       spacing: Dimensions.marginBig,
       runSpacing: Dimensions.marginMiddle,
       children: labels
+          .where((SuggestionLabel label) => label != SuggestionLabel.unknown)
           .map((SuggestionLabel label) => _label(label, context))
           .toList(),
     );

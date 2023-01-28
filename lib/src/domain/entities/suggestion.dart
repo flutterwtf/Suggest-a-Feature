@@ -122,6 +122,7 @@ class Suggestion extends Equatable {
       creationTime: fromDateTime(json['creation_time']),
       status: SuggestionStatus.values.firstWhere(
         (SuggestionStatus e) => describeEnum(e) == json['status'],
+        orElse: () => SuggestionStatus.unknown,
       ),
       votedUserIds:
           (json['voted_user_ids'] ?? <String>[]).cast<String>().toSet(),
@@ -155,9 +156,9 @@ class Suggestion extends Equatable {
       ];
 }
 
-enum SuggestionStatus { requests, inProgress, completed }
+enum SuggestionStatus { requests, inProgress, completed, unknown }
 
-enum SuggestionLabel { feature, bug }
+enum SuggestionLabel { feature, bug, unknown }
 
 class CreateSuggestionModel {
   final String title;
