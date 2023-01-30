@@ -26,7 +26,6 @@ dependencies:
     git:
       url: https://github.com/flutterwtf/sliding_sheet
       ref: master
-  very_good_analysis: ^3.1.0
 
 dev_dependencies:
   bloc_test: ^9.1.0
@@ -34,6 +33,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   mockito: ^5.3.2
+  very_good_analysis: ^3.1.0
 
 flutter:
   assets:

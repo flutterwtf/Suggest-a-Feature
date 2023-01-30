@@ -9,7 +9,6 @@ analyzer:
     parameter_assignments: ignore
     cascade_invocations: ignore
     always_use_package_imports: ignore
-    comment_references: ignore
     sort_constructors_first: ignore
     library_private_types_in_public_api: ignore
     public_member_api_docs: ignore

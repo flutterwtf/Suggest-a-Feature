@@ -34,20 +34,12 @@ abstract class SuggestionsDataSource {
   Future<void> deleteCommentById(String commentId);
 
   /// Adds a vote to the suggestion, raising its priority.
-  ///
-  /// In order to add a notification to noSql database,
-  /// use the [CreateVotedUserRelationModel],
-  /// which represents a many-to-many relationship.
   Future<void> upvote(String suggestionId);
 
   /// Takes away a vote from the suggestion, lowering its priority.
   Future<void> downvote(String suggestionId);
 
   /// Subscribes the user to change the status of the suggestion.
-  ///
-  /// In order to add a notification to noSql database, use the
-  /// [CreateSubscribedUserRelationModel],
-  /// which represents a many-to-many relationship.
   Future<void> addNotifyToUpdateUser(String suggestionId);
 
   /// Unsubscribes the user to change the status of the suggestion.

@@ -41,7 +41,7 @@ class SuggestionsPage extends StatefulWidget {
   /// Callback processing saving photos to the gallery.
   final OnSaveToGalleryCallback? onSaveToGallery;
 
-  /// Callback callback returning the current user [SuggestionAuthor].
+  /// Callback returning the current user (SuggestionAuthor).
   final OnGetUserById onGetUserById;
 
   SuggestionsPage({
