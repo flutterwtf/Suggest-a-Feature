@@ -8,8 +8,8 @@ import 'zoomable_image_widget.dart';
 
 class PhotoView extends StatefulWidget {
   final List<String> photos;
-  final Function(String)? onDeleteClick;
-  final Function(String)? onDownloadClick;
+  final void Function(String)? onDeleteClick;
+  final void Function(String)? onDownloadClick;
   final int initialIndex;
   final Color previousNavBarColor;
 

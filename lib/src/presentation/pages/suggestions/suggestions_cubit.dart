@@ -85,6 +85,9 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
         final List<Suggestion> newList = _changeListElement(state.completed, i);
         emit(state.newState(completed: newList));
         break;
+      case SuggestionStatus.unknown:
+        // TODO: Handle this case.
+        break;
     }
   }
 

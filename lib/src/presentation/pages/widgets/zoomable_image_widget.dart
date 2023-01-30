@@ -7,7 +7,7 @@ import '../../di/injector.dart';
 class ZoomableImage extends StatefulWidget {
   final String imageUrl;
   final VoidCallback changeScrollPhysics;
-  final Function(bool value) changeZoomStatus;
+  final void Function(bool value) changeZoomStatus;
 
   const ZoomableImage({
     Key? key,
@@ -24,7 +24,7 @@ class _ZoomableImageState extends State<ZoomableImage>
     with SingleTickerProviderStateMixin {
   late final AnimationController _animationController;
   Animation<double>? _animation;
-  Function() _animationListener = () {};
+  void Function() _animationListener = () {};
 
   @override
   void initState() {

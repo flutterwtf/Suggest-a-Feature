@@ -9,7 +9,7 @@ import 'base_bottom_sheet.dart';
 
 class NotificationSuggestionBottomSheet extends StatefulWidget {
   final VoidCallback onCancel;
-  final Function(bool) onChangeNotification;
+  final void Function(bool) onChangeNotification;
   final SheetController controller;
   final bool isNotificationOn;
 
