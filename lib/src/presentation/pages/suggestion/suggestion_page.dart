@@ -405,7 +405,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
   Widget _wrappedAttachedImage(List<String> images, String attachedImage) {
     return GestureDetector(
       onTap: () {
-        showDialog(
+        showDialog<void>(
           useSafeArea: false,
           barrierColor: Colors.black,
           context: context,

@@ -375,7 +375,7 @@ class CreateEditSuggestionBottomSheetState
   }
 
   Future<void> _openPhotoView(CreateEditSuggestionState state) async {
-    await showDialog(
+    await showDialog<void>(
       useSafeArea: false,
       barrierColor: Colors.black,
       context: context,
