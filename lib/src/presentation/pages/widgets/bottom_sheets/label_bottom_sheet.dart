@@ -12,7 +12,7 @@ import 'bottom_sheet_actions.dart';
 class LabelBottomSheet extends StatefulWidget {
   final VoidCallback onCancel;
   final SheetController controller;
-  final void Function(List<SuggestionLabel>) onDone;
+  final ValueChanged<List<SuggestionLabel>> onDone;
   final List<SuggestionLabel> selectedLabels;
 
   const LabelBottomSheet({

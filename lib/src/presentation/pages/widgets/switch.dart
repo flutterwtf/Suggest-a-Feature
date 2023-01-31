@@ -4,7 +4,7 @@ import '../theme/suggestions_theme.dart';
 
 class SuggestionsSwitch extends StatelessWidget {
   final bool value;
-  final void Function(bool) onChanged;
+  final ValueChanged<bool> onChanged;
 
   const SuggestionsSwitch({
     Key? key,

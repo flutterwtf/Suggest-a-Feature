@@ -9,7 +9,7 @@ import '../theme/suggestions_theme.dart';
 class SuggestionsTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
-  final void Function(String)? onChanged;
+  final ValueChanged<String>? onChanged;
   final EdgeInsetsGeometry padding;
   final bool autofocus;
   final bool isShowError;

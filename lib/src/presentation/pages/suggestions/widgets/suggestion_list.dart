@@ -14,7 +14,7 @@ class SuggestionList extends StatelessWidget {
   final OnSaveToGalleryCallback? onSaveToGallery;
   final OnGetUserById onGetUserById;
   final String userId;
-  final void Function(int) vote;
+  final ValueChanged<int> vote;
 
   const SuggestionList({
     Key? key,
