@@ -17,6 +17,7 @@
   "title": "Briefly describe your suggestion",
   "description": "Describe your suggestion in details",
   "postAnonymously": "Post anonymously",
+  "postFromAdmin": "Post from Admin",
   "suggest": "Suggest",
   "status": "Status",
   "anonymousAuthorName": "Anonymous",

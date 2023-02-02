@@ -44,12 +44,10 @@ class SuggestionsLocalizationsEn extends SuggestionsLocalizations {
   String get delete => 'Delete suggestion';
 
   @override
-  String get deletionQuestion =>
-      'Are you sure you want to delete the suggestion?';
+  String get deletionQuestion => 'Are you sure you want to delete the suggestion?';
 
   @override
-  String get deletionPhotoQuestion =>
-      'Are you sure you want to delete this photo?';
+  String get deletionPhotoQuestion => 'Are you sure you want to delete this photo?';
 
   @override
   String get title => 'Briefly describe your suggestion';
@@ -59,6 +57,9 @@ class SuggestionsLocalizationsEn extends SuggestionsLocalizations {
 
   @override
   String get postAnonymously => 'Post anonymously';
+
+  @override
+  String get postFromAdmin => 'Post from Admin';
 
   @override
   String get suggest => 'Suggest';

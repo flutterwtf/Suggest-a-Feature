@@ -59,6 +59,9 @@ class SuggestionsLocalizationsUk extends SuggestionsLocalizations {
   String get postAnonymously => 'Опублікувати анонімно';
 
   @override
+  String get postFromAdmin => 'Опублікувати від імені розробника';
+
+  @override
   String get suggest => 'Запропонувати';
 
   @override
@@ -83,7 +86,7 @@ class SuggestionsLocalizationsUk extends SuggestionsLocalizations {
   String get inProgressHeader => 'Пропозиції у розробці';
 
   @override
-  String get inProgressDescription => "Незабаром з'явиться у додатку";
+  String get inProgressDescription => 'Незабаром з\'явиться у додатку';
 
   @override
   String get completed => 'Реалізовано';

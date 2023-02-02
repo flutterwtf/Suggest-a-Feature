@@ -28,10 +28,10 @@ class MyApp extends StatelessWidget {
           theme: SuggestionsTheme.initial(),
           userId: '1',
           /// Uncomment to test the admin functionality:
-          // adminSettings: const AdminSettings(
-          //   id: '3',
-          //   username: 'Admin',
-          // ),
+          adminSettings: const AdminSettings(
+            id: '3',
+            username: 'Admin',
+          ),
         ),
       ),
       localizationsDelegates: const [SuggestionsLocalizations.delegate],

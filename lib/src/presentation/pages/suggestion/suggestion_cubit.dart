@@ -75,7 +75,7 @@ class SuggestionCubit extends Cubit<SuggestionState> {
       final List<Comment> extendedComments = await Future.wait(
         comments.map(
           (Comment e) async {
-            if(!e.isFromAdmin){
+            if (!e.isFromAdmin) {
               return e.copyWith(
                 author: e.isAnonymous ? null : await getUserById(e.author.id),
               );
@@ -173,11 +173,12 @@ class SuggestionCubit extends Cubit<SuggestionState> {
     String text,
     OnGetUserById getUserById, {
     required bool isAnonymous,
+    required bool postedByAdmin,
   }) async {
     try {
-      final isAdmin = i.adminSettings != null;
+      final isFromAdmin = i.adminSettings != null && postedByAdmin;
       late final Comment comment;
-      if (!isAdmin) {
+      if (!isFromAdmin) {
         comment = await _suggestionInteractor.createComment(
           CreateCommentModel(
             authorId: i.userId,
@@ -206,7 +207,7 @@ class SuggestionCubit extends Cubit<SuggestionState> {
               comment.copyWith(
                 author: comment.isAnonymous
                     ? null
-                    : isAdmin
+                    : isFromAdmin
                         ? i.adminSettings!
                         : await getUserById(comment.author.id),
               ),

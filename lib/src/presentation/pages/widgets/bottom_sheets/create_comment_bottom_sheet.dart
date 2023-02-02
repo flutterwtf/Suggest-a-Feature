@@ -11,7 +11,7 @@ import '../switch.dart';
 import '../text_field.dart';
 import 'base_bottom_sheet.dart';
 
-typedef OnCreateComment = void Function(String, bool);
+typedef OnCreateComment = void Function(String, bool, bool);
 
 class CreateCommentBottomSheet extends StatefulWidget {
   final Future<void> Function() onClose;
@@ -33,6 +33,7 @@ class CreateCommentBottomSheet extends StatefulWidget {
 class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
   final TextEditingController _commentController = TextEditingController();
   bool _isAnonymously = false;
+  bool _isFromAdmin = true;
   bool _isShowCommentError = false;
   late FocusNode _inputFocusNode;
 
@@ -68,10 +69,16 @@ class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
           children: <Widget>[
             _commentTextField(context),
             const SizedBox(height: Dimensions.marginBig),
-            if (i.adminSettings == null ) ...<Widget>[
+            if (i.adminSettings == null) ...<Widget>[
               Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
               const SizedBox(height: Dimensions.marginSmall),
               _postAnonymously(),
+              const SizedBox(height: Dimensions.marginSmall),
+            ],
+            if (i.adminSettings != null) ...<Widget>[
+              Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
+              const SizedBox(height: Dimensions.marginSmall),
+              _postPostedBy(),
               const SizedBox(height: Dimensions.marginSmall),
             ],
             _createCommentButton(),
@@ -118,6 +125,19 @@ class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
     );
   }
 
+  Widget _postPostedBy() {
+    return ClickableListItem(
+      title: Text(
+        context.localization.postFromAdmin,
+        style: theme.textSmallPlusSecondaryBold,
+      ),
+      trailing: SuggestionsSwitch(
+        value: _isFromAdmin,
+        onChanged: (bool value) => setState(() => _isFromAdmin = value),
+      ),
+    );
+  }
+
   Widget _createCommentButton() {
     return Align(
       alignment: Alignment.bottomCenter,
@@ -129,7 +149,11 @@ class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
           onClick: () async {
             if (_commentController.text.isNotEmpty) {
               await widget.onClose();
-              widget.onCreateComment(_commentController.text, _isAnonymously);
+              widget.onCreateComment(
+                _commentController.text,
+                _isAnonymously,
+                _isFromAdmin,
+              );
             } else {
               return;
             }

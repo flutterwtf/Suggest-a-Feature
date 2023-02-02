@@ -54,6 +54,7 @@ void main() {
           'Comment1',
           (String id) async => mockedSuggestionAuthor,
           isAnonymous: true,
+          postedByAdmin: false,
         ),
         expect: () => <SuggestionState>[
           SuggestionState(
