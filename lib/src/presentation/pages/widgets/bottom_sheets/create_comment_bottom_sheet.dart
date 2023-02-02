@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 
+import '../../../di/injector.dart';
 import '../../../utils/context_utils.dart';
 import '../../../utils/dimensions.dart';
 import '../../theme/suggestions_theme.dart';
@@ -67,10 +68,12 @@ class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
           children: <Widget>[
             _commentTextField(context),
             const SizedBox(height: Dimensions.marginBig),
-            Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
-            const SizedBox(height: Dimensions.marginSmall),
-            _postAnonymously(),
-            const SizedBox(height: Dimensions.marginSmall),
+            if (i.adminSettings == null ) ...<Widget>[
+              Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
+              const SizedBox(height: Dimensions.marginSmall),
+              _postAnonymously(),
+              const SizedBox(height: Dimensions.marginSmall),
+            ],
             _createCommentButton(),
           ],
         );

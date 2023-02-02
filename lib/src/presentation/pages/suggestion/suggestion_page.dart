@@ -55,7 +55,11 @@ class _SuggestionPageState extends State<SuggestionPage> {
 
   @override
   void initState() {
-    _cubit.init(widget.suggestion, widget.onGetUserById);
+    _cubit.init(
+      suggestion: widget.suggestion,
+      getUserById: widget.onGetUserById,
+      isAdmin: i.adminSettings != null,
+    );
     super.initState();
   }
 

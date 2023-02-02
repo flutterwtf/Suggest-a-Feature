@@ -9,14 +9,13 @@ import 'suggestions_localizations_en.dart';
 import 'suggestions_localizations_ru.dart';
 import 'suggestions_localizations_uk.dart';
 
-/// Callers can lookup localized strings
-/// with an instance of SuggestionsLocalizations
+/// Callers can lookup localized strings with an instance of
+/// SuggestionsLocalizations
 /// returned by `SuggestionsLocalizations.of(context)`.
 ///
 /// Applications need to include `SuggestionsLocalizations.delegate()` in their
-/// app's `localizationDelegates` list,
-/// and the locales they support in the app's
-/// `supportedLocales` list. For example:
+/// app's `localizationDelegates` list, and the locales they support
+/// in the app's `supportedLocales` list. For example:
 ///
 /// ```dart
 /// import 'l10n/suggestions_localizations.dart';
@@ -81,9 +80,8 @@ abstract class SuggestionsLocalizations {
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
   ///
-  /// Returns a list of localizations delegates
-  /// containing this delegate along with
-  /// GlobalMaterialLocalizations.delegate,
+  /// Returns a list of localizations delegates containing this delegate
+  /// along with GlobalMaterialLocalizations.delegate,
   /// GlobalCupertinoLocalizations.delegate,
   /// and GlobalWidgetsLocalizations.delegate.
   ///
@@ -219,6 +217,12 @@ abstract class SuggestionsLocalizations {
   /// **'Suggest'**
   String get suggest;
 
+  /// No description provided for @status.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get status;
+
   /// No description provided for @anonymousAuthorName.
   ///
   /// In en, this message translates to:
@@ -278,6 +282,42 @@ abstract class SuggestionsLocalizations {
   /// In en, this message translates to:
   /// **'What’s been already implemented'**
   String get completedDescription;
+
+  /// No description provided for @duplicate.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate'**
+  String get duplicate;
+
+  /// No description provided for @duplicatedHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicated features'**
+  String get duplicatedHeader;
+
+  /// No description provided for @duplicatedDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'What’s been already suggested'**
+  String get duplicatedDescription;
+
+  /// No description provided for @cancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get cancelled;
+
+  /// No description provided for @cancelledHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled features'**
+  String get cancelledHeader;
+
+  /// No description provided for @cancelledDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'What’s been cancelled'**
+  String get cancelledDescription;
 
   /// No description provided for @savingImageError.
   ///
@@ -382,9 +422,9 @@ SuggestionsLocalizations lookupSuggestionsLocalizations(Locale locale) {
       return SuggestionsLocalizationsUk();
   }
 
-  throw FlutterError('SuggestionsLocalizations.delegate failed '
-      'to load unsupported locale "$locale". '
-      'This is likely '
+  throw FlutterError(
+      'SuggestionsLocalizations.delegate failed to load unsupported '
+      'locale "$locale". This is likely '
       'an issue with the localizations generation tool. Please file an issue '
       'on GitHub with a reproducible sample app and the gen-l10n configuration '
       'that was used.');

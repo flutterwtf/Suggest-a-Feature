@@ -28,12 +28,17 @@ class SuggestionCubit extends Cubit<SuggestionState> {
           ),
         );
 
-  Future<void> init(Suggestion suggestion, OnGetUserById getUserById) async {
+  Future<void> init({
+    required Suggestion suggestion,
+    required OnGetUserById getUserById,
+    required bool isAdmin,
+  }) async {
     emit(
       state.newState(
         suggestion: suggestion,
-        isEditable: i.userId == suggestion.authorId &&
-            suggestion.status == SuggestionStatus.requests,
+        isEditable: (i.userId == suggestion.authorId &&
+                suggestion.status == SuggestionStatus.requests) ||
+            isAdmin,
       ),
     );
     _suggestionSubscription?.cancel();
@@ -69,9 +74,14 @@ class SuggestionCubit extends Cubit<SuggestionState> {
           await _suggestionInteractor.getAllComments(suggestionId);
       final List<Comment> extendedComments = await Future.wait(
         comments.map(
-          (Comment e) async => e.copyWith(
-            author: e.isAnonymous ? null : await getUserById(e.author.id),
-          ),
+          (Comment e) async {
+            if(!e.isFromAdmin){
+              return e.copyWith(
+                author: e.isAnonymous ? null : await getUserById(e.author.id),
+              );
+            }
+            return e;
+          },
         ),
       )
         ..sort(
@@ -165,14 +175,29 @@ class SuggestionCubit extends Cubit<SuggestionState> {
     required bool isAnonymous,
   }) async {
     try {
-      final Comment comment = await _suggestionInteractor.createComment(
-        CreateCommentModel(
-          authorId: i.userId,
-          isAnonymous: isAnonymous,
-          text: text,
-          suggestionId: state.suggestion.id,
-        ),
-      );
+      final isAdmin = i.adminSettings != null;
+      late final Comment comment;
+      if (!isAdmin) {
+        comment = await _suggestionInteractor.createComment(
+          CreateCommentModel(
+            authorId: i.userId,
+            isAnonymous: isAnonymous,
+            text: text,
+            suggestionId: state.suggestion.id,
+            isFromAdmin: false,
+          ),
+        );
+      } else {
+        comment = await _suggestionInteractor.createComment(
+          CreateCommentModel(
+            authorId: i.adminSettings!.id,
+            isAnonymous: false,
+            text: text,
+            suggestionId: state.suggestion.id,
+            isFromAdmin: true,
+          ),
+        );
+      }
       emit(
         state.newState(
           suggestion: state.suggestion.copyWith(
@@ -181,7 +206,9 @@ class SuggestionCubit extends Cubit<SuggestionState> {
               comment.copyWith(
                 author: comment.isAnonymous
                     ? null
-                    : await getUserById(comment.author.id),
+                    : isAdmin
+                        ? i.adminSettings!
+                        : await getUserById(comment.author.id),
               ),
             ],
           ),

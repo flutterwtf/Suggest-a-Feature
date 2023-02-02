@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 
 import '../../../data/interfaces/i_suggestions_data_source.dart';
+import '../../../domain/entities/admin_settings.dart';
 import '../../../domain/entities/suggestion.dart';
 import '../../di/injector.dart';
 import '../../utils/assets_strings.dart';
@@ -44,12 +45,15 @@ class SuggestionsPage extends StatefulWidget {
   /// Callback returning the current user (SuggestionAuthor).
   final OnGetUserById onGetUserById;
 
+  final AdminSettings? adminSettings;
+
   SuggestionsPage({
     Key? key,
     required this.userId,
     required this.suggestionsDataSource,
     required this.theme,
     required this.onGetUserById,
+    this.adminSettings,
     this.onSaveToGallery,
     this.onUploadMultiplePhotos,
     this.imageHeaders,
@@ -59,6 +63,7 @@ class SuggestionsPage extends StatefulWidget {
       userId: userId,
       imageHeaders: imageHeaders,
       suggestionsDataSource: suggestionsDataSource,
+      adminSettings: adminSettings,
     );
   }
 

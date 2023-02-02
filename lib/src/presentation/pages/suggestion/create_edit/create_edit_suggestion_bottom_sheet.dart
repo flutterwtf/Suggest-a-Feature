@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/status_bottom_sheet.dart';
 
 import '../../../../domain/entities/suggestion.dart';
 import '../../../di/injector.dart';
@@ -53,6 +54,7 @@ class CreateEditSuggestionBottomSheetState
     with TickerProviderStateMixin {
   final CreateEditSuggestionCubit _cubit = i.createEditSuggestionCubit;
   final SheetController _labelsSheetController = SheetController();
+  final SheetController _statusesSheetController = SheetController();
   late TextEditingController _titleController;
   late TextEditingController _descriptionController;
   late FocusNode _titleFocusNode;
@@ -108,6 +110,8 @@ class CreateEditSuggestionBottomSheetState
       builder: (BuildContext context, CreateEditSuggestionState state) {
         if (state.isLabelsBottomSheetOpen) {
           return _labelsBottomSheet(state.suggestion.labels);
+        } else if (state.isStatusBottomSheetOpen && i.adminSettings != null) {
+          return _statusesBottomSheet(state.suggestion.status);
         } else if (!state.isPhotoViewOpen) {
           return _createEditSuggestionBottomSheet(state);
         } else {
@@ -171,6 +175,10 @@ class CreateEditSuggestionBottomSheetState
             const SizedBox(height: Dimensions.marginBig),
             Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
             _labelItems(state.suggestion.labels),
+            if (i.adminSettings != null && state.isEditing) ...<Widget>[
+              Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
+              _suggestionStatus(state.suggestion.status),
+            ],
             if (widget.onUploadMultiplePhotos != null) ...<Widget>[
               if (state.suggestion.images.isNotEmpty)
                 const SizedBox.shrink()
@@ -232,6 +240,65 @@ class CreateEditSuggestionBottomSheetState
         isLabelsBottomSheetOpen: true,
       ),
       verticalPadding: Dimensions.marginDefault,
+    );
+  }
+
+  Widget _suggestionStatus(SuggestionStatus suggestionStatus) {
+    late final String status;
+    switch (suggestionStatus) {
+      case SuggestionStatus.completed:
+        status = context.localization.completed;
+        break;
+      case SuggestionStatus.inProgress:
+        status = context.localization.inProgress;
+        break;
+      case SuggestionStatus.requests:
+        status = context.localization.requests;
+        break;
+      case SuggestionStatus.cancelled:
+        status = context.localization.cancelled;
+        break;
+      case SuggestionStatus.duplicate:
+        status = context.localization.duplicate;
+        break;
+      case SuggestionStatus.unknown:
+        status = '';
+        break;
+    }
+
+    return ClickableListItem(
+      title: Text(
+        context.localization.status,
+        style: theme.textSmallPlusSecondaryBold,
+      ),
+      trailing: Text(
+        status,
+        style: theme.textSmallPlusBold,
+      ),
+      onClick: () => _cubit.changeStatusBottomSheetStatus(
+        isStatusBottomSheetOpen: true,
+      ),
+      verticalPadding: Dimensions.marginDefault,
+    );
+  }
+
+  Widget _statusesBottomSheet(SuggestionStatus suggestionStatus) {
+    return StatusBottomSheet(
+      controller: _statusesSheetController,
+      selectedStatus: suggestionStatus,
+      onCancel: ([_]) => _statusesSheetController.collapse()?.then(
+            (_) => _cubit.changeStatusBottomSheetStatus(
+              isStatusBottomSheetOpen: false,
+            ),
+          ),
+      onDone: (SuggestionStatus status) {
+        _cubit.changeStatus(status);
+        _statusesSheetController.collapse()?.then(
+              (_) => _cubit.changeStatusBottomSheetStatus(
+            isStatusBottomSheetOpen: false,
+          ),
+        );
+      },
     );
   }
 

@@ -19,6 +19,7 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
             isSubmitted: false,
             isLoading: false,
             isLabelsBottomSheetOpen: false,
+            isStatusBottomSheetOpen: false,
             isPhotoViewOpen: false,
           ),
         );
@@ -90,6 +91,10 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
     emit(state.newState(isLabelsBottomSheetOpen: isLabelsBottomSheetOpen));
   }
 
+  void changeStatusBottomSheetStatus({required bool isStatusBottomSheetOpen}) {
+    emit(state.newState(isStatusBottomSheetOpen: isStatusBottomSheetOpen));
+  }
+
   void changePhotoViewStatus({required bool isPhotoViewOpen}) {
     emit(state.newState(isPhotoViewOpen: isPhotoViewOpen));
   }
@@ -119,6 +124,14 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
     emit(
       state.newState(
         suggestion: state.suggestion.copyWith(labels: selectedLabels),
+      ),
+    );
+  }
+
+  void changeStatus(SuggestionStatus status) {
+    emit(
+      state.newState(
+        suggestion: state.suggestion.copyWith(status: status),
       ),
     );
   }

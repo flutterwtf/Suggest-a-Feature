@@ -31,6 +31,14 @@ class ListDescription extends StatelessWidget {
         header = context.localization.completedHeader;
         description = context.localization.completedDescription;
         break;
+      case SuggestionStatus.cancelled:
+        header = context.localization.cancelledHeader;
+        description = context.localization.cancelledDescription;
+        break;
+      case SuggestionStatus.duplicate:
+        header = context.localization.duplicatedHeader;
+        description = context.localization.duplicatedDescription;
+        break;
       case SuggestionStatus.unknown:
         return const SizedBox.shrink();
     }

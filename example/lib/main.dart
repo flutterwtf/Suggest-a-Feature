@@ -27,6 +27,11 @@ class MyApp extends StatelessWidget {
           suggestionsDataSource: MySuggestionDataSource(userId: '1'),
           theme: SuggestionsTheme.initial(),
           userId: '1',
+          /// Uncomment to test the admin functionality:
+          // adminSettings: const AdminSettings(
+          //   id: '3',
+          //   username: 'Admin',
+          // ),
         ),
       ),
       localizationsDelegates: const [SuggestionsLocalizations.delegate],
@@ -38,6 +43,10 @@ class MySuggestionDataSource implements SuggestionsDataSource {
   final SuggestionAuthor _suggestionAuthor = const SuggestionAuthor(
     id: '1',
     username: 'Author',
+  );
+  final SuggestionAuthor _adminSettings = const AdminSettings(
+    id: '3',
+    username: 'Admin',
   );
   final Map<String, dynamic> suggestions = <String, Suggestion>{};
   Map<String, dynamic> comments = <String, Comment>{};
@@ -89,10 +98,11 @@ class MySuggestionDataSource implements SuggestionsDataSource {
     final Comment comment = Comment(
       id: _generateCommentId(),
       suggestionId: commentModel.suggestionId,
-      author: _suggestionAuthor,
+      author: commentModel.isFromAdmin ? _adminSettings : _suggestionAuthor,
       isAnonymous: commentModel.isAnonymous,
       text: commentModel.text,
       creationTime: DateTime.now(),
+      isFromAdmin: commentModel.isFromAdmin,
     );
     comments[comment.id] = comment;
     return comment;

@@ -156,7 +156,14 @@ class Suggestion extends Equatable {
       ];
 }
 
-enum SuggestionStatus { requests, inProgress, completed, unknown }
+enum SuggestionStatus {
+  requests,
+  inProgress,
+  completed,
+  duplicate,
+  cancelled,
+  unknown,
+}
 
 enum SuggestionLabel { feature, bug, unknown }
 

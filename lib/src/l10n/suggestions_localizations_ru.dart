@@ -64,6 +64,9 @@ class SuggestionsLocalizationsRu extends SuggestionsLocalizations {
   String get suggest => 'Предложить';
 
   @override
+  String get status => 'Статус';
+
+  @override
   String get anonymousAuthorName => 'Аноним';
 
   @override
@@ -92,6 +95,24 @@ class SuggestionsLocalizationsRu extends SuggestionsLocalizations {
 
   @override
   String get completedDescription => 'Было реализовано в приложении';
+
+  @override
+  String get duplicate => 'Дубликаты';
+
+  @override
+  String get duplicatedHeader => 'Продублированные предложения';
+
+  @override
+  String get duplicatedDescription => 'Было предложенно ранее';
+
+  @override
+  String get cancelled => 'Отклонено';
+
+  @override
+  String get cancelledHeader => 'Отклонённые предложения';
+
+  @override
+  String get cancelledDescription => 'Было отклонено';
 
   @override
   String get savingImageError => 'Ошибка сохранения фото';

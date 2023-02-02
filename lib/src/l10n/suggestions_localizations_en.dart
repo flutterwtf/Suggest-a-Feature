@@ -64,6 +64,9 @@ class SuggestionsLocalizationsEn extends SuggestionsLocalizations {
   String get suggest => 'Suggest';
 
   @override
+  String get status => 'Status';
+
+  @override
   String get anonymousAuthorName => 'Anonymous';
 
   @override
@@ -92,6 +95,24 @@ class SuggestionsLocalizationsEn extends SuggestionsLocalizations {
 
   @override
   String get completedDescription => 'What’s been already implemented';
+
+  @override
+  String get duplicate => 'Duplicate';
+
+  @override
+  String get duplicatedHeader => 'Duplicated features';
+
+  @override
+  String get duplicatedDescription => 'What’s been already suggested';
+
+  @override
+  String get cancelled => 'Cancelled';
+
+  @override
+  String get cancelledHeader => 'Cancelled features';
+
+  @override
+  String get cancelledDescription => 'What’s been cancelled';
 
   @override
   String get savingImageError => 'Error: can’t save the photo';
