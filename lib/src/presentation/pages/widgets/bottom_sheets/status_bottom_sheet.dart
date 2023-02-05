@@ -71,7 +71,16 @@ class _StatusBottomSheetState extends State<StatusBottomSheet> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  _statusesList(),
+                  _StatusesList(
+                    onStatusTap: (status) {
+                      setState(() {
+                        if (selectedStatus != status) {
+                          selectedStatus = status;
+                        }
+                      });
+                    },
+                    selectedStatus: selectedStatus,
+                  ),
                 ],
               ),
             ),
@@ -84,8 +93,20 @@ class _StatusBottomSheetState extends State<StatusBottomSheet> {
       },
     );
   }
+}
 
-  Widget _statusesList() {
+class _StatusesList extends StatelessWidget {
+  final ValueChanged<SuggestionStatus> onStatusTap;
+  final SuggestionStatus selectedStatus;
+
+  const _StatusesList({
+    required this.onStatusTap,
+    required this.selectedStatus,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: Dimensions.marginDefault,
@@ -93,21 +114,55 @@ class _StatusBottomSheetState extends State<StatusBottomSheet> {
       ),
       child: Column(
         children: <Widget>[
-          _statusItem(SuggestionStatus.requests),
+          _StatusItem(
+            status: SuggestionStatus.requests,
+            onTap: onStatusTap,
+            selectedStatus: selectedStatus,
+          ),
           const SizedBox(height: Dimensions.marginMiddle),
-          _statusItem(SuggestionStatus.inProgress),
+          _StatusItem(
+            status: SuggestionStatus.inProgress,
+            onTap: onStatusTap,
+            selectedStatus: selectedStatus,
+          ),
           const SizedBox(height: Dimensions.marginMiddle),
-          _statusItem(SuggestionStatus.duplicate),
+          _StatusItem(
+            status: SuggestionStatus.duplicate,
+            onTap: onStatusTap,
+            selectedStatus: selectedStatus,
+          ),
           const SizedBox(height: Dimensions.marginMiddle),
-          _statusItem(SuggestionStatus.completed),
+          _StatusItem(
+            status: SuggestionStatus.completed,
+            onTap: onStatusTap,
+            selectedStatus: selectedStatus,
+          ),
           const SizedBox(height: Dimensions.marginMiddle),
-          _statusItem(SuggestionStatus.cancelled),
+          _StatusItem(
+            status: SuggestionStatus.cancelled,
+            onTap: onStatusTap,
+            selectedStatus: selectedStatus,
+          ),
         ],
       ),
     );
   }
+}
 
-  Widget _statusItem(SuggestionStatus status) {
+class _StatusItem extends StatelessWidget {
+  final SuggestionStatus status;
+  final SuggestionStatus selectedStatus;
+  final ValueChanged<SuggestionStatus> onTap;
+
+  const _StatusItem({
+    required this.status,
+    required this.selectedStatus,
+    required this.onTap,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
@@ -116,11 +171,7 @@ class _StatusBottomSheetState extends State<StatusBottomSheet> {
           style: theme.textSmallPlusSecondaryBold,
         ),
         GestureDetector(
-          onTap: () => setState(() {
-            if (selectedStatus != status) {
-              selectedStatus = status;
-            }
-          }),
+          onTap: () => onTap(status),
           child: SizedBox(
             height: Dimensions.defaultSize,
             width: Dimensions.defaultSize,

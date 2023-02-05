@@ -75,9 +75,9 @@ class _SuggestionPageState extends State<SuggestionPage> {
       bloc: _cubit,
       listenWhen: (SuggestionState previous, SuggestionState current) {
         return previous.savingImageResultMessageType ==
-            SavingResultMessageType.none &&
-            current.savingImageResultMessageType !=
-                SavingResultMessageType.none ||
+                    SavingResultMessageType.none &&
+                current.savingImageResultMessageType !=
+                    SavingResultMessageType.none ||
             !previous.isPopped && current.isPopped;
       },
       listener: (BuildContext context, SuggestionState state) {
@@ -160,21 +160,19 @@ class _SuggestionPageState extends State<SuggestionPage> {
 
   SuggestionsAppBar _appBar(SuggestionState state) {
     return SuggestionsAppBar(
-      onBackClick: Navigator
-          .of(context)
-          .pop,
+      onBackClick: Navigator.of(context).pop,
       screenTitle: context.localization.suggestion,
       trailing: Padding(
         padding: const EdgeInsets.only(right: Dimensions.marginDefault),
         child: state.isEditable
             ? SuggestionsIconButton(
-          onClick: _cubit.openEditDeleteBottomSheet,
-          imageIcon: AssetStrings.penIconImage,
-        )
+                onClick: _cubit.openEditDeleteBottomSheet,
+                imageIcon: AssetStrings.penIconImage,
+              )
             : SuggestionsIconButton(
-          onClick: _cubit.openNotificationBottomSheet,
-          imageIcon: AssetStrings.notificationsIconImage,
-        ),
+                onClick: _cubit.openNotificationBottomSheet,
+                imageIcon: AssetStrings.notificationsIconImage,
+              ),
       ),
     );
   }
@@ -210,10 +208,10 @@ class _SuggestionPageState extends State<SuggestionPage> {
       },
       onCreateComment: (String text, bool isAnonymous, bool isFromAdmin) {
         _cubit.createComment(
-            text,
-            widget.onGetUserById,
-            isAnonymous: isAnonymous,
-            postedByAdmin: isFromAdmin,
+          text,
+          widget.onGetUserById,
+          isAnonymous: isAnonymous,
+          postedByAdmin: isFromAdmin,
         );
       },
     );
@@ -226,8 +224,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
       isNotificationOn: isNotificationOn,
       onChangeNotification: (bool isNotificationOn) =>
           _cubit.changeNotification(
-            isNotificationOn: isNotificationOn,
-          ),
+        isNotificationOn: isNotificationOn,
+      ),
       onCancel: ([_]) =>
           sheetController.collapse()?.then((_) => _cubit.closeBottomSheet()),
     );
@@ -268,9 +266,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
         _cubit.closeBottomSheet();
         _cubit.deleteSuggestion();
       },
-      onCancel: ([_]) =>
-          sheetController.collapse()?.then(
-                (_) => _cubit.closeBottomSheet(),
+      onCancel: ([_]) => sheetController.collapse()?.then(
+            (_) => _cubit.closeBottomSheet(),
           ),
       onConfirmAsset: AssetStrings.checkIconImage,
       onCancelText: context.localization.cancel,
@@ -367,7 +364,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
           onTap: _cubit.vote,
           child: Padding(
             padding:
-            const EdgeInsets.symmetric(horizontal: Dimensions.marginSmall),
+                const EdgeInsets.symmetric(horizontal: Dimensions.marginSmall),
             child: VotesCounter(
               isVoted: isVoted,
               upvotesCount: upvotesCount,
@@ -384,10 +381,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
 
   Widget _attachedImages(List<String> images) {
     return Container(
-      width: MediaQuery
-          .of(context)
-          .size
-          .width,
+      width: MediaQuery.of(context).size.width,
       padding: const EdgeInsets.only(
         left: Dimensions.marginDefault,
         top: Dimensions.marginDefault,
@@ -426,8 +420,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
           builder: (BuildContext context) {
             return PhotoView(
               onDownloadClick: widget.onSaveToGallery != null
-                  ? (String path) =>
-                  _cubit
+                  ? (String path) => _cubit
                       .showSavingResultMessage(widget.onSaveToGallery!(path))
                   : null,
               initialIndex: images.indexOf(attachedImage),
@@ -438,14 +431,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
         );
       },
       child: Container(
-        width: (MediaQuery
-            .of(context)
-            .size
-            .width - 80) / 3,
-        height: (MediaQuery
-            .of(context)
-            .size
-            .width - 80) / 3,
+        width: (MediaQuery.of(context).size.width - 80) / 3,
+        height: (MediaQuery.of(context).size.width - 80) / 3,
         clipBehavior: Clip.hardEdge,
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(

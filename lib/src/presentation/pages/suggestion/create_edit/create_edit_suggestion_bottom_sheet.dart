@@ -174,27 +174,47 @@ class CreateEditSuggestionBottomSheetState
             ),
             const SizedBox(height: Dimensions.marginBig),
             Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
-            _labelItems(state.suggestion.labels),
+            _LabelItems(
+              labels: state.suggestion.labels,
+              changeLabelsBottomSheetStatus: (value) =>
+                  _cubit.changeLabelsBottomSheetStatus(
+                isLabelsBottomSheetOpen: value,
+              ),
+            ),
             if (i.adminSettings != null && state.isEditing) ...<Widget>[
               Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
-              _suggestionStatus(state.suggestion.status),
+              _SuggestionStatus(
+                suggestionStatus: state.suggestion.status,
+                changeStatusBottomSheetStatus: (value) =>
+                    _cubit.changeStatusBottomSheetStatus(
+                  isStatusBottomSheetOpen: value,
+                ),
+              ),
             ],
             if (widget.onUploadMultiplePhotos != null) ...<Widget>[
               if (state.suggestion.images.isNotEmpty)
                 const SizedBox.shrink()
               else
                 _dividerWithIndent(),
-              _photoPickerItem(state),
+              _PhotoPickerItem(
+                state: state,
+                onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
+              ),
             ],
             if (!state.isEditing) ...<Widget>[
               _dividerWithIndent(),
               const SizedBox(height: Dimensions.marginSmall),
-              _postAnonymously(isAnonymously: state.suggestion.isAnonymous),
+              _PostAnonymously(
+                isAnonymously: state.suggestion.isAnonymous,
+                changeSuggestionAnonymity: (value) =>
+                    _cubit.changeSuggestionAnonymity(isAnonymous: value),
+              ),
               const SizedBox(height: Dimensions.marginSmall),
             ],
-            _saveSubmitButton(
+            _SaveSubmitButton(
               isEditing: state.isEditing,
               isLoading: state.isLoading,
+              saveSuggestion: _cubit.saveSuggestion,
             ),
           ],
         );
@@ -222,7 +242,71 @@ class CreateEditSuggestionBottomSheetState
     );
   }
 
-  Widget _labelItems(List<SuggestionLabel> labels) {
+  Widget _statusesBottomSheet(SuggestionStatus suggestionStatus) {
+    return StatusBottomSheet(
+      controller: _statusesSheetController,
+      selectedStatus: suggestionStatus,
+      onCancel: ([_]) => _statusesSheetController.collapse()?.then(
+            (_) => _cubit.changeStatusBottomSheetStatus(
+              isStatusBottomSheetOpen: false,
+            ),
+          ),
+      onDone: (SuggestionStatus status) {
+        _cubit.changeStatus(status);
+        _statusesSheetController.collapse()?.then(
+              (_) => _cubit.changeStatusBottomSheetStatus(
+                isStatusBottomSheetOpen: false,
+              ),
+            );
+      },
+    );
+  }
+
+  Widget _dividerWithIndent() {
+    return Divider(
+      color: theme.dividerColor,
+      thickness: 0.5,
+      height: 1.5,
+      indent: Dimensions.marginDefault,
+      endIndent: Dimensions.marginDefault,
+    );
+  }
+
+  Future<void> _openPhotoView(CreateEditSuggestionState state) async {
+    await showDialog<void>(
+      useSafeArea: false,
+      barrierColor: Colors.black,
+      context: context,
+      useRootNavigator: false,
+      builder: (BuildContext context) {
+        return PhotoView(
+          initialIndex: state.openPhotoIndex!,
+          onDeleteClick: _cubit.removePhoto,
+          onDownloadClick: widget.onSaveToGallery != null
+              ? (String path) =>
+                  _cubit.showSavingResultMessage(widget.onSaveToGallery!(path))
+              : null,
+          photos: state.suggestion.images,
+          previousNavBarColor: theme.thirdBackgroundColor,
+        );
+      },
+    );
+    _cubit.changePhotoViewStatus(isPhotoViewOpen: false);
+  }
+}
+
+class _LabelItems extends StatelessWidget {
+  final List<SuggestionLabel> labels;
+  final ValueChanged<bool> changeLabelsBottomSheetStatus;
+
+  const _LabelItems({
+    required this.labels,
+    required this.changeLabelsBottomSheetStatus,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return ClickableListItem(
       title: Text(
         context.localization.labels,
@@ -236,14 +320,24 @@ class CreateEditSuggestionBottomSheetState
               color: theme.primaryIconColor,
               height: Dimensions.defaultSize,
             ),
-      onClick: () => _cubit.changeLabelsBottomSheetStatus(
-        isLabelsBottomSheetOpen: true,
-      ),
+      onClick: () => changeLabelsBottomSheetStatus(true),
       verticalPadding: Dimensions.marginDefault,
     );
   }
+}
 
-  Widget _suggestionStatus(SuggestionStatus suggestionStatus) {
+class _SuggestionStatus extends StatelessWidget {
+  final SuggestionStatus suggestionStatus;
+  final ValueChanged<bool> changeStatusBottomSheetStatus;
+
+  const _SuggestionStatus({
+    required this.suggestionStatus,
+    required this.changeStatusBottomSheetStatus,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     late final String status;
     switch (suggestionStatus) {
       case SuggestionStatus.completed:
@@ -275,51 +369,33 @@ class CreateEditSuggestionBottomSheetState
         status,
         style: theme.textSmallPlusBold,
       ),
-      onClick: () => _cubit.changeStatusBottomSheetStatus(
-        isStatusBottomSheetOpen: true,
-      ),
+      onClick: () => changeStatusBottomSheetStatus(true),
       verticalPadding: Dimensions.marginDefault,
     );
   }
+}
 
-  Widget _statusesBottomSheet(SuggestionStatus suggestionStatus) {
-    return StatusBottomSheet(
-      controller: _statusesSheetController,
-      selectedStatus: suggestionStatus,
-      onCancel: ([_]) => _statusesSheetController.collapse()?.then(
-            (_) => _cubit.changeStatusBottomSheetStatus(
-              isStatusBottomSheetOpen: false,
-            ),
-          ),
-      onDone: (SuggestionStatus status) {
-        _cubit.changeStatus(status);
-        _statusesSheetController.collapse()?.then(
-              (_) => _cubit.changeStatusBottomSheetStatus(
-            isStatusBottomSheetOpen: false,
-          ),
-        );
-      },
-    );
-  }
+class _SaveSubmitButton extends StatelessWidget {
+  final bool isEditing;
+  final bool isLoading;
+  final VoidCallback saveSuggestion;
 
-  Widget _dividerWithIndent() {
-    return Divider(
-      color: theme.dividerColor,
-      thickness: 0.5,
-      height: 1.5,
-      indent: Dimensions.marginDefault,
-      endIndent: Dimensions.marginDefault,
-    );
-  }
+  const _SaveSubmitButton({
+    required this.isEditing,
+    required this.isLoading,
+    required this.saveSuggestion,
+    Key? key,
+  }) : super(key: key);
 
-  Widget _saveSubmitButton({required bool isEditing, required bool isLoading}) {
+  @override
+  Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Padding(
         padding:
             const EdgeInsets.symmetric(horizontal: Dimensions.marginDefault),
         child: SuggestionsElevatedButton(
-          onClick: _cubit.saveSuggestion,
+          onClick: saveSuggestion,
           isLoading: isLoading,
           buttonText: isEditing
               ? context.localization.save
@@ -328,8 +404,46 @@ class CreateEditSuggestionBottomSheetState
       ),
     );
   }
+}
 
-  Widget _photoPickerItem(CreateEditSuggestionState state) {
+class _PostAnonymously extends StatelessWidget {
+  final bool isAnonymously;
+  final ValueChanged<bool> changeSuggestionAnonymity;
+
+  const _PostAnonymously({
+    required this.isAnonymously,
+    required this.changeSuggestionAnonymity,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ClickableListItem(
+      title: Text(
+        context.localization.postAnonymously,
+        style: theme.textSmallPlusSecondaryBold,
+      ),
+      trailing: SuggestionsSwitch(
+        value: isAnonymously,
+        onChanged: changeSuggestionAnonymity,
+      ),
+    );
+  }
+}
+
+class _PhotoPickerItem extends StatelessWidget {
+  final CreateEditSuggestionCubit _cubit = i.createEditSuggestionCubit;
+  final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
+  final CreateEditSuggestionState state;
+
+  _PhotoPickerItem({
+    required this.state,
+    required this.onUploadMultiplePhotos,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     final double tileWidth = state.suggestion.images.length == 1
         ? (MediaQuery.of(context).size.width - Dimensions.margin3x) / 2
         : (MediaQuery.of(context).size.width - Dimensions.margin4x) / 3;
@@ -352,7 +466,7 @@ class CreateEditSuggestionBottomSheetState
                                 state.suggestion.images.length;
                         availableNumOfPhotos > 0
                             ? _cubit.addUploadedPhotos(
-                                widget.onUploadMultiplePhotos!(
+                                onUploadMultiplePhotos!(
                                   availableNumOfPhotos: availableNumOfPhotos,
                                 ),
                               )
@@ -418,49 +532,12 @@ class CreateEditSuggestionBottomSheetState
                         : Dimensions.defaultSize,
                   ),
             onClick: () => _cubit.addUploadedPhotos(
-              widget.onUploadMultiplePhotos!(
+              onUploadMultiplePhotos!(
                 availableNumOfPhotos: maxPhotosForOneSuggestion,
               ),
             ),
             verticalPadding: Dimensions.marginDefault,
           );
-  }
-
-  Widget _postAnonymously({required bool isAnonymously}) {
-    return ClickableListItem(
-      title: Text(
-        context.localization.postAnonymously,
-        style: theme.textSmallPlusSecondaryBold,
-      ),
-      trailing: SuggestionsSwitch(
-        value: isAnonymously,
-        onChanged: (bool isAnonymous) => _cubit.changeSuggestionAnonymity(
-          isAnonymous: isAnonymous,
-        ),
-      ),
-    );
-  }
-
-  Future<void> _openPhotoView(CreateEditSuggestionState state) async {
-    await showDialog<void>(
-      useSafeArea: false,
-      barrierColor: Colors.black,
-      context: context,
-      useRootNavigator: false,
-      builder: (BuildContext context) {
-        return PhotoView(
-          initialIndex: state.openPhotoIndex!,
-          onDeleteClick: _cubit.removePhoto,
-          onDownloadClick: widget.onSaveToGallery != null
-              ? (String path) =>
-                  _cubit.showSavingResultMessage(widget.onSaveToGallery!(path))
-              : null,
-          photos: state.suggestion.images,
-          previousNavBarColor: theme.thirdBackgroundColor,
-        );
-      },
-    );
-    _cubit.changePhotoViewStatus(isPhotoViewOpen: false);
   }
 }
 
