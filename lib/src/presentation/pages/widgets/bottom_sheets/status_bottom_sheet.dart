@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
-import 'package:suggest_a_feature/src/presentation/utils/status_utils.dart';
 
 import '../../../../domain/entities/suggestion.dart';
 import '../../../utils/context_utils.dart';
 import '../../../utils/dimensions.dart';
+import '../../../utils/status_utils.dart';
 import '../../theme/suggestions_theme.dart';
 import 'base_bottom_sheet.dart';
 import 'bottom_sheet_actions.dart';
