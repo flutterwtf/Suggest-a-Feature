@@ -32,7 +32,7 @@ class SuggestionsTabBar extends StatelessWidget {
       tabs: <Tab>[
         Tab(
           height: tabHeight,
-          child: _tabButton(
+          child: _TabButton(
             status: SuggestionStatus.requests,
             activeImage: AssetStrings.suggestionsRequests,
             inactiveImage: AssetStrings.suggestionsRequestsInactive,
@@ -43,7 +43,7 @@ class SuggestionsTabBar extends StatelessWidget {
         ),
         Tab(
           height: tabHeight,
-          child: _tabButton(
+          child: _TabButton(
             status: SuggestionStatus.inProgress,
             activeImage: AssetStrings.suggestionsInProgress,
             inactiveImage: AssetStrings.suggestionsInProgressInactive,
@@ -54,7 +54,7 @@ class SuggestionsTabBar extends StatelessWidget {
         ),
         Tab(
           height: tabHeight,
-          child: _tabButton(
+          child: _TabButton(
             status: SuggestionStatus.completed,
             activeImage: AssetStrings.suggestionsCompleted,
             inactiveImage: AssetStrings.suggestionsCompletedInactive,
@@ -66,20 +66,34 @@ class SuggestionsTabBar extends StatelessWidget {
       ],
     );
   }
+}
 
-  Widget _tabButton({
-    required SuggestionStatus status,
-    required String activeImage,
-    required String inactiveImage,
-    required Color color,
-    required String text,
-    required SuggestionsState state,
-  }) {
-    /// We need different heights because of svg files differences
-    /// (inactive icons have smaller margins);
-    const double activeIconHeight = 38.0;
-    const double inactiveIconHeight = 22.0;
-    const double textHeight = 1.17;
+class _TabButton extends StatelessWidget {
+  final SuggestionStatus status;
+  final String activeImage;
+  final String inactiveImage;
+  final Color color;
+  final String text;
+  final SuggestionsState state;
+
+  /// We need different heights because of svg files differences
+  /// (inactive icons have smaller margins);
+  static const double activeIconHeight = 38.0;
+  static const double inactiveIconHeight = 22.0;
+  static const double textHeight = 1.17;
+
+  const _TabButton({
+    required this.status,
+    required this.activeImage,
+    required this.color,
+    required this.state,
+    required this.text,
+    required this.inactiveImage,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     final bool isActive = state.activeTab == status;
     return Column(
       children: <Widget>[
@@ -116,9 +130,9 @@ class SuggestionsTabBar extends StatelessWidget {
             text,
             style: isActive
                 ? theme.textSmallPlusBold.copyWith(
-                    color: color,
-                    height: textHeight,
-                  )
+              color: color,
+              height: textHeight,
+            )
                 : theme.textSmallPlusSecondary.copyWith(height: textHeight),
           ),
         ),

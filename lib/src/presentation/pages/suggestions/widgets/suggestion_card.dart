@@ -49,7 +49,11 @@ class SuggestionCard extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  _voteCounter(suggestion, status, index),
+                  _VoteCounter(
+                    upvotesCount: suggestion.upvotesCount,
+                    isVoted: suggestion.votedUserIds.contains(userId),
+                    voteCallBack: voteCallBack,
+                  ),
                   const SizedBox(width: Dimensions.marginDefault),
                   Expanded(
                     child: Column(
@@ -78,30 +82,47 @@ class SuggestionCard extends StatelessWidget {
             ),
             Align(
               alignment: Alignment.centerRight,
-              child: _suggestionIndicator(color),
+              child: _SuggestionIndicator(color: color),
             ),
           ],
         ),
       ),
     );
   }
+}
 
-  Widget _voteCounter(
-    Suggestion suggestion,
-    SuggestionStatus status,
-    int index,
-  ) {
+class _VoteCounter extends StatelessWidget {
+  final bool isVoted;
+  final int upvotesCount;
+  final VoidCallback voteCallBack;
+
+  const _VoteCounter({
+    required this.isVoted,
+    required this.upvotesCount,
+    required this.voteCallBack,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: voteCallBack,
       child: VotesCounter(
-        isVoted: suggestion.votedUserIds.contains(userId),
-        upvotesCount: suggestion.upvotesCount,
+        isVoted: isVoted,
+        upvotesCount: upvotesCount,
       ),
     );
   }
+}
 
-  Widget _suggestionIndicator(Color color) {
+class _SuggestionIndicator extends StatelessWidget {
+  final Color color;
+
+  const _SuggestionIndicator({required this.color, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: Dimensions.margin2x),
       child: Container(

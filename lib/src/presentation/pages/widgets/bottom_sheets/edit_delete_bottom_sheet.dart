@@ -52,11 +52,14 @@ class _EditDeleteSuggestionBottomSheetState
           children: <Widget>[
             Column(
               children: <Widget>[
-                _leadingText(),
+                _LeadingText(
+                  text: widget.creationDate
+                      .formatEditSuggestion(context.localization.localeName),
+                ),
                 const SizedBox(height: Dimensions.marginDefault),
-                _editItem(),
+                _EditItem(onEditClick: widget.onEditClick),
                 const SizedBox(height: Dimensions.marginSmall),
-                _deleteItem(),
+                _DeleteItem(onDeleteClick: widget.onDeleteClick),
               ],
             ),
           ],
@@ -64,15 +67,29 @@ class _EditDeleteSuggestionBottomSheetState
       },
     );
   }
+}
 
-  Widget _leadingText() {
+class _LeadingText extends StatelessWidget {
+  final String text;
+
+  const _LeadingText({required this.text, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Text(
-      widget.creationDate.formatEditSuggestion(context.localization.localeName),
+      text,
       style: theme.textMediumPlusBold,
     );
   }
+}
 
-  Widget _editItem() {
+class _EditItem extends StatelessWidget {
+  final VoidCallback onEditClick;
+
+  const _EditItem({required this.onEditClick, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return ClickableListItem(
       title: Text(
         context.localization.edit,
@@ -85,11 +102,18 @@ class _EditDeleteSuggestionBottomSheetState
         width: Dimensions.defaultSize,
         color: theme.primaryIconColor,
       ),
-      onClick: widget.onEditClick,
+      onClick: onEditClick,
     );
   }
+}
 
-  Widget _deleteItem() {
+class _DeleteItem extends StatelessWidget {
+  final VoidCallback onDeleteClick;
+
+  const _DeleteItem({required this.onDeleteClick, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return ClickableListItem(
       title: Text(
         context.localization.delete,
@@ -102,7 +126,7 @@ class _EditDeleteSuggestionBottomSheetState
         height: Dimensions.defaultSize,
         width: Dimensions.defaultSize,
       ),
-      onClick: widget.onDeleteClick,
+      onClick: onDeleteClick,
     );
   }
 }

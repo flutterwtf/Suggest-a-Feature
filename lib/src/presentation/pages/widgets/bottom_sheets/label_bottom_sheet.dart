@@ -71,7 +71,16 @@ class _LabelBottomSheetState extends State<LabelBottomSheet> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  _labelsRow(context),
+                  _LabelsRow(
+                    selectedLabels: selectedLabels,
+                    onTap: (label) => setState(() {
+                      if (!selectedLabels.contains(label)) {
+                        selectedLabels.add(label);
+                      } else {
+                        selectedLabels.remove(label);
+                      }
+                    }),
+                  ),
                 ],
               ),
             ),
@@ -84,8 +93,20 @@ class _LabelBottomSheetState extends State<LabelBottomSheet> {
       },
     );
   }
+}
 
-  Widget _labelsRow(BuildContext context) {
+class _LabelsRow extends StatelessWidget {
+  final List<SuggestionLabel> selectedLabels;
+  final ValueChanged<SuggestionLabel> onTap;
+
+  const _LabelsRow({
+    required this.onTap,
+    required this.selectedLabels,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: Dimensions.marginDefault,
@@ -93,27 +114,43 @@ class _LabelBottomSheetState extends State<LabelBottomSheet> {
       ),
       child: Column(
         children: <Widget>[
-          _labelItem(SuggestionLabel.feature),
+          _LabelItem(
+            label: SuggestionLabel.feature,
+            onTap: onTap,
+            selectedLabels: selectedLabels,
+          ),
           const SizedBox(height: Dimensions.marginBig),
-          _labelItem(SuggestionLabel.bug),
+          _LabelItem(
+            label: SuggestionLabel.bug,
+            onTap: onTap,
+            selectedLabels: selectedLabels,
+          ),
         ],
       ),
     );
   }
+}
 
-  Widget _labelItem(SuggestionLabel label) {
+class _LabelItem extends StatelessWidget {
+  final SuggestionLabel label;
+  final List<SuggestionLabel> selectedLabels;
+  final ValueChanged<SuggestionLabel> onTap;
+
+  const _LabelItem({
+    required this.label,
+    required this.onTap,
+    required this.selectedLabels,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         SuggestionLabels(labels: <SuggestionLabel>[label]),
         GestureDetector(
-          onTap: () => setState(() {
-            if (!selectedLabels.contains(label)) {
-              selectedLabels.add(label);
-            } else {
-              selectedLabels.remove(label);
-            }
-          }),
+          onTap: () => onTap(label),
           child: SizedBox(
             height: Dimensions.defaultSize,
             width: Dimensions.defaultSize,

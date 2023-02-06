@@ -67,41 +67,82 @@ class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           children: <Widget>[
-            _commentTextField(context),
+            _CommentTextField(
+              commentController: _commentController,
+              inputFocusNode: _inputFocusNode,
+              isShowCommentError: _isShowCommentError,
+              onFocusChanged: (bool hasFocus) {
+                if (!hasFocus && _commentController.text.isEmpty) {
+                  setState(() => _isShowCommentError = true);
+                } else {
+                  setState(() => _isShowCommentError = false);
+                }
+              },
+            ),
             const SizedBox(height: Dimensions.marginBig),
             if (i.adminSettings == null) ...<Widget>[
               Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
               const SizedBox(height: Dimensions.marginSmall),
-              _postAnonymously(),
+              _PostAnonymously(
+                isAnonymously: _isAnonymously,
+                onChanged: (bool value) =>
+                    setState(() => _isAnonymously = value),
+              ),
               const SizedBox(height: Dimensions.marginSmall),
             ],
             if (i.adminSettings != null) ...<Widget>[
               Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
               const SizedBox(height: Dimensions.marginSmall),
-              _postPostedBy(),
+              _PostPostedBy(
+                isFromAdmin: _isFromAdmin,
+                onChanged: (bool value) => setState(() => _isFromAdmin = value),
+              ),
               const SizedBox(height: Dimensions.marginSmall),
             ],
-            _createCommentButton(),
+            _CreateCommentButton(
+              onClick: () async {
+                if (_commentController.text.isNotEmpty) {
+                  await widget.onClose();
+                  widget.onCreateComment(
+                    _commentController.text,
+                    _isAnonymously,
+                    _isFromAdmin,
+                  );
+                } else {
+                  return;
+                }
+              },
+            ),
           ],
         );
       },
     );
   }
+}
 
-  Widget _commentTextField(BuildContext context) {
+class _CommentTextField extends StatelessWidget {
+  final FocusNode inputFocusNode;
+  final TextEditingController commentController;
+  final bool isShowCommentError;
+  final ValueChanged<bool> onFocusChanged;
+
+  const _CommentTextField({
+    required this.inputFocusNode,
+    required this.commentController,
+    required this.isShowCommentError,
+    required this.onFocusChanged,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Focus(
-      onFocusChange: (bool hasFocus) {
-        if (!hasFocus && _commentController.text.isEmpty) {
-          setState(() => _isShowCommentError = true);
-        } else {
-          setState(() => _isShowCommentError = false);
-        }
-      },
+      onFocusChange: onFocusChanged,
       child: SuggestionsTextField(
-        focusNode: _inputFocusNode,
-        controller: _commentController,
+        focusNode: inputFocusNode,
+        controller: commentController,
         hintText: context.localization.commentHint,
-        isShowError: _isShowCommentError,
+        isShowError: isShowCommentError,
         padding: const EdgeInsets.fromLTRB(
           Dimensions.marginDefault,
           Dimensions.marginDefault,
@@ -111,34 +152,68 @@ class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
       ),
     );
   }
+}
 
-  Widget _postAnonymously() {
+class _PostAnonymously extends StatelessWidget {
+  final bool isAnonymously;
+  final ValueChanged<bool> onChanged;
+
+  const _PostAnonymously({
+    required this.onChanged,
+    required this.isAnonymously,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return ClickableListItem(
       title: Text(
         context.localization.postAnonymously,
         style: theme.textSmallPlusSecondaryBold,
       ),
       trailing: SuggestionsSwitch(
-        value: _isAnonymously,
-        onChanged: (bool value) => setState(() => _isAnonymously = value),
+        value: isAnonymously,
+        onChanged: onChanged,
       ),
     );
   }
+}
 
-  Widget _postPostedBy() {
+class _PostPostedBy extends StatelessWidget {
+  final bool isFromAdmin;
+  final ValueChanged<bool> onChanged;
+
+  const _PostPostedBy({
+    required this.isFromAdmin,
+    required this.onChanged,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return ClickableListItem(
       title: Text(
         context.localization.postFromAdmin,
         style: theme.textSmallPlusSecondaryBold,
       ),
       trailing: SuggestionsSwitch(
-        value: _isFromAdmin,
-        onChanged: (bool value) => setState(() => _isFromAdmin = value),
+        value: isFromAdmin,
+        onChanged: onChanged,
       ),
     );
   }
+}
 
-  Widget _createCommentButton() {
+class _CreateCommentButton extends StatelessWidget {
+  final VoidCallback onClick;
+
+  const _CreateCommentButton({
+    required this.onClick,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Padding(
@@ -146,18 +221,7 @@ class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
           horizontal: Dimensions.marginDefault,
         ),
         child: SuggestionsElevatedButton(
-          onClick: () async {
-            if (_commentController.text.isNotEmpty) {
-              await widget.onClose();
-              widget.onCreateComment(
-                _commentController.text,
-                _isAnonymously,
-                _isFromAdmin,
-              );
-            } else {
-              return;
-            }
-          },
+          onClick: onClick,
           buttonText: context.localization.publish,
         ),
       ),

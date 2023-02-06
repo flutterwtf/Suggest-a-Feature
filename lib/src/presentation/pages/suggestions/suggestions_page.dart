@@ -111,7 +111,9 @@ class _SuggestionsPageState extends State<SuggestionsPage>
               body: Stack(
                 children: <Widget>[
                   _mainContent(state),
-                  _bottomFab(),
+                  _BottomFab(
+                    openCreateBottomSheet: _cubit.openCreateBottomSheet,
+                  ),
                 ],
               ),
             ),
@@ -187,7 +189,28 @@ class _SuggestionsPageState extends State<SuggestionsPage>
     );
   }
 
-  Widget _bottomFab() {
+  Widget _bottomSheet() {
+    return CreateEditSuggestionBottomSheet(
+      controller: _sheetController,
+      onClose: ([_]) => _sheetController
+          .collapse()
+          ?.then((_) => _cubit.closeCreateBottomSheet()),
+      onSaveToGallery: widget.onSaveToGallery,
+      onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
+    );
+  }
+}
+
+class _BottomFab extends StatelessWidget {
+  final VoidCallback openCreateBottomSheet;
+
+  const _BottomFab({
+    required this.openCreateBottomSheet,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Positioned(
       bottom: (SuggestionsPlatform.isIOS
               ? Dimensions.margin2x
@@ -198,19 +221,8 @@ class _SuggestionsPageState extends State<SuggestionsPage>
         padding: const EdgeInsets.all(Dimensions.marginDefault),
         margin: EdgeInsets.zero,
         imageIcon: AssetStrings.plusIconThickImage,
-        onClick: _cubit.openCreateBottomSheet,
+        onClick: openCreateBottomSheet,
       ),
-    );
-  }
-
-  Widget _bottomSheet() {
-    return CreateEditSuggestionBottomSheet(
-      controller: _sheetController,
-      onClose: ([_]) => _sheetController
-          .collapse()
-          ?.then((_) => _cubit.closeCreateBottomSheet()),
-      onSaveToGallery: widget.onSaveToGallery,
-      onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
     );
   }
 }

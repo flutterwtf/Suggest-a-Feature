@@ -132,7 +132,10 @@ class _BaseBottomSheetState extends State<BaseBottomSheet>
                 }
               },
             ),
-            headerBuilder: _headerBuilder,
+            headerBuilder: (context, state) => _HeaderBuilder(
+              state: state,
+              headerBuilder: widget.headerBuilder,
+            ),
             builder: (BuildContext context, SheetState state) {
               return SafeArea(
                 top: false,
@@ -168,18 +171,46 @@ class _BaseBottomSheetState extends State<BaseBottomSheet>
     );
   }
 
-  Widget _headerBuilder(BuildContext context, SheetState state) {
+  @override
+  void dispose() {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        systemNavigationBarColor: widget.previousNavBarColor,
+        statusBarColor: Colors.transparent,
+      ),
+    );
+    _dimmingController.dispose();
+    super.dispose();
+  }
+}
+
+class _HeaderBuilder extends StatelessWidget {
+  final SheetState state;
+  final SheetBuilder? headerBuilder;
+
+  const _HeaderBuilder({
+    required this.state,
+    this.headerBuilder,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        _grabbing(),
-        if (widget.headerBuilder != null)
-          widget.headerBuilder!.call(context, state),
+        const _Grabbing(),
+        if (headerBuilder != null) headerBuilder!.call(context, state),
       ],
     );
   }
+}
 
-  Widget _grabbing() {
+class _Grabbing extends StatelessWidget {
+  const _Grabbing({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return SheetListenerBuilder(
       builder: (BuildContext context, SheetState state) {
         if (state.extent != 1) {
@@ -213,18 +244,6 @@ class _BaseBottomSheetState extends State<BaseBottomSheet>
         }
       },
     );
-  }
-
-  @override
-  void dispose() {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        systemNavigationBarColor: widget.previousNavBarColor,
-        statusBarColor: Colors.transparent,
-      ),
-    );
-    _dimmingController.dispose();
-    super.dispose();
   }
 }
 
