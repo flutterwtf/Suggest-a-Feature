@@ -205,8 +205,8 @@ class SuggestionCubit extends Cubit<SuggestionState> {
           author: comment.isAnonymous
               ? null
               : isFromAdmin
-              ? i.adminSettings!
-              : await getUserById(comment.author.id),
+                  ? i.adminSettings!
+                  : await getUserById(comment.author.id),
         ),
       ];
       newComments.sort((a, b) => b.creationTime.compareTo(a.creationTime));
