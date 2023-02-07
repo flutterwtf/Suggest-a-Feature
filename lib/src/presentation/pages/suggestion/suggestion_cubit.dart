@@ -199,20 +199,21 @@ class SuggestionCubit extends Cubit<SuggestionState> {
           ),
         );
       }
+      final newComments = <Comment>[
+        ...state.suggestion.comments,
+        comment.copyWith(
+          author: comment.isAnonymous
+              ? null
+              : isFromAdmin
+              ? i.adminSettings!
+              : await getUserById(comment.author.id),
+        ),
+      ];
+      newComments.sort((a, b) => b.creationTime.compareTo(a.creationTime));
+
       emit(
         state.newState(
-          suggestion: state.suggestion.copyWith(
-            comments: <Comment>[
-              ...state.suggestion.comments,
-              comment.copyWith(
-                author: comment.isAnonymous
-                    ? null
-                    : isFromAdmin
-                        ? i.adminSettings!
-                        : await getUserById(comment.author.id),
-              ),
-            ],
-          ),
+          suggestion: state.suggestion.copyWith(comments: newComments),
         ),
       );
       _suggestionInteractor.refreshSuggestions(state.suggestion);
