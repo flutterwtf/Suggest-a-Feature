@@ -44,12 +44,10 @@ class SuggestionsLocalizationsEn extends SuggestionsLocalizations {
   String get delete => 'Delete suggestion';
 
   @override
-  String get deletionQuestion =>
-      'Are you sure you want to delete the suggestion?';
+  String get deletionQuestion => 'Are you sure you want to delete the suggestion?';
 
   @override
-  String get deletionPhotoQuestion =>
-      'Are you sure you want to delete this photo?';
+  String get deletionPhotoQuestion => 'Are you sure you want to delete this photo?';
 
   @override
   String get title => 'Briefly describe your suggestion';
@@ -61,7 +59,13 @@ class SuggestionsLocalizationsEn extends SuggestionsLocalizations {
   String get postAnonymously => 'Post anonymously';
 
   @override
+  String get postFromAdmin => 'Post from Admin';
+
+  @override
   String get suggest => 'Suggest';
+
+  @override
+  String get status => 'Status';
 
   @override
   String get anonymousAuthorName => 'Anonymous';
@@ -92,6 +96,24 @@ class SuggestionsLocalizationsEn extends SuggestionsLocalizations {
 
   @override
   String get completedDescription => 'What’s been already implemented';
+
+  @override
+  String get duplicate => 'Duplicate';
+
+  @override
+  String get duplicatedHeader => 'Duplicated features';
+
+  @override
+  String get duplicatedDescription => 'What’s been already suggested';
+
+  @override
+  String get cancelled => 'Cancelled';
+
+  @override
+  String get cancelledHeader => 'Cancelled features';
+
+  @override
+  String get cancelledDescription => 'What’s been cancelled';
 
   @override
   String get savingImageError => 'Error: can’t save the photo';

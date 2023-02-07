@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 
 import '../../../data/interfaces/i_suggestions_data_source.dart';
+import '../../../domain/entities/admin_settings.dart';
 import '../../../domain/entities/suggestion.dart';
 import '../../di/injector.dart';
 import '../../utils/assets_strings.dart';
@@ -44,12 +45,15 @@ class SuggestionsPage extends StatefulWidget {
   /// Callback returning the current user (SuggestionAuthor).
   final OnGetUserById onGetUserById;
 
+  final AdminSettings? adminSettings;
+
   SuggestionsPage({
     Key? key,
     required this.userId,
     required this.suggestionsDataSource,
     required this.theme,
     required this.onGetUserById,
+    this.adminSettings,
     this.onSaveToGallery,
     this.onUploadMultiplePhotos,
     this.imageHeaders,
@@ -59,6 +63,7 @@ class SuggestionsPage extends StatefulWidget {
       userId: userId,
       imageHeaders: imageHeaders,
       suggestionsDataSource: suggestionsDataSource,
+      adminSettings: adminSettings,
     );
   }
 
@@ -106,7 +111,9 @@ class _SuggestionsPageState extends State<SuggestionsPage>
               body: Stack(
                 children: <Widget>[
                   _mainContent(state),
-                  _bottomFab(),
+                  _BottomFab(
+                    openCreateBottomSheet: _cubit.openCreateBottomSheet,
+                  ),
                 ],
               ),
             ),
@@ -182,7 +189,28 @@ class _SuggestionsPageState extends State<SuggestionsPage>
     );
   }
 
-  Widget _bottomFab() {
+  Widget _bottomSheet() {
+    return CreateEditSuggestionBottomSheet(
+      controller: _sheetController,
+      onClose: ([_]) => _sheetController
+          .collapse()
+          ?.then((_) => _cubit.closeCreateBottomSheet()),
+      onSaveToGallery: widget.onSaveToGallery,
+      onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
+    );
+  }
+}
+
+class _BottomFab extends StatelessWidget {
+  final VoidCallback openCreateBottomSheet;
+
+  const _BottomFab({
+    required this.openCreateBottomSheet,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Positioned(
       bottom: (SuggestionsPlatform.isIOS
               ? Dimensions.margin2x
@@ -193,19 +221,8 @@ class _SuggestionsPageState extends State<SuggestionsPage>
         padding: const EdgeInsets.all(Dimensions.marginDefault),
         margin: EdgeInsets.zero,
         imageIcon: AssetStrings.plusIconThickImage,
-        onClick: _cubit.openCreateBottomSheet,
+        onClick: openCreateBottomSheet,
       ),
-    );
-  }
-
-  Widget _bottomSheet() {
-    return CreateEditSuggestionBottomSheet(
-      controller: _sheetController,
-      onClose: ([_]) => _sheetController
-          .collapse()
-          ?.then((_) => _cubit.closeCreateBottomSheet()),
-      onSaveToGallery: widget.onSaveToGallery,
-      onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
     );
   }
 }

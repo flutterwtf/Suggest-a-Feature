@@ -3,6 +3,7 @@ import '../../data/interfaces/i_cache_data_source.dart';
 import '../../data/interfaces/i_suggestions_data_source.dart';
 import '../../data/repositories/suggestion_repository.dart';
 import '../../domain/data_interfaces/i_suggestion_repository.dart';
+import '../../domain/entities/admin_settings.dart';
 import '../../domain/interactors/suggestion_interactor.dart';
 import '../pages/suggestion/create_edit/create_edit_suggestion_cubit.dart';
 import '../pages/suggestion/suggestion_cubit.dart';
@@ -25,6 +26,7 @@ class _Injector {
     required SuggestionsTheme theme,
     required String userId,
     required SuggestionsDataSource suggestionsDataSource,
+    AdminSettings? adminSettings,
     Map<String, String>? imageHeaders,
   }) {
     _theme = theme;
@@ -34,7 +36,12 @@ class _Injector {
     _suggestionsDataSource = suggestionsDataSource;
     _suggestionRepository =
         SuggestionRepository(_suggestionsDataSource, _cacheDataSource);
+    _adminSettings = adminSettings;
   }
+
+  AdminSettings? _adminSettings;
+
+  AdminSettings? get adminSettings => _adminSettings;
 
   late SuggestionsTheme _theme;
 

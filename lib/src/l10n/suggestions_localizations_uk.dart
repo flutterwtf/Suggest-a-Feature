@@ -59,7 +59,13 @@ class SuggestionsLocalizationsUk extends SuggestionsLocalizations {
   String get postAnonymously => 'Опублікувати анонімно';
 
   @override
+  String get postFromAdmin => 'Опублікувати від імені розробника';
+
+  @override
   String get suggest => 'Запропонувати';
+
+  @override
+  String get status => 'Статус';
 
   @override
   String get anonymousAuthorName => 'Анонім';
@@ -80,7 +86,7 @@ class SuggestionsLocalizationsUk extends SuggestionsLocalizations {
   String get inProgressHeader => 'Пропозиції у розробці';
 
   @override
-  String get inProgressDescription => "Незабаром з'явиться у додатку";
+  String get inProgressDescription => 'Незабаром з\'явиться у додатку';
 
   @override
   String get completed => 'Реалізовано';
@@ -90,6 +96,24 @@ class SuggestionsLocalizationsUk extends SuggestionsLocalizations {
 
   @override
   String get completedDescription => 'Було реалізовано у додатку';
+
+  @override
+  String get duplicate => 'Дублікати';
+
+  @override
+  String get duplicatedHeader => 'Продубльовані пропозиції';
+
+  @override
+  String get duplicatedDescription => 'Було запропоновано раніше';
+
+  @override
+  String get cancelled => 'Відхилено';
+
+  @override
+  String get cancelledHeader => 'Відхилені пропозиції';
+
+  @override
+  String get cancelledDescription => 'Було відхилено';
 
   @override
   String get savingImageError => 'Помилка збереження фото';

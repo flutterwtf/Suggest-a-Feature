@@ -8,6 +8,7 @@ class CreateEditSuggestionState {
   final bool isSubmitted;
   final bool isLoading;
   final bool isLabelsBottomSheetOpen;
+  final bool isStatusBottomSheetOpen;
   final bool isPhotoViewOpen;
   final SavingResultMessageType savingImageResultMessageType;
   final int? openPhotoIndex;
@@ -21,6 +22,7 @@ class CreateEditSuggestionState {
     required this.isLabelsBottomSheetOpen,
     required this.isPhotoViewOpen,
     required this.savingImageResultMessageType,
+    required this.isStatusBottomSheetOpen,
     this.openPhotoIndex,
   });
 
@@ -31,6 +33,7 @@ class CreateEditSuggestionState {
     bool? isSubmitted,
     bool? isLoading,
     bool? isLabelsBottomSheetOpen,
+    bool? isStatusBottomSheetOpen,
     bool? isPhotoViewOpen,
     SavingResultMessageType? savingImageResultMessageType,
     int? openPhotoIndex,
@@ -43,6 +46,8 @@ class CreateEditSuggestionState {
       isLoading: isLoading ?? this.isLoading,
       isLabelsBottomSheetOpen:
           isLabelsBottomSheetOpen ?? this.isLabelsBottomSheetOpen,
+      isStatusBottomSheetOpen:
+          isStatusBottomSheetOpen ?? this.isStatusBottomSheetOpen,
       isPhotoViewOpen: isPhotoViewOpen ?? this.isPhotoViewOpen,
       savingImageResultMessageType:
           savingImageResultMessageType ?? this.savingImageResultMessageType,

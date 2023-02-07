@@ -63,12 +63,17 @@ class SuggestionList extends StatelessWidget {
                   );
           },
         ),
-        _shadows(context),
+        const _Shadows(),
       ],
     );
   }
+}
 
-  Widget _shadows(BuildContext context) {
+class _Shadows extends StatelessWidget {
+  const _Shadows({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return CustomPaint(
       size: Size.infinite,
       foregroundPainter: ShadowsCustomPainter(
@@ -80,3 +85,4 @@ class SuggestionList extends StatelessWidget {
     );
   }
 }
+

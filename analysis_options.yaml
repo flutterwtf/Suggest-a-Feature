@@ -16,3 +16,4 @@ analyzer:
     omit_local_variable_types: ignore
   exclude:
     - '**/*.mocks.dart' # Mockito @GenerateMocks
+    - 'lib/src/l10n/*.dart'

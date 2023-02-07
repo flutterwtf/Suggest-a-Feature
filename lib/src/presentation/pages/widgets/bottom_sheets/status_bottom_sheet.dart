@@ -4,35 +4,35 @@ import 'package:sliding_sheet/sliding_sheet.dart';
 import '../../../../domain/entities/suggestion.dart';
 import '../../../utils/context_utils.dart';
 import '../../../utils/dimensions.dart';
+import '../../../utils/status_utils.dart';
 import '../../theme/suggestions_theme.dart';
-import '../suggestions_labels.dart';
 import 'base_bottom_sheet.dart';
 import 'bottom_sheet_actions.dart';
 
-class LabelBottomSheet extends StatefulWidget {
+class StatusBottomSheet extends StatefulWidget {
   final VoidCallback onCancel;
   final SheetController controller;
-  final ValueChanged<List<SuggestionLabel>> onDone;
-  final List<SuggestionLabel> selectedLabels;
+  final ValueChanged<SuggestionStatus> onDone;
+  final SuggestionStatus selectedStatus;
 
-  const LabelBottomSheet({
+  const StatusBottomSheet({
     Key? key,
     required this.onCancel,
     required this.onDone,
     required this.controller,
-    required this.selectedLabels,
+    required this.selectedStatus,
   }) : super(key: key);
 
   @override
-  _LabelBottomSheetState createState() => _LabelBottomSheetState();
+  _StatusBottomSheetState createState() => _StatusBottomSheetState();
 }
 
-class _LabelBottomSheetState extends State<LabelBottomSheet> {
-  final List<SuggestionLabel> selectedLabels = <SuggestionLabel>[];
+class _StatusBottomSheetState extends State<StatusBottomSheet> {
+  late SuggestionStatus selectedStatus;
 
   @override
   void initState() {
-    selectedLabels.addAll(widget.selectedLabels);
+    selectedStatus = widget.selectedStatus;
     super.initState();
   }
 
@@ -71,22 +71,22 @@ class _LabelBottomSheetState extends State<LabelBottomSheet> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  _LabelsRow(
-                    selectedLabels: selectedLabels,
-                    onTap: (label) => setState(() {
-                      if (!selectedLabels.contains(label)) {
-                        selectedLabels.add(label);
-                      } else {
-                        selectedLabels.remove(label);
-                      }
-                    }),
+                  _StatusesList(
+                    onStatusTap: (status) {
+                      setState(() {
+                        if (selectedStatus != status) {
+                          selectedStatus = status;
+                        }
+                      });
+                    },
+                    selectedStatus: selectedStatus,
                   ),
                 ],
               ),
             ),
             BottomSheetActions(
               onCancel: widget.onCancel,
-              onDone: () => widget.onDone(selectedLabels),
+              onDone: () => widget.onDone(selectedStatus),
             ),
           ],
         );
@@ -95,13 +95,13 @@ class _LabelBottomSheetState extends State<LabelBottomSheet> {
   }
 }
 
-class _LabelsRow extends StatelessWidget {
-  final List<SuggestionLabel> selectedLabels;
-  final ValueChanged<SuggestionLabel> onTap;
+class _StatusesList extends StatelessWidget {
+  final ValueChanged<SuggestionStatus> onStatusTap;
+  final SuggestionStatus selectedStatus;
 
-  const _LabelsRow({
-    required this.onTap,
-    required this.selectedLabels,
+  const _StatusesList({
+    required this.onStatusTap,
+    required this.selectedStatus,
     Key? key,
   }) : super(key: key);
 
@@ -114,16 +114,34 @@ class _LabelsRow extends StatelessWidget {
       ),
       child: Column(
         children: <Widget>[
-          _LabelItem(
-            label: SuggestionLabel.feature,
-            onTap: onTap,
-            selectedLabels: selectedLabels,
+          _StatusItem(
+            status: SuggestionStatus.requests,
+            onTap: onStatusTap,
+            selectedStatus: selectedStatus,
           ),
-          const SizedBox(height: Dimensions.marginBig),
-          _LabelItem(
-            label: SuggestionLabel.bug,
-            onTap: onTap,
-            selectedLabels: selectedLabels,
+          const SizedBox(height: Dimensions.marginMiddle),
+          _StatusItem(
+            status: SuggestionStatus.inProgress,
+            onTap: onStatusTap,
+            selectedStatus: selectedStatus,
+          ),
+          const SizedBox(height: Dimensions.marginMiddle),
+          _StatusItem(
+            status: SuggestionStatus.duplicate,
+            onTap: onStatusTap,
+            selectedStatus: selectedStatus,
+          ),
+          const SizedBox(height: Dimensions.marginMiddle),
+          _StatusItem(
+            status: SuggestionStatus.completed,
+            onTap: onStatusTap,
+            selectedStatus: selectedStatus,
+          ),
+          const SizedBox(height: Dimensions.marginMiddle),
+          _StatusItem(
+            status: SuggestionStatus.cancelled,
+            onTap: onStatusTap,
+            selectedStatus: selectedStatus,
           ),
         ],
       ),
@@ -131,15 +149,15 @@ class _LabelsRow extends StatelessWidget {
   }
 }
 
-class _LabelItem extends StatelessWidget {
-  final SuggestionLabel label;
-  final List<SuggestionLabel> selectedLabels;
-  final ValueChanged<SuggestionLabel> onTap;
+class _StatusItem extends StatelessWidget {
+  final SuggestionStatus status;
+  final SuggestionStatus selectedStatus;
+  final ValueChanged<SuggestionStatus> onTap;
 
-  const _LabelItem({
-    required this.label,
+  const _StatusItem({
+    required this.status,
+    required this.selectedStatus,
     required this.onTap,
-    required this.selectedLabels,
     Key? key,
   }) : super(key: key);
 
@@ -148,9 +166,12 @@ class _LabelItem extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        SuggestionLabels(labels: <SuggestionLabel>[label]),
+        Text(
+          status.statusName(context),
+          style: theme.textSmallPlusSecondaryBold,
+        ),
         GestureDetector(
-          onTap: () => onTap(label),
+          onTap: () => onTap(status),
           child: SizedBox(
             height: Dimensions.defaultSize,
             width: Dimensions.defaultSize,
@@ -160,12 +181,12 @@ class _LabelItem extends StatelessWidget {
                   color: theme.primaryIconColor,
                   width: 0.5,
                 ),
-                color: selectedLabels.contains(label)
+                color: selectedStatus == status
                     ? theme.primaryIconColor
                     : theme.thirdBackgroundColor,
                 shape: BoxShape.circle,
               ),
-              child: selectedLabels.contains(label)
+              child: selectedStatus == status
                   ? Icon(
                       Icons.check,
                       size: Dimensions.smallSize,

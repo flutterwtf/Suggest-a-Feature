@@ -41,6 +41,7 @@ final Comment mockedComment = Comment(
   isAnonymous: true,
   text: 'Comment1',
   creationTime: DateTime(2022),
+  isFromAdmin: false,
 );
 
 final CreateCommentModel mockedCreateCommentModel = CreateCommentModel(
@@ -48,4 +49,5 @@ final CreateCommentModel mockedCreateCommentModel = CreateCommentModel(
   isAnonymous: mockedComment.isAnonymous,
   text: mockedComment.text,
   suggestionId: mockedComment.suggestionId,
+  isFromAdmin: false,
 );

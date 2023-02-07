@@ -9,13 +9,11 @@ import 'suggestions_localizations_en.dart';
 import 'suggestions_localizations_ru.dart';
 import 'suggestions_localizations_uk.dart';
 
-/// Callers can lookup localized strings
-/// with an instance of SuggestionsLocalizations
+/// Callers can lookup localized strings with an instance of SuggestionsLocalizations
 /// returned by `SuggestionsLocalizations.of(context)`.
 ///
-/// Applications need to include `SuggestionsLocalizations.delegate()` in their
-/// app's `localizationDelegates` list,
-/// and the locales they support in the app's
+/// Applications need to include `SuggestionsLocalizations.delegate()` in their app's
+/// `localizationDelegates` list, and the locales they support in the app's
 /// `supportedLocales` list. For example:
 ///
 /// ```dart
@@ -60,38 +58,30 @@ import 'suggestions_localizations_uk.dart';
 /// Select and expand the newly-created Localizations item then, for each
 /// locale your application supports, add a new item and select the locale
 /// you wish to add from the pop-up menu in the Value field. This list should
-/// be consistent with the languages listed in the
-/// SuggestionsLocalizations.supportedLocales property.
+/// be consistent with the languages listed in the SuggestionsLocalizations.supportedLocales
+/// property.
 abstract class SuggestionsLocalizations {
-  SuggestionsLocalizations(String locale)
-      : localeName = intl.Intl.canonicalizedLocale(locale);
+  SuggestionsLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
   static SuggestionsLocalizations? of(BuildContext context) {
-    return Localizations.of<SuggestionsLocalizations>(
-      context,
-      SuggestionsLocalizations,
-    );
+    return Localizations.of<SuggestionsLocalizations>(context, SuggestionsLocalizations);
   }
 
-  static const LocalizationsDelegate<SuggestionsLocalizations> delegate =
-      _SuggestionsLocalizationsDelegate();
+  static const LocalizationsDelegate<SuggestionsLocalizations> delegate = _SuggestionsLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
   ///
-  /// Returns a list of localizations delegates
-  /// containing this delegate along with
-  /// GlobalMaterialLocalizations.delegate,
-  /// GlobalCupertinoLocalizations.delegate,
+  /// Returns a list of localizations delegates containing this delegate along with
+  /// GlobalMaterialLocalizations.delegate, GlobalCupertinoLocalizations.delegate,
   /// and GlobalWidgetsLocalizations.delegate.
   ///
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
-      <LocalizationsDelegate<dynamic>>[
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
     delegate,
     GlobalMaterialLocalizations.delegate,
     GlobalCupertinoLocalizations.delegate,
@@ -213,11 +203,23 @@ abstract class SuggestionsLocalizations {
   /// **'Post anonymously'**
   String get postAnonymously;
 
+  /// No description provided for @postFromAdmin.
+  ///
+  /// In en, this message translates to:
+  /// **'Post from Admin'**
+  String get postFromAdmin;
+
   /// No description provided for @suggest.
   ///
   /// In en, this message translates to:
   /// **'Suggest'**
   String get suggest;
+
+  /// No description provided for @status.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get status;
 
   /// No description provided for @anonymousAuthorName.
   ///
@@ -278,6 +280,42 @@ abstract class SuggestionsLocalizations {
   /// In en, this message translates to:
   /// **'What’s been already implemented'**
   String get completedDescription;
+
+  /// No description provided for @duplicate.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate'**
+  String get duplicate;
+
+  /// No description provided for @duplicatedHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicated features'**
+  String get duplicatedHeader;
+
+  /// No description provided for @duplicatedDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'What’s been already suggested'**
+  String get duplicatedDescription;
+
+  /// No description provided for @cancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get cancelled;
+
+  /// No description provided for @cancelledHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled features'**
+  String get cancelledHeader;
+
+  /// No description provided for @cancelledDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'What’s been cancelled'**
+  String get cancelledDescription;
 
   /// No description provided for @savingImageError.
   ///
@@ -352,40 +390,35 @@ abstract class SuggestionsLocalizations {
   String get eventPhotosRestriction;
 }
 
-class _SuggestionsLocalizationsDelegate
-    extends LocalizationsDelegate<SuggestionsLocalizations> {
+class _SuggestionsLocalizationsDelegate extends LocalizationsDelegate<SuggestionsLocalizations> {
   const _SuggestionsLocalizationsDelegate();
 
   @override
   Future<SuggestionsLocalizations> load(Locale locale) {
-    return SynchronousFuture<SuggestionsLocalizations>(
-      lookupSuggestionsLocalizations(locale),
-    );
+    return SynchronousFuture<SuggestionsLocalizations>(lookupSuggestionsLocalizations(locale));
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['en', 'ru', 'uk'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['en', 'ru', 'uk'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_SuggestionsLocalizationsDelegate old) => false;
 }
 
 SuggestionsLocalizations lookupSuggestionsLocalizations(Locale locale) {
+
+
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en':
-      return SuggestionsLocalizationsEn();
-    case 'ru':
-      return SuggestionsLocalizationsRu();
-    case 'uk':
-      return SuggestionsLocalizationsUk();
+    case 'en': return SuggestionsLocalizationsEn();
+    case 'ru': return SuggestionsLocalizationsRu();
+    case 'uk': return SuggestionsLocalizationsUk();
   }
 
-  throw FlutterError('SuggestionsLocalizations.delegate failed '
-      'to load unsupported locale "$locale". '
-      'This is likely '
-      'an issue with the localizations generation tool. Please file an issue '
-      'on GitHub with a reproducible sample app and the gen-l10n configuration '
-      'that was used.');
+  throw FlutterError(
+    'SuggestionsLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.'
+  );
 }

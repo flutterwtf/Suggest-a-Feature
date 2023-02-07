@@ -14,7 +14,7 @@ class Comment extends Equatable {
   /// The author of the comment
   final SuggestionAuthor author;
 
-  /// Whether comment was posted anonymously or not
+  /// Whether the comment was posted anonymously or not
   final bool isAnonymous;
 
   /// Text of the comment
@@ -23,6 +23,9 @@ class Comment extends Equatable {
   /// The time of comment creation
   final DateTime creationTime;
 
+  /// Whether the comment was left from the Admin or not
+  final bool isFromAdmin;
+
   const Comment({
     required this.id,
     required this.suggestionId,
@@ -30,6 +33,7 @@ class Comment extends Equatable {
     required this.isAnonymous,
     required this.text,
     required this.creationTime,
+    required this.isFromAdmin,
   });
 
   factory Comment.fromJson({required Map<String, dynamic> json}) {
@@ -40,6 +44,7 @@ class Comment extends Equatable {
       isAnonymous: json['is_anonymous'],
       text: json['text'],
       creationTime: fromDateTime(json['creation_time']),
+      isFromAdmin: json['is_from_admin'],
     );
   }
 
@@ -57,6 +62,7 @@ class Comment extends Equatable {
     bool? isAnonymous,
     String? text,
     DateTime? creationTime,
+    bool? isFromAdmin,
   }) {
     return Comment(
       id: id ?? this.id,
@@ -65,6 +71,7 @@ class Comment extends Equatable {
       isAnonymous: isAnonymous ?? this.isAnonymous,
       text: text ?? this.text,
       creationTime: creationTime ?? this.creationTime,
+      isFromAdmin: isFromAdmin ?? this.isFromAdmin,
     );
   }
 
@@ -75,6 +82,7 @@ class Comment extends Equatable {
         author,
         isAnonymous,
         text,
+        isFromAdmin,
       ];
 }
 
@@ -83,12 +91,14 @@ class CreateCommentModel extends Equatable {
   final bool isAnonymous;
   final String text;
   final String suggestionId;
+  final bool isFromAdmin;
 
   const CreateCommentModel({
     required this.authorId,
     required this.isAnonymous,
     required this.text,
     required this.suggestionId,
+    required this.isFromAdmin,
   });
 
   Map<String, dynamic> toJson() {
@@ -98,6 +108,7 @@ class CreateCommentModel extends Equatable {
       'text': text,
       'suggestion_id': suggestionId,
       'creation_time': DateFormat('yyyy-MM-ddTHH:mm:ss').format(DateTime.now()),
+      'is_from_admin': isFromAdmin,
     };
   }
 
@@ -107,5 +118,6 @@ class CreateCommentModel extends Equatable {
         isAnonymous,
         text,
         suggestionId,
+        isFromAdmin,
       ];
 }
