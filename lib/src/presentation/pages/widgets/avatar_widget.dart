@@ -47,7 +47,10 @@ class _AvatarWidgetState extends State<AvatarWidget> {
                 child: SvgPicture.asset(
                   AssetStrings.profileIconImage,
                   package: AssetStrings.packageName,
-                  color: theme.primaryIconColor,
+                  colorFilter: ColorFilter.mode(
+                    theme.primaryIconColor,
+                    BlendMode.src,
+                  ),
                 ),
               ),
       ),

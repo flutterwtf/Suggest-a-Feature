@@ -119,7 +119,10 @@ class _TabButton extends StatelessWidget {
               child: SvgPicture.asset(
                 isActive ? activeImage : inactiveImage,
                 package: AssetStrings.packageName,
-                color: isActive ? color : theme.secondaryIconColor,
+                colorFilter: ColorFilter.mode(
+                  isActive ? color : theme.secondaryIconColor,
+                  BlendMode.src,
+                ),
                 height: isActive ? activeIconHeight : inactiveIconHeight,
               ),
             ),

@@ -100,7 +100,10 @@ class _EditItem extends StatelessWidget {
         package: AssetStrings.packageName,
         height: Dimensions.defaultSize,
         width: Dimensions.defaultSize,
-        color: theme.primaryIconColor,
+        colorFilter: ColorFilter.mode(
+          theme.primaryIconColor,
+          BlendMode.src,
+        ),
       ),
       onClick: onEditClick,
     );
@@ -122,7 +125,10 @@ class _DeleteItem extends StatelessWidget {
       leading: SvgPicture.asset(
         AssetStrings.deleteIconImage,
         package: AssetStrings.packageName,
-        color: theme.errorColor,
+        colorFilter: ColorFilter.mode(
+          theme.errorColor,
+          BlendMode.src,
+        ),
         height: Dimensions.defaultSize,
         width: Dimensions.defaultSize,
       ),

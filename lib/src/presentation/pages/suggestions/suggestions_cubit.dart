@@ -86,6 +86,8 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
         emit(state.newState(completed: newList));
         break;
       case SuggestionStatus.unknown:
+      case SuggestionStatus.duplicate:
+      case SuggestionStatus.cancelled:
         break;
     }
   }

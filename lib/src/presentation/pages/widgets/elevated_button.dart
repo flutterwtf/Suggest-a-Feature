@@ -69,7 +69,10 @@ class _SuggestionsElevatedButtonState extends State<SuggestionsElevatedButton> {
                 SvgPicture.asset(
                   widget.imageIcon!,
                   package: AssetStrings.packageName,
-                  color: theme.elevatedButtonTextColor,
+                  colorFilter: ColorFilter.mode(
+                    theme.elevatedButtonTextColor,
+                    BlendMode.src,
+                  ),
                 ),
                 const SizedBox(width: Dimensions.marginSmall),
               ],

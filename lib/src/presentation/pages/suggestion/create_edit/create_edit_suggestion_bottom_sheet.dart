@@ -317,7 +317,10 @@ class _LabelItems extends StatelessWidget {
           : SvgPicture.asset(
               AssetStrings.plusIconThickImage,
               package: AssetStrings.packageName,
-              color: theme.primaryIconColor,
+              colorFilter: ColorFilter.mode(
+                theme.primaryIconColor,
+                BlendMode.src,
+              ),
               height: Dimensions.defaultSize,
             ),
       onClick: () => changeLabelsBottomSheetStatus(true),
@@ -526,7 +529,10 @@ class _PhotoPickerItem extends StatelessWidget {
                 : SvgPicture.asset(
                     AssetStrings.plusIconThickImage,
                     package: AssetStrings.packageName,
-                    color: theme.primaryIconColor,
+                    colorFilter: ColorFilter.mode(
+                      theme.primaryIconColor,
+                      BlendMode.src,
+                    ),
                     height: state.suggestion.images.isNotEmpty
                         ? Dimensions.smallSize
                         : Dimensions.defaultSize,
