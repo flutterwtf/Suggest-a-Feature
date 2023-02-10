@@ -2,7 +2,7 @@ import '../entities/comment.dart';
 import '../entities/suggestion.dart';
 import '../entities/suggestion_author.dart';
 
-abstract class ISuggestionRepository {
+abstract class SuggestionRepository {
   Stream<List<Suggestion>> get suggestionsStream;
   List<Suggestion> get suggestions;
   Map<String, SuggestionAuthor?> get userInfo;
