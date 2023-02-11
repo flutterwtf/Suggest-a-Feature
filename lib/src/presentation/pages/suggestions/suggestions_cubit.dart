@@ -34,38 +34,20 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
   }
 
   Future<void> _onNewSuggestions(List<Suggestion> suggestions) async {
+    suggestions.sort(
+      (Suggestion a, Suggestion b) => b.upvotesCount.compareTo(a.upvotesCount),
+    );
     emit(
       state.newState(
         requests: suggestions
-            .where(
-              (Suggestion element) =>
-                  element.status == SuggestionStatus.requests,
-            )
-            .toList(growable: false)
-          ..sort(
-            (Suggestion a, Suggestion b) =>
-                b.upvotesCount.compareTo(a.upvotesCount),
-          ),
+            .where((Suggestion s) => s.status == SuggestionStatus.requests)
+            .toList(growable: false),
         inProgress: suggestions
-            .where(
-              (Suggestion element) =>
-                  element.status == SuggestionStatus.inProgress,
-            )
-            .toList(growable: false)
-          ..sort(
-            (Suggestion a, Suggestion b) =>
-                b.upvotesCount.compareTo(a.upvotesCount),
-          ),
+            .where((Suggestion s) => s.status == SuggestionStatus.inProgress)
+            .toList(growable: false),
         completed: suggestions
-            .where(
-              (Suggestion element) =>
-                  element.status == SuggestionStatus.completed,
-            )
-            .toList(growable: false)
-          ..sort(
-            (Suggestion a, Suggestion b) =>
-                b.upvotesCount.compareTo(a.upvotesCount),
-          ),
+            .where((Suggestion s) => s.status == SuggestionStatus.completed)
+            .toList(growable: false),
       ),
     );
   }

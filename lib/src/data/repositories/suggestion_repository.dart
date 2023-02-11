@@ -1,17 +1,17 @@
 import 'package:rxdart/rxdart.dart';
 
-import '../../domain/data_interfaces/i_suggestion_repository.dart';
+import '../../domain/data_interfaces/suggestion_repository.dart';
 import '../../domain/entities/comment.dart';
 import '../../domain/entities/suggestion.dart';
 import '../../domain/entities/suggestion_author.dart';
-import '../interfaces/i_cache_data_source.dart';
-import '../interfaces/i_suggestions_data_source.dart';
+import '../interfaces/cache_data_source.dart';
+import '../interfaces/suggestions_data_source.dart';
 
-class SuggestionRepository implements ISuggestionRepository {
+class SuggestionRepositoryImpl implements SuggestionRepository {
   final SuggestionsDataSource _suggestionsDataSource;
-  final ICacheDataSource _cacheDataSource;
+  final CacheDataSource _cacheDataSource;
 
-  SuggestionRepository(this._suggestionsDataSource, this._cacheDataSource);
+  SuggestionRepositoryImpl(this._suggestionsDataSource, this._cacheDataSource);
 
   final BehaviorSubject<List<Suggestion>> _suggestionsSubject =
       BehaviorSubject<List<Suggestion>>();

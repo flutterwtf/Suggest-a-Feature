@@ -1,10 +1,10 @@
-import '../data_interfaces/i_suggestion_repository.dart';
+import '../data_interfaces/suggestion_repository.dart';
 import '../entities/comment.dart';
 import '../entities/suggestion.dart';
 import '../entities/suggestion_author.dart';
 
 class SuggestionInteractor {
-  final ISuggestionRepository _suggestionRepository;
+  final SuggestionRepository _suggestionRepository;
 
   const SuggestionInteractor(this._suggestionRepository);
 

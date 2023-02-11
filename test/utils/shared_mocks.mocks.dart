@@ -9,7 +9,7 @@ import 'dart:ui' as _i6;
 import 'package:flutter/material.dart' as _i7;
 import 'package:flutter_bloc/flutter_bloc.dart' as _i15;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:suggest_a_feature/src/data/interfaces/i_suggestions_data_source.dart'
+import 'package:suggest_a_feature/src/data/interfaces/suggestions_data_source.dart'
     as _i17;
 import 'package:suggest_a_feature/src/data/repositories/suggestion_repository.dart'
     as _i9;

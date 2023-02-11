@@ -1,8 +1,8 @@
 import '../../data/cache_data_source.dart';
-import '../../data/interfaces/i_cache_data_source.dart';
-import '../../data/interfaces/i_suggestions_data_source.dart';
+import '../../data/interfaces/cache_data_source.dart';
+import '../../data/interfaces/suggestions_data_source.dart';
 import '../../data/repositories/suggestion_repository.dart';
-import '../../domain/data_interfaces/i_suggestion_repository.dart';
+import '../../domain/data_interfaces/suggestion_repository.dart';
 import '../../domain/entities/admin_settings.dart';
 import '../../domain/interactors/suggestion_interactor.dart';
 import '../pages/suggestion/create_edit/create_edit_suggestion_cubit.dart';
@@ -32,10 +32,12 @@ class _Injector {
     _theme = theme;
     _imageHeaders = imageHeaders;
     _userId = userId;
-    _cacheDataSource = CacheDataSource();
+    _cacheDataSource = CacheDataSourceImpl();
     _suggestionsDataSource = suggestionsDataSource;
-    _suggestionRepository =
-        SuggestionRepository(_suggestionsDataSource, _cacheDataSource);
+    _suggestionRepository = SuggestionRepositoryImpl(
+      _suggestionsDataSource,
+      _cacheDataSource,
+    );
     _adminSettings = adminSettings;
   }
 
@@ -57,13 +59,13 @@ class _Injector {
 
   late SuggestionsDataSource _suggestionsDataSource;
 
-  late ICacheDataSource _cacheDataSource;
+  late CacheDataSource _cacheDataSource;
 
   SuggestionsDataSource get suggestionsDataSource => _suggestionsDataSource;
 
-  late ISuggestionRepository _suggestionRepository;
+  late SuggestionRepository _suggestionRepository;
 
-  ISuggestionRepository get suggestionRepository => _suggestionRepository;
+  SuggestionRepository get suggestionRepository => _suggestionRepository;
 
   SuggestionInteractor get suggestionInteractor =>
       SuggestionInteractor(suggestionRepository);

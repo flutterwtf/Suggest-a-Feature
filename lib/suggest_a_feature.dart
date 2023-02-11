@@ -1,6 +1,6 @@
 library suggest_a_feature;
 
-export 'src/data/interfaces/i_suggestions_data_source.dart';
+export 'src/data/interfaces/suggestions_data_source.dart';
 export 'src/domain/entities/admin_settings.dart';
 export 'src/domain/entities/comment.dart';
 export 'src/domain/entities/suggestion.dart';

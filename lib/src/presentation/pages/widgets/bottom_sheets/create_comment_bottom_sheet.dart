@@ -108,8 +108,6 @@ class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
                     _isAnonymously,
                     _isFromAdmin,
                   );
-                } else {
-                  return;
                 }
               },
             ),
