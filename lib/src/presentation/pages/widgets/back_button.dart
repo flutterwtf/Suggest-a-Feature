@@ -46,7 +46,7 @@ class _SuggestionsBackButtonState extends State<SuggestionsBackButton> {
           width: Dimensions.defaultSize,
           colorFilter: ColorFilter.mode(
             pressed ? widget.pressedColor : widget.color,
-            BlendMode.src,
+            BlendMode.srcIn,
           ),
         ),
       ),

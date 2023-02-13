@@ -49,7 +49,7 @@ class AddPhotoButton extends StatelessWidget {
                       height: Dimensions.defaultSize,
                       colorFilter: ColorFilter.mode(
                         theme.primaryTextColor,
-                        BlendMode.src,
+                        BlendMode.srcIn,
                       ),
                     ),
                     Padding(

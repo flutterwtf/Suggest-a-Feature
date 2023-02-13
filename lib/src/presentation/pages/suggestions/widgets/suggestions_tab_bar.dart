@@ -121,7 +121,7 @@ class _TabButton extends StatelessWidget {
                 package: AssetStrings.packageName,
                 colorFilter: ColorFilter.mode(
                   isActive ? color : theme.secondaryIconColor,
-                  BlendMode.src,
+                  BlendMode.srcIn,
                 ),
                 height: isActive ? activeIconHeight : inactiveIconHeight,
               ),

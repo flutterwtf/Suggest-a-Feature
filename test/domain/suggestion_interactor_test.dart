@@ -2,6 +2,7 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:suggest_a_feature/src/domain/data_interfaces/suggestion_repository.dart';
 import 'package:suggest_a_feature/src/domain/interactors/suggestion_interactor.dart';
 import 'package:suggest_a_feature/suggest_a_feature.dart';
 
@@ -12,7 +13,7 @@ void main() {
   final MockSuggestionRepository mockSuggestionRepository =
       MockSuggestionRepository();
   final SuggestionInteractor suggestionInteractor =
-      SuggestionInteractor(mockSuggestionRepository);
+      SuggestionInteractor(mockSuggestionRepository as SuggestionRepository);
 
   final CreateSuggestionModel createSuggestionModel =
       mockedCreateSuggestionModel;

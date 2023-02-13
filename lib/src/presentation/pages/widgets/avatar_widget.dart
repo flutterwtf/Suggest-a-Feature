@@ -49,7 +49,7 @@ class _AvatarWidgetState extends State<AvatarWidget> {
                   package: AssetStrings.packageName,
                   colorFilter: ColorFilter.mode(
                     theme.primaryIconColor,
-                    BlendMode.src,
+                    BlendMode.srcIn,
                   ),
                 ),
               ),

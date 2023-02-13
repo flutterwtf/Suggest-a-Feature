@@ -71,7 +71,7 @@ class _SuggestionsElevatedButtonState extends State<SuggestionsElevatedButton> {
                   package: AssetStrings.packageName,
                   colorFilter: ColorFilter.mode(
                     theme.elevatedButtonTextColor,
-                    BlendMode.src,
+                    BlendMode.srcIn,
                   ),
                 ),
                 const SizedBox(width: Dimensions.marginSmall),

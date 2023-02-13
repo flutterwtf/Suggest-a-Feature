@@ -53,7 +53,7 @@ class _SuggestionsIconButtonState extends State<SuggestionsIconButton> {
             pressed
                 ? theme.actionPressedColor
                 : widget.color ?? theme.primaryIconColor,
-            BlendMode.src,
+            BlendMode.srcIn,
           ),
         ),
       ),

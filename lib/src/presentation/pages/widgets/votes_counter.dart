@@ -31,7 +31,7 @@ class VotesCounter extends StatelessWidget {
                 isVoted
                     ? theme.activatedUpvoteArrowColor
                     : theme.upvoteArrowColor,
-                BlendMode.src,
+                BlendMode.srcIn,
               ),
               fit: BoxFit.none,
             ),

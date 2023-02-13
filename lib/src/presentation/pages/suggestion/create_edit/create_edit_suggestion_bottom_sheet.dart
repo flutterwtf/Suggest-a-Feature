@@ -319,7 +319,7 @@ class _LabelItems extends StatelessWidget {
               package: AssetStrings.packageName,
               colorFilter: ColorFilter.mode(
                 theme.primaryIconColor,
-                BlendMode.src,
+                BlendMode.srcIn,
               ),
               height: Dimensions.defaultSize,
             ),
@@ -531,7 +531,7 @@ class _PhotoPickerItem extends StatelessWidget {
                     package: AssetStrings.packageName,
                     colorFilter: ColorFilter.mode(
                       theme.primaryIconColor,
-                      BlendMode.src,
+                      BlendMode.srcIn,
                     ),
                     height: state.suggestion.images.isNotEmpty
                         ? Dimensions.smallSize

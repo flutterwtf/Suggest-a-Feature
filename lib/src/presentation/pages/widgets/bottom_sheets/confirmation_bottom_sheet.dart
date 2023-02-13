@@ -78,7 +78,7 @@ class ConfirmationBottomSheet extends StatelessWidget {
                 height: Dimensions.defaultSize,
                 colorFilter: ColorFilter.mode(
                   theme.errorColor,
-                  BlendMode.src,
+                  BlendMode.srcIn,
                 ),
               ),
               title: Text(
@@ -99,7 +99,7 @@ class ConfirmationBottomSheet extends StatelessWidget {
                 height: Dimensions.defaultSize,
                 colorFilter: ColorFilter.mode(
                   theme.primaryIconColor,
-                  BlendMode.src,
+                  BlendMode.srcIn,
                 ),
               ),
               title: Text(

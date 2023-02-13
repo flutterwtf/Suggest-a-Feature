@@ -102,7 +102,7 @@ class _EditItem extends StatelessWidget {
         width: Dimensions.defaultSize,
         colorFilter: ColorFilter.mode(
           theme.primaryIconColor,
-          BlendMode.src,
+          BlendMode.srcIn,
         ),
       ),
       onClick: onEditClick,
@@ -127,7 +127,7 @@ class _DeleteItem extends StatelessWidget {
         package: AssetStrings.packageName,
         colorFilter: ColorFilter.mode(
           theme.errorColor,
-          BlendMode.src,
+          BlendMode.srcIn,
         ),
         height: Dimensions.defaultSize,
         width: Dimensions.defaultSize,
