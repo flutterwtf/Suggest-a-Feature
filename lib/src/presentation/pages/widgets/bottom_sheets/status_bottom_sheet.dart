@@ -39,7 +39,7 @@ class _StatusBottomSheetState extends State<StatusBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return BaseBottomSheet(
-      title: context.localization.labels,
+      title: context.localization.status,
       titleBottomPadding: 0,
       controller: widget.controller,
       previousNavBarColor: theme.bottomSheetBackgroundColor,
