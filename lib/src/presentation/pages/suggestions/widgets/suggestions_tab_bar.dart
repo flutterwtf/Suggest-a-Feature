@@ -133,9 +133,9 @@ class _TabButton extends StatelessWidget {
             text,
             style: isActive
                 ? theme.textSmallPlusBold.copyWith(
-              color: color,
-              height: textHeight,
-            )
+                    color: color,
+                    height: textHeight,
+                  )
                 : theme.textSmallPlusSecondary.copyWith(height: textHeight),
           ),
         ),
