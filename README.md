@@ -44,6 +44,25 @@ You can also either use our standard theme or create your own:
  theme: SuggestionsTheme().copyWith(...),
 ```
 
+## Admin functionality
+
+Admin functionality allows you to edit any suggestion (e.g change its' status) and to leave comments from the 'Admin'.
+
+Here is a small demo:
+
+![gif](/example/assets/suggest_a_feature_admin.gif)
+
+In order to enable admin functionality, you should specify the `adminSettings` property:
+
+``` dart
+SuggestionsPage(
+    adminSettings: const AdminSettings(
+        id: '3',
+        username: 'Admin',
+        ),
+ );
+```
+
 ## Localization
 
 At the moment the package supports 3 languages: English, Russian and Ukrainian.
