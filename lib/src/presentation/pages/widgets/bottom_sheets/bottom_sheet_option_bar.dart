@@ -13,8 +13,8 @@ class BottomSheetOptionBar extends StatelessWidget {
     required this.title,
     required this.onCancel,
     required this.onDone,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

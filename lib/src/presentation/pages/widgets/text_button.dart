@@ -10,8 +10,8 @@ class SuggestionsTextButton extends StatefulWidget {
   const SuggestionsTextButton({
     required this.title,
     required this.onClick,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   _SuggestionsTextButtonState createState() => _SuggestionsTextButtonState();

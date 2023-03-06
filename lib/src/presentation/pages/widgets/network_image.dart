@@ -11,12 +11,12 @@ class SuggestionsNetworkImage extends StatelessWidget {
   final double maxHeight;
 
   const SuggestionsNetworkImage({
-    Key? key,
     required this.url,
     this.noImageColor,
     this.boxFit = BoxFit.contain,
     this.maxHeight = 480.0,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

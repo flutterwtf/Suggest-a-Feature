@@ -10,11 +10,11 @@ class ZoomableImage extends StatefulWidget {
   final void Function(bool value) changeZoomStatus;
 
   const ZoomableImage({
-    Key? key,
     required this.imageUrl,
     required this.changeScrollPhysics,
     required this.changeZoomStatus,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<ZoomableImage> createState() => _ZoomableImageState();

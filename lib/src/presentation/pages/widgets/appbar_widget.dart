@@ -16,8 +16,8 @@ class SuggestionsAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.onBackClick,
     required this.screenTitle,
     this.trailing,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

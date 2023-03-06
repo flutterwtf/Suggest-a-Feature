@@ -16,12 +16,12 @@ class StatusBottomSheet extends StatefulWidget {
   final SuggestionStatus selectedStatus;
 
   const StatusBottomSheet({
-    Key? key,
     required this.onCancel,
     required this.onDone,
     required this.controller,
     required this.selectedStatus,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   _StatusBottomSheetState createState() => _StatusBottomSheetState();
@@ -102,8 +102,7 @@ class _StatusesList extends StatelessWidget {
   const _StatusesList({
     required this.onStatusTap,
     required this.selectedStatus,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -158,8 +157,7 @@ class _StatusItem extends StatelessWidget {
     required this.status,
     required this.selectedStatus,
     required this.onTap,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

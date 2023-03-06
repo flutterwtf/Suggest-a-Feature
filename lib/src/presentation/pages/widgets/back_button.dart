@@ -13,8 +13,8 @@ class SuggestionsBackButton extends StatefulWidget {
     required this.onClick,
     required this.color,
     required this.pressedColor,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   _SuggestionsBackButtonState createState() => _SuggestionsBackButtonState();

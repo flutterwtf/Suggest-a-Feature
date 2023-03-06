@@ -38,12 +38,12 @@ class SuggestionPage extends StatefulWidget {
   final OnGetUserById onGetUserById;
 
   const SuggestionPage({
-    Key? key,
     required this.suggestion,
     required this.onUploadMultiplePhotos,
     required this.onSaveToGallery,
     required this.onGetUserById,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   // ignore: library_private_types_in_public_api

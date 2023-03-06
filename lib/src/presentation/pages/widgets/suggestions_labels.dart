@@ -8,7 +8,7 @@ import '../theme/suggestions_theme.dart';
 class SuggestionLabels extends StatelessWidget {
   final List<SuggestionLabel> labels;
 
-  const SuggestionLabels({Key? key, required this.labels}) : super(key: key);
+  const SuggestionLabels({required this.labels, super.key});
 
   @override
   Widget build(BuildContext context) {

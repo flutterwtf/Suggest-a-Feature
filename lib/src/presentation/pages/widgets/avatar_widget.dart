@@ -15,12 +15,12 @@ class AvatarWidget extends StatefulWidget {
   final double iconPadding;
 
   const AvatarWidget({
-    Key? key,
     required this.size,
     this.avatar,
     this.backgroundColor,
     this.iconPadding = Dimensions.marginSmall,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   _AvatarWidgetState createState() => _AvatarWidgetState();

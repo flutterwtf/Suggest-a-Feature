@@ -12,8 +12,8 @@ class VotesCounter extends StatelessWidget {
   const VotesCounter({
     required this.isVoted,
     required this.upvotesCount,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

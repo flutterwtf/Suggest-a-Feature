@@ -31,8 +31,8 @@ class ConfirmationBottomSheet extends StatelessWidget {
     this.onBackdrop,
     this.color,
     this.showDimming = true,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

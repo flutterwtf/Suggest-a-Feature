@@ -14,12 +14,12 @@ class NotificationSuggestionBottomSheet extends StatefulWidget {
   final bool isNotificationOn;
 
   const NotificationSuggestionBottomSheet({
-    Key? key,
     required this.onCancel,
     required this.onChangeNotification,
     required this.controller,
     required this.isNotificationOn,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   _NotificationSuggestionBottomSheetState createState() =>

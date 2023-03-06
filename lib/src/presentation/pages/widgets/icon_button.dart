@@ -18,8 +18,8 @@ class SuggestionsIconButton extends StatefulWidget {
     this.color,
     this.size = Dimensions.defaultSize,
     this.padding = const EdgeInsets.all(Dimensions.marginMicro),
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   _SuggestionsIconButtonState createState() => _SuggestionsIconButtonState();

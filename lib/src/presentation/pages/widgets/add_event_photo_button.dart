@@ -14,12 +14,12 @@ class AddPhotoButton extends StatelessWidget {
   final bool isLoading;
 
   const AddPhotoButton({
-    Key? key,
     required this.width,
     required this.height,
     required this.style,
     required this.isLoading,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

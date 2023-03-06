@@ -12,8 +12,8 @@ class SuggestionAuthor extends Equatable {
 
   const SuggestionAuthor({
     required this.id,
-    this.avatar,
     required this.username,
+    this.avatar,
   });
 
   factory SuggestionAuthor.fromJson(Map<String, dynamic> json) {

@@ -14,14 +14,14 @@ class SuggestionsElevatedButton extends StatefulWidget {
   final bool isLoading;
 
   const SuggestionsElevatedButton({
-    Key? key,
     required this.buttonText,
     required this.onClick,
     this.isLoading = false,
     this.backgroundColor,
     this.textColor,
     this.imageIcon,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   _SuggestionsElevatedButtonState createState() =>

@@ -18,8 +18,8 @@ class ClickableListItem extends StatefulWidget {
     this.trailing,
     this.horizontalPadding = Dimensions.marginDefault,
     this.verticalPadding = Dimensions.marginSmall,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   _ClickableListItemState createState() => _ClickableListItemState();

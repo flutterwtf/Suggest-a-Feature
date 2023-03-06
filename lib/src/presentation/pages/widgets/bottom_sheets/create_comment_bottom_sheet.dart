@@ -19,11 +19,11 @@ class CreateCommentBottomSheet extends StatefulWidget {
   final OnCreateComment onCreateComment;
 
   const CreateCommentBottomSheet({
-    Key? key,
     required this.controller,
     required this.onClose,
     required this.onCreateComment,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   _CreateCommentBottomSheetState createState() =>
@@ -129,8 +129,7 @@ class _CommentTextField extends StatelessWidget {
     required this.commentController,
     required this.isShowCommentError,
     required this.onFocusChanged,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -159,8 +158,7 @@ class _PostAnonymously extends StatelessWidget {
   const _PostAnonymously({
     required this.onChanged,
     required this.isAnonymously,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -184,8 +182,7 @@ class _PostPostedBy extends StatelessWidget {
   const _PostPostedBy({
     required this.isFromAdmin,
     required this.onChanged,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -207,8 +204,7 @@ class _CreateCommentButton extends StatelessWidget {
 
   const _CreateCommentButton({
     required this.onClick,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

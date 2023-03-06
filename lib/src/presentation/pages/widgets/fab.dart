@@ -17,7 +17,6 @@ class SuggestionsFab extends StatefulWidget {
   final EdgeInsets margin;
 
   const SuggestionsFab({
-    Key? key,
     required this.onClick,
     required this.imageIcon,
     this.size = Dimensions.veryBigSize,
@@ -27,7 +26,8 @@ class SuggestionsFab extends StatefulWidget {
     this.iconColor,
     this.padding = const EdgeInsets.all(Dimensions.marginSmall),
     this.margin = const EdgeInsets.all(Dimensions.marginSmall),
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<SuggestionsFab> createState() => _SuggestionsFabState();
@@ -104,10 +104,9 @@ class _AnimatedCircle extends AnimatedWidget {
   final Color color;
 
   const _AnimatedCircle({
-    Key? key,
     required Animation<double> animation,
     required this.color,
-  }) : super(key: key, listenable: animation);
+  }) : super(listenable: animation);
 
   @override
   Widget build(BuildContext context) {

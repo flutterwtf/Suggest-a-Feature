@@ -12,10 +12,10 @@ class SuggestionsTabBar extends StatelessWidget {
   final SuggestionsState state;
 
   const SuggestionsTabBar({
-    Key? key,
     required this.tabController,
     required this.state,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -89,8 +89,7 @@ class _TabButton extends StatelessWidget {
     required this.state,
     required this.text,
     required this.inactiveImage,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

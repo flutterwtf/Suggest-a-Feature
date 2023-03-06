@@ -14,13 +14,13 @@ class PhotoView extends StatefulWidget {
   final Color previousNavBarColor;
 
   const PhotoView({
-    Key? key,
     required this.photos,
     required this.onDownloadClick,
     required this.previousNavBarColor,
     this.onDeleteClick,
     this.initialIndex = 0,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   _PhotoViewState createState() => _PhotoViewState();
@@ -153,8 +153,7 @@ class _PhotoViewState extends State<PhotoView> {
 }
 
 class _CustomPageViewScrollPhysics extends ScrollPhysics {
-  const _CustomPageViewScrollPhysics({ScrollPhysics? parent})
-      : super(parent: parent);
+  const _CustomPageViewScrollPhysics({super.parent});
 
   @override
   _CustomPageViewScrollPhysics applyTo(ScrollPhysics? ancestor) {

@@ -48,7 +48,6 @@ class SuggestionsPage extends StatefulWidget {
   final AdminSettings? adminSettings;
 
   SuggestionsPage({
-    Key? key,
     required this.userId,
     required this.suggestionsDataSource,
     required this.theme,
@@ -57,7 +56,8 @@ class SuggestionsPage extends StatefulWidget {
     this.onSaveToGallery,
     this.onUploadMultiplePhotos,
     this.imageHeaders,
-  }) : super(key: key) {
+    super.key,
+  }) {
     i.init(
       theme: theme,
       userId: userId,
@@ -206,8 +206,7 @@ class _BottomFab extends StatelessWidget {
 
   const _BottomFab({
     required this.openCreateBottomSheet,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -7,10 +7,10 @@ class SuggestionsSwitch extends StatelessWidget {
   final ValueChanged<bool> onChanged;
 
   const SuggestionsSwitch({
-    Key? key,
     required this.value,
     required this.onChanged,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

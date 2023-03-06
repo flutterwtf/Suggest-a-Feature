@@ -11,12 +11,12 @@ class SmallPhotoPreview extends StatelessWidget {
   final String heroTag;
 
   const SmallPhotoPreview({
-    Key? key,
     required this.backgroundColor,
     required this.src,
     this.size = Dimensions.defaultSize,
     this.heroTag = '',
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

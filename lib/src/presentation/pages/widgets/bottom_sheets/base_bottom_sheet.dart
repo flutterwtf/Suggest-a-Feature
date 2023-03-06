@@ -34,7 +34,6 @@ class BaseBottomSheet extends StatefulWidget {
   final Color previousStatusBarColor;
 
   const BaseBottomSheet({
-    Key? key,
     required this.contentBuilder,
     required this.controller,
     required this.onClose,
@@ -56,7 +55,8 @@ class BaseBottomSheet extends StatefulWidget {
     this.contentPadding = EdgeInsets.zero,
     this.loadingStatus = LoadingStatus.empty,
     this.additionalSnappings = const <double>[],
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<StatefulWidget> createState() => _BaseBottomSheetState();
@@ -191,8 +191,7 @@ class _HeaderBuilder extends StatelessWidget {
   const _HeaderBuilder({
     required this.state,
     this.headerBuilder,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -207,7 +206,7 @@ class _HeaderBuilder extends StatelessWidget {
 }
 
 class _Grabbing extends StatelessWidget {
-  const _Grabbing({Key? key}) : super(key: key);
+  const _Grabbing();
 
   @override
   Widget build(BuildContext context) {

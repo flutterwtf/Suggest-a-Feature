@@ -16,12 +16,12 @@ class LabelBottomSheet extends StatefulWidget {
   final List<SuggestionLabel> selectedLabels;
 
   const LabelBottomSheet({
-    Key? key,
     required this.onCancel,
     required this.onDone,
     required this.controller,
     required this.selectedLabels,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   _LabelBottomSheetState createState() => _LabelBottomSheetState();
@@ -102,8 +102,7 @@ class _LabelsRow extends StatelessWidget {
   const _LabelsRow({
     required this.onTap,
     required this.selectedLabels,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -140,8 +139,7 @@ class _LabelItem extends StatelessWidget {
     required this.label,
     required this.onTap,
     required this.selectedLabels,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

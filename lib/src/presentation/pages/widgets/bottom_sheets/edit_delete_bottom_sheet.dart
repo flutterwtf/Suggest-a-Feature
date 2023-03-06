@@ -18,13 +18,13 @@ class EditDeleteSuggestionBottomSheet extends StatefulWidget {
   final DateTime creationDate;
 
   const EditDeleteSuggestionBottomSheet({
-    Key? key,
     required this.onCancel,
     required this.onEditClick,
     required this.onDeleteClick,
     required this.controller,
     required this.creationDate,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   _EditDeleteSuggestionBottomSheetState createState() =>
@@ -72,7 +72,7 @@ class _EditDeleteSuggestionBottomSheetState
 class _LeadingText extends StatelessWidget {
   final String text;
 
-  const _LeadingText({required this.text, Key? key}) : super(key: key);
+  const _LeadingText({required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +86,7 @@ class _LeadingText extends StatelessWidget {
 class _EditItem extends StatelessWidget {
   final VoidCallback onEditClick;
 
-  const _EditItem({required this.onEditClick, Key? key}) : super(key: key);
+  const _EditItem({required this.onEditClick});
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +113,7 @@ class _EditItem extends StatelessWidget {
 class _DeleteItem extends StatelessWidget {
   final VoidCallback onDeleteClick;
 
-  const _DeleteItem({required this.onDeleteClick, Key? key}) : super(key: key);
+  const _DeleteItem({required this.onDeleteClick});
 
   @override
   Widget build(BuildContext context) {

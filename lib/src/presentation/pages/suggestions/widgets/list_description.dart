@@ -9,10 +9,10 @@ class ListDescription extends StatelessWidget {
   final int length;
 
   const ListDescription({
-    Key? key,
     required this.status,
     required this.length,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

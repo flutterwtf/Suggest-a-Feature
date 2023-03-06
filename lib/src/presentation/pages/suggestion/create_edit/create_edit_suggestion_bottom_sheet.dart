@@ -36,13 +36,13 @@ class CreateEditSuggestionBottomSheet extends StatefulWidget {
   final OnSaveToGalleryCallback? onSaveToGallery;
 
   const CreateEditSuggestionBottomSheet({
-    Key? key,
     required this.onClose,
     required this.controller,
     required this.onUploadMultiplePhotos,
     required this.onSaveToGallery,
     this.suggestion,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   CreateEditSuggestionBottomSheetState createState() =>
@@ -302,8 +302,7 @@ class _LabelItems extends StatelessWidget {
   const _LabelItems({
     required this.labels,
     required this.changeLabelsBottomSheetStatus,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -336,8 +335,7 @@ class _SuggestionStatus extends StatelessWidget {
   const _SuggestionStatus({
     required this.suggestionStatus,
     required this.changeStatusBottomSheetStatus,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -387,8 +385,7 @@ class _SaveSubmitButton extends StatelessWidget {
     required this.isEditing,
     required this.isLoading,
     required this.saveSuggestion,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -416,8 +413,7 @@ class _PostAnonymously extends StatelessWidget {
   const _PostAnonymously({
     required this.isAnonymously,
     required this.changeSuggestionAnonymity,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -442,8 +438,7 @@ class _PhotoPickerItem extends StatelessWidget {
   _PhotoPickerItem({
     required this.state,
     required this.onUploadMultiplePhotos,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

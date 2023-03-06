@@ -12,12 +12,12 @@ class BottomSheetActions extends StatelessWidget {
   final bool hasLeftButton;
 
   const BottomSheetActions({
-    Key? key,
     required this.onDone,
     this.onCancel,
     this.isDoneActive = true,
     this.hasLeftButton = true,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -59,13 +59,13 @@ class NewSuggestionTextButton extends StatefulWidget {
   final VoidCallback? onDisabledClick;
 
   const NewSuggestionTextButton({
-    Key? key,
     required this.title,
     required this.onClick,
     this.onDisabledClick,
     this.enabled = true,
     this.isTonal = true,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<NewSuggestionTextButton> createState() =>
