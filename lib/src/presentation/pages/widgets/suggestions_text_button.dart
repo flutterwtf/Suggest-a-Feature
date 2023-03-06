@@ -22,17 +22,15 @@ class _SuggestionsTextButtonState extends State<SuggestionsTextButton> {
 
   @override
   Widget build(BuildContext context) {
-    Color color = theme.primaryTextColor;
-    if (_pressed) {
-      color = theme.actionPressedColor;
-    }
+    final color = _pressed ? theme.actionPressedColor : theme.primaryTextColor;
+
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: widget.onClick,
-      onTapDown: (TapDownDetails tapDetails) {
+      onTapDown: (_) {
         setState(() => _pressed = true);
       },
-      onTapUp: (TapUpDetails tapDetails) {
+      onTapUp: (_) {
         setState(() => _pressed = false);
       },
       onTapCancel: () {

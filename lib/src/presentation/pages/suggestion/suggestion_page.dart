@@ -21,10 +21,10 @@ import '../widgets/bottom_sheets/confirmation_bottom_sheet.dart';
 import '../widgets/bottom_sheets/create_comment_bottom_sheet.dart';
 import '../widgets/bottom_sheets/edit_delete_bottom_sheet.dart';
 import '../widgets/bottom_sheets/notification_bottom_sheet.dart';
-import '../widgets/elevated_button.dart';
 import '../widgets/icon_button.dart';
 import '../widgets/network_image.dart';
 import '../widgets/photo_view.dart';
+import '../widgets/suggestions_elevated_button.dart';
 import '../widgets/suggestions_labels.dart';
 import '../widgets/votes_counter.dart';
 import 'create_edit/create_edit_suggestion_bottom_sheet.dart';
@@ -46,8 +46,7 @@ class SuggestionPage extends StatefulWidget {
   });
 
   @override
-  // ignore: library_private_types_in_public_api
-  _SuggestionPageState createState() => _SuggestionPageState();
+  State<SuggestionPage> createState() => _SuggestionPageState();
 }
 
 class _SuggestionPageState extends State<SuggestionPage> {
@@ -55,12 +54,12 @@ class _SuggestionPageState extends State<SuggestionPage> {
 
   @override
   void initState() {
+    super.initState();
     _cubit.init(
       suggestion: widget.suggestion,
       getUserById: widget.onGetUserById,
       isAdmin: i.adminSettings != null,
     );
-    super.initState();
   }
 
   @override

@@ -37,10 +37,10 @@ class _SuggestionsElevatedButtonState extends State<SuggestionsElevatedButton> {
       behavior: HitTestBehavior.translucent,
       onTap: () =>
           widget.isLoading ? () => <dynamic, dynamic>{} : widget.onClick(),
-      onTapDown: (TapDownDetails tapDetails) {
+      onTapDown: (_) {
         setState(() => _isPressed = true);
       },
-      onTapUp: (TapUpDetails tapDetails) {
+      onTapUp: (_) {
         setState(() => _isPressed = false);
       },
       onTapCancel: () {

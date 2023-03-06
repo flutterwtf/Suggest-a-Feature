@@ -77,10 +77,7 @@ class DottedBorder extends StatelessWidget {
     if (dashSet.length == 1 && dashSet.elementAt(0) == 0.0) {
       return false;
     }
-    if (dashSet.isEmpty) {
-      return false;
-    }
-    return true;
+    return dashSet.isNotEmpty;
   }
 }
 
@@ -106,10 +103,7 @@ class _DashPainter extends CustomPainter {
     this.radius = Radius.zero,
     this.strokeCap = StrokeCap.butt,
     this.customPath,
-  }) {
-    // ignore: prefer_asserts_in_initializer_lists
-    assert(dashPattern.isNotEmpty, 'Dash Pattern cannot be empty');
-  }
+  }) : assert(dashPattern.isNotEmpty, 'Dash Pattern cannot be empty');
 
   @override
   void paint(Canvas canvas, Size size) {

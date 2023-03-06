@@ -18,13 +18,13 @@ import '../../widgets/add_event_photo_button.dart';
 import '../../widgets/bottom_sheets/base_bottom_sheet.dart';
 import '../../widgets/bottom_sheets/label_bottom_sheet.dart';
 import '../../widgets/clickable_list_item.dart';
-import '../../widgets/elevated_button.dart';
 import '../../widgets/network_image.dart';
 import '../../widgets/photo_view.dart';
 import '../../widgets/small_photo_preview.dart';
+import '../../widgets/suggestions_elevated_button.dart';
 import '../../widgets/suggestions_labels.dart';
-import '../../widgets/switch.dart';
-import '../../widgets/text_field.dart';
+import '../../widgets/suggestions_switch.dart';
+import '../../widgets/suggestions_text_field.dart';
 import 'create_edit_suggestion_cubit.dart';
 import 'create_edit_suggestion_state.dart';
 
@@ -45,11 +45,11 @@ class CreateEditSuggestionBottomSheet extends StatefulWidget {
   });
 
   @override
-  CreateEditSuggestionBottomSheetState createState() =>
-      CreateEditSuggestionBottomSheetState();
+  _CreateEditSuggestionBottomSheetState createState() =>
+      _CreateEditSuggestionBottomSheetState();
 }
 
-class CreateEditSuggestionBottomSheetState
+class _CreateEditSuggestionBottomSheetState
     extends State<CreateEditSuggestionBottomSheet>
     with TickerProviderStateMixin {
   final CreateEditSuggestionCubit _cubit = i.createEditSuggestionCubit;
@@ -62,11 +62,11 @@ class CreateEditSuggestionBottomSheetState
 
   @override
   void initState() {
+    super.initState();
     _cubit.init(widget.suggestion);
     _titleController = TextEditingController(text: widget.suggestion?.title);
     _descriptionController =
         TextEditingController(text: widget.suggestion?.description);
-    super.initState();
     _titleFocusNode = FocusNode();
     _descriptionFocusNode = FocusNode();
   }
@@ -75,8 +75,8 @@ class CreateEditSuggestionBottomSheetState
   void dispose() {
     _titleController.dispose();
     _descriptionController.dispose();
-    super.dispose();
     _titleFocusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -124,7 +124,7 @@ class CreateEditSuggestionBottomSheetState
   Widget _createEditSuggestionBottomSheet(CreateEditSuggestionState state) {
     return BaseBottomSheet(
       controller: widget.controller,
-      onOpen: () => _titleFocusNode.requestFocus(),
+      onOpen: _titleFocusNode.requestFocus,
       onClose: ([_]) => widget.onClose(),
       backgroundColor: theme.bottomSheetBackgroundColor,
       previousNavBarColor: theme.primaryBackgroundColor,
@@ -392,8 +392,9 @@ class _SaveSubmitButton extends StatelessWidget {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Padding(
-        padding:
-            const EdgeInsets.symmetric(horizontal: Dimensions.marginDefault),
+        padding: const EdgeInsets.symmetric(
+          horizontal: Dimensions.marginDefault,
+        ),
         child: SuggestionsElevatedButton(
           onClick: saveSuggestion,
           isLoading: isLoading,

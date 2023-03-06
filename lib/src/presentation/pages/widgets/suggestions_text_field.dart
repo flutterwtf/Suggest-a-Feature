@@ -47,8 +47,9 @@ class SuggestionsTextField extends StatelessWidget {
                 border:
                     isShowError ? Border.all(color: theme.errorColor) : null,
                 color: theme.primaryBackgroundColor,
-                borderRadius:
-                    BorderRadius.circular(Dimensions.smallCircularRadius),
+                borderRadius: BorderRadius.circular(
+                  Dimensions.smallCircularRadius,
+                ),
               ),
               child: SuggestionsPlatform.isIOS
                   ? _iosTextField()
@@ -75,8 +76,9 @@ class SuggestionsTextField extends StatelessWidget {
       decoration: InputDecoration(
         isDense: true,
         hintText: hintText,
-        hintStyle: theme.textSmallPlus
-            .copyWith(color: theme.primaryTextColor.withOpacity(0.7)),
+        hintStyle: theme.textSmallPlus.copyWith(
+          color: theme.primaryTextColor.withOpacity(0.7),
+        ),
         fillColor: Colors.transparent,
         contentPadding: padding,
         border: InputBorder.none,
@@ -91,7 +93,7 @@ class SuggestionsTextField extends StatelessWidget {
             : null,
       ),
       textCapitalization: TextCapitalization.sentences,
-      onChanged: (String text) => onChanged?.call(text),
+      onChanged: onChanged?.call,
       inputFormatters: inputFormatters,
     );
   }
@@ -125,7 +127,7 @@ class SuggestionsTextField extends StatelessWidget {
       ),
       padding: padding,
       textCapitalization: TextCapitalization.sentences,
-      onChanged: (String text) => onChanged?.call(text),
+      onChanged: onChanged?.call,
     );
   }
 }

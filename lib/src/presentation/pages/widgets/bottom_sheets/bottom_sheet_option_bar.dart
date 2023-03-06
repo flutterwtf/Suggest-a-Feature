@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../utils/context_utils.dart';
 import '../../theme/suggestions_theme.dart';
-import '../text_button.dart';
+import '../suggestions_text_button.dart';
 
 class BottomSheetOptionBar extends StatelessWidget {
   final String title;

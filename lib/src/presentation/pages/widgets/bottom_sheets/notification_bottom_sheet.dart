@@ -4,7 +4,7 @@ import 'package:sliding_sheet/sliding_sheet.dart';
 import '../../../utils/context_utils.dart';
 import '../../../utils/dimensions.dart';
 import '../../theme/suggestions_theme.dart';
-import '../switch.dart';
+import '../suggestions_switch.dart';
 import 'base_bottom_sheet.dart';
 
 class NotificationSuggestionBottomSheet extends StatefulWidget {
@@ -32,8 +32,8 @@ class _NotificationSuggestionBottomSheetState
 
   @override
   void initState() {
-    _isNotificationOn = widget.isNotificationOn;
     super.initState();
+    _isNotificationOn = widget.isNotificationOn;
   }
 
   @override

@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import '../../utils/assets_strings.dart';
 import '../../utils/dimensions.dart';
 import 'icon_button.dart';
-import 'zoomable_image_widget.dart';
+import 'zoomable_image.dart';
 
 class PhotoView extends StatefulWidget {
   final List<String> photos;

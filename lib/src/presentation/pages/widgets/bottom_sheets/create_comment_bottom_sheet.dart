@@ -6,9 +6,9 @@ import '../../../utils/context_utils.dart';
 import '../../../utils/dimensions.dart';
 import '../../theme/suggestions_theme.dart';
 import '../clickable_list_item.dart';
-import '../elevated_button.dart';
-import '../switch.dart';
-import '../text_field.dart';
+import '../suggestions_elevated_button.dart';
+import '../suggestions_switch.dart';
+import '../suggestions_text_field.dart';
 import 'base_bottom_sheet.dart';
 
 typedef OnCreateComment = void Function(String, bool, bool);
@@ -45,15 +45,15 @@ class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
 
   @override
   void dispose() {
-    super.dispose();
     _inputFocusNode.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return BaseBottomSheet(
       controller: widget.controller,
-      onOpen: () => _inputFocusNode.requestFocus(),
+      onOpen: _inputFocusNode.requestFocus,
       onClose: ([_]) => widget.onClose(),
       backgroundColor: theme.bottomSheetBackgroundColor,
       previousNavBarColor: theme.primaryBackgroundColor,

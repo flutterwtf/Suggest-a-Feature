@@ -21,21 +21,21 @@ class SuggestionsBackButton extends StatefulWidget {
 }
 
 class _SuggestionsBackButtonState extends State<SuggestionsBackButton> {
-  bool pressed = false;
+  bool _pressed = false;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTap: () => widget.onClick(),
-      onTapDown: (TapDownDetails tapDetails) {
-        setState(() => pressed = true);
+      onTap: widget.onClick,
+      onTapDown: (_) {
+        setState(() => _pressed = true);
       },
-      onTapUp: (TapUpDetails tapDetails) {
-        setState(() => pressed = false);
+      onTapUp: (_) {
+        setState(() => _pressed = false);
       },
       onTapCancel: () {
-        setState(() => pressed = false);
+        setState(() => _pressed = false);
       },
       child: Padding(
         padding: const EdgeInsets.all(Dimensions.marginMicro),
@@ -45,7 +45,7 @@ class _SuggestionsBackButtonState extends State<SuggestionsBackButton> {
           height: Dimensions.defaultSize,
           width: Dimensions.defaultSize,
           colorFilter: ColorFilter.mode(
-            pressed ? widget.pressedColor : widget.color,
+            _pressed ? widget.pressedColor : widget.color,
             BlendMode.srcIn,
           ),
         ),

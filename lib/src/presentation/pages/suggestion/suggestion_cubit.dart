@@ -28,11 +28,11 @@ class SuggestionCubit extends Cubit<SuggestionState> {
           ),
         );
 
-  Future<void> init({
+  void init({
     required Suggestion suggestion,
     required OnGetUserById getUserById,
     required bool isAdmin,
-  }) async {
+  }) {
     emit(
       state.newState(
         suggestion: suggestion,

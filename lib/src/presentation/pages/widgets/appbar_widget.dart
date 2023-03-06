@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../utils/dimensions.dart';
 import '../theme/suggestions_theme.dart';
-import 'back_button.dart';
+import 'suggestions_back_button.dart';
 
 class SuggestionsAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback onBackClick;

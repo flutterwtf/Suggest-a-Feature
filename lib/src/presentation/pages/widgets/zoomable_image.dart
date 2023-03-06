@@ -28,11 +28,11 @@ class _ZoomableImageState extends State<ZoomableImage>
 
   @override
   void initState() {
+    super.initState();
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 200),
     );
-    super.initState();
   }
 
   @override
@@ -62,19 +62,13 @@ class _ZoomableImageState extends State<ZoomableImage>
         onDoubleTap: (ExtendedImageGestureState state) {
           final Offset? pointerDownPosition = state.pointerDownPosition;
           final double begin = state.gestureDetails!.totalScale!;
-          double end;
+          final double end = begin == 1 ? 2 : 1;
 
           _animation?.removeListener(_animationListener);
           _animationController.stop();
           _animationController.reset();
 
-          if (begin == 1) {
-            widget.changeZoomStatus(true);
-            end = 2;
-          } else {
-            widget.changeZoomStatus(false);
-            end = 1;
-          }
+          widget.changeZoomStatus(begin == 1);
           widget.changeScrollPhysics();
 
           _animationListener = () {

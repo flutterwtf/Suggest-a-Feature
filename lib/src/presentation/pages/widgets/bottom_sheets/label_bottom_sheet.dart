@@ -32,8 +32,8 @@ class _LabelBottomSheetState extends State<LabelBottomSheet> {
 
   @override
   void initState() {
-    selectedLabels.addAll(widget.selectedLabels);
     super.initState();
+    selectedLabels.addAll(widget.selectedLabels);
   }
 
   @override

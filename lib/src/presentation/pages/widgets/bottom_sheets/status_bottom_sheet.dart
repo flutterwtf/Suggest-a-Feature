@@ -32,8 +32,8 @@ class _StatusBottomSheetState extends State<StatusBottomSheet> {
 
   @override
   void initState() {
-    selectedStatus = widget.selectedStatus;
     super.initState();
+    selectedStatus = widget.selectedStatus;
   }
 
   @override

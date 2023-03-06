@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_dynamic_calls
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
@@ -108,6 +106,9 @@ class Suggestion extends Equatable {
   }
 
   factory Suggestion.fromJson({required Map<String, dynamic> json}) {
+    final votedUserIds = json['voted_user_ids'] as List<String>?;
+    final notifyUserIds = json['notify_user_ids'] as List<String>?;
+
     return Suggestion(
       id: json['suggestion_id'].toString(),
       title: json['title'],
@@ -124,10 +125,8 @@ class Suggestion extends Equatable {
         (SuggestionStatus e) => describeEnum(e) == json['status'],
         orElse: () => SuggestionStatus.unknown,
       ),
-      votedUserIds:
-          (json['voted_user_ids'] ?? <String>[]).cast<String>().toSet(),
-      notifyUserIds:
-          (json['notify_user_ids'] ?? <String>[]).cast<String>().toSet(),
+      votedUserIds: votedUserIds?.toSet() ?? <String>{},
+      notifyUserIds: notifyUserIds?.toSet() ?? <String>{},
     );
   }
 

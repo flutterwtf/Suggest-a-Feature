@@ -40,8 +40,9 @@ class SuggestionList extends StatelessWidget {
             return index == 0
                 ? ListDescription(status: status, length: suggestions.length)
                 : Padding(
-                    padding:
-                        const EdgeInsets.only(bottom: Dimensions.marginDefault),
+                    padding: const EdgeInsets.only(
+                      bottom: Dimensions.marginDefault,
+                    ),
                     child: SuggestionCard(
                       suggestion: suggestions[index - 1],
                       color: color,

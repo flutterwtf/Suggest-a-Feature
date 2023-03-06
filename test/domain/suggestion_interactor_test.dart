@@ -10,10 +10,10 @@ import '../utils/mocked_entities.dart';
 import '../utils/shared_mocks.mocks.dart';
 
 void main() {
-  final MockSuggestionRepository mockSuggestionRepository =
-      MockSuggestionRepository();
+  final SuggestionRepository mockSuggestionRepository =
+      MockSuggestionRepositoryImpl();
   final SuggestionInteractor suggestionInteractor =
-      SuggestionInteractor(mockSuggestionRepository as SuggestionRepository);
+      SuggestionInteractor(mockSuggestionRepository);
 
   final CreateSuggestionModel createSuggestionModel =
       mockedCreateSuggestionModel;

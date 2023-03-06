@@ -79,13 +79,14 @@ class _SuggestionsPageState extends State<SuggestionsPage>
 
   @override
   void initState() {
+    super.initState();
     _cubit.init();
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(
-      () =>
-          _cubit.changeActiveTab(SuggestionStatus.values[_tabController.index]),
+      () => _cubit.changeActiveTab(
+        SuggestionStatus.values[_tabController.index],
+      ),
     );
-    super.initState();
   }
 
   @override
