@@ -1,27 +1,24 @@
-// ignore_for_file: library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
-
-import '../../../data/interfaces/suggestions_data_source.dart';
-import '../../../domain/entities/admin_settings.dart';
-import '../../../domain/entities/suggestion.dart';
-import '../../di/injector.dart';
-import '../../utils/assets_strings.dart';
-import '../../utils/context_utils.dart';
-import '../../utils/dimensions.dart';
-import '../../utils/platform_check.dart';
-import '../../utils/rendering.dart';
-import '../../utils/typedefs.dart';
-import '../suggestion/create_edit/create_edit_suggestion_bottom_sheet.dart';
-import '../theme/suggestions_theme.dart';
-import '../widgets/appbar_widget.dart';
-import '../widgets/fab.dart';
-import 'suggestions_cubit.dart';
-import 'suggestions_state.dart';
-import 'widgets/suggestion_list.dart';
-import 'widgets/suggestions_tab_bar.dart';
+import 'package:suggest_a_feature/src/data/interfaces/suggestions_data_source.dart';
+import 'package:suggest_a_feature/src/domain/entities/admin_settings.dart';
+import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
+import 'package:suggest_a_feature/src/presentation/di/injector.dart';
+import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_bottom_sheet.dart';
+import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_cubit.dart';
+import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_state.dart';
+import 'package:suggest_a_feature/src/presentation/pages/suggestions/widgets/suggestion_list.dart';
+import 'package:suggest_a_feature/src/presentation/pages/suggestions/widgets/suggestions_tab_bar.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/appbar_widget.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/fab.dart';
+import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
+import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
+import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
+import 'package:suggest_a_feature/src/presentation/utils/platform_check.dart';
+import 'package:suggest_a_feature/src/presentation/utils/rendering.dart';
+import 'package:suggest_a_feature/src/presentation/utils/typedefs.dart';
 
 class SuggestionsPage extends StatefulWidget {
   /// The current user id.
@@ -48,7 +45,6 @@ class SuggestionsPage extends StatefulWidget {
   final AdminSettings? adminSettings;
 
   SuggestionsPage({
-    Key? key,
     required this.userId,
     required this.suggestionsDataSource,
     required this.theme,
@@ -57,7 +53,8 @@ class SuggestionsPage extends StatefulWidget {
     this.onSaveToGallery,
     this.onUploadMultiplePhotos,
     this.imageHeaders,
-  }) : super(key: key) {
+    super.key,
+  }) {
     i.init(
       theme: theme,
       userId: userId,
@@ -68,7 +65,7 @@ class SuggestionsPage extends StatefulWidget {
   }
 
   @override
-  _SuggestionsPageState createState() => _SuggestionsPageState();
+  State<SuggestionsPage> createState() => _SuggestionsPageState();
 }
 
 class _SuggestionsPageState extends State<SuggestionsPage>
@@ -79,13 +76,14 @@ class _SuggestionsPageState extends State<SuggestionsPage>
 
   @override
   void initState() {
+    super.initState();
     _cubit.init();
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(
-      () =>
-          _cubit.changeActiveTab(SuggestionStatus.values[_tabController.index]),
+      () => _cubit.changeActiveTab(
+        SuggestionStatus.values[_tabController.index],
+      ),
     );
-    super.initState();
   }
 
   @override
@@ -206,8 +204,7 @@ class _BottomFab extends StatelessWidget {
 
   const _BottomFab({
     required this.openCreateBottomSheet,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

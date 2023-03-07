@@ -10,19 +10,17 @@ import '../utils/mocked_entities.dart';
 import '../utils/shared_mocks.mocks.dart';
 
 void main() {
-  final MockSuggestionRepository mockSuggestionRepository =
-      MockSuggestionRepository();
-  final SuggestionInteractor suggestionInteractor =
+  final mockSuggestionRepository = MockSuggestionRepository();
+  final suggestionInteractor =
       SuggestionInteractor(mockSuggestionRepository as SuggestionRepository);
 
-  final CreateSuggestionModel createSuggestionModel =
-      mockedCreateSuggestionModel;
-  final Comment comment = mockedComment;
-  final CreateCommentModel createCommentModel = mockedCreateCommentModel;
+  final createSuggestionModel = mockedCreateSuggestionModel;
+  final comment = mockedComment;
+  final createCommentModel = mockedCreateCommentModel;
 
   group('suggestion interactor', () {
     test('suggestions stream', () async {
-      final List<Suggestion> suggestionsList = <Suggestion>[mockedSuggestion];
+      final suggestionsList = <Suggestion>[mockedSuggestion];
 
       when(mockSuggestionRepository.suggestionsStream)
           .thenAnswer((_) => Stream.fromIterable([suggestionsList]));
@@ -54,8 +52,8 @@ void main() {
     });
 
     test('get all comments', () async {
-      final List<Comment> suggestionsList = <Comment>[comment];
-      final List<Comment> response = suggestionsList;
+      final suggestionsList = <Comment>[comment];
+      final response = suggestionsList;
 
       when(mockSuggestionRepository.getAllComments(mockedSuggestion.id))
           .thenAnswer((_) => Future.value(response));

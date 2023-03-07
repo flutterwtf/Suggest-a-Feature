@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-
-import '../../../../domain/entities/suggestion.dart';
-import '../../../utils/dimensions.dart';
-import '../../theme/suggestions_theme.dart';
-import '../../widgets/suggestions_labels.dart';
-import '../../widgets/votes_counter.dart';
+import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_labels.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/votes_counter.dart';
+import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
 class SuggestionCard extends StatelessWidget {
   final int index;
@@ -16,7 +15,6 @@ class SuggestionCard extends StatelessWidget {
   final String userId;
 
   const SuggestionCard({
-    Key? key,
     required this.index,
     required this.status,
     required this.suggestion,
@@ -24,7 +22,8 @@ class SuggestionCard extends StatelessWidget {
     required this.onClick,
     required this.userId,
     required this.voteCallBack,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -100,8 +99,7 @@ class _VoteCounter extends StatelessWidget {
     required this.isVoted,
     required this.upvotesCount,
     required this.voteCallBack,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +117,9 @@ class _VoteCounter extends StatelessWidget {
 class _SuggestionIndicator extends StatelessWidget {
   final Color color;
 
-  const _SuggestionIndicator({required this.color, Key? key}) : super(key: key);
+  const _SuggestionIndicator({
+    required this.color,
+  });
 
   @override
   Widget build(BuildContext context) {

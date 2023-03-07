@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import '../../utils/assets_strings.dart';
-import '../../utils/dimensions.dart';
-import '../theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
+import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
 class SuggestionsElevatedButton extends StatefulWidget {
   final String buttonText;
@@ -14,17 +13,17 @@ class SuggestionsElevatedButton extends StatefulWidget {
   final bool isLoading;
 
   const SuggestionsElevatedButton({
-    Key? key,
     required this.buttonText,
     required this.onClick,
     this.isLoading = false,
     this.backgroundColor,
     this.textColor,
     this.imageIcon,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
-  _SuggestionsElevatedButtonState createState() =>
+  State<SuggestionsElevatedButton> createState() =>
       _SuggestionsElevatedButtonState();
 }
 
@@ -37,10 +36,10 @@ class _SuggestionsElevatedButtonState extends State<SuggestionsElevatedButton> {
       behavior: HitTestBehavior.translucent,
       onTap: () =>
           widget.isLoading ? () => <dynamic, dynamic>{} : widget.onClick(),
-      onTapDown: (TapDownDetails tapDetails) {
+      onTapDown: (_) {
         setState(() => _isPressed = true);
       },
-      onTapUp: (TapUpDetails tapDetails) {
+      onTapUp: (_) {
         setState(() => _isPressed = false);
       },
       onTapCancel: () {

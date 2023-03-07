@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
-
-import '../../../utils/assets_strings.dart';
-import '../../../utils/dimensions.dart';
-import '../../theme/suggestions_theme.dart';
-import '../clickable_list_item.dart';
-import 'base_bottom_sheet.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/clickable_list_item.dart';
+import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
+import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
 class ConfirmationBottomSheet extends StatelessWidget {
   final String question;
@@ -31,8 +30,8 @@ class ConfirmationBottomSheet extends StatelessWidget {
     this.onBackdrop,
     this.color,
     this.showDimming = true,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

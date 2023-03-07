@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import '../../utils/assets_strings.dart';
-import '../../utils/context_utils.dart';
-import '../../utils/dimensions.dart';
-import '../theme/suggestions_theme.dart';
-import 'dotted_border.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/dotted_border.dart';
+import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
+import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
+import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
 class AddPhotoButton extends StatelessWidget {
   final double width;
@@ -14,12 +13,12 @@ class AddPhotoButton extends StatelessWidget {
   final bool isLoading;
 
   const AddPhotoButton({
-    Key? key,
     required this.width,
     required this.height,
     required this.style,
     required this.isLoading,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +35,7 @@ class AddPhotoButton extends StatelessWidget {
         child: Center(
           child: isLoading
               ? CircularProgressIndicator(
-                  strokeWidth: 1.0,
+                  strokeWidth: 1,
                   valueColor:
                       AlwaysStoppedAnimation<Color>(theme.primaryIconColor),
                 )

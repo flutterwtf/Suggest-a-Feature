@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 // ignore_for_file: constant_identifier_names
@@ -24,10 +22,9 @@ class DottedBorder extends StatelessWidget {
   final BorderType borderType;
   final Radius radius;
   final StrokeCap strokeCap;
-  final _PathBuilder? customPath;
+  final PathBuilder? customPath;
 
   DottedBorder({
-    Key? key,
     required this.child,
     this.color = Colors.black,
     this.strokeWidth = 1.5,
@@ -37,7 +34,8 @@ class DottedBorder extends StatelessWidget {
     this.radius = Radius.zero,
     this.strokeCap = StrokeCap.butt,
     this.customPath,
-  }) : super(key: key) {
+    super.key,
+  }) {
     assert(_isValidDashPattern(dashPattern), 'Invalid dash pattern');
   }
 
@@ -70,24 +68,21 @@ class DottedBorder extends StatelessWidget {
   /// * Cannot be null or empty
   /// * If [dashPattern] has only 1 element, it cannot be 0
   bool _isValidDashPattern(List<double>? dashPattern) {
-    final Set<double>? dashSet = dashPattern?.toSet();
+    final dashSet = dashPattern?.toSet();
     if (dashSet == null) {
       return false;
     }
     if (dashSet.length == 1 && dashSet.elementAt(0) == 0.0) {
       return false;
     }
-    if (dashSet.isEmpty) {
-      return false;
-    }
-    return true;
+    return dashSet.isNotEmpty;
   }
 }
 
 /// The different supported BorderTypes
 enum BorderType { Circle, RRect, Rect, Oval }
 
-typedef _PathBuilder = Path Function(Size);
+typedef PathBuilder = Path Function(Size);
 
 class _DashPainter extends CustomPainter {
   final double strokeWidth;
@@ -96,7 +91,7 @@ class _DashPainter extends CustomPainter {
   final BorderType borderType;
   final Radius radius;
   final StrokeCap strokeCap;
-  final _PathBuilder? customPath;
+  final PathBuilder? customPath;
 
   _DashPainter({
     this.strokeWidth = 2,
@@ -106,14 +101,11 @@ class _DashPainter extends CustomPainter {
     this.radius = Radius.zero,
     this.strokeCap = StrokeCap.butt,
     this.customPath,
-  }) {
-    // ignore: prefer_asserts_in_initializer_lists
-    assert(dashPattern.isNotEmpty, 'Dash Pattern cannot be empty');
-  }
+  }) : assert(dashPattern.isNotEmpty, 'Dash Pattern cannot be empty');
 
   @override
   void paint(Canvas canvas, Size size) {
-    final Paint paint = Paint()
+    final paint = Paint()
       ..strokeWidth = strokeWidth
       ..color = color
       ..strokeCap = strokeCap
@@ -158,9 +150,9 @@ class _DashPainter extends CustomPainter {
 
   /// Returns a circular path of [size]
   Path _getCirclePath(Size size) {
-    final double w = size.width;
-    final double h = size.height;
-    final double s = size.shortestSide;
+    final w = size.width;
+    final h = size.height;
+    final s = size.shortestSide;
 
     return Path()
       ..addRRect(
@@ -240,14 +232,14 @@ Path _dashPath(
   required _CircularIntervalList<double> dashArray,
   _DashOffset? dashOffset,
 }) {
-  dashOffset = dashOffset ?? const _DashOffset.absolute(0.0);
+  dashOffset = dashOffset ?? const _DashOffset.absolute(0);
 
-  final Path dest = Path();
-  for (final PathMetric metric in source.computeMetrics()) {
-    double distance = dashOffset._calculate(metric.length);
-    bool draw = true;
+  final dest = Path();
+  for (final metric in source.computeMetrics()) {
+    var distance = dashOffset._calculate(metric.length);
+    var draw = true;
     while (distance < metric.length) {
-      final double len = dashArray.next;
+      final len = dashArray.next;
       if (draw) {
         dest.addPath(metric.extractPath(distance, distance + len), Offset.zero);
       }

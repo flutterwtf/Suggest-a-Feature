@@ -1,8 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
-
-import '../../presentation/utils/date_utils.dart';
-import 'suggestion_author.dart';
+import 'package:suggest_a_feature/src/domain/entities/suggestion_author.dart';
+import 'package:suggest_a_feature/src/presentation/utils/date_utils.dart';
 
 class Comment extends Equatable {
   /// The id of the comment

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../../utils/dimensions.dart';
-import '../theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
 class SuggestionsTextButton extends StatefulWidget {
   final String title;
@@ -10,11 +9,11 @@ class SuggestionsTextButton extends StatefulWidget {
   const SuggestionsTextButton({
     required this.title,
     required this.onClick,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
-  _SuggestionsTextButtonState createState() => _SuggestionsTextButtonState();
+  State<SuggestionsTextButton> createState() => _SuggestionsTextButtonState();
 }
 
 class _SuggestionsTextButtonState extends State<SuggestionsTextButton> {
@@ -22,17 +21,15 @@ class _SuggestionsTextButtonState extends State<SuggestionsTextButton> {
 
   @override
   Widget build(BuildContext context) {
-    Color color = theme.primaryTextColor;
-    if (_pressed) {
-      color = theme.actionPressedColor;
-    }
+    final color = _pressed ? theme.actionPressedColor : theme.primaryTextColor;
+
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: widget.onClick,
-      onTapDown: (TapDownDetails tapDetails) {
+      onTapDown: (_) {
         setState(() => _pressed = true);
       },
-      onTapUp: (TapUpDetails tapDetails) {
+      onTapUp: (_) {
         setState(() => _pressed = false);
       },
       onTapCancel: () {

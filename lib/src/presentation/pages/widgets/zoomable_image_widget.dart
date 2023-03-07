@@ -1,8 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-
-import '../../di/injector.dart';
+import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 
 class ZoomableImage extends StatefulWidget {
   final String imageUrl;
@@ -10,11 +9,11 @@ class ZoomableImage extends StatefulWidget {
   final void Function(bool value) changeZoomStatus;
 
   const ZoomableImage({
-    Key? key,
     required this.imageUrl,
     required this.changeScrollPhysics,
     required this.changeZoomStatus,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<ZoomableImage> createState() => _ZoomableImageState();
@@ -28,11 +27,11 @@ class _ZoomableImageState extends State<ZoomableImage>
 
   @override
   void initState() {
+    super.initState();
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 200),
     );
-    super.initState();
   }
 
   @override
@@ -51,30 +50,25 @@ class _ZoomableImageState extends State<ZoomableImage>
           return GestureConfig(
             minScale: 1,
             animationMinScale: 1,
-            maxScale: 3.0,
+            maxScale: 3,
             animationMaxScale: 3.5,
             gestureDetailsIsChanged: (GestureDetails? details) {
-              final bool isZoomed = details!.totalScale! > 1;
+              final isZoomed = details!.totalScale! > 1;
               widget.changeZoomStatus(isZoomed);
             },
           );
         },
         onDoubleTap: (ExtendedImageGestureState state) {
-          final Offset? pointerDownPosition = state.pointerDownPosition;
-          final double begin = state.gestureDetails!.totalScale!;
-          double end;
+          final pointerDownPosition = state.pointerDownPosition;
+          final begin = state.gestureDetails!.totalScale!;
+          final end = begin == 1 ? 2.0 : 1.0;
 
           _animation?.removeListener(_animationListener);
-          _animationController.stop();
-          _animationController.reset();
+          _animationController
+            ..stop()
+            ..reset();
 
-          if (begin == 1) {
-            widget.changeZoomStatus(true);
-            end = 2;
-          } else {
-            widget.changeZoomStatus(false);
-            end = 1;
-          }
+          widget.changeZoomStatus(begin == 1);
           widget.changeScrollPhysics();
 
           _animationListener = () {

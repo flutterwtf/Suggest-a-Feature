@@ -1,12 +1,9 @@
-// ignore_for_file: library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import '../../utils/assets_strings.dart';
-import '../../utils/dimensions.dart';
-import '../theme/suggestions_theme.dart';
-import 'network_image.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/network_image.dart';
+import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
+import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
 class AvatarWidget extends StatefulWidget {
   final String? avatar;
@@ -15,15 +12,15 @@ class AvatarWidget extends StatefulWidget {
   final double iconPadding;
 
   const AvatarWidget({
-    Key? key,
     required this.size,
     this.avatar,
     this.backgroundColor,
     this.iconPadding = Dimensions.marginSmall,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
-  _AvatarWidgetState createState() => _AvatarWidgetState();
+  State<AvatarWidget> createState() => _AvatarWidgetState();
 }
 
 class _AvatarWidgetState extends State<AvatarWidget> {

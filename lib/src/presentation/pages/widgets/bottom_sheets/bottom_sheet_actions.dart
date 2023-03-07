@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-
-import '../../../utils/context_utils.dart';
-import '../../../utils/dimensions.dart';
-import '../../../utils/platform_check.dart';
-import '../../theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
+import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
+import 'package:suggest_a_feature/src/presentation/utils/platform_check.dart';
 
 class BottomSheetActions extends StatelessWidget {
   final VoidCallback? onCancel;
@@ -12,12 +11,12 @@ class BottomSheetActions extends StatelessWidget {
   final bool hasLeftButton;
 
   const BottomSheetActions({
-    Key? key,
     required this.onDone,
     this.onCancel,
     this.isDoneActive = true,
     this.hasLeftButton = true,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -59,13 +58,13 @@ class NewSuggestionTextButton extends StatefulWidget {
   final VoidCallback? onDisabledClick;
 
   const NewSuggestionTextButton({
-    Key? key,
     required this.title,
     required this.onClick,
     this.onDisabledClick,
     this.enabled = true,
     this.isTonal = true,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<NewSuggestionTextButton> createState() =>
@@ -77,12 +76,12 @@ class _NewSuggestionTextButtonState extends State<NewSuggestionTextButton> {
 
   @override
   Widget build(BuildContext context) {
-    Color color = widget.enabled
+    var color = widget.enabled
         ? widget.isTonal
             ? theme.tonalButtonColor
             : Colors.transparent
         : theme.disabledTextButtonColor;
-    Color textColor =
+    var textColor =
         widget.enabled ? theme.enabledTextColor : theme.disabledTextColor;
     if (_pressed) {
       color = widget.isTonal

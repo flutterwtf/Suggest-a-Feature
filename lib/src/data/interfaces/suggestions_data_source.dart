@@ -1,5 +1,5 @@
-import '../../domain/entities/comment.dart';
-import '../../domain/entities/suggestion.dart';
+import 'package:suggest_a_feature/src/domain/entities/comment.dart';
+import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
 
 abstract class SuggestionsDataSource {
   /// The current user id.

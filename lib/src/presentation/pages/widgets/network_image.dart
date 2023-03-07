@@ -1,8 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-
-import '../../di/injector.dart';
-import '../theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/di/injector.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
 
 class SuggestionsNetworkImage extends StatelessWidget {
   final String url;
@@ -11,12 +10,12 @@ class SuggestionsNetworkImage extends StatelessWidget {
   final double maxHeight;
 
   const SuggestionsNetworkImage({
-    Key? key,
     required this.url,
     this.noImageColor,
     this.boxFit = BoxFit.contain,
     this.maxHeight = 480.0,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

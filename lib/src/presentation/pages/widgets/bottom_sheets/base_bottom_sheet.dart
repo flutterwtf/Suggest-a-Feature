@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
-
-import '../../../utils/dimensions.dart';
-import '../../../utils/platform_check.dart';
-import '../../theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
+import 'package:suggest_a_feature/src/presentation/utils/platform_check.dart';
 
 typedef OnDismissCallback = void Function([ClosureType? closureType]);
 
@@ -34,7 +33,6 @@ class BaseBottomSheet extends StatefulWidget {
   final Color previousStatusBarColor;
 
   const BaseBottomSheet({
-    Key? key,
     required this.contentBuilder,
     required this.controller,
     required this.onClose,
@@ -56,7 +54,8 @@ class BaseBottomSheet extends StatefulWidget {
     this.contentPadding = EdgeInsets.zero,
     this.loadingStatus = LoadingStatus.empty,
     this.additionalSnappings = const <double>[],
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<StatefulWidget> createState() => _BaseBottomSheetState();
@@ -108,7 +107,7 @@ class _BaseBottomSheetState extends State<BaseBottomSheet>
             ),
           ).animate(_dimmingController),
           child: SlidingSheet(
-            cornerRadiusOnFullscreen: 0.0,
+            cornerRadiusOnFullscreen: 0,
             closeOnBackButtonPressed: true,
             closeOnBackdropTap: true,
             onDismissPrevented: _onDismissPrevented,
@@ -191,8 +190,7 @@ class _HeaderBuilder extends StatelessWidget {
   const _HeaderBuilder({
     required this.state,
     this.headerBuilder,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -207,7 +205,7 @@ class _HeaderBuilder extends StatelessWidget {
 }
 
 class _Grabbing extends StatelessWidget {
-  const _Grabbing({Key? key}) : super(key: key);
+  const _Grabbing();
 
   @override
   Widget build(BuildContext context) {

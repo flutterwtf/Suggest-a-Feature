@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
-
-import '../suggestion.dart';
+import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
 
 extension LabelExt on SuggestionLabel {
   String get value => describeEnum(this);

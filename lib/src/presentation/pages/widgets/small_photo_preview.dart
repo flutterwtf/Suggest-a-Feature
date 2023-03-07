@@ -1,8 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-
-import '../../di/injector.dart';
-import '../../utils/dimensions.dart';
+import 'package:suggest_a_feature/src/presentation/di/injector.dart';
+import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
 class SmallPhotoPreview extends StatelessWidget {
   final Color backgroundColor;
@@ -11,12 +10,12 @@ class SmallPhotoPreview extends StatelessWidget {
   final String heroTag;
 
   const SmallPhotoPreview({
-    Key? key,
     required this.backgroundColor,
     required this.src,
     this.size = Dimensions.defaultSize,
     this.heroTag = '',
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

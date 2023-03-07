@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import '../../utils/dimensions.dart';
-import '../../utils/platform_check.dart';
-import '../theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
+import 'package:suggest_a_feature/src/presentation/utils/platform_check.dart';
 
 class SuggestionsTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -20,7 +19,6 @@ class SuggestionsTextField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
 
   const SuggestionsTextField({
-    Key? key,
     required this.controller,
     this.hintText = '',
     this.onChanged,
@@ -32,12 +30,15 @@ class SuggestionsTextField extends StatelessWidget {
     this.textAlign = TextAlign.start,
     this.textInputAction,
     this.inputFormatters,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Dimensions.marginDefault),
+      padding: const EdgeInsets.symmetric(
+        horizontal: Dimensions.marginDefault,
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -47,8 +48,9 @@ class SuggestionsTextField extends StatelessWidget {
                 border:
                     isShowError ? Border.all(color: theme.errorColor) : null,
                 color: theme.primaryBackgroundColor,
-                borderRadius:
-                    BorderRadius.circular(Dimensions.smallCircularRadius),
+                borderRadius: BorderRadius.circular(
+                  Dimensions.smallCircularRadius,
+                ),
               ),
               child: SuggestionsPlatform.isIOS
                   ? _iosTextField()
@@ -75,8 +77,9 @@ class SuggestionsTextField extends StatelessWidget {
       decoration: InputDecoration(
         isDense: true,
         hintText: hintText,
-        hintStyle: theme.textSmallPlus
-            .copyWith(color: theme.primaryTextColor.withOpacity(0.7)),
+        hintStyle: theme.textSmallPlus.copyWith(
+          color: theme.primaryTextColor.withOpacity(0.7),
+        ),
         fillColor: Colors.transparent,
         contentPadding: padding,
         border: InputBorder.none,
@@ -91,7 +94,7 @@ class SuggestionsTextField extends StatelessWidget {
             : null,
       ),
       textCapitalization: TextCapitalization.sentences,
-      onChanged: (String text) => onChanged?.call(text),
+      onChanged: onChanged?.call,
       inputFormatters: inputFormatters,
     );
   }
@@ -125,7 +128,7 @@ class SuggestionsTextField extends StatelessWidget {
       ),
       padding: padding,
       textCapitalization: TextCapitalization.sentences,
-      onChanged: (String text) => onChanged?.call(text),
+      onChanged: onChanged?.call,
     );
   }
 }
