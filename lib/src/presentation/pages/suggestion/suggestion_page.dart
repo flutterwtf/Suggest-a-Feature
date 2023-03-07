@@ -16,10 +16,10 @@ import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/c
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/create_comment_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/edit_delete_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/notification_bottom_sheet.dart';
-import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_elevated_button.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/icon_button.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/network_image.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/photo_view.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_elevated_button.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_labels.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/votes_counter.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';

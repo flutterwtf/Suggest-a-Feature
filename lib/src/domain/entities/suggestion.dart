@@ -47,11 +47,11 @@ class Suggestion extends Equatable {
   const Suggestion({
     required this.id,
     required this.title,
-    this.description,
     required this.authorId,
     required this.isAnonymous,
     required this.creationTime,
     required this.status,
+    this.description,
     this.labels = const <SuggestionLabel>[],
     this.images = const <String>[],
     this.comments = const <Comment>[],
@@ -176,11 +176,11 @@ class CreateSuggestionModel {
 
   CreateSuggestionModel({
     required this.title,
-    this.description,
     required this.labels,
-    this.images = const <String>[],
     required this.authorId,
     required this.isAnonymous,
+    this.description,
+    this.images = const <String>[],
     this.status = SuggestionStatus.requests,
   });
 

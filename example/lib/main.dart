@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
-
-// ignore: prefer_relative_imports
 import 'package:suggest_a_feature/suggest_a_feature.dart';
 
 void main() => runApp(const MyApp());

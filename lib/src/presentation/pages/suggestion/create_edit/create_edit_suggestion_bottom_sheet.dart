@@ -13,10 +13,10 @@ import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/b
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/label_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/status_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/clickable_list_item.dart';
-import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_elevated_button.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/network_image.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/photo_view.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/small_photo_preview.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_elevated_button.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_labels.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_switch.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_text_field.dart';
