@@ -4,9 +4,9 @@ import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/clickable_list_item.dart';
-import 'package:suggest_a_feature/src/presentation/pages/widgets/elevated_button.dart';
-import 'package:suggest_a_feature/src/presentation/pages/widgets/switch.dart';
-import 'package:suggest_a_feature/src/presentation/pages/widgets/text_field.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_elevated_button.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_switch.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_text_field.dart';
 import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 

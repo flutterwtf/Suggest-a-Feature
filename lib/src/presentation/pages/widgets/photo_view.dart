@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/icon_button.dart';
-import 'package:suggest_a_feature/src/presentation/pages/widgets/zoomable_image_widget.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/zoomable_image.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 

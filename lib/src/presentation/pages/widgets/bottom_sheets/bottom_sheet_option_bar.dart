@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
-import 'package:suggest_a_feature/src/presentation/pages/widgets/text_button.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_text_button.dart';
 import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 
 class BottomSheetOptionBar extends StatelessWidget {
