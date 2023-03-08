@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import './context_utils.dart';
-import '../../../suggest_a_feature.dart';
+import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
+import 'package:suggest_a_feature/suggest_a_feature.dart';
 
 extension SuggestionLabelExtension on SuggestionLabel {
   Color labelColor() {

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
-
-import '../../../../domain/entities/suggestion.dart';
-import '../../../utils/context_utils.dart';
-import '../../../utils/dimensions.dart';
-import '../../../utils/status_utils.dart';
-import '../../theme/suggestions_theme.dart';
-import 'base_bottom_sheet.dart';
-import 'bottom_sheet_actions.dart';
+import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/bottom_sheet_actions.dart';
+import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
+import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
+import 'package:suggest_a_feature/src/presentation/utils/status_utils.dart';
 
 class StatusBottomSheet extends StatefulWidget {
   final VoidCallback onCancel;
@@ -16,15 +15,15 @@ class StatusBottomSheet extends StatefulWidget {
   final SuggestionStatus selectedStatus;
 
   const StatusBottomSheet({
-    Key? key,
     required this.onCancel,
     required this.onDone,
     required this.controller,
     required this.selectedStatus,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
-  _StatusBottomSheetState createState() => _StatusBottomSheetState();
+  State<StatusBottomSheet> createState() => _StatusBottomSheetState();
 }
 
 class _StatusBottomSheetState extends State<StatusBottomSheet> {
@@ -32,8 +31,8 @@ class _StatusBottomSheetState extends State<StatusBottomSheet> {
 
   @override
   void initState() {
-    selectedStatus = widget.selectedStatus;
     super.initState();
+    selectedStatus = widget.selectedStatus;
   }
 
   @override
@@ -102,8 +101,7 @@ class _StatusesList extends StatelessWidget {
   const _StatusesList({
     required this.onStatusTap,
     required this.selectedStatus,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -158,8 +156,7 @@ class _StatusItem extends StatelessWidget {
     required this.status,
     required this.selectedStatus,
     required this.onTap,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -3,30 +3,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
+import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
+import 'package:suggest_a_feature/src/presentation/di/injector.dart';
+import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_cubit.dart';
+import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_state.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/add_event_photo_button.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/label_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/status_bottom_sheet.dart';
-
-import '../../../../domain/entities/suggestion.dart';
-import '../../../di/injector.dart';
-import '../../../utils/assets_strings.dart';
-import '../../../utils/constants/numeric_constants.dart';
-import '../../../utils/context_utils.dart';
-import '../../../utils/dimensions.dart';
-import '../../../utils/image_utils.dart';
-import '../../../utils/typedefs.dart';
-import '../../theme/suggestions_theme.dart';
-import '../../widgets/add_event_photo_button.dart';
-import '../../widgets/bottom_sheets/base_bottom_sheet.dart';
-import '../../widgets/bottom_sheets/label_bottom_sheet.dart';
-import '../../widgets/clickable_list_item.dart';
-import '../../widgets/elevated_button.dart';
-import '../../widgets/network_image.dart';
-import '../../widgets/photo_view.dart';
-import '../../widgets/small_photo_preview.dart';
-import '../../widgets/suggestions_labels.dart';
-import '../../widgets/switch.dart';
-import '../../widgets/text_field.dart';
-import 'create_edit_suggestion_cubit.dart';
-import 'create_edit_suggestion_state.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/clickable_list_item.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/network_image.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/photo_view.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/small_photo_preview.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_elevated_button.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_labels.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_switch.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_text_field.dart';
+import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
+import 'package:suggest_a_feature/src/presentation/utils/constants/numeric_constants.dart';
+import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
+import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
+import 'package:suggest_a_feature/src/presentation/utils/image_utils.dart';
+import 'package:suggest_a_feature/src/presentation/utils/typedefs.dart';
 
 class CreateEditSuggestionBottomSheet extends StatefulWidget {
   final Suggestion? suggestion;
@@ -36,13 +35,13 @@ class CreateEditSuggestionBottomSheet extends StatefulWidget {
   final OnSaveToGalleryCallback? onSaveToGallery;
 
   const CreateEditSuggestionBottomSheet({
-    Key? key,
     required this.onClose,
     required this.controller,
     required this.onUploadMultiplePhotos,
     required this.onSaveToGallery,
     this.suggestion,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   CreateEditSuggestionBottomSheetState createState() =>
@@ -62,11 +61,11 @@ class CreateEditSuggestionBottomSheetState
 
   @override
   void initState() {
+    super.initState();
     _cubit.init(widget.suggestion);
     _titleController = TextEditingController(text: widget.suggestion?.title);
     _descriptionController =
         TextEditingController(text: widget.suggestion?.description);
-    super.initState();
     _titleFocusNode = FocusNode();
     _descriptionFocusNode = FocusNode();
   }
@@ -75,8 +74,8 @@ class CreateEditSuggestionBottomSheetState
   void dispose() {
     _titleController.dispose();
     _descriptionController.dispose();
-    super.dispose();
     _titleFocusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -302,8 +301,7 @@ class _LabelItems extends StatelessWidget {
   const _LabelItems({
     required this.labels,
     required this.changeLabelsBottomSheetStatus,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -336,8 +334,7 @@ class _SuggestionStatus extends StatelessWidget {
   const _SuggestionStatus({
     required this.suggestionStatus,
     required this.changeStatusBottomSheetStatus,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -387,16 +384,16 @@ class _SaveSubmitButton extends StatelessWidget {
     required this.isEditing,
     required this.isLoading,
     required this.saveSuggestion,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Padding(
-        padding:
-            const EdgeInsets.symmetric(horizontal: Dimensions.marginDefault),
+        padding: const EdgeInsets.symmetric(
+          horizontal: Dimensions.marginDefault,
+        ),
         child: SuggestionsElevatedButton(
           onClick: saveSuggestion,
           isLoading: isLoading,
@@ -416,8 +413,7 @@ class _PostAnonymously extends StatelessWidget {
   const _PostAnonymously({
     required this.isAnonymously,
     required this.changeSuggestionAnonymity,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -442,12 +438,11 @@ class _PhotoPickerItem extends StatelessWidget {
   _PhotoPickerItem({
     required this.state,
     required this.onUploadMultiplePhotos,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    final double tileWidth = state.suggestion.images.length == 1
+    final tileWidth = state.suggestion.images.length == 1
         ? (MediaQuery.of(context).size.width - Dimensions.margin3x) / 2
         : (MediaQuery.of(context).size.width - Dimensions.margin4x) / 3;
     return state.suggestion.images.isNotEmpty
@@ -464,9 +459,8 @@ class _PhotoPickerItem extends StatelessWidget {
                   if (i == 0) {
                     return GestureDetector(
                       onTap: () {
-                        final int availableNumOfPhotos =
-                            maxPhotosForOneSuggestion -
-                                state.suggestion.images.length;
+                        final availableNumOfPhotos = maxPhotosForOneSuggestion -
+                            state.suggestion.images.length;
                         availableNumOfPhotos > 0
                             ? _cubit.addUploadedPhotos(
                                 onUploadMultiplePhotos!(
@@ -522,7 +516,7 @@ class _PhotoPickerItem extends StatelessWidget {
             ),
             trailing: state.isLoading
                 ? CircularProgressIndicator(
-                    strokeWidth: 1.0,
+                    strokeWidth: 1,
                     valueColor:
                         AlwaysStoppedAnimation<Color>(theme.primaryIconColor),
                   )

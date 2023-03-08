@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 final Paint _hidingGradientPaint = Paint();
 final Paint _hidingSolidPaint = Paint();
-const double _hidingGradientHeight = 56.0;
+const double _hidingGradientHeight = 56;
 
 void renderHidings({
   required Canvas canvas,
@@ -12,37 +12,38 @@ void renderHidings({
   required double contentMarginBottom,
   required Color backgroundColor,
 }) {
-  final LinearGradient topGradient = LinearGradient(
+  final topGradient = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
-    colors: <Color>[backgroundColor, backgroundColor.withOpacity(0.0)],
+    colors: <Color>[backgroundColor, backgroundColor.withOpacity(0)],
   );
-  final LinearGradient bottomGradient = LinearGradient(
+  final bottomGradient = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
-    colors: <Color>[backgroundColor.withOpacity(0.0), backgroundColor],
+    colors: <Color>[backgroundColor.withOpacity(0), backgroundColor],
   );
-  final Rect topRectGradient =
+  final topRectGradient =
       Rect.fromLTWH(0, contentMarginTop - 2, size.width, _hidingGradientHeight);
-  final Rect bottomRectGradient = Rect.fromLTWH(
+  final bottomRectGradient = Rect.fromLTWH(
     0,
     size.height - _hidingGradientHeight - contentMarginBottom,
     size.width,
     _hidingGradientHeight + 2,
   );
 
-  canvas.drawRect(
-    topRectGradient,
-    _hidingGradientPaint..shader = topGradient.createShader(topRectGradient),
-  );
-  canvas.drawRect(
-    bottomRectGradient,
-    _hidingGradientPaint
-      ..shader = bottomGradient.createShader(bottomRectGradient),
-  );
+  canvas
+    ..drawRect(
+      topRectGradient,
+      _hidingGradientPaint..shader = topGradient.createShader(topRectGradient),
+    )
+    ..drawRect(
+      bottomRectGradient,
+      _hidingGradientPaint
+        ..shader = bottomGradient.createShader(bottomRectGradient),
+    );
 
-  final Rect topRectSolid = Rect.fromLTWH(0, 0, size.width, contentMarginTop);
-  final Rect bottomRectSolid = Rect.fromLTWH(
+  final topRectSolid = Rect.fromLTWH(0, 0, size.width, contentMarginTop);
+  final bottomRectSolid = Rect.fromLTWH(
     0,
     size.height - contentMarginBottom,
     size.width,
@@ -51,6 +52,7 @@ void renderHidings({
 
   _hidingSolidPaint.color = backgroundColor;
 
-  canvas.drawRect(topRectSolid, _hidingSolidPaint);
-  canvas.drawRect(bottomRectSolid, _hidingSolidPaint);
+  canvas
+    ..drawRect(topRectSolid, _hidingSolidPaint)
+    ..drawRect(bottomRectSolid, _hidingSolidPaint);
 }

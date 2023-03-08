@@ -6,14 +6,8 @@ analyzer:
     strict-raw-types: true
   errors:
     unawaited_futures: ignore
-    parameter_assignments: ignore
-    cascade_invocations: ignore
-    always_use_package_imports: ignore
     sort_constructors_first: ignore
-    library_private_types_in_public_api: ignore
     public_member_api_docs: ignore
-    prefer_int_literals: ignore
-    omit_local_variable_types: ignore
   exclude:
     - '**/*.mocks.dart' # Mockito @GenerateMocks
     - 'lib/src/l10n/*.dart'

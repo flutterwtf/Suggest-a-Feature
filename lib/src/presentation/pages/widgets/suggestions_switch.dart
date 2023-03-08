@@ -1,16 +1,15 @@
 import 'package:flutter/cupertino.dart';
-
-import '../theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
 
 class SuggestionsSwitch extends StatelessWidget {
   final bool value;
   final ValueChanged<bool> onChanged;
 
   const SuggestionsSwitch({
-    Key? key,
     required this.value,
     required this.onChanged,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

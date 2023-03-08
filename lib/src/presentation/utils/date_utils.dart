@@ -1,6 +1,5 @@
 import 'package:intl/intl.dart';
-
-import './string_utils.dart';
+import 'package:suggest_a_feature/src/presentation/utils/string_utils.dart';
 
 DateTime fromDateTime(String string) {
   return DateFormat('yyyy-MM-ddTHH:mm:ss').parse(string, true).toLocal();

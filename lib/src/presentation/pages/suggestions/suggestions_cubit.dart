@@ -1,11 +1,10 @@
 import 'dart:async';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../domain/entities/suggestion.dart';
-import '../../../domain/interactors/suggestion_interactor.dart';
-import '../../di/injector.dart' as injector;
-import 'suggestions_state.dart';
+import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
+import 'package:suggest_a_feature/src/domain/interactors/suggestion_interactor.dart';
+import 'package:suggest_a_feature/src/presentation/di/injector.dart'
+    as injector;
+import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_state.dart';
 
 class SuggestionsCubit extends Cubit<SuggestionsState> {
   final SuggestionInteractor _suggestionInteractor;
@@ -23,8 +22,9 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
 
   void init() {
     _suggestionSubscription?.cancel();
-    _suggestionSubscription =
-        _suggestionInteractor.suggestionsStream.listen(_onNewSuggestions);
+    _suggestionSubscription = _suggestionInteractor.suggestionsStream.listen(
+      _onNewSuggestions,
+    );
     _suggestionInteractor.initSuggestions();
   }
 
@@ -55,16 +55,15 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
   void vote(SuggestionStatus status, int i) {
     switch (status) {
       case SuggestionStatus.requests:
-        final List<Suggestion> newList = _changeListElement(state.requests, i);
+        final newList = _changeListElement(state.requests, i);
         emit(state.newState(requests: newList));
         break;
       case SuggestionStatus.inProgress:
-        final List<Suggestion> newList =
-            _changeListElement(state.inProgress, i);
+        final newList = _changeListElement(state.inProgress, i);
         emit(state.newState(inProgress: newList));
         break;
       case SuggestionStatus.completed:
-        final List<Suggestion> newList = _changeListElement(state.completed, i);
+        final newList = _changeListElement(state.completed, i);
         emit(state.newState(completed: newList));
         break;
       case SuggestionStatus.unknown:
@@ -75,9 +74,9 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
   }
 
   List<Suggestion> _changeListElement(List<Suggestion> suggestionsList, int i) {
-    final List<Suggestion> newList = <Suggestion>[...suggestionsList];
-    final bool isVoted = newList[i].votedUserIds.contains(injector.i.userId);
-    final Set<String> newVotedUserIds = <String>{...newList[i].votedUserIds};
+    final newList = <Suggestion>[...suggestionsList];
+    final isVoted = newList[i].votedUserIds.contains(injector.i.userId);
+    final newVotedUserIds = <String>{...newList[i].votedUserIds};
 
     !isVoted
         ? _suggestionInteractor.upvote(newList[i].id)

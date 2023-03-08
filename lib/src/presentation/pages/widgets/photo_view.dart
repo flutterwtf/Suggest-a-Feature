@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import '../../utils/assets_strings.dart';
-import '../../utils/dimensions.dart';
-import 'icon_button.dart';
-import 'zoomable_image_widget.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/icon_button.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/zoomable_image.dart';
+import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
+import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
 class PhotoView extends StatefulWidget {
   final List<String> photos;
@@ -14,16 +13,16 @@ class PhotoView extends StatefulWidget {
   final Color previousNavBarColor;
 
   const PhotoView({
-    Key? key,
     required this.photos,
     required this.onDownloadClick,
     required this.previousNavBarColor,
     this.onDeleteClick,
     this.initialIndex = 0,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
-  _PhotoViewState createState() => _PhotoViewState();
+  State<PhotoView> createState() => _PhotoViewState();
 }
 
 class _PhotoViewState extends State<PhotoView> {
@@ -35,9 +34,9 @@ class _PhotoViewState extends State<PhotoView> {
 
   @override
   void initState() {
+    super.initState();
     _galleryPageController = PageController(initialPage: widget.initialIndex);
     _currentIndex = widget.initialIndex;
-    super.initState();
   }
 
   @override
@@ -153,13 +152,11 @@ class _PhotoViewState extends State<PhotoView> {
 }
 
 class _CustomPageViewScrollPhysics extends ScrollPhysics {
-  const _CustomPageViewScrollPhysics({ScrollPhysics? parent})
-      : super(parent: parent);
+  const _CustomPageViewScrollPhysics({super.parent});
 
   @override
-  _CustomPageViewScrollPhysics applyTo(ScrollPhysics? ancestor) {
-    return _CustomPageViewScrollPhysics(parent: buildParent(ancestor));
-  }
+  _CustomPageViewScrollPhysics applyTo(ScrollPhysics? ancestor) =>
+      _CustomPageViewScrollPhysics(parent: buildParent(ancestor));
 
   @override
   SpringDescription get spring => const SpringDescription(

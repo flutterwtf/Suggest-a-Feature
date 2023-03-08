@@ -2,34 +2,33 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
-
-import '../../../domain/entities/comment.dart';
-import '../../../domain/entities/suggestion.dart';
-import '../../../domain/entities/suggestion_author.dart';
-import '../../di/injector.dart';
-import '../../utils/assets_strings.dart';
-import '../../utils/context_utils.dart';
-import '../../utils/date_utils.dart';
-import '../../utils/dimensions.dart';
-import '../../utils/image_utils.dart';
-import '../../utils/platform_check.dart';
-import '../../utils/typedefs.dart';
-import '../theme/suggestions_theme.dart';
-import '../widgets/appbar_widget.dart';
-import '../widgets/avatar_widget.dart';
-import '../widgets/bottom_sheets/confirmation_bottom_sheet.dart';
-import '../widgets/bottom_sheets/create_comment_bottom_sheet.dart';
-import '../widgets/bottom_sheets/edit_delete_bottom_sheet.dart';
-import '../widgets/bottom_sheets/notification_bottom_sheet.dart';
-import '../widgets/elevated_button.dart';
-import '../widgets/icon_button.dart';
-import '../widgets/network_image.dart';
-import '../widgets/photo_view.dart';
-import '../widgets/suggestions_labels.dart';
-import '../widgets/votes_counter.dart';
-import 'create_edit/create_edit_suggestion_bottom_sheet.dart';
-import 'suggestion_cubit.dart';
-import 'suggestion_state.dart';
+import 'package:suggest_a_feature/src/domain/entities/comment.dart';
+import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
+import 'package:suggest_a_feature/src/domain/entities/suggestion_author.dart';
+import 'package:suggest_a_feature/src/presentation/di/injector.dart';
+import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_bottom_sheet.dart';
+import 'package:suggest_a_feature/src/presentation/pages/suggestion/suggestion_cubit.dart';
+import 'package:suggest_a_feature/src/presentation/pages/suggestion/suggestion_state.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/appbar_widget.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/avatar_widget.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/confirmation_bottom_sheet.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/create_comment_bottom_sheet.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/edit_delete_bottom_sheet.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/notification_bottom_sheet.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/icon_button.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/network_image.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/photo_view.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_elevated_button.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_labels.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/votes_counter.dart';
+import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
+import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
+import 'package:suggest_a_feature/src/presentation/utils/date_utils.dart';
+import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
+import 'package:suggest_a_feature/src/presentation/utils/image_utils.dart';
+import 'package:suggest_a_feature/src/presentation/utils/platform_check.dart';
+import 'package:suggest_a_feature/src/presentation/utils/typedefs.dart';
 
 class SuggestionPage extends StatefulWidget {
   final Suggestion suggestion;
@@ -38,16 +37,15 @@ class SuggestionPage extends StatefulWidget {
   final OnGetUserById onGetUserById;
 
   const SuggestionPage({
-    Key? key,
     required this.suggestion,
     required this.onUploadMultiplePhotos,
     required this.onSaveToGallery,
     required this.onGetUserById,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
-  // ignore: library_private_types_in_public_api
-  _SuggestionPageState createState() => _SuggestionPageState();
+  State<SuggestionPage> createState() => _SuggestionPageState();
 }
 
 class _SuggestionPageState extends State<SuggestionPage> {
@@ -55,12 +53,12 @@ class _SuggestionPageState extends State<SuggestionPage> {
 
   @override
   void initState() {
+    super.initState();
     _cubit.init(
       suggestion: widget.suggestion,
       getUserById: widget.onGetUserById,
       isAdmin: i.adminSettings != null,
     );
-    super.initState();
   }
 
   @override
@@ -199,7 +197,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
   }
 
   Widget _openCreateCommentBottomSheet() {
-    final SheetController sheetController = SheetController();
+    final sheetController = SheetController();
     return CreateCommentBottomSheet(
       controller: sheetController,
       onClose: ([_]) async {
@@ -218,7 +216,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
   }
 
   Widget _openNotificationBottomSheet(bool isNotificationOn) {
-    final SheetController sheetController = SheetController();
+    final sheetController = SheetController();
     return NotificationSuggestionBottomSheet(
       controller: sheetController,
       isNotificationOn: isNotificationOn,
@@ -232,7 +230,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
   }
 
   Widget _openEditDeleteBottomSheet(Suggestion suggestion) {
-    final SheetController sheetController = SheetController();
+    final sheetController = SheetController();
     return EditDeleteSuggestionBottomSheet(
       creationDate: suggestion.creationTime,
       controller: sheetController,
@@ -244,7 +242,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
   }
 
   Widget _openCreateEditBottomSheet(Suggestion suggestion) {
-    final SheetController sheetController = SheetController();
+    final sheetController = SheetController();
     return CreateEditSuggestionBottomSheet(
       onClose: ([_]) async {
         await sheetController.collapse();
@@ -258,13 +256,14 @@ class _SuggestionPageState extends State<SuggestionPage> {
   }
 
   Widget _openConfirmationBottomSheet(String confirmationQuestion) {
-    final SheetController sheetController = SheetController();
+    final sheetController = SheetController();
     return ConfirmationBottomSheet(
       controller: sheetController,
       question: confirmationQuestion,
       onConfirm: () {
-        _cubit.closeBottomSheet();
-        _cubit.deleteSuggestion();
+        _cubit
+          ..closeBottomSheet()
+          ..deleteSuggestion();
       },
       onCancel: ([_]) => sheetController.collapse()?.then(
             (_) => _cubit.closeBottomSheet(),
@@ -464,7 +463,10 @@ class _SuggestionPageState extends State<SuggestionPage> {
                 .copyWith(color: theme.secondaryTextColor),
           ),
         ),
-        Wrap(runSpacing: 2, children: comments.map(_commentCard).toList()),
+        Wrap(
+          runSpacing: 2,
+          children: comments.map(_commentCard).toList(),
+        ),
       ],
     );
   }

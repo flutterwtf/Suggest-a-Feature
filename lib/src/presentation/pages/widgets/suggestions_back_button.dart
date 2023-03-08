@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import '../../utils/assets_strings.dart';
-import '../../utils/dimensions.dart';
+import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
+import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
 class SuggestionsBackButton extends StatefulWidget {
   final VoidCallback onClick;
@@ -13,29 +12,29 @@ class SuggestionsBackButton extends StatefulWidget {
     required this.onClick,
     required this.color,
     required this.pressedColor,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
-  _SuggestionsBackButtonState createState() => _SuggestionsBackButtonState();
+  State<SuggestionsBackButton> createState() => _SuggestionsBackButtonState();
 }
 
 class _SuggestionsBackButtonState extends State<SuggestionsBackButton> {
-  bool pressed = false;
+  bool _pressed = false;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTap: () => widget.onClick(),
-      onTapDown: (TapDownDetails tapDetails) {
-        setState(() => pressed = true);
+      onTap: widget.onClick,
+      onTapDown: (_) {
+        setState(() => _pressed = true);
       },
-      onTapUp: (TapUpDetails tapDetails) {
-        setState(() => pressed = false);
+      onTapUp: (_) {
+        setState(() => _pressed = false);
       },
       onTapCancel: () {
-        setState(() => pressed = false);
+        setState(() => _pressed = false);
       },
       child: Padding(
         padding: const EdgeInsets.all(Dimensions.marginMicro),
@@ -45,7 +44,7 @@ class _SuggestionsBackButtonState extends State<SuggestionsBackButton> {
           height: Dimensions.defaultSize,
           width: Dimensions.defaultSize,
           colorFilter: ColorFilter.mode(
-            pressed ? widget.pressedColor : widget.color,
+            _pressed ? widget.pressedColor : widget.color,
             BlendMode.srcIn,
           ),
         ),

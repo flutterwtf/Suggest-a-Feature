@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../../utils/dimensions.dart';
-import '../theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
 class ClickableListItem extends StatefulWidget {
   final Widget? leading;
@@ -18,15 +17,15 @@ class ClickableListItem extends StatefulWidget {
     this.trailing,
     this.horizontalPadding = Dimensions.marginDefault,
     this.verticalPadding = Dimensions.marginSmall,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
-  _ClickableListItemState createState() => _ClickableListItemState();
+  State<ClickableListItem> createState() => _ClickableListItemState();
 }
 
 class _ClickableListItemState extends State<ClickableListItem> {
-  bool pressed = false;
+  bool _pressed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -34,16 +33,16 @@ class _ClickableListItemState extends State<ClickableListItem> {
       behavior: HitTestBehavior.translucent,
       onTap: widget.onClick,
       onPanDown: (DragDownDetails tapDetails) {
-        setState(() => pressed = true);
+        setState(() => _pressed = true);
       },
       onPanCancel: () {
-        setState(() => pressed = false);
+        setState(() => _pressed = false);
       },
       onPanUpdate: (DragUpdateDetails details) {
-        setState(() => pressed = false);
+        setState(() => _pressed = false);
       },
       child: ColoredBox(
-        color: pressed ? theme.actionBackgroundColor : Colors.transparent,
+        color: _pressed ? theme.actionBackgroundColor : Colors.transparent,
         child: Padding(
           padding: EdgeInsets.symmetric(
             horizontal: widget.horizontalPadding,

@@ -14,13 +14,11 @@ void main() {
   group(
     'suggestion cubit',
     () {
-      final MockSuggestionInteractor mockSuggestionInteractor =
-          MockSuggestionInteractor();
-      final MockSuggestionsTheme mockSuggestionsTheme = MockSuggestionsTheme();
-      final MockSuggestionsDataSource mockSuggestionsDataSource =
-          MockSuggestionsDataSource();
+      final mockSuggestionInteractor = MockSuggestionInteractor();
+      final mockSuggestionsTheme = MockSuggestionsTheme();
+      final mockSuggestionsDataSource = MockSuggestionsDataSource();
 
-      final SuggestionState emptySuggestionState = SuggestionState(
+      final emptySuggestionState = SuggestionState(
         isPopped: false,
         isEditable: false,
         author: const SuggestionAuthor.empty(),
@@ -29,7 +27,7 @@ void main() {
         suggestion: mockedSuggestion,
       );
 
-      final Suggestion commentedSuggestion =
+      final commentedSuggestion =
           mockedSuggestion.copyWith(comments: <Comment>[mockedComment]);
 
       setUp(() {

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import '../../utils/assets_strings.dart';
-import '../../utils/dimensions.dart';
-import '../theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
+import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
 class SuggestionsIconButton extends StatefulWidget {
   final String imageIcon;
@@ -18,29 +17,29 @@ class SuggestionsIconButton extends StatefulWidget {
     this.color,
     this.size = Dimensions.defaultSize,
     this.padding = const EdgeInsets.all(Dimensions.marginMicro),
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
-  _SuggestionsIconButtonState createState() => _SuggestionsIconButtonState();
+  State<SuggestionsIconButton> createState() => _SuggestionsIconButtonState();
 }
 
 class _SuggestionsIconButtonState extends State<SuggestionsIconButton> {
-  bool pressed = false;
+  bool _pressed = false;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () => widget.onClick(),
-      onTapDown: (TapDownDetails tapDetails) {
-        setState(() => pressed = true);
+      onTapDown: (_) {
+        setState(() => _pressed = true);
       },
-      onTapUp: (TapUpDetails tapDetails) {
-        setState(() => pressed = false);
+      onTapUp: (_) {
+        setState(() => _pressed = false);
       },
       onTapCancel: () {
-        setState(() => pressed = false);
+        setState(() => _pressed = false);
       },
       child: Padding(
         padding: widget.padding,
@@ -50,7 +49,7 @@ class _SuggestionsIconButtonState extends State<SuggestionsIconButton> {
           width: widget.size,
           height: widget.size,
           colorFilter: ColorFilter.mode(
-            pressed
+            _pressed
                 ? theme.actionPressedColor
                 : widget.color ?? theme.primaryIconColor,
             BlendMode.srcIn,

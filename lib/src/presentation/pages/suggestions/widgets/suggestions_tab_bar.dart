@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
-import '../../../../../suggest_a_feature.dart';
-import '../../../utils/assets_strings.dart';
-import '../../../utils/context_utils.dart';
-import '../../../utils/dimensions.dart';
-import '../suggestions_state.dart';
+import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_state.dart';
+import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
+import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
+import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
+import 'package:suggest_a_feature/suggest_a_feature.dart';
 
 class SuggestionsTabBar extends StatelessWidget {
   final TabController tabController;
   final SuggestionsState state;
 
   const SuggestionsTabBar({
-    Key? key,
     required this.tabController,
     required this.state,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    const double tabHeight = 60.0;
+    const tabHeight = 60.0;
     return TabBar(
       indicator: BoxDecoration(
         color: theme.primaryBackgroundColor,
@@ -78,8 +77,8 @@ class _TabButton extends StatelessWidget {
 
   /// We need different heights because of svg files differences
   /// (inactive icons have smaller margins);
-  static const double activeIconHeight = 38.0;
-  static const double inactiveIconHeight = 22.0;
+  static const double activeIconHeight = 38;
+  static const double inactiveIconHeight = 22;
   static const double textHeight = 1.17;
 
   const _TabButton({
@@ -89,12 +88,11 @@ class _TabButton extends StatelessWidget {
     required this.state,
     required this.text,
     required this.inactiveImage,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    final bool isActive = state.activeTab == status;
+    final isActive = state.activeTab == status;
     return Column(
       children: <Widget>[
         Stack(

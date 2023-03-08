@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
-import '../../utils/dimensions.dart';
-import '../theme/suggestions_theme.dart';
-import 'back_button.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_back_button.dart';
+import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
 class SuggestionsAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback onBackClick;
@@ -16,8 +15,8 @@ class SuggestionsAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.onBackClick,
     required this.screenTitle,
     this.trailing,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

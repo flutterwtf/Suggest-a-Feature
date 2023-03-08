@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
-import '../../../utils/context_utils.dart';
-import '../../theme/suggestions_theme.dart';
-import '../text_button.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_text_button.dart';
+import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 
 class BottomSheetOptionBar extends StatelessWidget {
   final String title;
@@ -13,8 +12,8 @@ class BottomSheetOptionBar extends StatelessWidget {
     required this.title,
     required this.onCancel,
     required this.onDone,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

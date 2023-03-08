@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
-
-import '../../../../domain/entities/suggestion.dart';
-import '../../../utils/context_utils.dart';
-import '../../../utils/dimensions.dart';
-import '../../theme/suggestions_theme.dart';
-import '../suggestions_labels.dart';
-import 'base_bottom_sheet.dart';
-import 'bottom_sheet_actions.dart';
+import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/bottom_sheet_actions.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_labels.dart';
+import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
+import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
 class LabelBottomSheet extends StatefulWidget {
   final VoidCallback onCancel;
@@ -16,15 +15,15 @@ class LabelBottomSheet extends StatefulWidget {
   final List<SuggestionLabel> selectedLabels;
 
   const LabelBottomSheet({
-    Key? key,
     required this.onCancel,
     required this.onDone,
     required this.controller,
     required this.selectedLabels,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
-  _LabelBottomSheetState createState() => _LabelBottomSheetState();
+  State<LabelBottomSheet> createState() => _LabelBottomSheetState();
 }
 
 class _LabelBottomSheetState extends State<LabelBottomSheet> {
@@ -32,8 +31,8 @@ class _LabelBottomSheetState extends State<LabelBottomSheet> {
 
   @override
   void initState() {
-    selectedLabels.addAll(widget.selectedLabels);
     super.initState();
+    selectedLabels.addAll(widget.selectedLabels);
   }
 
   @override
@@ -102,8 +101,7 @@ class _LabelsRow extends StatelessWidget {
   const _LabelsRow({
     required this.onTap,
     required this.selectedLabels,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -140,8 +138,7 @@ class _LabelItem extends StatelessWidget {
     required this.label,
     required this.onTap,
     required this.selectedLabels,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

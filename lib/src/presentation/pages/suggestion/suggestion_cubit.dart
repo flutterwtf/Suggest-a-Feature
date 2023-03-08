@@ -1,16 +1,14 @@
 import 'dart:async';
 import 'dart:developer';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../domain/entities/comment.dart';
-import '../../../domain/entities/suggestion.dart';
-import '../../../domain/entities/suggestion_author.dart';
-import '../../../domain/interactors/suggestion_interactor.dart';
-import '../../di/injector.dart';
-import '../../utils/image_utils.dart';
-import '../../utils/typedefs.dart';
-import 'suggestion_state.dart';
+import 'package:suggest_a_feature/src/domain/entities/comment.dart';
+import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
+import 'package:suggest_a_feature/src/domain/entities/suggestion_author.dart';
+import 'package:suggest_a_feature/src/domain/interactors/suggestion_interactor.dart';
+import 'package:suggest_a_feature/src/presentation/di/injector.dart';
+import 'package:suggest_a_feature/src/presentation/pages/suggestion/suggestion_state.dart';
+import 'package:suggest_a_feature/src/presentation/utils/image_utils.dart';
+import 'package:suggest_a_feature/src/presentation/utils/typedefs.dart';
 
 class SuggestionCubit extends Cubit<SuggestionState> {
   final SuggestionInteractor _suggestionInteractor;
@@ -28,11 +26,11 @@ class SuggestionCubit extends Cubit<SuggestionState> {
           ),
         );
 
-  Future<void> init({
+  void init({
     required Suggestion suggestion,
     required OnGetUserById getUserById,
     required bool isAdmin,
-  }) async {
+  }) {
     emit(
       state.newState(
         suggestion: suggestion,
@@ -55,7 +53,7 @@ class SuggestionCubit extends Cubit<SuggestionState> {
     String userId,
   ) async {
     if (!_suggestionInteractor.userInfo.containsKey(userId)) {
-      final SuggestionAuthor? author = await getUserById(userId);
+      final author = await getUserById(userId);
       if (author != null) {
         _suggestionInteractor.userInfo[userId] = author;
         emit(state.newState(author: author));
@@ -70,9 +68,8 @@ class SuggestionCubit extends Cubit<SuggestionState> {
     String suggestionId,
   ) async {
     try {
-      final List<Comment> comments =
-          await _suggestionInteractor.getAllComments(suggestionId);
-      final List<Comment> extendedComments = await Future.wait(
+      final comments = await _suggestionInteractor.getAllComments(suggestionId);
+      final extendedComments = await Future.wait(
         comments.map(
           (Comment e) async {
             if (!e.isFromAdmin) {
@@ -157,7 +154,7 @@ class SuggestionCubit extends Cubit<SuggestionState> {
   }
 
   Future<void> showSavingResultMessage(Future<bool?> isSuccess) async {
-    final bool? savingResult = await isSuccess;
+    final savingResult = await isSuccess;
     if (savingResult != null) {
       emit(
         state.newState(
@@ -208,8 +205,7 @@ class SuggestionCubit extends Cubit<SuggestionState> {
                   ? i.adminSettings!
                   : await getUserById(comment.author.id),
         ),
-      ];
-      newComments.sort((a, b) => b.creationTime.compareTo(a.creationTime));
+      ]..sort((a, b) => b.creationTime.compareTo(a.creationTime));
 
       emit(
         state.newState(
@@ -230,10 +226,8 @@ class SuggestionCubit extends Cubit<SuggestionState> {
   }
 
   void vote() {
-    final bool isVoted = state.suggestion.votedUserIds.contains(i.userId);
-    final Set<String> newVotedUserIds = <String>{
-      ...state.suggestion.votedUserIds
-    };
+    final isVoted = state.suggestion.votedUserIds.contains(i.userId);
+    final newVotedUserIds = <String>{...state.suggestion.votedUserIds};
 
     !isVoted
         ? _suggestionInteractor.upvote(state.suggestion.id)
@@ -250,9 +244,7 @@ class SuggestionCubit extends Cubit<SuggestionState> {
   }
 
   Future<void> changeNotification({required bool isNotificationOn}) async {
-    final Set<String> newNotifyUserIds = <String>{
-      ...state.suggestion.notifyUserIds
-    };
+    final newNotifyUserIds = <String>{...state.suggestion.notifyUserIds};
 
     isNotificationOn
         ? await _suggestionInteractor.addNotifyToUpdateUser(state.suggestion.id)

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
-import '../../utils/assets_strings.dart';
-import '../../utils/dimensions.dart';
-import '../theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
+import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
 class SuggestionsFab extends StatefulWidget {
   final VoidCallback onClick;
@@ -17,7 +16,6 @@ class SuggestionsFab extends StatefulWidget {
   final EdgeInsets margin;
 
   const SuggestionsFab({
-    Key? key,
     required this.onClick,
     required this.imageIcon,
     this.size = Dimensions.veryBigSize,
@@ -27,7 +25,8 @@ class SuggestionsFab extends StatefulWidget {
     this.iconColor,
     this.padding = const EdgeInsets.all(Dimensions.marginSmall),
     this.margin = const EdgeInsets.all(Dimensions.marginSmall),
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<SuggestionsFab> createState() => _SuggestionsFabState();
@@ -35,20 +34,20 @@ class SuggestionsFab extends StatefulWidget {
 
 class _SuggestionsFabState extends State<SuggestionsFab>
     with SingleTickerProviderStateMixin {
-  late final AnimationController controller;
-  late final Animation<double> animation;
+  late final AnimationController _controller;
+  late final Animation<double> _animation;
 
   @override
   void initState() {
     super.initState();
-    controller = AnimationController(
+    _controller = AnimationController(
       duration: const Duration(milliseconds: 1500),
       vsync: this,
     );
-    animation = Tween<double>(
+    _animation = Tween<double>(
       begin: widget.size / 5,
       end: widget.size * 2,
-    ).animate(controller);
+    ).animate(_controller);
   }
 
   @override
@@ -56,11 +55,12 @@ class _SuggestionsFabState extends State<SuggestionsFab>
     return GestureDetector(
       onTap: widget.onClick,
       onTapDown: (_) {
-        controller.reset();
-        controller.forward();
+        _controller
+          ..reset()
+          ..forward();
       },
-      onTapUp: (_) => controller.reset(),
-      onTapCancel: controller.reset,
+      onTapUp: (_) => _controller.reset(),
+      onTapCancel: _controller.reset,
       child: Container(
         width: widget.size,
         height: widget.size,
@@ -77,7 +77,7 @@ class _SuggestionsFabState extends State<SuggestionsFab>
               right: -widget.size / 4,
               bottom: -widget.size / 2,
               child: _AnimatedCircle(
-                animation: animation,
+                animation: _animation,
                 color: widget.splashColor ?? theme.fabColor,
               ),
             ),
@@ -104,14 +104,13 @@ class _AnimatedCircle extends AnimatedWidget {
   final Color color;
 
   const _AnimatedCircle({
-    Key? key,
     required Animation<double> animation,
     required this.color,
-  }) : super(key: key, listenable: animation);
+  }) : super(listenable: animation);
 
   @override
   Widget build(BuildContext context) {
-    final Animation<double> animation = listenable as Animation<double>;
+    final animation = listenable as Animation<double>;
     return Center(
       child: Container(
         height: animation.value,

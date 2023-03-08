@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
-
-import '../../../domain/entities/suggestion.dart';
+import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
 
 class SuggestionsState extends Equatable {
   final List<Suggestion> requests;

@@ -1,14 +1,14 @@
-import '../../data/cache_data_source.dart';
-import '../../data/interfaces/cache_data_source.dart';
-import '../../data/interfaces/suggestions_data_source.dart';
-import '../../data/repositories/suggestion_repository.dart';
-import '../../domain/data_interfaces/suggestion_repository.dart';
-import '../../domain/entities/admin_settings.dart';
-import '../../domain/interactors/suggestion_interactor.dart';
-import '../pages/suggestion/create_edit/create_edit_suggestion_cubit.dart';
-import '../pages/suggestion/suggestion_cubit.dart';
-import '../pages/suggestions/suggestions_cubit.dart';
-import '../pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/data/cache_data_source.dart';
+import 'package:suggest_a_feature/src/data/interfaces/cache_data_source.dart';
+import 'package:suggest_a_feature/src/data/interfaces/suggestions_data_source.dart';
+import 'package:suggest_a_feature/src/data/repositories/suggestion_repository.dart';
+import 'package:suggest_a_feature/src/domain/data_interfaces/suggestion_repository.dart';
+import 'package:suggest_a_feature/src/domain/entities/admin_settings.dart';
+import 'package:suggest_a_feature/src/domain/interactors/suggestion_interactor.dart';
+import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_cubit.dart';
+import 'package:suggest_a_feature/src/presentation/pages/suggestion/suggestion_cubit.dart';
+import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_cubit.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
 
 // ignore: library_private_types_in_public_api
 _Injector get i => _Injector();

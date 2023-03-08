@@ -11,15 +11,14 @@ void main() {
   group(
     'suggestions cubit',
     () {
-      final MockSuggestionInteractor mockSuggestionInteractor =
-          MockSuggestionInteractor();
-      final SuggestionsState emptySuggestionsState = SuggestionsState(
+      final mockSuggestionInteractor = MockSuggestionInteractor();
+      final emptySuggestionsState = SuggestionsState(
         requests: <Suggestion>[mockedSuggestion, mockedSuggestion2],
         inProgress: <Suggestion>[mockedSuggestion, mockedSuggestion2],
         completed: <Suggestion>[mockedSuggestion, mockedSuggestion2],
         isCreateBottomSheetOpened: false,
       );
-      final Suggestion upvotedSuggestion = mockedSuggestion2.copyWith(
+      final upvotedSuggestion = mockedSuggestion2.copyWith(
         votedUserIds: <String>{mockedSuggestionAuthor.id},
       );
 

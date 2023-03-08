@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import '../../utils/assets_strings.dart';
-import '../../utils/dimensions.dart';
-import '../theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
+import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
 class VotesCounter extends StatelessWidget {
   final bool isVoted;
@@ -12,8 +11,8 @@ class VotesCounter extends StatelessWidget {
   const VotesCounter({
     required this.isVoted,
     required this.upvotesCount,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

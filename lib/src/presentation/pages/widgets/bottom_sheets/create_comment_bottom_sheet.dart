@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
-
-import '../../../di/injector.dart';
-import '../../../utils/context_utils.dart';
-import '../../../utils/dimensions.dart';
-import '../../theme/suggestions_theme.dart';
-import '../clickable_list_item.dart';
-import '../elevated_button.dart';
-import '../switch.dart';
-import '../text_field.dart';
-import 'base_bottom_sheet.dart';
+import 'package:suggest_a_feature/src/presentation/di/injector.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/clickable_list_item.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_elevated_button.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_switch.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_text_field.dart';
+import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
+import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
 typedef OnCreateComment = void Function(String, bool, bool);
 
@@ -19,14 +18,14 @@ class CreateCommentBottomSheet extends StatefulWidget {
   final OnCreateComment onCreateComment;
 
   const CreateCommentBottomSheet({
-    Key? key,
     required this.controller,
     required this.onClose,
     required this.onCreateComment,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
-  _CreateCommentBottomSheetState createState() =>
+  State<CreateCommentBottomSheet> createState() =>
       _CreateCommentBottomSheetState();
 }
 
@@ -45,8 +44,8 @@ class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
 
   @override
   void dispose() {
-    super.dispose();
     _inputFocusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -129,8 +128,7 @@ class _CommentTextField extends StatelessWidget {
     required this.commentController,
     required this.isShowCommentError,
     required this.onFocusChanged,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -159,8 +157,7 @@ class _PostAnonymously extends StatelessWidget {
   const _PostAnonymously({
     required this.onChanged,
     required this.isAnonymously,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -184,8 +181,7 @@ class _PostPostedBy extends StatelessWidget {
   const _PostPostedBy({
     required this.isFromAdmin,
     required this.onChanged,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -207,8 +203,7 @@ class _CreateCommentButton extends StatelessWidget {
 
   const _CreateCommentButton({
     required this.onClick,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

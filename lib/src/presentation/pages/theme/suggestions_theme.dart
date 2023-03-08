@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../../di/injector.dart';
-import '../../utils/font_sizes.dart';
+import 'package:suggest_a_feature/src/presentation/di/injector.dart';
+import 'package:suggest_a_feature/src/presentation/utils/font_sizes.dart';
 
 SuggestionsTheme get theme => i.theme;
 

@@ -1,10 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../domain/entities/suggestion.dart';
-import '../../../../domain/interactors/suggestion_interactor.dart';
-import '../../../di/injector.dart';
-import '../../../utils/image_utils.dart';
-import 'create_edit_suggestion_state.dart';
+import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
+import 'package:suggest_a_feature/src/domain/interactors/suggestion_interactor.dart';
+import 'package:suggest_a_feature/src/presentation/di/injector.dart';
+import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_state.dart';
+import 'package:suggest_a_feature/src/presentation/utils/image_utils.dart';
 
 class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
   final SuggestionInteractor _suggestionInteractor;
@@ -43,7 +42,7 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
 
   Future<void> addUploadedPhotos(Future<List<String>?> urls) async {
     emit(state.newState(isLoading: true));
-    final List<String>? photos = await urls;
+    final photos = await urls;
     if (photos != null) {
       emit(
         state.newState(
@@ -67,7 +66,7 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
   }
 
   Future<void> showSavingResultMessage(Future<bool?> isSuccess) async {
-    final bool? savingResult = await isSuccess;
+    final savingResult = await isSuccess;
     if (savingResult != null) {
       emit(
         state.newState(
@@ -144,7 +143,7 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
     if (state.isEditing) {
       await _suggestionInteractor.updateSuggestion(state.suggestion);
     } else {
-      final CreateSuggestionModel model = CreateSuggestionModel(
+      final model = CreateSuggestionModel(
         title: state.suggestion.title,
         description: state.suggestion.description,
         labels: state.suggestion.labels,

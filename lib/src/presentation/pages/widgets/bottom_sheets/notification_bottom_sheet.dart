@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
-
-import '../../../utils/context_utils.dart';
-import '../../../utils/dimensions.dart';
-import '../../theme/suggestions_theme.dart';
-import '../switch.dart';
-import 'base_bottom_sheet.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_switch.dart';
+import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
+import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
 class NotificationSuggestionBottomSheet extends StatefulWidget {
   final VoidCallback onCancel;
@@ -14,15 +13,15 @@ class NotificationSuggestionBottomSheet extends StatefulWidget {
   final bool isNotificationOn;
 
   const NotificationSuggestionBottomSheet({
-    Key? key,
     required this.onCancel,
     required this.onChangeNotification,
     required this.controller,
     required this.isNotificationOn,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
-  _NotificationSuggestionBottomSheetState createState() =>
+  State<NotificationSuggestionBottomSheet> createState() =>
       _NotificationSuggestionBottomSheetState();
 }
 
@@ -32,8 +31,8 @@ class _NotificationSuggestionBottomSheetState
 
   @override
   void initState() {
-    _isNotificationOn = widget.isNotificationOn;
     super.initState();
+    _isNotificationOn = widget.isNotificationOn;
   }
 
   @override

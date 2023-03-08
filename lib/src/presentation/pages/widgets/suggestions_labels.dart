@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-
-import '../../../domain/entities/suggestion.dart';
-import '../../utils/dimensions.dart';
-import '../../utils/label_utils.dart';
-import '../theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
+import 'package:suggest_a_feature/src/presentation/utils/label_utils.dart';
 
 class SuggestionLabels extends StatelessWidget {
   final List<SuggestionLabel> labels;
 
-  const SuggestionLabels({Key? key, required this.labels}) : super(key: key);
+  const SuggestionLabels({
+    required this.labels,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

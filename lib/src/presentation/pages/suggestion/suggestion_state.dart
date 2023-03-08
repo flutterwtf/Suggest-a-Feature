@@ -1,8 +1,7 @@
 import 'package:equatable/equatable.dart';
-
-import '../../../domain/entities/suggestion.dart';
-import '../../../domain/entities/suggestion_author.dart';
-import '../../utils/image_utils.dart';
+import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
+import 'package:suggest_a_feature/src/domain/entities/suggestion_author.dart';
+import 'package:suggest_a_feature/src/presentation/utils/image_utils.dart';
 
 class SuggestionState extends Equatable {
   final bool isPopped;

@@ -1,12 +1,9 @@
-// ignore_for_file: avoid_dynamic_calls
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
-
-import '../../presentation/utils/date_utils.dart';
-import 'comment.dart';
-import 'utils/suggestion_utils.dart';
+import 'package:suggest_a_feature/src/domain/entities/comment.dart';
+import 'package:suggest_a_feature/src/domain/entities/utils/suggestion_utils.dart';
+import 'package:suggest_a_feature/src/presentation/utils/date_utils.dart';
 
 class Suggestion extends Equatable {
   /// The id of the suggestion
@@ -50,11 +47,11 @@ class Suggestion extends Equatable {
   const Suggestion({
     required this.id,
     required this.title,
-    this.description,
     required this.authorId,
     required this.isAnonymous,
     required this.creationTime,
     required this.status,
+    this.description,
     this.labels = const <SuggestionLabel>[],
     this.images = const <String>[],
     this.comments = const <Comment>[],
@@ -108,6 +105,9 @@ class Suggestion extends Equatable {
   }
 
   factory Suggestion.fromJson({required Map<String, dynamic> json}) {
+    final votedUserIds = json['voted_user_ids'] as List<String>?;
+    final notifyUserIds = json['notify_user_ids'] as List<String>?;
+
     return Suggestion(
       id: json['suggestion_id'].toString(),
       title: json['title'],
@@ -124,10 +124,8 @@ class Suggestion extends Equatable {
         (SuggestionStatus e) => describeEnum(e) == json['status'],
         orElse: () => SuggestionStatus.unknown,
       ),
-      votedUserIds:
-          (json['voted_user_ids'] ?? <String>[]).cast<String>().toSet(),
-      notifyUserIds:
-          (json['notify_user_ids'] ?? <String>[]).cast<String>().toSet(),
+      votedUserIds: votedUserIds?.toSet() ?? <String>{},
+      notifyUserIds: notifyUserIds?.toSet() ?? <String>{},
     );
   }
 
@@ -178,11 +176,11 @@ class CreateSuggestionModel {
 
   CreateSuggestionModel({
     required this.title,
-    this.description,
     required this.labels,
-    this.images = const <String>[],
     required this.authorId,
     required this.isAnonymous,
+    this.description,
+    this.images = const <String>[],
     this.status = SuggestionStatus.requests,
   });
 

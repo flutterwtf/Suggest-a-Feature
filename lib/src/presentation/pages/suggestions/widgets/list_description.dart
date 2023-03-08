@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-
-import '../../../../../suggest_a_feature.dart';
-import '../../../utils/context_utils.dart';
-import '../../../utils/dimensions.dart';
+import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
+import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
+import 'package:suggest_a_feature/suggest_a_feature.dart';
 
 class ListDescription extends StatelessWidget {
   final SuggestionStatus status;
   final int length;
 
   const ListDescription({
-    Key? key,
     required this.status,
     required this.length,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
