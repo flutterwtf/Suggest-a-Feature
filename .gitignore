@@ -26,7 +26,7 @@
 **/doc/api/
 .dart_tool/
 .packages
-build/
+/build/
 .flutter-plugins
 .flutter-plugins-dependencies
 .vscode/settings.json
