@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sliding_sheet/sliding_sheet.dart';
+import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
 
 import '../../../di/injector.dart';
 import '../../../utils/context_utils.dart';

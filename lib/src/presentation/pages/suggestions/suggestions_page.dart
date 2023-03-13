@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sliding_sheet/sliding_sheet.dart';
+import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
 
 import '../../../data/interfaces/suggestions_data_source.dart';
 import '../../../domain/entities/admin_settings.dart';

@@ -1,7 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sliding_sheet/sliding_sheet.dart';
+import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
 
 import '../../../domain/entities/comment.dart';
 import '../../../domain/entities/suggestion.dart';
