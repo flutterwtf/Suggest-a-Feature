@@ -1,11 +1,8 @@
 name: Deploy to GitHub Pages
 
-# TODO: leave only on push master
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ] 
 
 jobs:
   deploy:
