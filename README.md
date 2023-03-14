@@ -23,10 +23,10 @@ Then you need to move the `SuggestionsPage`. For example:
 ``` dart
 Navigator.of(context).push(
   MaterialPageRoute(
-  builder: (context) => SuggestionsPage(
-    userId: '1',
-    suggestionsDataSource: MyDataSource(
+    builder: (context) => SuggestionsPage(
       userId: '1',
+      suggestionsDataSource: MyDataSource(
+        userId: '1',
       ),
       theme: SuggestionsTheme.initial(),
       onUploadMultiplePhotos: null,
@@ -43,7 +43,7 @@ you just need to implement the `onUploadMultiplePhotos` and `onSaveToGallery` me
 You can also either use our standard theme or create your own:
 
 ``` dart
- theme: SuggestionsTheme().copyWith(...),
+theme: SuggestionsTheme().copyWith(...),
 ```
 
 ## Admin functionality
@@ -58,11 +58,11 @@ In order to enable admin functionality, you should specify the `adminSettings` p
 
 ``` dart
 SuggestionsPage(
-    adminSettings: const AdminSettings(
-        id: '3',
-        username: 'Admin',
-        ),
- );
+  adminSettings: const AdminSettings(
+    id: '3',
+    username: 'Admin',
+  ),
+);
 ```
 
 ## Localization
@@ -79,8 +79,8 @@ MaterialApp(
 );
 ```
 
-`SuggestionsLocalizations` - strings localization
-`GlobalMaterialLocalizations`- date format localization
+- `SuggestionsLocalizations` - strings localization
+- `GlobalMaterialLocalizations`- date format localization
 
 You also have to invoke [initializeDateFormatting()](https://api.flutter.dev/flutter/date_symbol_data_local/initializeDateFormatting.html) before `MaterialApp()` widget creation in order to support date formatting.
 
