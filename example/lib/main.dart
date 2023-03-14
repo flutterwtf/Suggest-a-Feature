@@ -29,6 +29,9 @@ class MyApp extends StatelessWidget {
             id: '3',
             username: 'Admin',
           ),
+          customAppBar: const SuggestionsAppBar(
+            screenTitle: 'Suggest a feature',
+          ),
         ),
       ),
       localizationsDelegates: const [SuggestionsLocalizations.delegate],

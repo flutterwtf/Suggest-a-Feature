@@ -42,6 +42,9 @@ class SuggestionsPage extends StatefulWidget {
   /// Callback returning the current user (SuggestionAuthor).
   final OnGetUserById onGetUserById;
 
+  /// Custom AppBar that will be displayed on the [SuggestionsPage].
+  final PreferredSizeWidget? customAppBar;
+
   final AdminSettings? adminSettings;
 
   SuggestionsPage({
@@ -52,6 +55,7 @@ class SuggestionsPage extends StatefulWidget {
     this.adminSettings,
     this.onSaveToGallery,
     this.onUploadMultiplePhotos,
+    this.customAppBar,
     this.imageHeaders,
     super.key,
   }) {
@@ -101,7 +105,7 @@ class _SuggestionsPageState extends State<SuggestionsPage>
         return Stack(
           children: <Widget>[
             Scaffold(
-              appBar: SuggestionsAppBar(
+              appBar: widget.customAppBar ?? SuggestionsAppBar(
                 onBackClick: Navigator.of(context).pop,
                 screenTitle: context.localization.suggestAFeature,
               ),

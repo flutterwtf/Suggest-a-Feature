@@ -4,16 +4,16 @@ import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_bac
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
 class SuggestionsAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final VoidCallback onBackClick;
   final String screenTitle;
+  final VoidCallback? onBackClick;
   final Widget? trailing;
 
   @override
   Size get preferredSize => const Size.fromHeight(Dimensions.size2x);
 
   const SuggestionsAppBar({
-    required this.onBackClick,
     required this.screenTitle,
+    this.onBackClick,
     this.trailing,
     super.key,
   });
@@ -24,17 +24,17 @@ class SuggestionsAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: theme.primaryBackgroundColor,
       elevation: 0,
       centerTitle: true,
-      leading: Padding(
+      leading: onBackClick != null ? Padding(
         padding: const EdgeInsets.only(
           left: Dimensions.marginDefault,
           right: Dimensions.marginSmall,
         ),
         child: SuggestionsBackButton(
-          onClick: onBackClick,
+          onClick: onBackClick!,
           pressedColor: theme.actionPressedColor,
           color: theme.primaryTextColor,
         ),
-      ),
+      ) : null,
       title: Text(
         screenTitle,
         style: theme.textMediumBold,
