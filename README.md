@@ -4,7 +4,9 @@ This Flutter package is a ready-made module which allows other developers to imp
 menu in their own mobile app where users can share their suggestions about the application in real
 time, discuss them with others, and vote for each other's suggestions.
 
-Here is a small demo:
+You can check interactive example [here](https://what-the-flutter.github.io/Suggest-a-Feature/#/).
+
+A small demo:
 
 ![gif](https://raw.githubusercontent.com/What-the-Flutter/Suggest-a-Feature/master/example/assets/suggest_a_feature.gif)
 
@@ -48,7 +50,7 @@ You can also either use our standard theme or create your own:
 
 Admin functionality allows you to edit any suggestion (e.g change its' status) and to leave comments from the 'Admin'.
 
-Here is a small demo:
+A small demo:
 
 ![gif](https://raw.githubusercontent.com/What-the-Flutter/Suggest-a-Feature/master/example/assets/suggest_a_feature_admin.gif)
 
