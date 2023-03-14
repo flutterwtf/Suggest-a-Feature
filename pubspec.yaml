@@ -1,7 +1,6 @@
 name: suggest_a_feature
 description: Ready-made Flutter package for collecting suggestions from users.
 version: 0.0.1
-publish_to: none
 repository: https://github.com/What-the-Flutter/Suggest-a-Feature
 
 environment:
