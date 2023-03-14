@@ -30,8 +30,10 @@ jobs:
 
       - name: Build
         run: | 
-          flutter build web --target=example/lib/main.dart
-          sed -i 's+href="/"+href="./"+g' example/build/web/index.html
+          cd example/
+          flutter build web
+          sed -i 's+href="/"+href="./"+g' build/web/index.html
+          cd ..
       
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4

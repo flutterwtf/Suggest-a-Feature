@@ -44,4 +44,6 @@ jobs:
         run: pana --no-warning --exit-code-threshold 20
 
       - name: Build APK
-        run: flutter build apk --target=example/lib/main.dart
+        run: | 
+          cd example/
+          flutter build apk
