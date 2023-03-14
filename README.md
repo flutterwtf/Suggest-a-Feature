@@ -6,7 +6,7 @@ time, discuss them with others, and vote for each other's suggestions.
 
 Here is a small demo:
 
-![gif](/example/assets/suggest_a_feature.gif)
+![gif](https://raw.githubusercontent.com/What-the-Flutter/Suggest-a-Feature/master/example/assets/suggest_a_feature.gif)
 
 ## Usage
 
@@ -50,7 +50,7 @@ Admin functionality allows you to edit any suggestion (e.g change its' status) a
 
 Here is a small demo:
 
-![gif](/example/assets/suggest_a_feature_admin.gif)
+![gif](https://raw.githubusercontent.com/What-the-Flutter/Suggest-a-Feature/master/example/assets/suggest_a_feature_admin.gif)
 
 In order to enable admin functionality, you should specify the `adminSettings` property:
 
