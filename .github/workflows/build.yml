@@ -14,13 +14,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Install Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'zulu'
-          java-version: "12.x"
-          cache: 'gradle'
-
       - name: Install latest Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -31,6 +24,7 @@ jobs:
         run: |
           flutter pub get
           flutter pub run build_runner build --delete-conflicting-outputs
+          flutter config --enable-web
           dart pub global activate pana
       
       - name: Analyze
@@ -42,7 +36,8 @@ jobs:
       - name: Check Pana
         run: pana --no-warning --exit-code-threshold 20
 
-      - name: Build APK
+      - name: Build
         run: | 
           cd example/
-          flutter build apk
+          flutter build web
+          sed -i 's+href="/"+href="./"+g' build/web/index.html
