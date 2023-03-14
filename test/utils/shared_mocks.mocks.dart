@@ -119,12 +119,12 @@ class _FakeSuggestionsTheme_6 extends _i1.SmartFake
         );
 }
 
-/// A class which mocks [SuggestionRepository].
+/// A class which mocks [SuggestionRepositoryImpl].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSuggestionRepository extends _i1.Mock
-    implements _i9.SuggestionRepository {
-  MockSuggestionRepository() {
+class MockSuggestionRepositoryImpl extends _i1.Mock
+    implements _i9.SuggestionRepositoryImpl {
+  MockSuggestionRepositoryImpl() {
     _i1.throwOnMissingStub(this);
   }
 
@@ -457,21 +457,23 @@ class MockSuggestionCubit extends _i1.Mock implements _i13.SuggestionCubit {
         returnValue: false,
       ) as bool);
   @override
-  _i10.Future<void> init(
-    _i2.Suggestion? suggestion,
-    _i14.OnGetUserById? getUserById,
-  ) =>
-      (super.noSuchMethod(
+  void init({
+    required _i2.Suggestion? suggestion,
+    required _i14.OnGetUserById? getUserById,
+    required bool? isAdmin,
+  }) =>
+      super.noSuchMethod(
         Invocation.method(
           #init,
-          [
-            suggestion,
-            getUserById,
-          ],
+          [],
+          {
+            #suggestion: suggestion,
+            #getUserById: getUserById,
+            #isAdmin: isAdmin,
+          },
         ),
-        returnValue: _i10.Future<void>.value(),
-        returnValueForMissingStub: _i10.Future<void>.value(),
-      ) as _i10.Future<void>);
+        returnValueForMissingStub: null,
+      );
   @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
@@ -549,17 +551,21 @@ class MockSuggestionCubit extends _i1.Mock implements _i13.SuggestionCubit {
   @override
   _i10.Future<void> createComment(
     String? text,
-    bool? isAnonymous,
-    _i14.OnGetUserById? getUserById,
-  ) =>
+    _i14.OnGetUserById? getUserById, {
+    required bool? isAnonymous,
+    required bool? postedByAdmin,
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
           #createComment,
           [
             text,
-            isAnonymous,
             getUserById,
           ],
+          {
+            #isAnonymous: isAnonymous,
+            #postedByAdmin: postedByAdmin,
+          },
         ),
         returnValue: _i10.Future<void>.value(),
         returnValueForMissingStub: _i10.Future<void>.value(),
@@ -582,11 +588,12 @@ class MockSuggestionCubit extends _i1.Mock implements _i13.SuggestionCubit {
         returnValueForMissingStub: null,
       );
   @override
-  _i10.Future<void> changeNotification(bool? isNotificationOn) =>
+  _i10.Future<void> changeNotification({required bool? isNotificationOn}) =>
       (super.noSuchMethod(
         Invocation.method(
           #changeNotification,
-          [isNotificationOn],
+          [],
+          {#isNotificationOn: isNotificationOn},
         ),
         returnValue: _i10.Future<void>.value(),
         returnValueForMissingStub: _i10.Future<void>.value(),

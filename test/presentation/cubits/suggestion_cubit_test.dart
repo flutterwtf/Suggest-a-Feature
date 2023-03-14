@@ -124,7 +124,7 @@ void main() {
           savingImageResultMessageType: SavingResultMessageType.none,
           bottomSheetType: SuggestionBottomSheetType.none,
           suggestion: mockedSuggestion.copyWith(
-            votedUserIds: <String>{},
+            votedUserIds: <String>{mockedSuggestionAuthor.id},
           ),
         ),
         act: (SuggestionCubit cubit) => cubit.vote(),
@@ -170,7 +170,7 @@ void main() {
           savingImageResultMessageType: SavingResultMessageType.none,
           bottomSheetType: SuggestionBottomSheetType.none,
           suggestion: mockedSuggestion.copyWith(
-            notifyUserIds: <String>{},
+            notifyUserIds: <String>{mockedSuggestionAuthor.id},
           ),
         ),
         act: (SuggestionCubit cubit) => cubit.changeNotification(
