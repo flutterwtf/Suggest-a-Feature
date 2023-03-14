@@ -1,0 +1,47 @@
+name: Build
+
+# TODO: change master to dev
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: "12.x"
+          cache: 'gradle'
+
+      - name: Install latest Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Initialize
+        run: |
+          flutter pub get
+          flutter pub run build_runner build --delete-conflicting-outputs
+          dart pub global activate pana
+      
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Test
+        run: flutter test
+
+      - name: Check Pana
+        run: pana --no-warning --exit-code-threshold 20
+
+      - name: Build APK
+        run: flutter build apk --target=example/lib/main.dart
