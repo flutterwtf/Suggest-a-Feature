@@ -22,7 +22,8 @@ class SuggestionRepositoryImpl implements SuggestionRepository {
   Stream<List<Suggestion>> get suggestionsStream => _suggestionsSubject;
 
   @override
-  List<Suggestion> get suggestions => _suggestionsSubject.value;
+  List<Suggestion> get suggestions =>
+      _suggestionsSubject.hasValue ? _suggestionsSubject.value : [];
 
   @override
   Map<String, SuggestionAuthor?> get userInfo => _cacheDataSource.userInfo;
