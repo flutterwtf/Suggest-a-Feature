@@ -1,5 +1,17 @@
 # Suggest a feature
 
+<p align="center">
+  <a href="https://pub.dartlang.org/packages/suggest_a_feature">
+    <img alt="Pub" src="https://img.shields.io/pub/v/suggest_a_feature" />
+  </a>
+  <a href="https://github.com/What-the-Flutter/Suggest-a-Feature/actions/workflows/build.yml?query=workflow%3ABuild">
+    <img alt="Build Status" src="https://github.com/What-the-Flutter/Suggest-a-Feature/actions/workflows/build.yml/badge.svg?event=push"/>
+  </a>
+  <a href="https://www.codefactor.io/repository/github/what-the-flutter/suggest-a-feature">
+    <img alt="CodeFactor" src="https://www.codefactor.io/repository/github/what-the-flutter/suggest-a-feature/badge"/>
+  </a>
+</p>
+
 This Flutter package is a ready-made module which allows other developers to implement additional
 menu in their own mobile app where users can share their suggestions about the application in real
 time, discuss them with others, and vote for each other's suggestions.
