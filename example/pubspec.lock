@@ -199,10 +199,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_svg
-      sha256: "97c5b291b4fd34ae4f55d6a4c05841d4d0ed94952e033c5a6529e1b47b4d2a29"
+      sha256: "017cb37b3e9bee44cc800e35469f295d537484602f02ce6ceb5876236cc7e1fe"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.2"
+    version: "2.0.3"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -429,15 +429,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
-  sliding_sheet:
-    dependency: transitive
-    description:
-      path: "."
-      ref: master
-      resolved-ref: "19d1f8f7ab36b8cae98ab7ec2efbe23a740759de"
-      url: "https://github.com/flutterwtf/sliding_sheet"
-    source: git
-    version: "0.5.0"
   source_span:
     dependency: transitive
     description:
@@ -537,26 +528,26 @@ packages:
     dependency: transitive
     description:
       name: vector_graphics
-      sha256: da125a371e22f259b3bc99cfc5e02100c6d6221568c90ce91d20a5d4ceb3c880
+      sha256: "2f317d969a9f1eb59d1890643107da749698b7c08c4b0532fc95c8a7130d2803"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.2"
+    version: "1.1.3"
   vector_graphics_codec:
     dependency: transitive
     description:
       name: vector_graphics_codec
-      sha256: "51c361df2ef3b3df1d98ad6eb5654cab76864d2cd9303d1a0aa605ac64639156"
+      sha256: "13cccfda2dd61232a19dfb769b7a907e2ab23aabfebb9053c81e29c6c11b1766"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.2"
+    version: "1.1.3"
   vector_graphics_compiler:
     dependency: transitive
     description:
       name: vector_graphics_compiler
-      sha256: "464d3e46ee701c590bfc7b91a698adda71a73b297cd1566c15ca333e5f38db06"
+      sha256: "524c9889a1327401124fe068840a8867f0d57987c1219a2a696ade629ec2bec3"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.2"
+    version: "1.1.3"
   vector_math:
     dependency: transitive
     description:
@@ -573,6 +564,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.3"
+  wtf_sliding_sheet:
+    dependency: transitive
+    description:
+      name: wtf_sliding_sheet
+      sha256: "7d4e35f7a37c6b01afd104d3c5bae78917538dc8eb093169b6fe46696ae904ca"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.0"
   xdg_directories:
     dependency: transitive
     description:

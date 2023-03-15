@@ -1,0 +1,43 @@
+name: Build
+
+on:
+  push:
+    branches: [ dev ]
+  pull_request:
+    branches: [ dev ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install latest Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Initialize
+        run: |
+          flutter pub get
+          flutter pub run build_runner build --delete-conflicting-outputs
+          flutter config --enable-web
+          dart pub global activate pana
+      
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Test
+        run: flutter test
+
+      - name: Check Pana
+        run: pana --no-warning --exit-code-threshold 20
+
+      - name: Build
+        run: | 
+          cd example/
+          flutter build web
+          sed -i 's+href="/"+href="./"+g' build/web/index.html

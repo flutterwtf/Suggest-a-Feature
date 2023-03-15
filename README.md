@@ -1,12 +1,26 @@
 # Suggest a feature
 
+<p align="center">
+  <a href="https://pub.dartlang.org/packages/suggest_a_feature">
+    <img alt="Pub" src="https://img.shields.io/pub/v/suggest_a_feature" />
+  </a>
+  <a href="https://github.com/What-the-Flutter/Suggest-a-Feature/actions/workflows/build.yml?query=workflow%3ABuild">
+    <img alt="Build Status" src="https://github.com/What-the-Flutter/Suggest-a-Feature/actions/workflows/build.yml/badge.svg?event=push"/>
+  </a>
+  <a href="https://www.codefactor.io/repository/github/what-the-flutter/suggest-a-feature">
+    <img alt="CodeFactor" src="https://www.codefactor.io/repository/github/what-the-flutter/suggest-a-feature/badge"/>
+  </a>
+</p>
+
 This Flutter package is a ready-made module which allows other developers to implement additional
 menu in their own mobile app where users can share their suggestions about the application in real
 time, discuss them with others, and vote for each other's suggestions.
 
-Here is a small demo:
+You can check interactive example [here](https://what-the-flutter.github.io/Suggest-a-Feature/#/).
 
-![gif](/example/assets/suggest_a_feature.gif)
+A small demo:
+
+![gif](https://raw.githubusercontent.com/What-the-Flutter/Suggest-a-Feature/master/example/assets/suggest_a_feature.gif)
 
 ## Usage
 
@@ -21,10 +35,10 @@ Then you need to move the `SuggestionsPage`. For example:
 ``` dart
 Navigator.of(context).push(
   MaterialPageRoute(
-  builder: (context) => SuggestionsPage(
-    userId: '1',
-    suggestionsDataSource: MyDataSource(
+    builder: (context) => SuggestionsPage(
       userId: '1',
+      suggestionsDataSource: MyDataSource(
+        userId: '1',
       ),
       theme: SuggestionsTheme.initial(),
       onUploadMultiplePhotos: null,
@@ -41,26 +55,26 @@ you just need to implement the `onUploadMultiplePhotos` and `onSaveToGallery` me
 You can also either use our standard theme or create your own:
 
 ``` dart
- theme: SuggestionsTheme().copyWith(...),
+theme: SuggestionsTheme().copyWith(...),
 ```
 
 ## Admin functionality
 
 Admin functionality allows you to edit any suggestion (e.g change its' status) and to leave comments from the 'Admin'.
 
-Here is a small demo:
+A small demo:
 
-![gif](/example/assets/suggest_a_feature_admin.gif)
+![gif](https://raw.githubusercontent.com/What-the-Flutter/Suggest-a-Feature/master/example/assets/suggest_a_feature_admin.gif)
 
 In order to enable admin functionality, you should specify the `adminSettings` property:
 
 ``` dart
 SuggestionsPage(
-    adminSettings: const AdminSettings(
-        id: '3',
-        username: 'Admin',
-        ),
- );
+  adminSettings: const AdminSettings(
+    id: '3',
+    username: 'Admin',
+  ),
+);
 ```
 
 ## Localization
@@ -77,8 +91,8 @@ MaterialApp(
 );
 ```
 
-`SuggestionsLocalizations` - strings localization
-`GlobalMaterialLocalizations`- date format localization
+- `SuggestionsLocalizations` - strings localization
+- `GlobalMaterialLocalizations`- date format localization
 
 You also have to invoke [initializeDateFormatting()](https://api.flutter.dev/flutter/date_symbol_data_local/initializeDateFormatting.html) before `MaterialApp()` widget creation in order to support date formatting.
 

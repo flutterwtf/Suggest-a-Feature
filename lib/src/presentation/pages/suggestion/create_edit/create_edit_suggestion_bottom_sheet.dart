@@ -2,7 +2,6 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sliding_sheet/sliding_sheet.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_cubit.dart';
@@ -26,6 +25,7 @@ import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:suggest_a_feature/src/presentation/utils/image_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/typedefs.dart';
+import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
 
 class CreateEditSuggestionBottomSheet extends StatefulWidget {
   final Suggestion? suggestion;

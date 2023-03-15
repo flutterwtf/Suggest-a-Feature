@@ -1,8 +1,16 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:saf_example/web_wrapper.dart';
 import 'package:suggest_a_feature/suggest_a_feature.dart';
 
-void main() => runApp(const MyApp());
+void main() => runApp(
+      kIsWeb
+          ? const WebWrapper(
+              app: MyApp(),
+            )
+          : const MyApp(),
+    );
 
 class MyApp extends StatelessWidget {
   const MyApp({
@@ -28,6 +36,9 @@ class MyApp extends StatelessWidget {
           adminSettings: const AdminSettings(
             id: '3',
             username: 'Admin',
+          ),
+          customAppBar: const SuggestionsAppBar(
+            screenTitle: 'Suggest a feature',
           ),
         ),
       ),

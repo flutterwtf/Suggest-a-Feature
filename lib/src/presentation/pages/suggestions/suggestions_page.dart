@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sliding_sheet/sliding_sheet.dart';
 import 'package:suggest_a_feature/src/data/interfaces/suggestions_data_source.dart';
 import 'package:suggest_a_feature/src/domain/entities/admin_settings.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
@@ -19,6 +18,7 @@ import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:suggest_a_feature/src/presentation/utils/platform_check.dart';
 import 'package:suggest_a_feature/src/presentation/utils/rendering.dart';
 import 'package:suggest_a_feature/src/presentation/utils/typedefs.dart';
+import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
 
 class SuggestionsPage extends StatefulWidget {
   /// The current user id.
@@ -42,6 +42,9 @@ class SuggestionsPage extends StatefulWidget {
   /// Callback returning the current user (SuggestionAuthor).
   final OnGetUserById onGetUserById;
 
+  /// Custom AppBar that will be displayed on the [SuggestionsPage].
+  final PreferredSizeWidget? customAppBar;
+
   final AdminSettings? adminSettings;
 
   SuggestionsPage({
@@ -52,6 +55,7 @@ class SuggestionsPage extends StatefulWidget {
     this.adminSettings,
     this.onSaveToGallery,
     this.onUploadMultiplePhotos,
+    this.customAppBar,
     this.imageHeaders,
     super.key,
   }) {
@@ -101,7 +105,7 @@ class _SuggestionsPageState extends State<SuggestionsPage>
         return Stack(
           children: <Widget>[
             Scaffold(
-              appBar: SuggestionsAppBar(
+              appBar: widget.customAppBar ?? SuggestionsAppBar(
                 onBackClick: Navigator.of(context).pop,
                 screenTitle: context.localization.suggestAFeature,
               ),
