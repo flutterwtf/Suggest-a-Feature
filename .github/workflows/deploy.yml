@@ -26,12 +26,12 @@ jobs:
           flutter config --enable-web
 
       - name: Build
-        run: | 
+        run: |
           cd example/
           flutter build web
           sed -i 's+href="/"+href="./"+g' build/web/index.html
           cd ..
-      
+
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
