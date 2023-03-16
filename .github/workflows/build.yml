@@ -34,7 +34,7 @@ jobs:
         run: flutter test
 
       - name: Check Pana
-        run: pana --no-warning --exit-code-threshold 20
+        run: pana --no-warning --exit-code-threshold 10
 
       - name: Build
         run: | 

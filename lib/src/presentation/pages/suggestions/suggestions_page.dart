@@ -105,10 +105,11 @@ class _SuggestionsPageState extends State<SuggestionsPage>
         return Stack(
           children: <Widget>[
             Scaffold(
-              appBar: widget.customAppBar ?? SuggestionsAppBar(
-                onBackClick: Navigator.of(context).pop,
-                screenTitle: context.localization.suggestAFeature,
-              ),
+              appBar: widget.customAppBar ??
+                  SuggestionsAppBar(
+                    onBackClick: Navigator.of(context).pop,
+                    screenTitle: context.localization.suggestAFeature,
+                  ),
               backgroundColor: theme.primaryBackgroundColor,
               body: Stack(
                 children: <Widget>[
