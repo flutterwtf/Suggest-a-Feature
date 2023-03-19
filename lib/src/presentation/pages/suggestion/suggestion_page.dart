@@ -57,7 +57,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
     _cubit.init(
       suggestion: widget.suggestion,
       getUserById: widget.onGetUserById,
-      isAdmin: i.adminSettings != null,
+      isAdmin: i.isAdmin,
     );
   }
 

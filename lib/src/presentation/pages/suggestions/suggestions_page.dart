@@ -45,7 +45,12 @@ class SuggestionsPage extends StatefulWidget {
   /// Custom AppBar that will be displayed on the [SuggestionsPage].
   final PreferredSizeWidget? customAppBar;
 
+  /// Administrator account settings that will be used instead of the user
+  /// account if [isAdmin] == `true`.
   final AdminSettings? adminSettings;
+
+  /// If `true` then [adminSettings] will be used instead of user account.
+  final bool isAdmin;
 
   SuggestionsPage({
     required this.userId,
@@ -53,18 +58,23 @@ class SuggestionsPage extends StatefulWidget {
     required this.theme,
     required this.onGetUserById,
     this.adminSettings,
+    this.isAdmin = false,
     this.onSaveToGallery,
     this.onUploadMultiplePhotos,
     this.customAppBar,
     this.imageHeaders,
     super.key,
-  }) {
+  }) : assert(
+          (isAdmin && adminSettings != null) || !isAdmin,
+          'if isAdmin == true, then adminSettings cannot be null',
+        ) {
     i.init(
       theme: theme,
       userId: userId,
       imageHeaders: imageHeaders,
       suggestionsDataSource: suggestionsDataSource,
       adminSettings: adminSettings,
+      isAdmin: isAdmin,
     );
   }
 

@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
           suggestionsDataSource: MySuggestionDataSource(userId: '1'),
           theme: SuggestionsTheme.initial(),
           userId: '1',
+          isAdmin: true,
           adminSettings: const AdminSettings(
             id: '3',
             username: 'Admin',
