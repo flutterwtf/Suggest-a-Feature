@@ -27,8 +27,13 @@ class _Injector {
     required String userId,
     required SuggestionsDataSource suggestionsDataSource,
     AdminSettings? adminSettings,
+    bool isAdmin = false,
     Map<String, String>? imageHeaders,
   }) {
+    assert(
+      (isAdmin && adminSettings != null) || !isAdmin,
+      'if isAdmin == true, then adminSettings cannot be null',
+    );
     _theme = theme;
     _imageHeaders = imageHeaders;
     _userId = userId;
@@ -39,11 +44,16 @@ class _Injector {
       _cacheDataSource,
     );
     _adminSettings = adminSettings;
+    _isAdmin = isAdmin;
   }
 
   AdminSettings? _adminSettings;
 
   AdminSettings? get adminSettings => _adminSettings;
+
+  late bool _isAdmin;
+
+  bool get isAdmin => _isAdmin;
 
   late SuggestionsTheme _theme;
 

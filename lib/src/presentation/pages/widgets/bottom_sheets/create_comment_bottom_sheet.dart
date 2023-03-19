@@ -79,7 +79,7 @@ class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
               },
             ),
             const SizedBox(height: Dimensions.marginBig),
-            if (i.adminSettings == null) ...<Widget>[
+            if (!i.isAdmin) ...<Widget>[
               Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
               const SizedBox(height: Dimensions.marginSmall),
               _PostAnonymously(
@@ -89,7 +89,7 @@ class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
               ),
               const SizedBox(height: Dimensions.marginSmall),
             ],
-            if (i.adminSettings != null) ...<Widget>[
+            if (i.isAdmin) ...<Widget>[
               Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
               const SizedBox(height: Dimensions.marginSmall),
               _PostPostedBy(

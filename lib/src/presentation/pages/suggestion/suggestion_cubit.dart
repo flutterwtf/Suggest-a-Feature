@@ -173,9 +173,26 @@ class SuggestionCubit extends Cubit<SuggestionState> {
     required bool postedByAdmin,
   }) async {
     try {
-      final isFromAdmin = i.adminSettings != null && postedByAdmin;
       late final Comment comment;
-      if (!isFromAdmin) {
+      late final List<Comment> comments;
+      if (i.isAdmin) {
+        comment = await _suggestionInteractor.createComment(
+          CreateCommentModel(
+            authorId: postedByAdmin ? i.adminSettings!.id : i.userId,
+            isAnonymous: false,
+            text: text,
+            suggestionId: state.suggestion.id,
+            isFromAdmin: postedByAdmin,
+          ),
+        );
+        comments = [
+          ...state.suggestion.comments,
+          comment.copyWith(
+            author:
+                postedByAdmin ? i.adminSettings! : await getUserById(i.userId),
+          ),
+        ]..sort((a, b) => b.creationTime.compareTo(a.creationTime));
+      } else {
         comment = await _suggestionInteractor.createComment(
           CreateCommentModel(
             authorId: i.userId,
@@ -185,31 +202,19 @@ class SuggestionCubit extends Cubit<SuggestionState> {
             isFromAdmin: false,
           ),
         );
-      } else {
-        comment = await _suggestionInteractor.createComment(
-          CreateCommentModel(
-            authorId: i.adminSettings!.id,
-            isAnonymous: false,
-            text: text,
-            suggestionId: state.suggestion.id,
-            isFromAdmin: true,
+        comments = [
+          ...state.suggestion.comments,
+          comment.copyWith(
+            author: isAnonymous ? null : await getUserById(i.userId),
           ),
-        );
+        ]..sort((a, b) => b.creationTime.compareTo(a.creationTime));
       }
-      final newComments = <Comment>[
-        ...state.suggestion.comments,
-        comment.copyWith(
-          author: comment.isAnonymous
-              ? null
-              : isFromAdmin
-                  ? i.adminSettings!
-                  : await getUserById(comment.author.id),
-        ),
-      ]..sort((a, b) => b.creationTime.compareTo(a.creationTime));
 
       emit(
         state.newState(
-          suggestion: state.suggestion.copyWith(comments: newComments),
+          suggestion: state.suggestion.copyWith(
+            comments: comments,
+          ),
         ),
       );
       _suggestionInteractor.refreshSuggestions(state.suggestion);
@@ -229,9 +234,9 @@ class SuggestionCubit extends Cubit<SuggestionState> {
     final isVoted = state.suggestion.votedUserIds.contains(i.userId);
     final newVotedUserIds = <String>{...state.suggestion.votedUserIds};
 
-    !isVoted
-        ? _suggestionInteractor.upvote(state.suggestion.id)
-        : _suggestionInteractor.downvote(state.suggestion.id);
+    isVoted
+        ? _suggestionInteractor.downvote(state.suggestion.id)
+        : _suggestionInteractor.upvote(state.suggestion.id);
     emit(
       state.newState(
         suggestion: state.suggestion.copyWith(

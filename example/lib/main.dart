@@ -33,8 +33,9 @@ class MyApp extends StatelessWidget {
           suggestionsDataSource: MySuggestionDataSource(userId: '1'),
           theme: SuggestionsTheme.initial(),
           userId: '1',
+          isAdmin: true,
           adminSettings: const AdminSettings(
-            id: '3',
+            id: '2',
             username: 'Admin',
           ),
           customAppBar: const SuggestionsAppBar(
@@ -53,11 +54,11 @@ class MySuggestionDataSource implements SuggestionsDataSource {
     username: 'Author',
   );
   final SuggestionAuthor _adminSettings = const AdminSettings(
-    id: '3',
+    id: '2',
     username: 'Admin',
   );
   final Map<String, dynamic> suggestions = <String, Suggestion>{};
-  Map<String, dynamic> comments = <String, Comment>{};
+  Map<String, Comment> comments = <String, Comment>{};
 
   MySuggestionDataSource({required this.userId});
 
@@ -119,7 +120,9 @@ class MySuggestionDataSource implements SuggestionsDataSource {
   @override
   Future<List<Comment>> getAllComments(String suggestionId) async =>
       comments.isNotEmpty
-          ? comments.values.cast<Comment>().toList()
+          ? comments.values
+              .where((comment) => comment.suggestionId == suggestionId)
+              .toList()
           : <Comment>[];
 
   @override
