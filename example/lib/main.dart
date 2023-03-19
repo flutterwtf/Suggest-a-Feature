@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
           userId: '1',
           isAdmin: true,
           adminSettings: const AdminSettings(
-            id: '3',
+            id: '2',
             username: 'Admin',
           ),
           customAppBar: const SuggestionsAppBar(
@@ -54,11 +54,11 @@ class MySuggestionDataSource implements SuggestionsDataSource {
     username: 'Author',
   );
   final SuggestionAuthor _adminSettings = const AdminSettings(
-    id: '3',
+    id: '2',
     username: 'Admin',
   );
   final Map<String, dynamic> suggestions = <String, Suggestion>{};
-  Map<String, dynamic> comments = <String, Comment>{};
+  Map<String, Comment> comments = <String, Comment>{};
 
   MySuggestionDataSource({required this.userId});
 

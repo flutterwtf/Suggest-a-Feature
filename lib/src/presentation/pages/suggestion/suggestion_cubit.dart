@@ -234,9 +234,9 @@ class SuggestionCubit extends Cubit<SuggestionState> {
     final isVoted = state.suggestion.votedUserIds.contains(i.userId);
     final newVotedUserIds = <String>{...state.suggestion.votedUserIds};
 
-    !isVoted
-        ? _suggestionInteractor.upvote(state.suggestion.id)
-        : _suggestionInteractor.downvote(state.suggestion.id);
+    isVoted
+        ? _suggestionInteractor.downvote(state.suggestion.id)
+        : _suggestionInteractor.upvote(state.suggestion.id);
     emit(
       state.newState(
         suggestion: state.suggestion.copyWith(
