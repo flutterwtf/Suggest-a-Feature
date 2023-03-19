@@ -105,8 +105,8 @@ class Suggestion extends Equatable {
   }
 
   factory Suggestion.fromJson({required Map<String, dynamic> json}) {
-    final votedUserIds = json['voted_user_ids'] as List<String>?;
-    final notifyUserIds = json['notify_user_ids'] as List<String>?;
+    final votedUserIds = json['voted_user_ids'] as List<dynamic>?;
+    final notifyUserIds = json['notify_user_ids'] as List<dynamic>?;
 
     return Suggestion(
       id: json['suggestion_id'].toString(),
@@ -124,8 +124,8 @@ class Suggestion extends Equatable {
         (SuggestionStatus e) => describeEnum(e) == json['status'],
         orElse: () => SuggestionStatus.unknown,
       ),
-      votedUserIds: votedUserIds?.toSet() ?? <String>{},
-      notifyUserIds: notifyUserIds?.toSet() ?? <String>{},
+      votedUserIds: votedUserIds?.cast<String>().toSet() ?? {},
+      notifyUserIds: notifyUserIds?.cast<String>().toSet() ?? {},
     );
   }
 
