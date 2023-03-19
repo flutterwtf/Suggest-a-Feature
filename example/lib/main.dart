@@ -120,7 +120,9 @@ class MySuggestionDataSource implements SuggestionsDataSource {
   @override
   Future<List<Comment>> getAllComments(String suggestionId) async =>
       comments.isNotEmpty
-          ? comments.values.cast<Comment>().toList()
+          ? comments.values
+              .where((comment) => comment.suggestionId == suggestionId)
+              .toList()
           : <Comment>[];
 
   @override
