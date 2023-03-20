@@ -109,7 +109,7 @@ class CreateEditSuggestionBottomSheetState
       builder: (BuildContext context, CreateEditSuggestionState state) {
         if (state.isLabelsBottomSheetOpen) {
           return _labelsBottomSheet(state.suggestion.labels);
-        } else if (state.isStatusBottomSheetOpen && i.adminSettings != null) {
+        } else if (state.isStatusBottomSheetOpen && i.isAdmin) {
           return _statusesBottomSheet(state.suggestion.status);
         } else if (!state.isPhotoViewOpen) {
           return _createEditSuggestionBottomSheet(state);
@@ -180,7 +180,7 @@ class CreateEditSuggestionBottomSheetState
                 isLabelsBottomSheetOpen: value,
               ),
             ),
-            if (i.adminSettings != null && state.isEditing) ...<Widget>[
+            if (i.isAdmin && state.isEditing) ...<Widget>[
               Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
               _SuggestionStatus(
                 suggestionStatus: state.suggestion.status,

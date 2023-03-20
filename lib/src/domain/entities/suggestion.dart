@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:suggest_a_feature/src/domain/entities/comment.dart';
-import 'package:suggest_a_feature/src/domain/entities/utils/suggestion_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/date_utils.dart';
 
 class Suggestion extends Equatable {
@@ -105,8 +104,8 @@ class Suggestion extends Equatable {
   }
 
   factory Suggestion.fromJson({required Map<String, dynamic> json}) {
-    final votedUserIds = json['voted_user_ids'] as List<String>?;
-    final notifyUserIds = json['notify_user_ids'] as List<String>?;
+    final votedUserIds = json['voted_user_ids'] as List<dynamic>?;
+    final notifyUserIds = json['notify_user_ids'] as List<dynamic>?;
 
     return Suggestion(
       id: json['suggestion_id'].toString(),
@@ -114,18 +113,15 @@ class Suggestion extends Equatable {
       description: json['description'],
       labels: (json['labels'] as List<dynamic>)
           .cast<String>()
-          .map(LabelExt.labelType)
+          .map(SuggestionLabel.fromName)
           .toList(),
       images: (json['images'] as List<dynamic>).cast<String>(),
       authorId: json['author_id'],
       isAnonymous: json['is_anonymous'],
       creationTime: fromDateTime(json['creation_time']),
-      status: SuggestionStatus.values.firstWhere(
-        (SuggestionStatus e) => describeEnum(e) == json['status'],
-        orElse: () => SuggestionStatus.unknown,
-      ),
-      votedUserIds: votedUserIds?.toSet() ?? <String>{},
-      notifyUserIds: notifyUserIds?.toSet() ?? <String>{},
+      status: SuggestionStatus.fromName(json['status']),
+      votedUserIds: votedUserIds?.cast<String>().toSet() ?? {},
+      notifyUserIds: notifyUserIds?.cast<String>().toSet() ?? {},
     );
   }
 
@@ -160,10 +156,28 @@ enum SuggestionStatus {
   completed,
   duplicate,
   cancelled,
-  unknown,
+  unknown;
+
+  static SuggestionStatus fromName(String? name) {
+    return values.firstWhere(
+      (status) => status.name == name,
+      orElse: () => unknown,
+    );
+  }
 }
 
-enum SuggestionLabel { feature, bug, unknown }
+enum SuggestionLabel {
+  feature,
+  bug,
+  unknown;
+
+  static SuggestionLabel fromName(String? name) {
+    return values.firstWhere(
+      (label) => label.name == name,
+      orElse: () => unknown,
+    );
+  }
+}
 
 class CreateSuggestionModel {
   final String title;

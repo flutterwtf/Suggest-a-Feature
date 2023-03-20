@@ -26,7 +26,7 @@ jobs:
           flutter pub run build_runner build --delete-conflicting-outputs
           flutter config --enable-web
           dart pub global activate pana
-      
+
       - name: Analyze
         run: flutter analyze
 
@@ -34,10 +34,10 @@ jobs:
         run: flutter test
 
       - name: Check Pana
-        run: pana --no-warning --exit-code-threshold 20
+        run: pana --no-warning --exit-code-threshold 10
 
       - name: Build
-        run: | 
+        run: |
           cd example/
           flutter build web
           sed -i 's+href="/"+href="./"+g' build/web/index.html

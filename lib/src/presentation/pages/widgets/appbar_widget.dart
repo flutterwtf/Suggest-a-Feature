@@ -24,17 +24,19 @@ class SuggestionsAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: theme.primaryBackgroundColor,
       elevation: 0,
       centerTitle: true,
-      leading: onBackClick != null ? Padding(
-        padding: const EdgeInsets.only(
-          left: Dimensions.marginDefault,
-          right: Dimensions.marginSmall,
-        ),
-        child: SuggestionsBackButton(
-          onClick: onBackClick!,
-          pressedColor: theme.actionPressedColor,
-          color: theme.primaryTextColor,
-        ),
-      ) : null,
+      leading: onBackClick != null
+          ? Padding(
+              padding: const EdgeInsets.only(
+                left: Dimensions.marginDefault,
+                right: Dimensions.marginSmall,
+              ),
+              child: SuggestionsBackButton(
+                onClick: onBackClick!,
+                pressedColor: theme.actionPressedColor,
+                color: theme.primaryTextColor,
+              ),
+            )
+          : null,
       title: Text(
         screenTitle,
         style: theme.textMediumBold,

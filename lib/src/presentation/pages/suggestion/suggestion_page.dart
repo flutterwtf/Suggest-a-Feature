@@ -57,7 +57,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
     _cubit.init(
       suggestion: widget.suggestion,
       getUserById: widget.onGetUserById,
-      isAdmin: i.adminSettings != null,
+      isAdmin: i.isAdmin,
     );
   }
 
@@ -489,7 +489,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
               const SizedBox(width: Dimensions.marginDefault),
               Expanded(
                 child: Text(
-                  comment.author.username.isEmpty
+                  comment.isAnonymous
                       ? context.localization.anonymousAuthorName
                       : comment.author.username,
                   style: theme.textSmallPlusBold,
