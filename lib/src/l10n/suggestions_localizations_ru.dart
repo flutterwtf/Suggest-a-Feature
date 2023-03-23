@@ -61,7 +61,7 @@ class SuggestionsLocalizationsRu extends SuggestionsLocalizations {
   String get postAnonymously => 'Опубликовать анонимно';
 
   @override
-  String get postFromAdmin => 'Опубликовать от  имени разработчика';
+  String get postFromAdmin => 'Опубликовать от имени администратора';
 
   @override
   String get suggest => 'Предложить';
