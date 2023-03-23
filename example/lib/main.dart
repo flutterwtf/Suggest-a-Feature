@@ -24,8 +24,8 @@ class MyApp extends StatelessWidget {
       title: 'Suggest a feature Example page',
       home: Scaffold(
         body: SuggestionsPage(
-          onGetUserById: (String id) => Future<SuggestionAuthor>(
-            () => id == '2' ? _adminSettings : _suggestionAuthor,
+          onGetUserById: (id) => Future<SuggestionAuthor>(
+            () => _suggestionAuthor,
           ),
           suggestionsDataSource: MySuggestionDataSource(userId: '1'),
           theme: SuggestionsTheme.initial(),
@@ -62,7 +62,8 @@ class MySuggestionDataSource implements SuggestionsDataSource {
 
   @override
   Future<Suggestion> createSuggestion(
-      CreateSuggestionModel suggestionModel) async {
+    CreateSuggestionModel suggestionModel,
+  ) async {
     final Suggestion suggestion = Suggestion(
       id: _generateSuggestionId(),
       title: suggestionModel.title,
@@ -102,7 +103,7 @@ class MySuggestionDataSource implements SuggestionsDataSource {
     final Comment comment = Comment(
       id: _generateCommentId(),
       suggestionId: commentModel.suggestionId,
-      author: commentModel.isFromAdmin ? _adminSettings : _suggestionAuthor,
+      author: _suggestionAuthor,
       isAnonymous: commentModel.isAnonymous,
       text: commentModel.text,
       creationTime: DateTime.now(),

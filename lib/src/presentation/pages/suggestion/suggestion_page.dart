@@ -1,6 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:suggest_a_feature/src/domain/entities/admin_settings.dart';
 import 'package:suggest_a_feature/src/domain/entities/comment.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion_author.dart';
@@ -204,12 +205,16 @@ class _SuggestionPageState extends State<SuggestionPage> {
         await sheetController.collapse();
         _cubit.closeBottomSheet();
       },
-      onCreateComment: (String text, bool isAnonymous, bool isFromAdmin) {
+      onCreateComment: (
+        String text, {
+        required bool isAnonymous,
+        required bool postedByAdmin,
+      }) {
         _cubit.createComment(
           text,
           widget.onGetUserById,
           isAnonymous: isAnonymous,
-          postedByAdmin: isFromAdmin,
+          postedByAdmin: postedByAdmin,
         );
       },
     );
@@ -472,6 +477,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
   }
 
   Widget _commentCard(Comment comment) {
+    final author = _getAuthor(comment);
     return Container(
       padding: const EdgeInsets.all(Dimensions.marginDefault),
       color: theme.secondaryBackgroundColor,
@@ -483,15 +489,13 @@ class _SuggestionPageState extends State<SuggestionPage> {
             children: <Widget>[
               AvatarWidget(
                 backgroundColor: theme.primaryBackgroundColor,
-                avatar: comment.author.avatar,
+                avatar: author.avatar,
                 size: Dimensions.bigSize,
               ),
               const SizedBox(width: Dimensions.marginDefault),
               Expanded(
                 child: Text(
-                  comment.isAnonymous
-                      ? context.localization.anonymousAuthorName
-                      : comment.author.username,
+                  author.username,
                   style: theme.textSmallPlusBold,
                 ),
               ),
@@ -513,6 +517,23 @@ class _SuggestionPageState extends State<SuggestionPage> {
         ],
       ),
     );
+  }
+
+  SuggestionAuthor _getAuthor(Comment comment) {
+    if (comment.isFromAdmin) {
+      return i.adminSettings ??
+          AdminSettings(
+            id: comment.author.id,
+            username: context.localization.adminAuthorName,
+          );
+    } else if (comment.isAnonymous) {
+      return SuggestionAuthor(
+        id: comment.author.id,
+        username: context.localization.anonymousAuthorName,
+      );
+    }
+
+    return comment.author;
   }
 
   Widget _newCommentButton() {
