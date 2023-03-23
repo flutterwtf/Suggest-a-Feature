@@ -108,8 +108,8 @@ class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
                   await widget.onClose();
                   widget.onCreateComment(
                     _commentController.text,
-                    isAnonymous: !_isFromAdmin && _isAnonymously,
-                    postedByAdmin: _isFromAdmin,
+                    isAnonymous: !i.isAdmin && _isAnonymously,
+                    postedByAdmin: i.isAdmin && _isFromAdmin,
                   );
                 }
               },
