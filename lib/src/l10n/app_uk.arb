@@ -21,6 +21,7 @@
    "suggest": "Запропонувати",
    "status": "Статус",
    "anonymousAuthorName": "Анонім",
+   "adminAuthorName": "Адміністратор",
    "requests": "Пропозиції",
    "RequestsHeader": "Актуальні пропозиції",
    "requestsDescription": "Приєднуйтесь до спільноти",

@@ -173,42 +173,17 @@ class SuggestionCubit extends Cubit<SuggestionState> {
     required bool postedByAdmin,
   }) async {
     try {
-      late final Comment comment;
-      late final List<Comment> comments;
-      if (i.isAdmin) {
-        comment = await _suggestionInteractor.createComment(
-          CreateCommentModel(
-            authorId: postedByAdmin ? i.adminSettings!.id : i.userId,
-            isAnonymous: false,
-            text: text,
-            suggestionId: state.suggestion.id,
-            isFromAdmin: postedByAdmin,
-          ),
-        );
-        comments = [
-          ...state.suggestion.comments,
-          comment.copyWith(
-            author:
-                postedByAdmin ? i.adminSettings! : await getUserById(i.userId),
-          ),
-        ]..sort((a, b) => b.creationTime.compareTo(a.creationTime));
-      } else {
-        comment = await _suggestionInteractor.createComment(
-          CreateCommentModel(
-            authorId: i.userId,
-            isAnonymous: isAnonymous,
-            text: text,
-            suggestionId: state.suggestion.id,
-            isFromAdmin: false,
-          ),
-        );
-        comments = [
-          ...state.suggestion.comments,
-          comment.copyWith(
-            author: isAnonymous ? null : await getUserById(i.userId),
-          ),
-        ]..sort((a, b) => b.creationTime.compareTo(a.creationTime));
-      }
+      final comment = await _suggestionInteractor.createComment(
+        CreateCommentModel(
+          authorId: i.userId,
+          isAnonymous: isAnonymous,
+          text: text,
+          suggestionId: state.suggestion.id,
+          isFromAdmin: postedByAdmin,
+        ),
+      );
+      final comments = [comment, ...state.suggestion.comments]
+        ..sort((a, b) => b.creationTime.compareTo(a.creationTime));
 
       emit(
         state.newState(
