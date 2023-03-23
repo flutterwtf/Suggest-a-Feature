@@ -66,10 +66,11 @@ A small demo:
 
 ![gif](https://raw.githubusercontent.com/What-the-Flutter/Suggest-a-Feature/master/example/assets/suggest_a_feature_admin.gif)
 
-In order to enable admin functionality, you should specify the `adminSettings` property:
+In order to enable admin functionality, you should specify the `adminSettings` and set `isAdmin` to `true`:
 
 ``` dart
 SuggestionsPage(
+  isAdmin: true,
   adminSettings: const AdminSettings(
     id: '3',
     username: 'Admin',
