@@ -477,7 +477,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
   }
 
   Widget _commentCard(Comment comment) {
-    final author = _getAuthor(comment);
+    final author = _getDisplayedAuthor(comment);
     return Container(
       padding: const EdgeInsets.all(Dimensions.marginDefault),
       color: theme.secondaryBackgroundColor,
@@ -519,7 +519,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
     );
   }
 
-  SuggestionAuthor _getAuthor(Comment comment) {
+  SuggestionAuthor _getDisplayedAuthor(Comment comment) {
     if (comment.isFromAdmin) {
       return i.adminSettings ??
           AdminSettings(
