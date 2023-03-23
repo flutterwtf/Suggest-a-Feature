@@ -49,7 +49,6 @@ const SuggestionAuthor _suggestionAuthor = SuggestionAuthor(
 const AdminSettings _adminSettings = AdminSettings(
   id: '2',
   username: 'Admin',
-  avatar: 'https://play-lh.googleusercontent.com/3HQytCAkZK1ko232zLAhUi2T4lgmltRn2JpByX_LKfJl_lfSks1H_2zg833ostsPRaI=w240-h480',
 );
 
 class MySuggestionDataSource implements SuggestionsDataSource {
