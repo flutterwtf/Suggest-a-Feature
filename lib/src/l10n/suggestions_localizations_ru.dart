@@ -44,10 +44,12 @@ class SuggestionsLocalizationsRu extends SuggestionsLocalizations {
   String get delete => 'Удалить предложение';
 
   @override
-  String get deletionQuestion => 'Вы действительно хотите удалить это предложение?';
+  String get deletionQuestion =>
+      'Вы действительно хотите удалить это предложение?';
 
   @override
-  String get deletionPhotoQuestion => 'Вы действительно хотите удалить это фото?';
+  String get deletionPhotoQuestion =>
+      'Вы действительно хотите удалить это фото?';
 
   @override
   String get title => 'Кратко опишите ваше предложение';
