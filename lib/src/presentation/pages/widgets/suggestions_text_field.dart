@@ -54,7 +54,7 @@ class SuggestionsTextField extends StatelessWidget {
               ),
               child: SuggestionsPlatform.isIOS
                   ? _iosTextField()
-                  : _androidTextField(),
+                  : _commonTextField(),
             ),
           ),
         ],
@@ -62,7 +62,7 @@ class SuggestionsTextField extends StatelessWidget {
     );
   }
 
-  Widget _androidTextField() {
+  Widget _commonTextField() {
     return TextField(
       focusNode: focusNode,
       keyboardAppearance: keyboardAppearance,
@@ -94,7 +94,10 @@ class SuggestionsTextField extends StatelessWidget {
             : null,
       ),
       textCapitalization: TextCapitalization.sentences,
-      onChanged: onChanged?.call,
+      onChanged: (text) {
+        // Note: `onChanged: onChanged?.call` was not working on web release.
+        onChanged?.call(text);
+      },
       inputFormatters: inputFormatters,
     );
   }
@@ -129,6 +132,7 @@ class SuggestionsTextField extends StatelessWidget {
       padding: padding,
       textCapitalization: TextCapitalization.sentences,
       onChanged: onChanged?.call,
+      inputFormatters: inputFormatters,
     );
   }
 }
