@@ -131,6 +131,7 @@ class Suggestion extends Equatable {
       'description': description,
       'labels': labels.map(describeEnum).toList(),
       'images': images,
+      'status': describeEnum(status),
     };
   }
 
