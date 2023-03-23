@@ -44,12 +44,10 @@ class SuggestionsLocalizationsRu extends SuggestionsLocalizations {
   String get delete => 'Удалить предложение';
 
   @override
-  String get deletionQuestion =>
-      'Вы действительно хотите удалить это предложение?';
+  String get deletionQuestion => 'Вы действительно хотите удалить это предложение?';
 
   @override
-  String get deletionPhotoQuestion =>
-      'Вы действительно хотите удалить это фото?';
+  String get deletionPhotoQuestion => 'Вы действительно хотите удалить это фото?';
 
   @override
   String get title => 'Кратко опишите ваше предложение';
@@ -58,10 +56,10 @@ class SuggestionsLocalizationsRu extends SuggestionsLocalizations {
   String get description => 'Опишите ваше предложение более подробно';
 
   @override
-  String get postAnonymously => 'Опубликовать от  имени разработчика';
+  String get postAnonymously => 'Опубликовать анонимно';
 
   @override
-  String get postFromAdmin => 'Post from Admin';
+  String get postFromAdmin => 'Опубликовать от  имени разработчика';
 
   @override
   String get suggest => 'Предложить';
@@ -71,6 +69,9 @@ class SuggestionsLocalizationsRu extends SuggestionsLocalizations {
 
   @override
   String get anonymousAuthorName => 'Аноним';
+
+  @override
+  String get adminAuthorName => 'Администратор';
 
   @override
   String get requests => 'Предложения';

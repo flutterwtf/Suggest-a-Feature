@@ -21,6 +21,7 @@
   "suggest": "Suggest",
   "status": "Status",
   "anonymousAuthorName": "Anonymous",
+  "adminAuthorName": "Admin",
   "requests": "Requests",
   "requestsHeader": "Feature requests",
   "requestsDescription": "Join other users",
