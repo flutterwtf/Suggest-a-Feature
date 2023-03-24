@@ -107,7 +107,7 @@ class CreateCommentModel extends Equatable {
       'text': text,
       'suggestion_id': suggestionId,
       'creation_time': DateFormat('yyyy-MM-ddTHH:mm:ss').format(DateTime.now()),
-      //'is_from_admin': isFromAdmin,
+      'is_from_admin': isFromAdmin,
     };
   }
 
