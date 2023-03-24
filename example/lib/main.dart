@@ -24,20 +24,14 @@ class MyApp extends StatelessWidget {
       title: 'Suggest a feature Example page',
       home: Scaffold(
         body: SuggestionsPage(
-          onGetUserById: (String id) => Future<SuggestionAuthor>(
-            () => const SuggestionAuthor(
-              id: '1',
-              username: 'Author',
-            ),
+          onGetUserById: (id) => Future<SuggestionAuthor>(
+            () => _suggestionAuthor,
           ),
           suggestionsDataSource: MySuggestionDataSource(userId: '1'),
           theme: SuggestionsTheme.initial(),
           userId: '1',
           isAdmin: true,
-          adminSettings: const AdminSettings(
-            id: '2',
-            username: 'Admin',
-          ),
+          adminSettings: _adminSettings,
           customAppBar: const SuggestionsAppBar(
             screenTitle: 'Suggest a feature',
           ),
@@ -48,17 +42,18 @@ class MyApp extends StatelessWidget {
   }
 }
 
+const SuggestionAuthor _suggestionAuthor = SuggestionAuthor(
+  id: '1',
+  username: 'Author',
+);
+const AdminSettings _adminSettings = AdminSettings(
+  id: '2',
+  username: 'Admin',
+);
+
 class MySuggestionDataSource implements SuggestionsDataSource {
-  final SuggestionAuthor _suggestionAuthor = const SuggestionAuthor(
-    id: '1',
-    username: 'Author',
-  );
-  final SuggestionAuthor _adminSettings = const AdminSettings(
-    id: '2',
-    username: 'Admin',
-  );
-  final Map<String, dynamic> suggestions = <String, Suggestion>{};
-  Map<String, Comment> comments = <String, Comment>{};
+  final Map<String, dynamic> _suggestions = <String, Suggestion>{};
+  final Map<String, Comment> _comments = <String, Comment>{};
 
   MySuggestionDataSource({required this.userId});
 
@@ -67,7 +62,8 @@ class MySuggestionDataSource implements SuggestionsDataSource {
 
   @override
   Future<Suggestion> createSuggestion(
-      CreateSuggestionModel suggestionModel) async {
+    CreateSuggestionModel suggestionModel,
+  ) async {
     final Suggestion suggestion = Suggestion(
       id: _generateSuggestionId(),
       title: suggestionModel.title,
@@ -79,63 +75,63 @@ class MySuggestionDataSource implements SuggestionsDataSource {
       creationTime: DateTime.now(),
       status: suggestionModel.status,
     );
-    suggestions[suggestion.id] = suggestion;
+    _suggestions[suggestion.id] = suggestion;
     return getSuggestionById(suggestion.id);
   }
 
   @override
   Future<Suggestion> getSuggestionById(String suggestionId) async =>
-      suggestions[suggestionId];
+      _suggestions[suggestionId];
 
   @override
-  Future<List<Suggestion>> getAllSuggestions() async => suggestions.isNotEmpty
-      ? suggestions.values.cast<Suggestion>().toList()
+  Future<List<Suggestion>> getAllSuggestions() async => _suggestions.isNotEmpty
+      ? _suggestions.values.cast<Suggestion>().toList()
       : <Suggestion>[];
 
   @override
   Future<Suggestion> updateSuggestion(Suggestion suggestion) async {
-    suggestions[suggestion.id] = suggestion;
-    return suggestions[suggestion.id];
+    _suggestions[suggestion.id] = suggestion;
+    return _suggestions[suggestion.id];
   }
 
   @override
   Future<void> deleteSuggestionById(String suggestionId) async =>
-      suggestions.remove(suggestionId);
+      _suggestions.remove(suggestionId);
 
   @override
   Future<Comment> createComment(CreateCommentModel commentModel) async {
     final Comment comment = Comment(
       id: _generateCommentId(),
       suggestionId: commentModel.suggestionId,
-      author: commentModel.isFromAdmin ? _adminSettings : _suggestionAuthor,
+      author: _suggestionAuthor,
       isAnonymous: commentModel.isAnonymous,
       text: commentModel.text,
       creationTime: DateTime.now(),
       isFromAdmin: commentModel.isFromAdmin,
     );
-    comments[comment.id] = comment;
+    _comments[comment.id] = comment;
     return comment;
   }
 
   @override
   Future<List<Comment>> getAllComments(String suggestionId) async =>
-      comments.isNotEmpty
-          ? comments.values
+      _comments.isNotEmpty
+          ? _comments.values
               .where((comment) => comment.suggestionId == suggestionId)
               .toList()
           : <Comment>[];
 
   @override
   Future<void> deleteCommentById(String commentId) async =>
-      comments.remove(commentId);
+      _comments.remove(commentId);
 
   @override
   Future<void> addNotifyToUpdateUser(String suggestionId) async {
     final Set<String> modifiedSet = <String>{
-      ...suggestions[suggestionId]!.notifyUserIds,
+      ..._suggestions[suggestionId]!.notifyUserIds,
       userId
     };
-    suggestions[suggestionId] = suggestions[suggestionId]!.copyWith(
+    _suggestions[suggestionId] = _suggestions[suggestionId]!.copyWith(
       notifyUserIds: modifiedSet,
     );
   }
@@ -143,9 +139,9 @@ class MySuggestionDataSource implements SuggestionsDataSource {
   @override
   Future<void> deleteNotifyToUpdateUser(String suggestionId) async {
     final Set<String> modifiedSet = <String>{
-      ...suggestions[suggestionId]!.notifyUserIds..remove(userId)
+      ..._suggestions[suggestionId]!.notifyUserIds..remove(userId)
     };
-    suggestions[suggestionId] = suggestions[suggestionId]!.copyWith(
+    _suggestions[suggestionId] = _suggestions[suggestionId]!.copyWith(
       notifyUserIds: modifiedSet,
     );
   }
@@ -153,10 +149,10 @@ class MySuggestionDataSource implements SuggestionsDataSource {
   @override
   Future<void> upvote(String suggestionId) async {
     final Set<String> modifiedSet = <String>{
-      ...suggestions[suggestionId]!.votedUserIds,
+      ..._suggestions[suggestionId]!.votedUserIds,
       userId
     };
-    suggestions[suggestionId] = suggestions[suggestionId]!.copyWith(
+    _suggestions[suggestionId] = _suggestions[suggestionId]!.copyWith(
       votedUserIds: modifiedSet,
     );
   }
@@ -164,18 +160,18 @@ class MySuggestionDataSource implements SuggestionsDataSource {
   @override
   Future<void> downvote(String suggestionId) async {
     final Set<String> modifiedSet = <String>{
-      ...suggestions[suggestionId]!.votedUserIds..remove(userId)
+      ..._suggestions[suggestionId]!.votedUserIds..remove(userId)
     };
-    suggestions[suggestionId] = suggestions[suggestionId]!.copyWith(
+    _suggestions[suggestionId] = _suggestions[suggestionId]!.copyWith(
       votedUserIds: modifiedSet,
     );
   }
 
   String _generateCommentId() {
-    if (comments.isEmpty) {
+    if (_comments.isEmpty) {
       return '1';
     } else {
-      final Comment lastAddedComment = comments.values.last;
+      final Comment lastAddedComment = _comments.values.last;
       int lastId = int.parse(lastAddedComment.id);
       ++lastId;
       return lastId.toString();
@@ -183,10 +179,10 @@ class MySuggestionDataSource implements SuggestionsDataSource {
   }
 
   String _generateSuggestionId() {
-    if (suggestions.isEmpty) {
+    if (_suggestions.isEmpty) {
       return '1';
     } else {
-      final Suggestion lastAddedSuggestion = suggestions.values.last;
+      final Suggestion lastAddedSuggestion = _suggestions.values.last;
       int lastId = int.parse(lastAddedSuggestion.id);
       ++lastId;
       return lastId.toString();

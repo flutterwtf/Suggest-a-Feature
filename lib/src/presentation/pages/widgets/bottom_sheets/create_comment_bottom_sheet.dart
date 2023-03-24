@@ -10,7 +10,11 @@ import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
 
-typedef OnCreateComment = void Function(String, bool, bool);
+typedef OnCreateComment = void Function(
+  String text, {
+  required bool isAnonymous,
+  required bool postedByAdmin,
+});
 
 class CreateCommentBottomSheet extends StatefulWidget {
   final Future<void> Function() onClose;
@@ -104,8 +108,8 @@ class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
                   await widget.onClose();
                   widget.onCreateComment(
                     _commentController.text,
-                    _isAnonymously,
-                    _isFromAdmin,
+                    isAnonymous: !i.isAdmin && _isAnonymously,
+                    postedByAdmin: i.isAdmin && _isFromAdmin,
                   );
                 }
               },

@@ -231,6 +231,12 @@ abstract class SuggestionsLocalizations {
   /// **'Anonymous'**
   String get anonymousAuthorName;
 
+  /// No description provided for @adminAuthorName.
+  ///
+  /// In en, this message translates to:
+  /// **'Admin'**
+  String get adminAuthorName;
+
   /// No description provided for @requests.
   ///
   /// In en, this message translates to:

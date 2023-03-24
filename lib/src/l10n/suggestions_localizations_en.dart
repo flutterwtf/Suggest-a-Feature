@@ -73,6 +73,9 @@ class SuggestionsLocalizationsEn extends SuggestionsLocalizations {
   String get anonymousAuthorName => 'Anonymous';
 
   @override
+  String get adminAuthorName => 'Admin';
+
+  @override
   String get requests => 'Requests';
 
   @override
