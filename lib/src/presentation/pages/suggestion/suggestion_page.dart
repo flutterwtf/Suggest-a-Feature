@@ -526,7 +526,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
             id: comment.author.id,
             username: context.localization.adminAuthorName,
           );
-    } else if (comment.isAnonymous) {
+    } else if (comment.isAnonymous || comment.author.username.isEmpty) {
       return SuggestionAuthor(
         id: comment.author.id,
         username: context.localization.anonymousAuthorName,
