@@ -20,7 +20,9 @@ You can check interactive example [here](https://what-the-flutter.github.io/Sugg
 
 A small demo:
 
-![gif](https://raw.githubusercontent.com/What-the-Flutter/Suggest-a-Feature/master/example/assets/suggest_a_feature.gif)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/What-the-Flutter/Suggest-a-Feature/master/example/assets/suggest_a_feature.gif" width="280" />
+</p>
 
 ## Usage
 
@@ -64,7 +66,9 @@ Admin functionality allows you to edit any suggestion (e.g change its' status) a
 
 A small demo:
 
-![gif](https://raw.githubusercontent.com/What-the-Flutter/Suggest-a-Feature/master/example/assets/suggest_a_feature_admin.gif)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/What-the-Flutter/Suggest-a-Feature/master/example/assets/suggest_a_feature_admin.gif" width="280" />
+</p>
 
 In order to enable admin functionality, you should specify the `adminSettings` and set `isAdmin` to `true`:
 
