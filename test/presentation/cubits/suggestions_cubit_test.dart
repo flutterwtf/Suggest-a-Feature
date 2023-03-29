@@ -1,5 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_cubit.dart';
@@ -28,7 +30,7 @@ void main() {
       setUp(() {
         i.init(
           theme: mockSuggestionsTheme,
-          userId: '1',
+          userId: mockedSuggestionAuthor.id,
           suggestionsDataSource: mockSuggestionsDataSource,
         );
       });
@@ -93,18 +95,37 @@ void main() {
       blocTest<SuggestionsCubit, SuggestionsState>(
         'vote requested suggestion',
         build: () {
+          final dataStream = BehaviorSubject.seeded([
+            mockedSuggestion,
+            mockedSuggestion2,
+          ]);
+
+          when(mockSuggestionInteractor.suggestionsStream).thenAnswer(
+            (_) => dataStream,
+          );
+
+          when(mockSuggestionInteractor.upvote(any)).thenAnswer(
+            (_) => dataStream.add([mockedSuggestion, upvotedSuggestion]),
+          );
+
           return SuggestionsCubit(
             mockSuggestionInteractor,
-          );
+          )..init();
         },
-        seed: () => emptySuggestionsState,
-        act: (SuggestionsCubit cubit) async =>
-            cubit.vote(SuggestionStatus.requests, 1),
+        seed: () => SuggestionsState(
+          requests: [mockedSuggestion, mockedSuggestion2],
+          inProgress: const [],
+          completed: const [],
+          isCreateBottomSheetOpened: false,
+        ),
+        act: (cubit) {
+          cubit.vote(SuggestionStatus.requests, 1);
+        },
         expect: () => <SuggestionsState>[
           SuggestionsState(
-            requests: <Suggestion>[mockedSuggestion, upvotedSuggestion],
-            inProgress: <Suggestion>[mockedSuggestion, mockedSuggestion2],
-            completed: <Suggestion>[mockedSuggestion, mockedSuggestion2],
+            requests: [upvotedSuggestion, mockedSuggestion],
+            inProgress: const [],
+            completed: const [],
             isCreateBottomSheetOpened: false,
           ),
         ],
