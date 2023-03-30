@@ -33,13 +33,13 @@ class BottomSheetActions extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           if (hasLeftButton)
-            NewSuggestionTextButton(
+            _NewSuggestionTextButton(
               title: context.localization.cancel,
               onClick: onCancel ?? () {},
               isTonal: false,
             ),
           const SizedBox(width: Dimensions.marginMicro),
-          NewSuggestionTextButton(
+          _NewSuggestionTextButton(
             title: context.localization.done,
             onClick: onDone,
             enabled: isDoneActive,
@@ -50,14 +50,14 @@ class BottomSheetActions extends StatelessWidget {
   }
 }
 
-class NewSuggestionTextButton extends StatefulWidget {
+class _NewSuggestionTextButton extends StatefulWidget {
   final String title;
   final bool enabled;
   final bool isTonal;
   final VoidCallback onClick;
   final VoidCallback? onDisabledClick;
 
-  const NewSuggestionTextButton({
+  const _NewSuggestionTextButton({
     required this.title,
     required this.onClick,
     this.onDisabledClick,
@@ -67,11 +67,11 @@ class NewSuggestionTextButton extends StatefulWidget {
   });
 
   @override
-  State<NewSuggestionTextButton> createState() =>
+  State<_NewSuggestionTextButton> createState() =>
       _NewSuggestionTextButtonState();
 }
 
-class _NewSuggestionTextButtonState extends State<NewSuggestionTextButton> {
+class _NewSuggestionTextButtonState extends State<_NewSuggestionTextButton> {
   bool _pressed = false;
 
   @override
