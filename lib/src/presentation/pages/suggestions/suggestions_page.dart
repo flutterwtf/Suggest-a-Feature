@@ -160,42 +160,14 @@ class _SuggestionsPageState extends State<SuggestionsPage>
               tabController: _tabController,
             ),
           ),
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: <Widget>[
-                SuggestionList(
-                  status: SuggestionStatus.requests,
-                  suggestions: state.requests,
-                  color: theme.requestsTabColor,
-                  onGetUserById: widget.onGetUserById,
-                  onSaveToGallery: widget.onSaveToGallery,
-                  onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
-                  userId: widget.userId,
-                  vote: (int i) => _cubit.vote(SuggestionStatus.requests, i),
-                ),
-                SuggestionList(
-                  status: SuggestionStatus.inProgress,
-                  suggestions: state.inProgress,
-                  color: theme.inProgressTabColor,
-                  onGetUserById: widget.onGetUserById,
-                  onSaveToGallery: widget.onSaveToGallery,
-                  onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
-                  userId: widget.userId,
-                  vote: (int i) => _cubit.vote(SuggestionStatus.inProgress, i),
-                ),
-                SuggestionList(
-                  status: SuggestionStatus.completed,
-                  suggestions: state.completed,
-                  color: theme.completedTabColor,
-                  onGetUserById: widget.onGetUserById,
-                  onSaveToGallery: widget.onSaveToGallery,
-                  onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
-                  userId: widget.userId,
-                  vote: (int i) => _cubit.vote(SuggestionStatus.completed, i),
-                ),
-              ],
-            ),
+          _TabBarView(
+            state: state,
+            onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
+            onSaveToGallery: widget.onSaveToGallery,
+            onGetUserById: widget.onGetUserById,
+            userId: widget.userId,
+            onVote: _cubit.vote,
+            tabController: _tabController,
           ),
         ],
       ),
@@ -210,6 +182,67 @@ class _SuggestionsPageState extends State<SuggestionsPage>
           ?.then((_) => _cubit.closeCreateBottomSheet()),
       onSaveToGallery: widget.onSaveToGallery,
       onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
+    );
+  }
+}
+
+class _TabBarView extends StatelessWidget {
+  final SuggestionsState state;
+  final TabController tabController;
+  final OnGetUserById onGetUserById;
+  final OnSaveToGalleryCallback? onSaveToGallery;
+  final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
+  final void Function(SuggestionStatus status, int i) onVote;
+  final String userId;
+
+  const _TabBarView({
+    required this.state,
+    required this.tabController,
+    required this.onGetUserById,
+    required this.onSaveToGallery,
+    required this.userId,
+    required this.onUploadMultiplePhotos,
+    required this.onVote,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: TabBarView(
+        controller: tabController,
+        children: <Widget>[
+          SuggestionList(
+            status: SuggestionStatus.requests,
+            suggestions: state.requests,
+            color: theme.requestsTabColor,
+            onGetUserById: onGetUserById,
+            onSaveToGallery: onSaveToGallery,
+            onUploadMultiplePhotos: onUploadMultiplePhotos,
+            userId: userId,
+            vote: (int i) => onVote(SuggestionStatus.requests, i),
+          ),
+          SuggestionList(
+            status: SuggestionStatus.inProgress,
+            suggestions: state.inProgress,
+            color: theme.inProgressTabColor,
+            onGetUserById: onGetUserById,
+            onSaveToGallery: onSaveToGallery,
+            onUploadMultiplePhotos: onUploadMultiplePhotos,
+            userId: userId,
+            vote: (int i) => onVote(SuggestionStatus.inProgress, i),
+          ),
+          SuggestionList(
+            status: SuggestionStatus.completed,
+            suggestions: state.completed,
+            color: theme.completedTabColor,
+            onGetUserById: onGetUserById,
+            onSaveToGallery: onSaveToGallery,
+            onUploadMultiplePhotos: onUploadMultiplePhotos,
+            userId: userId,
+            vote: (int i) => onVote(SuggestionStatus.completed, i),
+          ),
+        ],
+      ),
     );
   }
 }

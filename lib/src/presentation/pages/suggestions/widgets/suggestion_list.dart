@@ -39,33 +39,72 @@ class SuggestionList extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             return index == 0
                 ? ListDescription(status: status, length: suggestions.length)
-                : Padding(
-                    padding: const EdgeInsets.only(
-                      bottom: Dimensions.marginDefault,
-                    ),
-                    child: SuggestionCard(
-                      suggestion: suggestions[index - 1],
-                      color: color,
-                      status: status,
-                      index: index - 1,
-                      onClick: () => Navigator.of(context).push(
-                        CupertinoPageRoute<dynamic>(
-                          builder: (_) => SuggestionPage(
-                            suggestion: suggestions[index - 1],
-                            onUploadMultiplePhotos: onUploadMultiplePhotos,
-                            onSaveToGallery: onSaveToGallery,
-                            onGetUserById: onGetUserById,
-                          ),
-                        ),
-                      ),
-                      userId: userId,
-                      voteCallBack: () => vote(index - 1),
-                    ),
+                : _ListItem(
+                    index: index,
+                    suggestions: suggestions,
+                    onGetUserById: onGetUserById,
+                    onSaveToGallery: onSaveToGallery,
+                    onUploadMultiplePhotos: onUploadMultiplePhotos,
+                    userId: userId,
+                    status: status,
+                    vote: vote,
+                    color: color,
                   );
           },
         ),
         const _Shadows(),
       ],
+    );
+  }
+}
+
+class _ListItem extends StatelessWidget {
+  final String userId;
+  final ValueChanged<int> vote;
+  final SuggestionStatus status;
+  final List<Suggestion> suggestions;
+  final Color color;
+  final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
+  final OnSaveToGalleryCallback? onSaveToGallery;
+  final OnGetUserById onGetUserById;
+  final int index;
+
+  const _ListItem({
+    required this.status,
+    required this.suggestions,
+    required this.color,
+    required this.onGetUserById,
+    required this.userId,
+    required this.vote,
+    required this.onUploadMultiplePhotos,
+    required this.onSaveToGallery,
+    required this.index,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        bottom: Dimensions.marginDefault,
+      ),
+      child: SuggestionCard(
+        suggestion: suggestions[index - 1],
+        color: color,
+        status: status,
+        index: index - 1,
+        onClick: () => Navigator.of(context).push(
+          CupertinoPageRoute<dynamic>(
+            builder: (_) => SuggestionPage(
+              suggestion: suggestions[index - 1],
+              onUploadMultiplePhotos: onUploadMultiplePhotos,
+              onSaveToGallery: onSaveToGallery,
+              onGetUserById: onGetUserById,
+            ),
+          ),
+        ),
+        userId: userId,
+        voteCallBack: () => vote(index - 1),
+      ),
     );
   }
 }

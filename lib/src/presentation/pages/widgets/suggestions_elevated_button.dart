@@ -36,15 +36,9 @@ class _SuggestionsElevatedButtonState extends State<SuggestionsElevatedButton> {
       behavior: HitTestBehavior.translucent,
       onTap: () =>
           widget.isLoading ? () => <dynamic, dynamic>{} : widget.onClick(),
-      onTapDown: (_) {
-        setState(() => _isPressed = true);
-      },
-      onTapUp: (_) {
-        setState(() => _isPressed = false);
-      },
-      onTapCancel: () {
-        setState(() => _isPressed = false);
-      },
+      onTapDown: (_) => setState(() => _isPressed = true),
+      onTapUp: (_) => setState(() => _isPressed = false),
+      onTapCancel: () => setState(() => _isPressed = false),
       child: SizedBox(
         height: Dimensions.buttonHeight,
         child: ElevatedButton(
@@ -61,30 +55,51 @@ class _SuggestionsElevatedButtonState extends State<SuggestionsElevatedButton> {
                   BorderRadius.circular(Dimensions.smallCircularRadius),
             ),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              if (widget.imageIcon != null) ...<Widget>[
-                SvgPicture.asset(
-                  widget.imageIcon!,
-                  package: AssetStrings.packageName,
-                  colorFilter: ColorFilter.mode(
-                    theme.elevatedButtonTextColor,
-                    BlendMode.srcIn,
-                  ),
-                ),
-                const SizedBox(width: Dimensions.marginSmall),
-              ],
-              Text(
-                widget.buttonText,
-                style: theme.textSmallPlusBold.copyWith(
-                  color: widget.textColor ?? theme.elevatedButtonTextColor,
-                ),
-              ),
-            ],
+          child: _ButtonContent(
+            buttonText: widget.buttonText,
+            textColor: widget.textColor,
+            imageIcon: widget.imageIcon,
           ),
         ),
       ),
+    );
+  }
+}
+
+class _ButtonContent extends StatelessWidget {
+  final String buttonText;
+  final String? imageIcon;
+  final Color? textColor;
+
+  const _ButtonContent({
+    required this.buttonText,
+    required this.textColor,
+    required this.imageIcon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        if (imageIcon != null) ...<Widget>[
+          SvgPicture.asset(
+            imageIcon!,
+            package: AssetStrings.packageName,
+            colorFilter: ColorFilter.mode(
+              theme.elevatedButtonTextColor,
+              BlendMode.srcIn,
+            ),
+          ),
+          const SizedBox(width: Dimensions.marginSmall),
+        ],
+        Text(
+          buttonText,
+          style: theme.textSmallPlusBold.copyWith(
+            color: textColor ?? theme.elevatedButtonTextColor,
+          ),
+        ),
+      ],
     );
   }
 }

@@ -95,36 +95,13 @@ class _TabButton extends StatelessWidget {
     final isActive = state.activeTab == status;
     return Column(
       children: <Widget>[
-        Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            Container(
-              height: inactiveIconHeight,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    color: isActive
-                        ? color.withOpacity(0.3)
-                        : theme.secondaryBackgroundColor,
-                    blurRadius: 7,
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: activeIconHeight,
-              child: SvgPicture.asset(
-                isActive ? activeImage : inactiveImage,
-                package: AssetStrings.packageName,
-                colorFilter: ColorFilter.mode(
-                  isActive ? color : theme.secondaryIconColor,
-                  BlendMode.srcIn,
-                ),
-                height: isActive ? activeIconHeight : inactiveIconHeight,
-              ),
-            ),
-          ],
+        _TabIcon(
+          inactiveIconHeight: inactiveIconHeight,
+          activeIconHeight: activeIconHeight,
+          inactiveImage: inactiveImage,
+          activeImage: activeImage,
+          isActive: isActive,
+          color: color,
         ),
         FittedBox(
           child: Text(
@@ -135,6 +112,59 @@ class _TabButton extends StatelessWidget {
                     height: textHeight,
                   )
                 : theme.textSmallPlusSecondary.copyWith(height: textHeight),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _TabIcon extends StatelessWidget {
+  final double inactiveIconHeight;
+  final bool isActive;
+  final Color color;
+  final double activeIconHeight;
+  final String activeImage;
+  final String inactiveImage;
+
+  const _TabIcon({
+    required this.inactiveIconHeight,
+    required this.activeIconHeight,
+    required this.inactiveImage,
+    required this.color,
+    required this.activeImage,
+    required this.isActive,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.center,
+      children: <Widget>[
+        Container(
+          height: inactiveIconHeight,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                color: isActive
+                    ? color.withOpacity(0.3)
+                    : theme.secondaryBackgroundColor,
+                blurRadius: 7,
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: activeIconHeight,
+          child: SvgPicture.asset(
+            isActive ? activeImage : inactiveImage,
+            package: AssetStrings.packageName,
+            colorFilter: ColorFilter.mode(
+              isActive ? color : theme.secondaryIconColor,
+              BlendMode.srcIn,
+            ),
+            height: isActive ? activeIconHeight : inactiveIconHeight,
           ),
         ),
       ],

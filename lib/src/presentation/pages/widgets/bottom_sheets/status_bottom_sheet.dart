@@ -58,30 +58,15 @@ class _StatusBottomSheetState extends State<StatusBottomSheet> {
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           children: <Widget>[
-            DecoratedBox(
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: theme.dividerColor,
-                    width: 0.5,
-                  ),
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  _StatusesList(
-                    onStatusTap: (status) {
-                      setState(() {
-                        if (selectedStatus != status) {
-                          selectedStatus = status;
-                        }
-                      });
-                    },
-                    selectedStatus: selectedStatus,
-                  ),
-                ],
-              ),
+            _Statuses(
+              onStatusTap: (status) {
+                setState(() {
+                  if (selectedStatus != status) {
+                    selectedStatus = status;
+                  }
+                });
+              },
+              selectedStatus: selectedStatus,
             ),
             BottomSheetActions(
               onCancel: widget.onCancel,
@@ -90,6 +75,39 @@ class _StatusBottomSheetState extends State<StatusBottomSheet> {
           ],
         );
       },
+    );
+  }
+}
+
+class _Statuses extends StatelessWidget {
+  final ValueChanged<SuggestionStatus> onStatusTap;
+  final SuggestionStatus selectedStatus;
+
+  const _Statuses({
+    required this.onStatusTap,
+    required this.selectedStatus,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: theme.dividerColor,
+            width: 0.5,
+          ),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          _StatusesList(
+            onStatusTap: onStatusTap,
+            selectedStatus: selectedStatus,
+          ),
+        ],
+      ),
     );
   }
 }

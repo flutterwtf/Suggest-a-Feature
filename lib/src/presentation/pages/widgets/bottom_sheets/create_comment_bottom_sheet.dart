@@ -83,25 +83,15 @@ class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
               },
             ),
             const SizedBox(height: Dimensions.marginBig),
-            if (!i.isAdmin) ...<Widget>[
-              Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
-              const SizedBox(height: Dimensions.marginSmall),
-              _PostAnonymously(
-                isAnonymously: _isAnonymously,
-                onChanged: (bool value) =>
-                    setState(() => _isAnonymously = value),
+            ..._postAdmin(
+              isAnonymously: _isAnonymously,
+              isFromAdmin: _isFromAdmin,
+              onChangedAdmin: (bool value) => setState(
+                () => _isFromAdmin = value,
               ),
-              const SizedBox(height: Dimensions.marginSmall),
-            ],
-            if (i.isAdmin) ...<Widget>[
-              Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
-              const SizedBox(height: Dimensions.marginSmall),
-              _PostPostedBy(
-                isFromAdmin: _isFromAdmin,
-                onChanged: (bool value) => setState(() => _isFromAdmin = value),
-              ),
-              const SizedBox(height: Dimensions.marginSmall),
-            ],
+              onChangedAnonymously: (bool value) =>
+                  setState(() => _isAnonymously = value),
+            ),
             _CreateCommentButton(
               onClick: () async {
                 if (_commentController.text.isNotEmpty) {
@@ -119,6 +109,31 @@ class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
       },
     );
   }
+}
+
+List<Widget> _postAdmin({
+  required bool isAnonymously,
+  required ValueChanged<bool> onChangedAdmin,
+  required ValueChanged<bool> onChangedAnonymously,
+  required bool isFromAdmin,
+}) {
+  if (!i.isAdmin) {
+    return <Widget>[
+      Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
+      const SizedBox(height: Dimensions.marginSmall),
+      _PostAnonymously(
+        isAnonymously: isAnonymously,
+        onChanged: onChangedAnonymously,
+      ),
+      const SizedBox(height: Dimensions.marginSmall),
+    ];
+  }
+  return <Widget>[
+    Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
+    const SizedBox(height: Dimensions.marginSmall),
+    _PostPostedBy(isFromAdmin: isFromAdmin, onChanged: onChangedAdmin),
+    const SizedBox(height: Dimensions.marginSmall),
+  ];
 }
 
 class _CommentTextField extends StatelessWidget {

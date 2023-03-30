@@ -74,6 +74,30 @@ class NewSuggestionTextButton extends StatefulWidget {
 class _NewSuggestionTextButtonState extends State<NewSuggestionTextButton> {
   bool _pressed = false;
 
+  void _onTapDown(TapDownDetails tapDownDetails) {
+    setState(() {
+      if (widget.enabled) {
+        _pressed = true;
+      }
+    });
+  }
+
+  void _onTapUp(TapUpDetails tapUpDetails) {
+    setState(() {
+      if (widget.enabled) {
+        _pressed = false;
+      }
+    });
+  }
+
+  void _onTapCancel() {
+    setState(() {
+      if (widget.enabled) {
+        _pressed = false;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var color = widget.enabled
@@ -91,21 +115,9 @@ class _NewSuggestionTextButtonState extends State<NewSuggestionTextButton> {
     }
     return GestureDetector(
       onTap: widget.enabled ? widget.onClick : widget.onDisabledClick?.call,
-      onTapDown: (_) => setState(() {
-        if (widget.enabled) {
-          _pressed = true;
-        }
-      }),
-      onTapUp: (_) => setState(() {
-        if (widget.enabled) {
-          _pressed = false;
-        }
-      }),
-      onTapCancel: () => setState(() {
-        if (widget.enabled) {
-          _pressed = false;
-        }
-      }),
+      onTapDown: _onTapDown,
+      onTapUp: _onTapUp,
+      onTapCancel: _onTapCancel,
       child: Container(
         alignment: Alignment.center,
         clipBehavior: Clip.hardEdge,

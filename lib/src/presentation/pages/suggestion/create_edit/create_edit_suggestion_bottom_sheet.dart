@@ -130,92 +130,25 @@ class CreateEditSuggestionBottomSheetState
       previousStatusBarColor: theme.primaryBackgroundColor,
       initialSnapping: 0.85,
       contentBuilder: (BuildContext context, SheetState sheetState) {
-        return ListView(
-          padding: const EdgeInsets.symmetric(
-            vertical: Dimensions.marginSmall,
+        return _EditSuggestionBottomSheetListView(
+          titleController: _titleController,
+          descriptionController: _descriptionController,
+          titleFocusNode: _titleFocusNode,
+          descriptionFocusNode: _descriptionFocusNode,
+          state: state,
+          onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
+          onTitleChanged: _cubit.changeSuggestionTitle,
+          onDescriptionChanged: _cubit.changeSuggestionDescription,
+          onLabelChanged: (value) => _cubit.changeLabelsBottomSheetStatus(
+            isLabelsBottomSheetOpen: value,
           ),
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          children: <Widget>[
-            SuggestionsTextField(
-              controller: _titleController,
-              focusNode: _titleFocusNode,
-              hintText: context.localization.title,
-              padding: const EdgeInsets.fromLTRB(
-                Dimensions.marginDefault,
-                Dimensions.marginDefault,
-                Dimensions.marginSmall,
-                Dimensions.marginDefault,
-              ),
-              onChanged: (String text) {
-                if (state.suggestion.title != text) {
-                  _cubit.changeSuggestionTitle(text);
-                }
-              },
-              isShowError: state.isShowTitleError,
-            ),
-            const SizedBox(height: Dimensions.marginDefault),
-            SuggestionsTextField(
-              controller: _descriptionController,
-              focusNode: _descriptionFocusNode,
-              hintText: context.localization.description,
-              padding: const EdgeInsets.fromLTRB(
-                Dimensions.marginDefault,
-                Dimensions.marginDefault,
-                Dimensions.marginSmall,
-                Dimensions.marginDefault,
-              ),
-              onChanged: (String text) {
-                if (state.suggestion.description != text) {
-                  _cubit.changeSuggestionDescription(text);
-                }
-              },
-            ),
-            const SizedBox(height: Dimensions.marginBig),
-            Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
-            _LabelItems(
-              labels: state.suggestion.labels,
-              changeLabelsBottomSheetStatus: (value) =>
-                  _cubit.changeLabelsBottomSheetStatus(
-                isLabelsBottomSheetOpen: value,
-              ),
-            ),
-            if (i.isAdmin && state.isEditing) ...<Widget>[
-              Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
-              _SuggestionStatus(
-                suggestionStatus: state.suggestion.status,
-                changeStatusBottomSheetStatus: (value) =>
-                    _cubit.changeStatusBottomSheetStatus(
-                  isStatusBottomSheetOpen: value,
-                ),
-              ),
-            ],
-            if (widget.onUploadMultiplePhotos != null) ...<Widget>[
-              if (state.suggestion.images.isNotEmpty)
-                const SizedBox.shrink()
-              else
-                _dividerWithIndent(),
-              _PhotoPickerItem(
-                state: state,
-                onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
-              ),
-            ],
-            if (!state.isEditing) ...<Widget>[
-              _dividerWithIndent(),
-              const SizedBox(height: Dimensions.marginSmall),
-              _PostAnonymously(
-                isAnonymously: state.suggestion.isAnonymous,
-                changeSuggestionAnonymity: (value) =>
-                    _cubit.changeSuggestionAnonymity(isAnonymous: value),
-              ),
-              const SizedBox(height: Dimensions.marginSmall),
-            ],
-            _SaveSubmitButton(
-              isEditing: state.isEditing,
-              isLoading: state.isLoading,
-              saveSuggestion: _cubit.saveSuggestion,
-            ),
-          ],
+          onAnonymityChanged: (value) => _cubit.changeSuggestionAnonymity(
+            isAnonymous: value,
+          ),
+          onStatusChanged: (value) => _cubit.changeStatusBottomSheetStatus(
+            isStatusBottomSheetOpen: value,
+          ),
+          onSave: _cubit.saveSuggestion,
         );
       },
     );
@@ -258,16 +191,6 @@ class CreateEditSuggestionBottomSheetState
               ),
             );
       },
-    );
-  }
-
-  Widget _dividerWithIndent() {
-    return Divider(
-      color: theme.dividerColor,
-      thickness: 0.5,
-      height: 1.5,
-      indent: Dimensions.marginDefault,
-      endIndent: Dimensions.marginDefault,
     );
   }
 
@@ -336,29 +259,26 @@ class _SuggestionStatus extends StatelessWidget {
     required this.changeStatusBottomSheetStatus,
   });
 
-  @override
-  Widget build(BuildContext context) {
-    late final String status;
+  String getStatus(BuildContext context) {
     switch (suggestionStatus) {
       case SuggestionStatus.completed:
-        status = context.localization.completed;
-        break;
+        return context.localization.completed;
       case SuggestionStatus.inProgress:
-        status = context.localization.inProgress;
-        break;
+        return context.localization.inProgress;
       case SuggestionStatus.requests:
-        status = context.localization.requests;
-        break;
+        return context.localization.requests;
       case SuggestionStatus.cancelled:
-        status = context.localization.cancelled;
-        break;
+        return context.localization.cancelled;
       case SuggestionStatus.duplicate:
-        status = context.localization.duplicate;
-        break;
+        return context.localization.duplicate;
       case SuggestionStatus.unknown:
-        status = '';
-        break;
+        return '';
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    late final status = getStatus(context);
 
     return ClickableListItem(
       title: Text(
@@ -456,88 +376,130 @@ class _PhotoPickerItem extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemCount: state.suggestion.images.length + 1,
                 itemBuilder: (BuildContext context, int i) {
-                  if (i == 0) {
-                    return GestureDetector(
-                      onTap: () {
-                        final availableNumOfPhotos = maxPhotosForOneSuggestion -
-                            state.suggestion.images.length;
-                        availableNumOfPhotos > 0
-                            ? _cubit.addUploadedPhotos(
-                                onUploadMultiplePhotos!(
-                                  availableNumOfPhotos: availableNumOfPhotos,
-                                ),
-                              )
-                            : BotToast.showText(
-                                text:
-                                    context.localization.eventPhotosRestriction,
-                              );
-                      },
-                      child: AddPhotoButton(
-                        width: state.suggestion.images.length > 2
-                            ? tileWidth * 0.9
-                            : tileWidth,
-                        height: (MediaQuery.of(context).size.width - 80) / 3,
-                        style: theme.textSmallPlusBold,
-                        isLoading: state.isLoading,
-                      ),
-                    );
-                  } else {
-                    return GestureDetector(
-                      onTap: () => _cubit.onPhotoClick(i - 1),
-                      child: Container(
-                        margin: const EdgeInsets.only(
-                          right: Dimensions.marginDefault,
-                        ),
-                        width: tileWidth,
-                        height: 98,
-                        clipBehavior: Clip.hardEdge,
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(Dimensions.smallCircularRadius),
-                          ),
-                        ),
-                        child: FittedBox(
-                          fit: BoxFit.cover,
-                          child: SuggestionsNetworkImage(
-                            url: state.suggestion.images[i - 1],
-                          ),
-                        ),
-                      ),
-                    );
-                  }
+                  return _PhotoItem(
+                    i: i,
+                    state: state,
+                    tileWidth: tileWidth,
+                    onUploadPhotos: () {
+                      final availableNumOfPhotos = maxPhotosForOneSuggestion -
+                          state.suggestion.images.length;
+                      availableNumOfPhotos > 0
+                          ? _cubit.addUploadedPhotos(
+                              onUploadMultiplePhotos!(
+                                availableNumOfPhotos: availableNumOfPhotos,
+                              ),
+                            )
+                          : BotToast.showText(
+                              text: context.localization.eventPhotosRestriction,
+                            );
+                    },
+                    onPhotoClick: () => _cubit.onPhotoClick(i - 1),
+                  );
                 },
               ),
             ),
           )
-        : ClickableListItem(
-            title: Text(
-              context.localization.addPhoto,
-              style: theme.textSmallPlusSecondaryBold,
-            ),
-            trailing: state.isLoading
-                ? CircularProgressIndicator(
-                    strokeWidth: 1,
-                    valueColor:
-                        AlwaysStoppedAnimation<Color>(theme.primaryIconColor),
-                  )
-                : SvgPicture.asset(
-                    AssetStrings.plusIconThickImage,
-                    package: AssetStrings.packageName,
-                    colorFilter: ColorFilter.mode(
-                      theme.primaryIconColor,
-                      BlendMode.srcIn,
-                    ),
-                    height: state.suggestion.images.isNotEmpty
-                        ? Dimensions.smallSize
-                        : Dimensions.defaultSize,
-                  ),
-            onClick: () => _cubit.addUploadedPhotos(
+        : _AddButton(
+            state: state,
+            onUploadPhotos: () => _cubit.addUploadedPhotos(
               onUploadMultiplePhotos!(
                 availableNumOfPhotos: maxPhotosForOneSuggestion,
               ),
             ),
-            verticalPadding: Dimensions.marginDefault,
           );
+  }
+}
+
+class _PhotoItem extends StatelessWidget {
+  final int i;
+  final CreateEditSuggestionState state;
+  final VoidCallback onUploadPhotos;
+  final double tileWidth;
+  final VoidCallback onPhotoClick;
+
+  const _PhotoItem({
+    required this.i,
+    required this.state,
+    required this.onUploadPhotos,
+    required this.tileWidth,
+    required this.onPhotoClick,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (i == 0) {
+      return GestureDetector(
+        onTap: onUploadPhotos,
+        child: AddPhotoButton(
+          width:
+              state.suggestion.images.length > 2 ? tileWidth * 0.9 : tileWidth,
+          height: (MediaQuery.of(context).size.width - 80) / 3,
+          style: theme.textSmallPlusBold,
+          isLoading: state.isLoading,
+        ),
+      );
+    } else {
+      return GestureDetector(
+        onTap: onPhotoClick,
+        child: Container(
+          margin: const EdgeInsets.only(
+            right: Dimensions.marginDefault,
+          ),
+          width: tileWidth,
+          height: 98,
+          clipBehavior: Clip.hardEdge,
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(Dimensions.smallCircularRadius),
+            ),
+          ),
+          child: FittedBox(
+            fit: BoxFit.cover,
+            child: SuggestionsNetworkImage(
+              url: state.suggestion.images[i - 1],
+            ),
+          ),
+        ),
+      );
+    }
+  }
+}
+
+class _AddButton extends StatelessWidget {
+  final CreateEditSuggestionState state;
+  final VoidCallback onUploadPhotos;
+
+  const _AddButton({
+    required this.state,
+    required this.onUploadPhotos,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ClickableListItem(
+      title: Text(
+        context.localization.addPhoto,
+        style: theme.textSmallPlusSecondaryBold,
+      ),
+      trailing: state.isLoading
+          ? CircularProgressIndicator(
+              strokeWidth: 1,
+              valueColor: AlwaysStoppedAnimation<Color>(theme.primaryIconColor),
+            )
+          : SvgPicture.asset(
+              AssetStrings.plusIconThickImage,
+              package: AssetStrings.packageName,
+              colorFilter: ColorFilter.mode(
+                theme.primaryIconColor,
+                BlendMode.srcIn,
+              ),
+              height: state.suggestion.images.isNotEmpty
+                  ? Dimensions.smallSize
+                  : Dimensions.defaultSize,
+            ),
+      onClick: onUploadPhotos,
+      verticalPadding: Dimensions.marginDefault,
+    );
   }
 }
 
@@ -598,6 +560,156 @@ class _PhotoPreviewState extends State<_PhotoPreview> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _EditSuggestionBottomSheetListView extends StatelessWidget {
+  final TextEditingController titleController;
+  final TextEditingController descriptionController;
+  final FocusNode titleFocusNode;
+  final FocusNode descriptionFocusNode;
+  final CreateEditSuggestionState state;
+  final ValueChanged<String> onTitleChanged;
+  final ValueChanged<String> onDescriptionChanged;
+  final ValueChanged<bool> onLabelChanged;
+  final ValueChanged<bool> onStatusChanged;
+  final ValueChanged<bool> onAnonymityChanged;
+  final VoidCallback onSave;
+  final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
+
+  const _EditSuggestionBottomSheetListView({
+    required this.titleController,
+    required this.descriptionController,
+    required this.titleFocusNode,
+    required this.descriptionFocusNode,
+    required this.state,
+    required this.onTitleChanged,
+    required this.onDescriptionChanged,
+    required this.onLabelChanged,
+    required this.onStatusChanged,
+    required this.onAnonymityChanged,
+    required this.onSave,
+    required this.onUploadMultiplePhotos,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      padding: const EdgeInsets.symmetric(
+        vertical: Dimensions.marginSmall,
+      ),
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      children: <Widget>[
+        SuggestionsTextField(
+          controller: titleController,
+          focusNode: titleFocusNode,
+          hintText: context.localization.title,
+          padding: const EdgeInsets.fromLTRB(
+            Dimensions.marginDefault,
+            Dimensions.marginDefault,
+            Dimensions.marginSmall,
+            Dimensions.marginDefault,
+          ),
+          onChanged: (String text) {
+            if (state.suggestion.title != text) {
+              onTitleChanged(text);
+            }
+          },
+          isShowError: state.isShowTitleError,
+        ),
+        const SizedBox(height: Dimensions.marginDefault),
+        SuggestionsTextField(
+          controller: descriptionController,
+          focusNode: descriptionFocusNode,
+          hintText: context.localization.description,
+          padding: const EdgeInsets.fromLTRB(
+            Dimensions.marginDefault,
+            Dimensions.marginDefault,
+            Dimensions.marginSmall,
+            Dimensions.marginDefault,
+          ),
+          onChanged: (String text) {
+            if (state.suggestion.description != text) {
+              onDescriptionChanged(text);
+            }
+          },
+        ),
+        const SizedBox(height: Dimensions.marginBig),
+        Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
+        _LabelItems(
+          labels: state.suggestion.labels,
+          changeLabelsBottomSheetStatus: onLabelChanged,
+        ),
+        ..._suggestionStatus(),
+        ..._multiplePicker(),
+        ..._anonymitySwitch(),
+        _SaveSubmitButton(
+          isEditing: state.isEditing,
+          isLoading: state.isLoading,
+          saveSuggestion: onSave,
+        ),
+      ],
+    );
+  }
+
+  List<Widget> _suggestionStatus() {
+    if (i.isAdmin && state.isEditing) {
+      return <Widget>[
+        Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
+        _SuggestionStatus(
+          suggestionStatus: state.suggestion.status,
+          changeStatusBottomSheetStatus: onStatusChanged,
+        ),
+      ];
+    }
+    return [];
+  }
+
+  List<Widget> _multiplePicker() {
+    if (onUploadMultiplePhotos != null) {
+      return <Widget>[
+        if (state.suggestion.images.isNotEmpty)
+          const SizedBox.shrink()
+        else
+          const _DividerWithIndent(),
+        _PhotoPickerItem(
+          state: state,
+          onUploadMultiplePhotos: onUploadMultiplePhotos,
+        ),
+      ];
+    }
+    return [];
+  }
+
+  List<Widget> _anonymitySwitch() {
+    if (!state.isEditing) {
+      return <Widget>[
+        const _DividerWithIndent(),
+        const SizedBox(height: Dimensions.marginSmall),
+        _PostAnonymously(
+          isAnonymously: state.suggestion.isAnonymous,
+          changeSuggestionAnonymity: onAnonymityChanged,
+        ),
+        const SizedBox(height: Dimensions.marginSmall),
+      ];
+    }
+    return [];
+  }
+}
+
+class _DividerWithIndent extends StatelessWidget {
+  const _DividerWithIndent();
+
+  @override
+  Widget build(BuildContext context) {
+    return Divider(
+      color: theme.dividerColor,
+      thickness: 0.5,
+      height: 1.5,
+      indent: Dimensions.marginDefault,
+      endIndent: Dimensions.marginDefault,
     );
   }
 }

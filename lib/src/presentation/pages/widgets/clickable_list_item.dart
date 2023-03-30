@@ -32,15 +32,11 @@ class _ClickableListItemState extends State<ClickableListItem> {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: widget.onClick,
-      onPanDown: (DragDownDetails tapDetails) {
-        setState(() => _pressed = true);
-      },
-      onPanCancel: () {
-        setState(() => _pressed = false);
-      },
-      onPanUpdate: (DragUpdateDetails details) {
-        setState(() => _pressed = false);
-      },
+      onPanDown: (DragDownDetails tapDetails) =>
+          setState(() => _pressed = true),
+      onPanCancel: () => setState(() => _pressed = false),
+      onPanUpdate: (DragUpdateDetails details) =>
+          setState(() => _pressed = false),
       child: ColoredBox(
         color: _pressed ? theme.actionBackgroundColor : Colors.transparent,
         child: Padding(
