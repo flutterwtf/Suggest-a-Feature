@@ -30,19 +30,15 @@ class SuggestionRepositoryImpl implements SuggestionRepository {
 
   @override
   void refreshSuggestions(Suggestion suggestion, {bool saveComments = true}) {
-    final suggestions = List<Suggestion>.from(this.suggestions);
-    final removedSuggestion = suggestions.firstWhere(
-      (Suggestion e) => e.id == suggestion.id,
+    final suggestions = [...this.suggestions];
+    final indexForUpdate = suggestions.indexWhere((e) => e.id == suggestion.id);
+    final oldSuggestion = suggestions[indexForUpdate];
+
+    suggestions[indexForUpdate] = suggestion.copyWith(
+      comments: saveComments ? oldSuggestion.comments : null,
     );
-    suggestions.remove(removedSuggestion);
-    _suggestionsSubject.add(
-      suggestions
-        ..add(
-          suggestion.copyWith(
-            comments: saveComments ? removedSuggestion.comments : null,
-          ),
-        ),
-    );
+
+    _suggestionsSubject.add(suggestions);
   }
 
   @override
