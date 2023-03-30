@@ -28,7 +28,7 @@ class AddPhotoButton extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: Dimensions.marginDefault),
       child: DottedBorder(
         dashPattern: const <double>[10, 4],
-        borderType: BorderType.RRect,
+        borderType: BorderType.rRect,
         strokeCap: StrokeCap.round,
         color: theme.actionColor,
         radius: const Radius.circular(Dimensions.smallCircularRadius),
