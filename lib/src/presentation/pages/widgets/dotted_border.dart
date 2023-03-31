@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 
-// ignore_for_file: avoid_equals_and_hash_code_on_mutable_classes
-
+/// DottedBorder source: https://github.com/ajilo297/Flutter-Dotted-Border
+/// PathDrawing source: https://github.com/dnfield/flutter_path_drawing
+/// Add a dotted border around any [child] widget. The [strokeWidth] property
+/// defines the width of the dashed border and [color] determines the stroke
+/// paint color. [_CircularIntervalList] is populated with the [dashPattern] to
+/// render the appropriate pattern. The [radius] property is taken into account
+/// only if the [borderType] is [BorderType.rRect]. A [customPath] can be
+/// passed in as a parameter if you want to draw a custom shaped border.
 class DottedBorder extends StatelessWidget {
   final Widget child;
   final EdgeInsets padding;
@@ -53,6 +59,9 @@ class DottedBorder extends StatelessWidget {
     );
   }
 
+  /// Compute if [dashPattern] is valid. The following conditions need to be met
+  /// * Cannot be null or empty
+  /// * If [dashPattern] has only 1 element, it cannot be 0
   bool _isValidDashPattern(List<double>? dashPattern) {
     final dashSet = dashPattern?.toSet();
     if (dashSet == null) {
@@ -65,6 +74,7 @@ class DottedBorder extends StatelessWidget {
   }
 }
 
+/// The different supported BorderTypes
 enum BorderType { circle, rRect, rect, oval }
 
 typedef PathBuilder = Path Function(Size);
@@ -109,6 +119,7 @@ class _DashPainter extends CustomPainter {
     canvas.drawPath(path, paint);
   }
 
+  /// Returns a [Path] based on the the [borderType] parameter
   Path _getPath(Size size) {
     Path path;
     switch (borderType) {
@@ -132,6 +143,7 @@ class _DashPainter extends CustomPainter {
     );
   }
 
+  /// Returns a circular path of [size]
   Path _getCirclePath(Size size) {
     final w = size.width;
     final h = size.height;
@@ -151,6 +163,7 @@ class _DashPainter extends CustomPainter {
       );
   }
 
+  /// Returns a Rounded Rectangular Path with [radius] of [size]
   Path _getRRectPath(Size size, Radius radius) {
     return Path()
       ..addRRect(
@@ -166,6 +179,7 @@ class _DashPainter extends CustomPainter {
       );
   }
 
+  /// Returns a path of [size]
   Path _getRectPath(Size size) {
     return Path()
       ..addRect(
@@ -178,6 +192,7 @@ class _DashPainter extends CustomPainter {
       );
   }
 
+  /// Return an oval path of [size]
   Path _getOvalPath(Size size) {
     return Path()
       ..addOval(
@@ -199,6 +214,12 @@ class _DashPainter extends CustomPainter {
   }
 }
 
+/// Creates a new path that is drawn from the segments of `source`.
+///
+/// Dash intervals are controlled by the `dashArray` -
+/// see [_CircularIntervalList] for examples.
+///
+/// Passing a `source` that is an empty path will return an empty path.
 Path _dashPath(
   Path source, {
   required _CircularIntervalList<double> dashArray,
@@ -220,6 +241,15 @@ Path _dashPath(
   return dest;
 }
 
+/// A circular array of dash offsets and lengths.
+///
+/// For example, the array `[5, 10]` would result in dashes 5 pixels long
+/// followed by blank spaces 10 pixels long.  The array `[5, 10, 5]` would
+/// result in a 5 pixel dash, a 10 pixel gap, a 5 pixel dash, a 5 pixel gap,
+/// a 10 pixel dash, etc.
+///
+/// Note that this does not quite conform to an [Iterable<T>], because it does
+/// not have a moveNext.
 class _CircularIntervalList<T> {
   _CircularIntervalList(this._vals);
 
