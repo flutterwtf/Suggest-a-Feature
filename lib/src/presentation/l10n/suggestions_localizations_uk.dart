@@ -1,3 +1,8 @@
+// ignore_for_file: always_use_package_imports
+// ignore_for_file: use_super_parameters
+// ignore_for_file: avoid_escaping_inner_quotes
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'suggestions_localizations.dart';
 
 /// The translations for Ukrainian (`uk`).
