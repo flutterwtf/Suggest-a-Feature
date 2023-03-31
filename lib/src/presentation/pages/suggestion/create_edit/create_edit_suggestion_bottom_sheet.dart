@@ -78,118 +78,65 @@ class CreateEditSuggestionBottomSheetState
     super.dispose();
   }
 
+  bool _listenWhen(
+    CreateEditSuggestionState previous,
+    CreateEditSuggestionState current,
+  ) {
+    return (previous.savingImageResultMessageType ==
+                SavingResultMessageType.none &&
+            current.savingImageResultMessageType !=
+                SavingResultMessageType.none) ||
+        (!previous.isSubmitted && current.isSubmitted) ||
+        (previous.isPhotoViewOpen != current.isPhotoViewOpen);
+  }
+
+  void _listener(BuildContext context, CreateEditSuggestionState state) {
+    if (state.savingImageResultMessageType != SavingResultMessageType.none) {
+      state.savingImageResultMessageType == SavingResultMessageType.success
+          ? BotToast.showText(text: context.localization.savingImageSuccess)
+          : BotToast.showText(text: context.localization.savingImageError);
+    } else if (state.isSubmitted) {
+      widget.onClose();
+    } else if (state.isPhotoViewOpen) {
+      _openPhotoView(state);
+    }
+    _cubit.reset();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<CreateEditSuggestionCubit, CreateEditSuggestionState>(
       bloc: _cubit,
-      listenWhen: (
-        CreateEditSuggestionState previous,
-        CreateEditSuggestionState current,
-      ) {
-        return (previous.savingImageResultMessageType ==
-                    SavingResultMessageType.none &&
-                current.savingImageResultMessageType !=
-                    SavingResultMessageType.none) ||
-            (!previous.isSubmitted && current.isSubmitted) ||
-            (previous.isPhotoViewOpen != current.isPhotoViewOpen);
-      },
-      listener: (BuildContext context, CreateEditSuggestionState state) {
-        if (state.savingImageResultMessageType !=
-            SavingResultMessageType.none) {
-          state.savingImageResultMessageType == SavingResultMessageType.success
-              ? BotToast.showText(text: context.localization.savingImageSuccess)
-              : BotToast.showText(text: context.localization.savingImageError);
-        } else if (state.isSubmitted) {
-          widget.onClose();
-        } else if (state.isPhotoViewOpen) {
-          _openPhotoView(state);
-        }
-        _cubit.reset();
-      },
+      listenWhen: _listenWhen,
+      listener: _listener,
       builder: (BuildContext context, CreateEditSuggestionState state) {
         if (state.isLabelsBottomSheetOpen) {
-          return _labelsBottomSheet(state.suggestion.labels);
+          return _LabelsBottomSheet(
+            suggestionList: state.suggestion.labels,
+            labelsSheetController: _labelsSheetController,
+            cubit: _cubit,
+          );
         } else if (state.isStatusBottomSheetOpen && i.isAdmin) {
-          return _statusesBottomSheet(state.suggestion.status);
+          return _StatusesBottomSheet(
+            suggestionStatus: state.suggestion.status,
+            statusesSheetController: _statusesSheetController,
+            cubit: _cubit,
+          );
         } else if (!state.isPhotoViewOpen) {
-          return _createEditSuggestionBottomSheet(state);
+          return _CreateEditSuggestionBottomSheet(
+            state: state,
+            cubit: _cubit,
+            titleFocusNode: _titleFocusNode,
+            controller: widget.controller,
+            onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
+            descriptionController: _descriptionController,
+            descriptionFocusNode: _descriptionFocusNode,
+            titleController: _titleController,
+            onClose: widget.onClose,
+          );
         } else {
           return Container();
         }
-      },
-    );
-  }
-
-  Widget _createEditSuggestionBottomSheet(CreateEditSuggestionState state) {
-    return BaseBottomSheet(
-      controller: widget.controller,
-      onOpen: () => _titleFocusNode.requestFocus(),
-      onClose: ([_]) => widget.onClose(),
-      backgroundColor: theme.bottomSheetBackgroundColor,
-      previousNavBarColor: theme.primaryBackgroundColor,
-      previousStatusBarColor: theme.primaryBackgroundColor,
-      initialSnapping: 0.85,
-      contentBuilder: (BuildContext context, SheetState sheetState) {
-        return _EditSuggestionBottomSheetListView(
-          titleController: _titleController,
-          descriptionController: _descriptionController,
-          titleFocusNode: _titleFocusNode,
-          descriptionFocusNode: _descriptionFocusNode,
-          state: state,
-          onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
-          onTitleChanged: _cubit.changeSuggestionTitle,
-          onDescriptionChanged: _cubit.changeSuggestionDescription,
-          onLabelChanged: (value) => _cubit.changeLabelsBottomSheetStatus(
-            isLabelsBottomSheetOpen: value,
-          ),
-          onAnonymityChanged: (value) => _cubit.changeSuggestionAnonymity(
-            isAnonymous: value,
-          ),
-          onStatusChanged: (value) => _cubit.changeStatusBottomSheetStatus(
-            isStatusBottomSheetOpen: value,
-          ),
-          onSave: _cubit.saveSuggestion,
-        );
-      },
-    );
-  }
-
-  Widget _labelsBottomSheet(List<SuggestionLabel> suggestionList) {
-    return LabelBottomSheet(
-      controller: _labelsSheetController,
-      selectedLabels: suggestionList,
-      onCancel: ([_]) => _labelsSheetController.collapse()?.then(
-            (_) => _cubit.changeLabelsBottomSheetStatus(
-              isLabelsBottomSheetOpen: false,
-            ),
-          ),
-      onDone: (List<SuggestionLabel> labels) {
-        _cubit.selectLabels(labels);
-        _labelsSheetController.collapse()?.then(
-              (_) => _cubit.changeLabelsBottomSheetStatus(
-                isLabelsBottomSheetOpen: false,
-              ),
-            );
-      },
-    );
-  }
-
-  Widget _statusesBottomSheet(SuggestionStatus suggestionStatus) {
-    return StatusBottomSheet(
-      controller: _statusesSheetController,
-      selectedStatus: suggestionStatus,
-      onCancel: ([_]) => _statusesSheetController.collapse()?.then(
-            (_) => _cubit.changeStatusBottomSheetStatus(
-              isStatusBottomSheetOpen: false,
-            ),
-          ),
-      onDone: (SuggestionStatus status) {
-        _cubit.changeStatus(status);
-        _statusesSheetController.collapse()?.then(
-              (_) => _cubit.changeStatusBottomSheetStatus(
-                isStatusBottomSheetOpen: false,
-              ),
-            );
       },
     );
   }
@@ -214,6 +161,65 @@ class CreateEditSuggestionBottomSheetState
       },
     );
     _cubit.changePhotoViewStatus(isPhotoViewOpen: false);
+  }
+}
+
+class _CreateEditSuggestionBottomSheet extends StatelessWidget {
+  final CreateEditSuggestionState state;
+  final CreateEditSuggestionCubit cubit;
+  final FocusNode titleFocusNode;
+  final SheetController controller;
+  final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
+  final TextEditingController descriptionController;
+  final FocusNode descriptionFocusNode;
+  final TextEditingController titleController;
+  final VoidCallback onClose;
+
+  const _CreateEditSuggestionBottomSheet({
+    required this.state,
+    required this.cubit,
+    required this.titleFocusNode,
+    required this.controller,
+    required this.onUploadMultiplePhotos,
+    required this.descriptionController,
+    required this.descriptionFocusNode,
+    required this.titleController,
+    required this.onClose,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BaseBottomSheet(
+      controller: controller,
+      onOpen: titleFocusNode.requestFocus,
+      onClose: ([_]) => onClose(),
+      backgroundColor: theme.bottomSheetBackgroundColor,
+      previousNavBarColor: theme.primaryBackgroundColor,
+      previousStatusBarColor: theme.primaryBackgroundColor,
+      initialSnapping: 0.85,
+      contentBuilder: (BuildContext context, SheetState sheetState) {
+        return _EditSuggestionBottomSheetListView(
+          titleController: titleController,
+          descriptionController: descriptionController,
+          titleFocusNode: titleFocusNode,
+          descriptionFocusNode: descriptionFocusNode,
+          state: state,
+          onUploadMultiplePhotos: onUploadMultiplePhotos,
+          onTitleChanged: cubit.changeSuggestionTitle,
+          onDescriptionChanged: cubit.changeSuggestionDescription,
+          onLabelChanged: (value) => cubit.changeLabelsBottomSheetStatus(
+            isLabelsBottomSheetOpen: value,
+          ),
+          onAnonymityChanged: (value) => cubit.changeSuggestionAnonymity(
+            isAnonymous: value,
+          ),
+          onStatusChanged: (value) => cubit.changeStatusBottomSheetStatus(
+            isStatusBottomSheetOpen: value,
+          ),
+          onSave: cubit.saveSuggestion,
+        );
+      },
+    );
   }
 }
 
@@ -259,7 +265,7 @@ class _SuggestionStatus extends StatelessWidget {
     required this.changeStatusBottomSheetStatus,
   });
 
-  String getStatus(BuildContext context) {
+  String _suggestionStatus(BuildContext context) {
     switch (suggestionStatus) {
       case SuggestionStatus.completed:
         return context.localization.completed;
@@ -278,15 +284,13 @@ class _SuggestionStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    late final status = getStatus(context);
-
     return ClickableListItem(
       title: Text(
         context.localization.status,
         style: theme.textSmallPlusSecondaryBold,
       ),
       trailing: Text(
-        status,
+        _suggestionStatus(context),
         style: theme.textSmallPlusBold,
       ),
       onClick: () => changeStatusBottomSheetStatus(true),
@@ -696,6 +700,72 @@ class _EditSuggestionBottomSheetListView extends StatelessWidget {
       ];
     }
     return [];
+  }
+}
+
+class _StatusesBottomSheet extends StatelessWidget {
+  final SuggestionStatus suggestionStatus;
+  final SheetController statusesSheetController;
+  final CreateEditSuggestionCubit cubit;
+
+  const _StatusesBottomSheet({
+    required this.suggestionStatus,
+    required this.statusesSheetController,
+    required this.cubit,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return StatusBottomSheet(
+      controller: statusesSheetController,
+      selectedStatus: suggestionStatus,
+      onCancel: ([_]) => statusesSheetController.collapse()?.then(
+            (_) => cubit.changeStatusBottomSheetStatus(
+              isStatusBottomSheetOpen: false,
+            ),
+          ),
+      onDone: (SuggestionStatus status) {
+        cubit.changeStatus(status);
+        statusesSheetController.collapse()?.then(
+              (_) => cubit.changeStatusBottomSheetStatus(
+                isStatusBottomSheetOpen: false,
+              ),
+            );
+      },
+    );
+  }
+}
+
+class _LabelsBottomSheet extends StatelessWidget {
+  final List<SuggestionLabel> suggestionList;
+  final SheetController labelsSheetController;
+  final CreateEditSuggestionCubit cubit;
+
+  const _LabelsBottomSheet({
+    required this.suggestionList,
+    required this.labelsSheetController,
+    required this.cubit,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return LabelBottomSheet(
+      controller: labelsSheetController,
+      selectedLabels: suggestionList,
+      onCancel: ([_]) => labelsSheetController.collapse()?.then(
+            (_) => cubit.changeLabelsBottomSheetStatus(
+              isLabelsBottomSheetOpen: false,
+            ),
+          ),
+      onDone: (List<SuggestionLabel> labels) {
+        cubit.selectLabels(labels);
+        labelsSheetController.collapse()?.then(
+              (_) => cubit.changeLabelsBottomSheetStatus(
+                isLabelsBottomSheetOpen: false,
+              ),
+            );
+      },
+    );
   }
 }
 

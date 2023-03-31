@@ -4,7 +4,6 @@ import 'package:suggest_a_feature/src/data/interfaces/suggestions_data_source.da
 import 'package:suggest_a_feature/src/data/repositories/suggestion_repository.dart';
 import 'package:suggest_a_feature/src/domain/data_interfaces/suggestion_repository.dart';
 import 'package:suggest_a_feature/src/domain/entities/admin_settings.dart';
-import 'package:suggest_a_feature/src/domain/interactors/suggestion_interactor.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_cubit.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/suggestion_cubit.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_cubit.dart';
@@ -77,14 +76,11 @@ class _Injector {
 
   SuggestionRepository get suggestionRepository => _suggestionRepository;
 
-  SuggestionInteractor get suggestionInteractor =>
-      SuggestionInteractor(suggestionRepository);
-
   SuggestionsCubit get suggestionsCubit =>
-      SuggestionsCubit(suggestionInteractor);
+      SuggestionsCubit(suggestionRepository);
 
-  SuggestionCubit get suggestionCubit => SuggestionCubit(suggestionInteractor);
+  SuggestionCubit get suggestionCubit => SuggestionCubit(suggestionRepository);
 
   CreateEditSuggestionCubit get createEditSuggestionCubit =>
-      CreateEditSuggestionCubit(suggestionInteractor);
+      CreateEditSuggestionCubit(suggestionRepository);
 }

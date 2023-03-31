@@ -123,21 +123,56 @@ class _SuggestionsPageState extends State<SuggestionsPage>
               backgroundColor: theme.primaryBackgroundColor,
               body: Stack(
                 children: <Widget>[
-                  _mainContent(state),
+                  _MainContent(
+                    userId: widget.userId,
+                    state: state,
+                    tabController: _tabController,
+                    onGetUserById: widget.onGetUserById,
+                    onSaveToGallery: widget.onSaveToGallery,
+                    onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
+                    cubit: _cubit,
+                  ),
                   _BottomFab(
                     openCreateBottomSheet: _cubit.openCreateBottomSheet,
                   ),
                 ],
               ),
             ),
-            if (state.isCreateBottomSheetOpened) _bottomSheet(),
+            if (state.isCreateBottomSheetOpened)
+              _BottomSheet(
+                sheetController: _sheetController,
+                onSaveToGallery: widget.onSaveToGallery,
+                onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
+                cubit: _cubit,
+              ),
           ],
         );
       },
     );
   }
+}
 
-  Widget _mainContent(SuggestionsState state) {
+class _MainContent extends StatelessWidget {
+  final String userId;
+  final SuggestionsState state;
+  final TabController tabController;
+  final OnGetUserById onGetUserById;
+  final OnSaveToGalleryCallback? onSaveToGallery;
+  final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
+  final SuggestionsCubit cubit;
+
+  const _MainContent({
+    required this.userId,
+    required this.state,
+    required this.tabController,
+    required this.onGetUserById,
+    required this.onSaveToGallery,
+    required this.onUploadMultiplePhotos,
+    required this.cubit,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
       child: Column(
@@ -157,31 +192,46 @@ class _SuggestionsPageState extends State<SuggestionsPage>
             padding: const EdgeInsets.all(Dimensions.marginSmall),
             child: SuggestionsTabBar(
               state: state,
-              tabController: _tabController,
+              tabController: tabController,
             ),
           ),
           _TabBarView(
             state: state,
-            onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
-            onSaveToGallery: widget.onSaveToGallery,
-            onGetUserById: widget.onGetUserById,
-            userId: widget.userId,
-            onVote: _cubit.vote,
-            tabController: _tabController,
+            onUploadMultiplePhotos: onUploadMultiplePhotos,
+            onSaveToGallery: onSaveToGallery,
+            onGetUserById: onGetUserById,
+            userId: userId,
+            onVote: cubit.vote,
+            tabController: tabController,
           ),
         ],
       ),
     );
   }
+}
 
-  Widget _bottomSheet() {
+class _BottomSheet extends StatelessWidget {
+  final SheetController sheetController;
+  final OnSaveToGalleryCallback? onSaveToGallery;
+  final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
+  final SuggestionsCubit cubit;
+
+  const _BottomSheet({
+    required this.sheetController,
+    required this.onSaveToGallery,
+    required this.onUploadMultiplePhotos,
+    required this.cubit,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return CreateEditSuggestionBottomSheet(
-      controller: _sheetController,
-      onClose: ([_]) => _sheetController
+      controller: sheetController,
+      onClose: ([_]) => sheetController
           .collapse()
-          ?.then((_) => _cubit.closeCreateBottomSheet()),
-      onSaveToGallery: widget.onSaveToGallery,
-      onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
+          ?.then((_) => cubit.closeCreateBottomSheet()),
+      onSaveToGallery: onSaveToGallery,
+      onUploadMultiplePhotos: onUploadMultiplePhotos,
     );
   }
 }
