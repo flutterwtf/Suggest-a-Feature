@@ -19,12 +19,19 @@ class SuggestionLabels extends StatelessWidget {
       runSpacing: Dimensions.marginMiddle,
       children: labels
           .where((SuggestionLabel label) => label != SuggestionLabel.unknown)
-          .map((SuggestionLabel label) => _label(label, context))
+          .map((SuggestionLabel label) => _Label(label: label))
           .toList(),
     );
   }
+}
 
-  Widget _label(SuggestionLabel label, BuildContext context) {
+class _Label extends StatelessWidget {
+  final SuggestionLabel label;
+
+  const _Label({required this.label});
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
