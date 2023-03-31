@@ -107,7 +107,10 @@ class _SuggestionPageState extends State<SuggestionPage> {
               top: false,
               bottom: SuggestionsPlatform.isIOS,
               child: Container(
-                padding: const EdgeInsets.only(bottom: Dimensions.marginSmall),
+                padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).padding.bottom +
+                      Dimensions.marginSmall,
+                ),
                 alignment: Alignment.bottomCenter,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
