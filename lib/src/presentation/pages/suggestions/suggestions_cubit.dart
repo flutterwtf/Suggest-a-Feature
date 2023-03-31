@@ -1,16 +1,16 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:suggest_a_feature/src/domain/data_interfaces/suggestion_repository.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
-import 'package:suggest_a_feature/src/domain/interactors/suggestion_interactor.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart'
     as injector;
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_state.dart';
 
 class SuggestionsCubit extends Cubit<SuggestionsState> {
-  final SuggestionInteractor _suggestionInteractor;
+  final SuggestionRepository _suggestionRepository;
   StreamSubscription<List<Suggestion>>? _suggestionSubscription;
 
-  SuggestionsCubit(this._suggestionInteractor)
+  SuggestionsCubit(this._suggestionRepository)
       : super(
           const SuggestionsState(
             requests: <Suggestion>[],
@@ -22,10 +22,10 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
 
   void init() {
     _suggestionSubscription?.cancel();
-    _suggestionSubscription = _suggestionInteractor.suggestionsStream.listen(
+    _suggestionSubscription = _suggestionRepository.suggestionsStream.listen(
       _onNewSuggestions,
     );
-    _suggestionInteractor.initSuggestions();
+    _suggestionRepository.initSuggestions();
   }
 
   void dispose() {
@@ -73,8 +73,8 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
     final isVoted = suggestion.votedUserIds.contains(injector.i.userId);
 
     isVoted
-        ? _suggestionInteractor.downvote(suggestion.id)
-        : _suggestionInteractor.upvote(suggestion.id);
+        ? _suggestionRepository.downvote(suggestion.id)
+        : _suggestionRepository.upvote(suggestion.id);
   }
 
   void openCreateBottomSheet() =>

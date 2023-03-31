@@ -16,7 +16,7 @@ void main() {
     () {
       final mockSuggestionsTheme = MockSuggestionsTheme();
       final mockSuggestionsDataSource = MockSuggestionsDataSource();
-      final mockSuggestionInteractor = MockSuggestionInteractor();
+      final mockSuggestionRepository = MockSuggestionRepositoryImpl();
       final emptySuggestionsState = SuggestionsState(
         requests: <Suggestion>[mockedSuggestion, mockedSuggestion2],
         inProgress: <Suggestion>[mockedSuggestion, mockedSuggestion2],
@@ -39,7 +39,7 @@ void main() {
         'open CreateBottomSheet',
         build: () {
           return SuggestionsCubit(
-            mockSuggestionInteractor,
+            mockSuggestionRepository,
           );
         },
         seed: () => emptySuggestionsState,
@@ -58,7 +58,7 @@ void main() {
         'close CreateBottomSheet',
         build: () {
           return SuggestionsCubit(
-            mockSuggestionInteractor,
+            mockSuggestionRepository,
           );
         },
         seed: () => SuggestionsState(
@@ -75,7 +75,7 @@ void main() {
         'change active tab',
         build: () {
           return SuggestionsCubit(
-            mockSuggestionInteractor,
+            mockSuggestionRepository,
           );
         },
         seed: () => emptySuggestionsState,
@@ -100,16 +100,16 @@ void main() {
             mockedSuggestion2,
           ]);
 
-          when(mockSuggestionInteractor.suggestionsStream).thenAnswer(
+          when(mockSuggestionRepository.suggestionsStream).thenAnswer(
             (_) => dataStream,
           );
 
-          when(mockSuggestionInteractor.upvote(any)).thenAnswer(
-            (_) => dataStream.add([mockedSuggestion, upvotedSuggestion]),
+          when(mockSuggestionRepository.upvote(any)).thenAnswer(
+            (_) async => dataStream.add([mockedSuggestion, upvotedSuggestion]),
           );
 
           return SuggestionsCubit(
-            mockSuggestionInteractor,
+            mockSuggestionRepository,
           )..init();
         },
         seed: () => SuggestionsState(
