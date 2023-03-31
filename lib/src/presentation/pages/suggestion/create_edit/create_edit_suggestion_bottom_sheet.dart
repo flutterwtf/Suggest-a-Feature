@@ -329,8 +329,7 @@ class _SuggestionStatus extends StatelessWidget {
     required this.changeStatusBottomSheetStatus,
   });
 
-  @override
-  Widget build(BuildContext context) {
+  String _suggestionStatus(BuildContext context) {
     late final String status;
     switch (suggestionStatus) {
       case SuggestionStatus.completed:
@@ -352,14 +351,18 @@ class _SuggestionStatus extends StatelessWidget {
         status = '';
         break;
     }
+    return status;
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return ClickableListItem(
       title: Text(
         context.localization.status,
         style: theme.textSmallPlusSecondaryBold,
       ),
       trailing: Text(
-        status,
+        _suggestionStatus(context),
         style: theme.textSmallPlusBold,
       ),
       onClick: () => changeStatusBottomSheetStatus(true),
