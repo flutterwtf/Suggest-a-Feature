@@ -89,7 +89,10 @@ class SuggestionCubit extends Cubit<SuggestionState> {
           suggestion: state.suggestion.copyWith(comments: extendedComments),
         ),
       );
-      _suggestionRepository.refreshSuggestions(state.suggestion);
+      _suggestionRepository.refreshSuggestions(
+        state.suggestion,
+        saveComments: false,
+      );
     } catch (e) {
       log('Comments loading error', error: e);
     }
@@ -192,7 +195,10 @@ class SuggestionCubit extends Cubit<SuggestionState> {
           ),
         ),
       );
-      _suggestionRepository.refreshSuggestions(state.suggestion);
+      _suggestionRepository.refreshSuggestions(
+        state.suggestion,
+        saveComments: false,
+      );
     } catch (e) {
       log('Comment creation error', error: e);
     }
