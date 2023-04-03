@@ -55,12 +55,10 @@ class _NewSuggestionTextButton extends StatefulWidget {
   final bool enabled;
   final bool isTonal;
   final VoidCallback onClick;
-  final VoidCallback? onDisabledClick;
 
   const _NewSuggestionTextButton({
     required this.title,
     required this.onClick,
-    this.onDisabledClick,
     this.enabled = true,
     this.isTonal = true,
   });
@@ -93,7 +91,11 @@ class _NewSuggestionTextButtonState extends State<_NewSuggestionTextButton> {
       textColor = theme.focusedTextColor;
     }
     return GestureDetector(
-      onTap: widget.enabled ? widget.onClick : widget.onDisabledClick?.call,
+      onTap: () {
+        if (widget.enabled) {
+          widget.onClick();
+        }
+      },
       onTapDown: (_) => _onTap(widget.enabled || _pressed),
       onTapUp: (_) => _onTap(!widget.enabled && _pressed),
       onTapCancel: () => _onTap(!widget.enabled && _pressed),

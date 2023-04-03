@@ -26,7 +26,7 @@ class BaseBottomSheet extends StatefulWidget {
   final Color backgroundColor;
   final bool showDimming;
   final bool paintNavBarToShadowColor;
-  final _LoadingStatus loadingStatus;
+  final LoadingStatus loadingStatus;
   final Color? navbarColor;
   final List<double> additionalSnappings;
   final Color previousNavBarColor;
@@ -52,7 +52,7 @@ class BaseBottomSheet extends StatefulWidget {
     this.showDimming = true,
     this.paintNavBarToShadowColor = false,
     this.contentPadding = EdgeInsets.zero,
-    this.loadingStatus = _LoadingStatus.empty,
+    this.loadingStatus = LoadingStatus.empty,
     this.additionalSnappings = const <double>[],
     super.key,
   });
@@ -337,4 +337,4 @@ enum ClosureType {
   swipeDown,
 }
 
-enum _LoadingStatus { empty, loading, loaded, error, loadedStatic }
+enum LoadingStatus { empty, loading, loaded, error, loadedStatic }
