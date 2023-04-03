@@ -33,6 +33,9 @@ class SuggestionCard extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             Container(
+              margin: const EdgeInsets.only(
+                bottom: Dimensions.marginDefault,
+              ),
               padding: const EdgeInsets.only(
                 left: Dimensions.marginDefault,
                 right: Dimensions.margin3x,

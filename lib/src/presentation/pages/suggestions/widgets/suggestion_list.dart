@@ -83,28 +83,23 @@ class _ListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        bottom: Dimensions.marginDefault,
-      ),
-      child: SuggestionCard(
-        suggestion: suggestions[index - 1],
-        color: color,
-        status: status,
-        index: index - 1,
-        onClick: () => Navigator.of(context).push(
-          CupertinoPageRoute<dynamic>(
-            builder: (_) => SuggestionPage(
-              suggestion: suggestions[index - 1],
-              onUploadMultiplePhotos: onUploadMultiplePhotos,
-              onSaveToGallery: onSaveToGallery,
-              onGetUserById: onGetUserById,
-            ),
+    return SuggestionCard(
+      suggestion: suggestions[index - 1],
+      color: color,
+      status: status,
+      index: index - 1,
+      onClick: () => Navigator.of(context).push(
+        CupertinoPageRoute<dynamic>(
+          builder: (_) => SuggestionPage(
+            suggestion: suggestions[index - 1],
+            onUploadMultiplePhotos: onUploadMultiplePhotos,
+            onSaveToGallery: onSaveToGallery,
+            onGetUserById: onGetUserById,
           ),
         ),
-        userId: userId,
-        voteCallBack: () => vote(index - 1),
       ),
+      userId: userId,
+      voteCallBack: () => vote(index - 1),
     );
   }
 }
