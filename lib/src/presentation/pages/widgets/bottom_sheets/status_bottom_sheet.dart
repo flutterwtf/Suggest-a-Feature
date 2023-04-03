@@ -60,11 +60,9 @@ class _StatusBottomSheetState extends State<StatusBottomSheet> {
           children: <Widget>[
             _Statuses(
               onStatusTap: (status) {
-                setState(() {
-                  if (selectedStatus != status) {
-                    selectedStatus = status;
-                  }
-                });
+                if (selectedStatus != status) {
+                  setState(() => selectedStatus = status);
+                }
               },
               selectedStatus: selectedStatus,
             ),

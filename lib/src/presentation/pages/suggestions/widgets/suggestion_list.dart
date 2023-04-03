@@ -76,9 +76,9 @@ class _ListItem extends StatelessWidget {
     required this.onGetUserById,
     required this.userId,
     required this.vote,
-    required this.onUploadMultiplePhotos,
-    required this.onSaveToGallery,
     required this.index,
+    this.onUploadMultiplePhotos,
+    this.onSaveToGallery,
   });
 
   @override

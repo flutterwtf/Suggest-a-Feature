@@ -124,9 +124,9 @@ class _ActionButtons extends StatelessWidget {
 
   const _ActionButtons({
     required this.currentIndex,
-    required this.onDeleteClick,
-    required this.onDownloadClick,
     required this.photos,
+    this.onDeleteClick,
+    this.onDownloadClick,
   });
 
   @override

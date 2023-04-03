@@ -86,10 +86,10 @@ class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
             ..._postAdmin(
               isAnonymously: _isAnonymously,
               isFromAdmin: _isFromAdmin,
-              onChangedAdmin: (bool value) => setState(
+              onChangedAdmin: (value) => setState(
                 () => _isFromAdmin = value,
               ),
-              onChangedAnonymously: (bool value) =>
+              onChangedAnonymously: (value) =>
                   setState(() => _isAnonymously = value),
             ),
             _CreateCommentButton(

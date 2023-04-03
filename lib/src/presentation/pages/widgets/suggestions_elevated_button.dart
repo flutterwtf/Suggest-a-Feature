@@ -6,7 +6,7 @@ import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
 class SuggestionsElevatedButton extends StatefulWidget {
   final String buttonText;
-  final String? imageIcon;
+  final String? imageIconPath;
   final VoidCallback onClick;
   final Color? backgroundColor;
   final Color? textColor;
@@ -18,7 +18,7 @@ class SuggestionsElevatedButton extends StatefulWidget {
     this.isLoading = false,
     this.backgroundColor,
     this.textColor,
-    this.imageIcon,
+    this.imageIconPath,
     super.key,
   });
 
@@ -58,7 +58,7 @@ class _SuggestionsElevatedButtonState extends State<SuggestionsElevatedButton> {
           child: _ButtonContent(
             buttonText: widget.buttonText,
             textColor: widget.textColor,
-            imageIcon: widget.imageIcon,
+            imageIconPath: widget.imageIconPath,
           ),
         ),
       ),
@@ -68,13 +68,13 @@ class _SuggestionsElevatedButtonState extends State<SuggestionsElevatedButton> {
 
 class _ButtonContent extends StatelessWidget {
   final String buttonText;
-  final String? imageIcon;
+  final String? imageIconPath;
   final Color? textColor;
 
   const _ButtonContent({
     required this.buttonText,
-    required this.textColor,
-    required this.imageIcon,
+    this.textColor,
+    this.imageIconPath,
   });
 
   @override
@@ -82,9 +82,9 @@ class _ButtonContent extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        if (imageIcon != null) ...<Widget>[
+        if (imageIconPath != null) ...<Widget>[
           SvgPicture.asset(
-            imageIcon!,
+            imageIconPath!,
             package: AssetStrings.packageName,
             colorFilter: ColorFilter.mode(
               theme.elevatedButtonTextColor,

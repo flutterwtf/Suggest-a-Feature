@@ -33,8 +33,8 @@ class SuggestionsTabBar extends StatelessWidget {
           height: tabHeight,
           child: _TabButton(
             status: SuggestionStatus.requests,
-            activeImage: AssetStrings.suggestionsRequests,
-            inactiveImage: AssetStrings.suggestionsRequestsInactive,
+            activeImagePath: AssetStrings.suggestionsRequests,
+            inactiveImagePath: AssetStrings.suggestionsRequestsInactive,
             color: theme.requestsTabColor,
             text: context.localization.requests,
             state: state,
@@ -44,8 +44,8 @@ class SuggestionsTabBar extends StatelessWidget {
           height: tabHeight,
           child: _TabButton(
             status: SuggestionStatus.inProgress,
-            activeImage: AssetStrings.suggestionsInProgress,
-            inactiveImage: AssetStrings.suggestionsInProgressInactive,
+            activeImagePath: AssetStrings.suggestionsInProgress,
+            inactiveImagePath: AssetStrings.suggestionsInProgressInactive,
             color: theme.inProgressTabColor,
             text: context.localization.inProgress,
             state: state,
@@ -55,8 +55,8 @@ class SuggestionsTabBar extends StatelessWidget {
           height: tabHeight,
           child: _TabButton(
             status: SuggestionStatus.completed,
-            activeImage: AssetStrings.suggestionsCompleted,
-            inactiveImage: AssetStrings.suggestionsCompletedInactive,
+            activeImagePath: AssetStrings.suggestionsCompleted,
+            inactiveImagePath: AssetStrings.suggestionsCompletedInactive,
             color: theme.completedTabColor,
             text: context.localization.completed,
             state: state,
@@ -69,8 +69,8 @@ class SuggestionsTabBar extends StatelessWidget {
 
 class _TabButton extends StatelessWidget {
   final SuggestionStatus status;
-  final String activeImage;
-  final String inactiveImage;
+  final String activeImagePath;
+  final String inactiveImagePath;
   final Color color;
   final String text;
   final SuggestionsState state;
@@ -83,11 +83,11 @@ class _TabButton extends StatelessWidget {
 
   const _TabButton({
     required this.status,
-    required this.activeImage,
+    required this.activeImagePath,
     required this.color,
     required this.state,
     required this.text,
-    required this.inactiveImage,
+    required this.inactiveImagePath,
   });
 
   @override
@@ -98,8 +98,8 @@ class _TabButton extends StatelessWidget {
         _TabIcon(
           inactiveIconHeight: inactiveIconHeight,
           activeIconHeight: activeIconHeight,
-          inactiveImage: inactiveImage,
-          activeImage: activeImage,
+          inactiveImagePath: inactiveImagePath,
+          activeImagePath: activeImagePath,
           isActive: isActive,
           color: color,
         ),
@@ -124,15 +124,15 @@ class _TabIcon extends StatelessWidget {
   final bool isActive;
   final Color color;
   final double activeIconHeight;
-  final String activeImage;
-  final String inactiveImage;
+  final String activeImagePath;
+  final String inactiveImagePath;
 
   const _TabIcon({
     required this.inactiveIconHeight,
     required this.activeIconHeight,
-    required this.inactiveImage,
+    required this.inactiveImagePath,
     required this.color,
-    required this.activeImage,
+    required this.activeImagePath,
     required this.isActive,
   });
 
@@ -158,7 +158,7 @@ class _TabIcon extends StatelessWidget {
         SizedBox(
           height: activeIconHeight,
           child: SvgPicture.asset(
-            isActive ? activeImage : inactiveImage,
+            isActive ? activeImagePath : inactiveImagePath,
             package: AssetStrings.packageName,
             colorFilter: ColorFilter.mode(
               isActive ? color : theme.secondaryIconColor,

@@ -134,9 +134,9 @@ class _Confirm extends StatelessWidget {
   final String onConfirmText;
 
   const _Confirm({
-    required this.onConfirm,
     required this.onConfirmAsset,
     required this.onConfirmText,
+    this.onConfirm,
   });
 
   @override

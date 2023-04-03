@@ -63,7 +63,6 @@ class _NewSuggestionTextButton extends StatefulWidget {
     this.onDisabledClick,
     this.enabled = true,
     this.isTonal = true,
-    super.key,
   });
 
   @override
@@ -74,28 +73,8 @@ class _NewSuggestionTextButton extends StatefulWidget {
 class _NewSuggestionTextButtonState extends State<_NewSuggestionTextButton> {
   bool _pressed = false;
 
-  void _onTapDown(TapDownDetails tapDownDetails) {
-    setState(() {
-      if (widget.enabled) {
-        _pressed = true;
-      }
-    });
-  }
-
-  void _onTapUp(TapUpDetails tapUpDetails) {
-    setState(() {
-      if (widget.enabled) {
-        _pressed = false;
-      }
-    });
-  }
-
-  void _onTapCancel() {
-    setState(() {
-      if (widget.enabled) {
-        _pressed = false;
-      }
-    });
+  void _onTap(bool value) {
+    setState(() => _pressed = value);
   }
 
   @override
@@ -115,9 +94,9 @@ class _NewSuggestionTextButtonState extends State<_NewSuggestionTextButton> {
     }
     return GestureDetector(
       onTap: widget.enabled ? widget.onClick : widget.onDisabledClick?.call,
-      onTapDown: _onTapDown,
-      onTapUp: _onTapUp,
-      onTapCancel: _onTapCancel,
+      onTapDown: (_) => _onTap(widget.enabled || _pressed),
+      onTapUp: (_) => _onTap(!widget.enabled && _pressed),
+      onTapCancel: () => _onTap(!widget.enabled && _pressed),
       child: Container(
         alignment: Alignment.center,
         clipBehavior: Clip.hardEdge,

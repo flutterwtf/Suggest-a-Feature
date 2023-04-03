@@ -27,16 +27,16 @@ class ClickableListItem extends StatefulWidget {
 class _ClickableListItemState extends State<ClickableListItem> {
   bool _pressed = false;
 
+  void _onPan(bool value) => setState(() => _pressed = value);
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: widget.onClick,
-      onPanDown: (DragDownDetails tapDetails) =>
-          setState(() => _pressed = true),
-      onPanCancel: () => setState(() => _pressed = false),
-      onPanUpdate: (DragUpdateDetails details) =>
-          setState(() => _pressed = false),
+      onPanDown: (_) => _onPan(true),
+      onPanCancel: () => _onPan(false),
+      onPanUpdate: (_) => _onPan(false),
       child: ColoredBox(
         color: _pressed ? theme.actionBackgroundColor : Colors.transparent,
         child: Padding(

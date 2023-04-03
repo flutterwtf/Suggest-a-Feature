@@ -157,13 +157,13 @@ class _SlidingSheet extends StatelessWidget {
     required this.backgroundColor,
     required this.initialSnapping,
     required this.additionalSnappings,
-    required this.headerBuilder,
-    required this.footerBuilder,
     required this.contentPadding,
     required this.title,
     required this.titleBottomPadding,
     required this.titleTopPadding,
     required this.contentBuilder,
+    this.headerBuilder,
+    this.footerBuilder,
   });
 
   void _onDismissPrevented(bool backButton, bool backDrop) {
@@ -235,8 +235,8 @@ class _SafeArea extends StatelessWidget {
     required this.contentPadding,
     required this.titleTopPadding,
     required this.titleBottomPadding,
-    required this.title,
     required this.state,
+    this.title,
   });
 
   @override

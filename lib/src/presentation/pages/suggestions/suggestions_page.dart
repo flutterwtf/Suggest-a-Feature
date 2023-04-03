@@ -289,7 +289,7 @@ class _TabBarView extends StatelessWidget {
             onSaveToGallery: onSaveToGallery,
             onUploadMultiplePhotos: onUploadMultiplePhotos,
             userId: userId,
-            vote: (int i) => onVote(SuggestionStatus.completed, i),
+            vote: (i) => onVote(SuggestionStatus.completed, i),
           ),
         ],
       ),

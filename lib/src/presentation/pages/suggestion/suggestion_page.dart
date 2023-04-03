@@ -757,7 +757,7 @@ class _UpvoteButton extends StatelessWidget {
           ),
           child: SuggestionsElevatedButton(
             onClick: cubit.vote,
-            imageIcon: AssetStrings.suggestionsUpvoteArrow,
+            imageIconPath: AssetStrings.suggestionsUpvoteArrow,
             buttonText: context.localization.upvote,
           ),
         ),

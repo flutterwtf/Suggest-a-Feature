@@ -54,7 +54,7 @@ class _NotificationSuggestionBottomSheetState
           children: <Widget>[
             _NotificationSwitch(
               isNotificationOn: _isNotificationOn,
-              onChanged: (bool value) {
+              onChanged: (value) {
                 setState(() => _isNotificationOn = value);
                 widget.onChangeNotification(value);
               },
