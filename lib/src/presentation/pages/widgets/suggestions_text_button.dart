@@ -26,15 +26,9 @@ class _SuggestionsTextButtonState extends State<SuggestionsTextButton> {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: widget.onClick,
-      onTapDown: (_) {
-        setState(() => _pressed = true);
-      },
-      onTapUp: (_) {
-        setState(() => _pressed = false);
-      },
-      onTapCancel: () {
-        setState(() => _pressed = false);
-      },
+      onTapDown: (_) => setState(() => _pressed = true),
+      onTapUp: (_) => setState(() => _pressed = false),
+      onTapCancel: () => setState(() => _pressed = false),
       child: Padding(
         padding: const EdgeInsets.symmetric(
           vertical: Dimensions.marginMiddle,

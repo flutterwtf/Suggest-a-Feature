@@ -58,36 +58,38 @@ class _ZoomableImageState extends State<ZoomableImage>
             },
           );
         },
-        onDoubleTap: (ExtendedImageGestureState state) {
-          final pointerDownPosition = state.pointerDownPosition;
-          final begin = state.gestureDetails!.totalScale!;
-          final end = begin == 1 ? 2.0 : 1.0;
-
-          _animation?.removeListener(_animationListener);
-          _animationController
-            ..stop()
-            ..reset();
-
-          widget.changeZoomStatus(begin == 1);
-          widget.changeScrollPhysics();
-
-          _animationListener = () {
-            state.handleDoubleTap(
-              scale: _animation!.value,
-              doubleTapPosition: pointerDownPosition,
-            );
-          };
-          _animation = _animationController.drive(
-            Tween<double>(
-              begin: begin,
-              end: end,
-            ),
-          );
-          _animation!.addListener(_animationListener);
-          _animationController.forward();
-        },
+        onDoubleTap: _onDoubleTap,
       ),
     );
+  }
+
+  void _onDoubleTap(ExtendedImageGestureState state) {
+    final pointerDownPosition = state.pointerDownPosition;
+    final begin = state.gestureDetails!.totalScale!;
+    final end = begin == 1 ? 2.0 : 1.0;
+
+    _animation?.removeListener(_animationListener);
+    _animationController
+      ..stop()
+      ..reset();
+
+    widget.changeZoomStatus(begin == 1);
+    widget.changeScrollPhysics();
+
+    _animationListener = () {
+      state.handleDoubleTap(
+        scale: _animation!.value,
+        doubleTapPosition: pointerDownPosition,
+      );
+    };
+    _animation = _animationController.drive(
+      Tween<double>(
+        begin: begin,
+        end: end,
+      ),
+    );
+    _animation!.addListener(_animationListener);
+    _animationController.forward();
   }
 
   @override

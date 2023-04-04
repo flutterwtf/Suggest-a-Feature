@@ -54,11 +54,9 @@ class _SuggestionsFabState extends State<SuggestionsFab>
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: widget.onClick,
-      onTapDown: (_) {
-        _controller
-          ..reset()
-          ..forward();
-      },
+      onTapDown: (_) => _controller
+        ..reset()
+        ..forward(),
       onTapUp: (_) => _controller.reset(),
       onTapCancel: _controller.reset,
       child: Container(

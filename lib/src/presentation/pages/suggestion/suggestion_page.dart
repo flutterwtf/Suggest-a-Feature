@@ -68,29 +68,32 @@ class _SuggestionPageState extends State<SuggestionPage> {
     super.dispose();
   }
 
+  bool _listenWhen(SuggestionState previous, SuggestionState current) {
+    return previous.savingImageResultMessageType ==
+                SavingResultMessageType.none &&
+            current.savingImageResultMessageType !=
+                SavingResultMessageType.none ||
+        !previous.isPopped && current.isPopped;
+  }
+
+  void _listener(BuildContext context, SuggestionState state) {
+    if (state.savingImageResultMessageType != SavingResultMessageType.none) {
+      state.savingImageResultMessageType == SavingResultMessageType.success
+          ? BotToast.showText(text: context.localization.savingImageSuccess)
+          : BotToast.showText(text: context.localization.savingImageError);
+    }
+    if (state.isPopped) {
+      Navigator.of(context).pop();
+    }
+    _cubit.reset();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SuggestionCubit, SuggestionState>(
       bloc: _cubit,
-      listenWhen: (SuggestionState previous, SuggestionState current) {
-        return previous.savingImageResultMessageType ==
-                    SavingResultMessageType.none &&
-                current.savingImageResultMessageType !=
-                    SavingResultMessageType.none ||
-            !previous.isPopped && current.isPopped;
-      },
-      listener: (BuildContext context, SuggestionState state) {
-        if (state.savingImageResultMessageType !=
-            SavingResultMessageType.none) {
-          state.savingImageResultMessageType == SavingResultMessageType.success
-              ? BotToast.showText(text: context.localization.savingImageSuccess)
-              : BotToast.showText(text: context.localization.savingImageError);
-        }
-        if (state.isPopped) {
-          Navigator.of(context).pop();
-        }
-        _cubit.reset();
-      },
+      listenWhen: _listenWhen,
+      listener: _listener,
       builder: (BuildContext context, SuggestionState state) {
         return Stack(
           children: <Widget>[
@@ -501,34 +504,14 @@ class _CommentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final author = _getDisplayedAuthor(comment, context);
     return Container(
       padding: const EdgeInsets.all(Dimensions.marginDefault),
       color: theme.secondaryBackgroundColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              AvatarWidget(
-                backgroundColor: theme.primaryBackgroundColor,
-                avatar: author.avatar,
-                size: Dimensions.bigSize,
-              ),
-              const SizedBox(width: Dimensions.marginDefault),
-              Expanded(
-                child: Text(
-                  author.username,
-                  style: theme.textSmallPlusBold,
-                ),
-              ),
-              Text(
-                comment.creationTime
-                    .formatComment(context.localization.localeName),
-                style: theme.textSmallPlusSecondary,
-              ),
-            ],
+          _CommentInfo(
+            comment: comment,
           ),
           Padding(
             padding: const EdgeInsets.only(left: Dimensions.margin3x),
@@ -541,23 +524,6 @@ class _CommentCard extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  SuggestionAuthor _getDisplayedAuthor(Comment comment, BuildContext context) {
-    if (comment.isFromAdmin) {
-      return i.adminSettings ??
-          AdminSettings(
-            id: comment.author.id,
-            username: context.localization.adminAuthorName,
-          );
-    } else if (comment.isAnonymous || comment.author.username.isEmpty) {
-      return SuggestionAuthor(
-        id: comment.author.id,
-        username: context.localization.anonymousAuthorName,
-      );
-    }
-
-    return comment.author;
   }
 }
 
@@ -791,11 +757,60 @@ class _UpvoteButton extends StatelessWidget {
           ),
           child: SuggestionsElevatedButton(
             onClick: cubit.vote,
-            imageIcon: AssetStrings.suggestionsUpvoteArrow,
+            imageIconPath: AssetStrings.suggestionsUpvoteArrow,
             buttonText: context.localization.upvote,
           ),
         ),
       ),
     );
+  }
+}
+
+class _CommentInfo extends StatelessWidget {
+  final Comment comment;
+
+  const _CommentInfo({required this.comment});
+
+  @override
+  Widget build(BuildContext context) {
+    final author = _getDisplayedAuthor(comment, context);
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        AvatarWidget(
+          backgroundColor: theme.primaryBackgroundColor,
+          avatar: author.avatar,
+          size: Dimensions.bigSize,
+        ),
+        const SizedBox(width: Dimensions.marginDefault),
+        Expanded(
+          child: Text(
+            author.username,
+            style: theme.textSmallPlusBold,
+          ),
+        ),
+        Text(
+          comment.creationTime.formatComment(context.localization.localeName),
+          style: theme.textSmallPlusSecondary,
+        ),
+      ],
+    );
+  }
+
+  SuggestionAuthor _getDisplayedAuthor(Comment comment, BuildContext context) {
+    if (comment.isFromAdmin) {
+      return i.adminSettings ??
+          AdminSettings(
+            id: comment.author.id,
+            username: context.localization.adminAuthorName,
+          );
+    } else if (comment.isAnonymous || comment.author.username.isEmpty) {
+      return SuggestionAuthor(
+        id: comment.author.id,
+        username: context.localization.anonymousAuthorName,
+      );
+    }
+
+    return comment.author;
   }
 }

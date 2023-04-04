@@ -51,46 +51,11 @@ class _PhotoViewState extends State<PhotoView> {
       ),
       child: Column(
         children: <Widget>[
-          Container(
-            height: kToolbarHeight + MediaQuery.of(context).padding.top,
-            padding: EdgeInsets.only(
-              top: MediaQuery.of(context).padding.top,
-              left: Dimensions.marginDefault,
-              right: Dimensions.marginDefault,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                SuggestionsIconButton(
-                  onClick: Navigator.of(context).pop,
-                  imageIcon: AssetStrings.backIconImage,
-                  color: Colors.white,
-                ),
-                Row(
-                  children: <Widget>[
-                    if (widget.onDeleteClick != null) ...<Widget>[
-                      SuggestionsIconButton(
-                        imageIcon: AssetStrings.deleteIconImage,
-                        onClick: () {
-                          Navigator.of(context).pop();
-                          widget.onDeleteClick!(widget.photos[_currentIndex]);
-                        },
-                        color: Colors.white,
-                      ),
-                      const SizedBox(width: Dimensions.marginDefault),
-                    ],
-                    if (widget.onDownloadClick != null) ...<Widget>[
-                      SuggestionsIconButton(
-                        imageIcon: AssetStrings.downloadIconImage,
-                        onClick: () => widget
-                            .onDownloadClick!(widget.photos[_currentIndex]),
-                        color: Colors.white,
-                      ),
-                    ],
-                  ],
-                ),
-              ],
-            ),
+          _ActionButtons(
+            currentIndex: _currentIndex,
+            onDeleteClick: widget.onDeleteClick,
+            onDownloadClick: widget.onDownloadClick,
+            photos: widget.photos,
           ),
           Expanded(
             child: Hero(
@@ -148,6 +113,64 @@ class _PhotoViewState extends State<PhotoView> {
       ),
     );
     super.dispose();
+  }
+}
+
+class _ActionButtons extends StatelessWidget {
+  final List<String> photos;
+  final ValueChanged<String>? onDeleteClick;
+  final ValueChanged<String>? onDownloadClick;
+  final int currentIndex;
+
+  const _ActionButtons({
+    required this.currentIndex,
+    required this.photos,
+    this.onDeleteClick,
+    this.onDownloadClick,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: kToolbarHeight + MediaQuery.of(context).padding.top,
+      padding: EdgeInsets.only(
+        top: MediaQuery.of(context).padding.top,
+        left: Dimensions.marginDefault,
+        right: Dimensions.marginDefault,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          SuggestionsIconButton(
+            onClick: Navigator.of(context).pop,
+            imageIcon: AssetStrings.backIconImage,
+            color: Colors.white,
+          ),
+          Row(
+            children: <Widget>[
+              if (onDeleteClick != null) ...<Widget>[
+                SuggestionsIconButton(
+                  imageIcon: AssetStrings.deleteIconImage,
+                  onClick: () {
+                    Navigator.of(context).pop();
+                    onDeleteClick!(photos[currentIndex]);
+                  },
+                  color: Colors.white,
+                ),
+                const SizedBox(width: Dimensions.marginDefault),
+              ],
+              if (onDownloadClick != null) ...<Widget>[
+                SuggestionsIconButton(
+                  imageIcon: AssetStrings.downloadIconImage,
+                  onClick: () => onDownloadClick!(photos[currentIndex]),
+                  color: Colors.white,
+                ),
+              ],
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
 

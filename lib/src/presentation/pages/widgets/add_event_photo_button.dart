@@ -39,30 +39,42 @@ class AddPhotoButton extends StatelessWidget {
                   valueColor:
                       AlwaysStoppedAnimation<Color>(theme.primaryIconColor),
                 )
-              : Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SvgPicture.asset(
-                      AssetStrings.addPhotoButton,
-                      package: AssetStrings.packageName,
-                      height: Dimensions.defaultSize,
-                      colorFilter: ColorFilter.mode(
-                        theme.primaryTextColor,
-                        BlendMode.srcIn,
-                      ),
-                    ),
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(top: Dimensions.marginSmall),
-                      child: Text(
-                        context.localization.add,
-                        style: style.copyWith(color: theme.primaryTextColor),
-                      ),
-                    )
-                  ],
+              : _AddButton(
+                  style: style,
                 ),
         ),
       ),
+    );
+  }
+}
+
+class _AddButton extends StatelessWidget {
+  final TextStyle style;
+
+  const _AddButton({required this.style});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        SvgPicture.asset(
+          AssetStrings.addPhotoButton,
+          package: AssetStrings.packageName,
+          height: Dimensions.defaultSize,
+          colorFilter: ColorFilter.mode(
+            theme.primaryTextColor,
+            BlendMode.srcIn,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: Dimensions.marginSmall),
+          child: Text(
+            context.localization.add,
+            style: style.copyWith(color: theme.primaryTextColor),
+          ),
+        )
+      ],
     );
   }
 }

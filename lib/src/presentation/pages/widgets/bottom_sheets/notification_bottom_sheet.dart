@@ -52,39 +52,57 @@ class _NotificationSuggestionBottomSheetState
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        context.localization.notifyMe,
-                        textAlign: TextAlign.start,
-                        style: theme.textMedium,
-                      ),
-                      const SizedBox(height: Dimensions.marginMicro),
-                      Text(
-                        context.localization.notificationDescription,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(color: theme.secondaryTextColor),
-                      ),
-                    ],
-                  ),
-                ),
-                SuggestionsSwitch(
-                  value: _isNotificationOn,
-                  onChanged: (bool value) {
-                    setState(() => _isNotificationOn = value);
-                    widget.onChangeNotification(value);
-                  },
-                ),
-              ],
+            _NotificationSwitch(
+              isNotificationOn: _isNotificationOn,
+              onChanged: (value) {
+                setState(() => _isNotificationOn = value);
+                widget.onChangeNotification(value);
+              },
             ),
             const SizedBox(height: Dimensions.margin2x),
           ],
         );
       },
+    );
+  }
+}
+
+class _NotificationSwitch extends StatelessWidget {
+  final bool isNotificationOn;
+  final ValueChanged<bool> onChanged;
+
+  const _NotificationSwitch({
+    required this.isNotificationOn,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                context.localization.notifyMe,
+                textAlign: TextAlign.start,
+                style: theme.textMedium,
+              ),
+              const SizedBox(height: Dimensions.marginMicro),
+              Text(
+                context.localization.notificationDescription,
+                textAlign: TextAlign.start,
+                style: TextStyle(color: theme.secondaryTextColor),
+              ),
+            ],
+          ),
+        ),
+        SuggestionsSwitch(
+          value: isNotificationOn,
+          onChanged: onChanged,
+        ),
+      ],
     );
   }
 }

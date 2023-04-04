@@ -53,43 +53,59 @@ class _LabelBottomSheetState extends State<LabelBottomSheet> {
       },
       backgroundColor: theme.bottomSheetBackgroundColor,
       contentBuilder: (BuildContext context, SheetState sheetState) {
-        return ListView(
-          padding: const EdgeInsets.only(bottom: Dimensions.marginMiddle),
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          children: <Widget>[
-            DecoratedBox(
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: theme.dividerColor,
-                    width: 0.5,
-                  ),
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  _LabelsRow(
-                    selectedLabels: selectedLabels,
-                    onTap: (label) => setState(() {
-                      if (!selectedLabels.contains(label)) {
-                        selectedLabels.add(label);
-                      } else {
-                        selectedLabels.remove(label);
-                      }
-                    }),
-                  ),
-                ],
-              ),
-            ),
-            BottomSheetActions(
-              onCancel: widget.onCancel,
-              onDone: () => widget.onDone(selectedLabels),
-            ),
-          ],
+        return _LabelsListView(
+          onTap: (label) => setState(() {
+            if (!selectedLabels.contains(label)) {
+              selectedLabels.add(label);
+            } else {
+              selectedLabels.remove(label);
+            }
+          }),
+          onCancel: widget.onCancel,
+          onDone: widget.onDone,
+          selectedLabels: selectedLabels,
         );
       },
+    );
+  }
+}
+
+class _LabelsListView extends StatelessWidget {
+  final ValueChanged<SuggestionLabel> onTap;
+  final List<SuggestionLabel> selectedLabels;
+  final VoidCallback onCancel;
+  final ValueChanged<List<SuggestionLabel>> onDone;
+
+  const _LabelsListView({
+    required this.onTap,
+    required this.selectedLabels,
+    required this.onCancel,
+    required this.onDone,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      padding: const EdgeInsets.only(bottom: Dimensions.marginMiddle),
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      children: <Widget>[
+        DecoratedBox(
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: theme.dividerColor,
+                width: 0.5,
+              ),
+            ),
+          ),
+          child: _LabelsRow(selectedLabels: selectedLabels, onTap: onTap),
+        ),
+        BottomSheetActions(
+          onCancel: onCancel,
+          onDone: () => onDone(selectedLabels),
+        ),
+      ],
     );
   }
 }

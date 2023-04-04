@@ -49,67 +49,149 @@ class ConfirmationBottomSheet extends StatelessWidget {
       },
       showDimming: showDimming,
       contentBuilder: (BuildContext context, SheetState sheetState) {
-        return ListView(
-          physics: const NeverScrollableScrollPhysics(),
-          padding: const EdgeInsets.only(
-            top: Dimensions.marginDefault,
-            bottom: Dimensions.marginBig,
-          ),
-          shrinkWrap: true,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: Dimensions.marginDefault,
-              ),
-              child: Text(
-                question,
-                style: theme.textMediumPlusBold,
-                textAlign: TextAlign.center,
-              ),
-            ),
-            const SizedBox(height: Dimensions.marginDefault),
-            ClickableListItem(
-              onClick: onConfirm,
-              leading: SvgPicture.asset(
-                onConfirmAsset,
-                package: AssetStrings.packageName,
-                width: Dimensions.defaultSize,
-                height: Dimensions.defaultSize,
-                colorFilter: ColorFilter.mode(
-                  theme.errorColor,
-                  BlendMode.srcIn,
-                ),
-              ),
-              title: Text(
-                onConfirmText,
-                style: theme.textMediumPlusBold.copyWith(
-                  color: theme.errorColor,
-                ),
-                textAlign: TextAlign.left,
-              ),
-            ),
-            const SizedBox(height: Dimensions.marginSmall),
-            ClickableListItem(
-              onClick: onCancel,
-              leading: SvgPicture.asset(
-                AssetStrings.closeIconImage,
-                package: AssetStrings.packageName,
-                width: Dimensions.defaultSize,
-                height: Dimensions.defaultSize,
-                colorFilter: ColorFilter.mode(
-                  theme.primaryIconColor,
-                  BlendMode.srcIn,
-                ),
-              ),
-              title: Text(
-                onCancelText,
-                style: theme.textMediumPlusBold,
-                textAlign: TextAlign.left,
-              ),
-            ),
-          ],
+        return _BottomSheetListView(
+          onCancel: onCancel,
+          onConfirm: onConfirm,
+          onCancelText: onCancelText,
+          onConfirmAsset: onConfirmAsset,
+          onConfirmText: onConfirmAsset,
+          question: question,
         );
       },
+    );
+  }
+}
+
+class _BottomSheetListView extends StatelessWidget {
+  final String question;
+  final VoidCallback onConfirm;
+  final VoidCallback onCancel;
+  final String onCancelText;
+  final String onConfirmText;
+  final String onConfirmAsset;
+
+  const _BottomSheetListView({
+    required this.onCancelText,
+    required this.onConfirmText,
+    required this.onConfirmAsset,
+    required this.onCancel,
+    required this.onConfirm,
+    required this.question,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.only(
+        top: Dimensions.marginDefault,
+        bottom: Dimensions.marginBig,
+      ),
+      shrinkWrap: true,
+      children: <Widget>[
+        _Question(
+          question: question,
+        ),
+        const SizedBox(height: Dimensions.marginDefault),
+        _Confirm(
+          onConfirm: onConfirm,
+          onConfirmAsset: onConfirmAsset,
+          onConfirmText: onConfirmText,
+        ),
+        const SizedBox(height: Dimensions.marginSmall),
+        _Cancel(
+          onCancel: onCancel,
+          onCancelText: onCancelText,
+        ),
+      ],
+    );
+  }
+}
+
+class _Question extends StatelessWidget {
+  final String question;
+
+  const _Question({required this.question});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: Dimensions.marginDefault,
+      ),
+      child: Text(
+        question,
+        style: theme.textMediumPlusBold,
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+}
+
+class _Confirm extends StatelessWidget {
+  final VoidCallback? onConfirm;
+  final String onConfirmAsset;
+  final String onConfirmText;
+
+  const _Confirm({
+    required this.onConfirmAsset,
+    required this.onConfirmText,
+    this.onConfirm,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ClickableListItem(
+      onClick: onConfirm,
+      leading: SvgPicture.asset(
+        onConfirmAsset,
+        package: AssetStrings.packageName,
+        width: Dimensions.defaultSize,
+        height: Dimensions.defaultSize,
+        colorFilter: ColorFilter.mode(
+          theme.errorColor,
+          BlendMode.srcIn,
+        ),
+      ),
+      title: Text(
+        onConfirmText,
+        style: theme.textMediumPlusBold.copyWith(
+          color: theme.errorColor,
+        ),
+        textAlign: TextAlign.left,
+      ),
+    );
+  }
+}
+
+class _Cancel extends StatelessWidget {
+  final VoidCallback onCancel;
+  final String onCancelText;
+
+  const _Cancel({
+    required this.onCancel,
+    required this.onCancelText,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ClickableListItem(
+      onClick: onCancel,
+      leading: SvgPicture.asset(
+        AssetStrings.closeIconImage,
+        package: AssetStrings.packageName,
+        width: Dimensions.defaultSize,
+        height: Dimensions.defaultSize,
+        colorFilter: ColorFilter.mode(
+          theme.primaryIconColor,
+          BlendMode.srcIn,
+        ),
+      ),
+      title: Text(
+        onCancelText,
+        style: theme.textMediumPlusBold,
+        textAlign: TextAlign.left,
+      ),
     );
   }
 }
