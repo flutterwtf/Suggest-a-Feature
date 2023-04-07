@@ -54,7 +54,7 @@ class ConfirmationBottomSheet extends StatelessWidget {
           onConfirm: onConfirm,
           onCancelText: onCancelText,
           onConfirmAsset: onConfirmAsset,
-          onConfirmText: onConfirmAsset,
+          onConfirmText: onConfirmText,
           question: question,
         );
       },
