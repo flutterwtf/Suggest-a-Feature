@@ -1,4 +1,3 @@
-import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:suggest_a_feature/src/domain/entities/admin_settings.dart';
@@ -78,9 +77,16 @@ class _SuggestionPageState extends State<SuggestionPage> {
 
   void _listener(BuildContext context, SuggestionState state) {
     if (state.savingImageResultMessageType != SavingResultMessageType.none) {
-      state.savingImageResultMessageType == SavingResultMessageType.success
-          ? BotToast.showText(text: context.localization.savingImageSuccess)
-          : BotToast.showText(text: context.localization.savingImageError);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            state.savingImageResultMessageType ==
+                    SavingResultMessageType.success
+                ? context.localization.savingImageSuccess
+                : context.localization.savingImageError,
+          ),
+        ),
+      );
     }
     if (state.isPopped) {
       Navigator.of(context).pop();

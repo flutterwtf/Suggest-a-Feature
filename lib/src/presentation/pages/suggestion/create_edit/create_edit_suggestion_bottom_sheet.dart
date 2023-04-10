@@ -1,4 +1,3 @@
-import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -92,9 +91,16 @@ class CreateEditSuggestionBottomSheetState
 
   void _listener(BuildContext context, CreateEditSuggestionState state) {
     if (state.savingImageResultMessageType != SavingResultMessageType.none) {
-      state.savingImageResultMessageType == SavingResultMessageType.success
-          ? BotToast.showText(text: context.localization.savingImageSuccess)
-          : BotToast.showText(text: context.localization.savingImageError);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            state.savingImageResultMessageType ==
+                    SavingResultMessageType.success
+                ? context.localization.savingImageSuccess
+                : context.localization.savingImageError,
+          ),
+        ),
+      );
     } else if (state.isSubmitted) {
       widget.onClose();
     } else if (state.isPhotoViewOpen) {
@@ -393,8 +399,12 @@ class _PhotoPickerItem extends StatelessWidget {
                                 availableNumOfPhotos: availableNumOfPhotos,
                               ),
                             )
-                          : BotToast.showText(
-                              text: context.localization.eventPhotosRestriction,
+                          : ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  context.localization.eventPhotosRestriction,
+                                ),
+                              ),
                             );
                     },
                     onPhotoClick: () => _cubit.onPhotoClick(i - 1),
