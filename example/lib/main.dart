@@ -52,7 +52,7 @@ const AdminSettings _adminSettings = AdminSettings(
 );
 
 class MySuggestionDataSource implements SuggestionsDataSource {
-  final Map<String, dynamic> _suggestions = <String, Suggestion>{};
+  final Map<String, Suggestion> _suggestions = <String, Suggestion>{};
   final Map<String, Comment> _comments = <String, Comment>{};
 
   MySuggestionDataSource({required this.userId});
@@ -81,7 +81,7 @@ class MySuggestionDataSource implements SuggestionsDataSource {
 
   @override
   Future<Suggestion> getSuggestionById(String suggestionId) async =>
-      _suggestions[suggestionId];
+      _suggestions[suggestionId]!;
 
   @override
   Future<List<Suggestion>> getAllSuggestions() async => _suggestions.isNotEmpty
@@ -91,7 +91,7 @@ class MySuggestionDataSource implements SuggestionsDataSource {
   @override
   Future<Suggestion> updateSuggestion(Suggestion suggestion) async {
     _suggestions[suggestion.id] = suggestion;
-    return _suggestions[suggestion.id];
+    return _suggestions[suggestion.id]!;
   }
 
   @override
@@ -127,10 +127,10 @@ class MySuggestionDataSource implements SuggestionsDataSource {
 
   @override
   Future<void> addNotifyToUpdateUser(String suggestionId) async {
-    final Set<String> modifiedSet = <String>{
+    final modifiedSet = {
       ..._suggestions[suggestionId]!.notifyUserIds,
-      userId
-    };
+    }..add(userId);
+
     _suggestions[suggestionId] = _suggestions[suggestionId]!.copyWith(
       notifyUserIds: modifiedSet,
     );
@@ -138,9 +138,10 @@ class MySuggestionDataSource implements SuggestionsDataSource {
 
   @override
   Future<void> deleteNotifyToUpdateUser(String suggestionId) async {
-    final Set<String> modifiedSet = <String>{
-      ..._suggestions[suggestionId]!.notifyUserIds..remove(userId)
-    };
+    final modifiedSet = {
+      ..._suggestions[suggestionId]!.notifyUserIds,
+    }..remove(userId);
+
     _suggestions[suggestionId] = _suggestions[suggestionId]!.copyWith(
       notifyUserIds: modifiedSet,
     );
@@ -148,10 +149,10 @@ class MySuggestionDataSource implements SuggestionsDataSource {
 
   @override
   Future<void> upvote(String suggestionId) async {
-    final Set<String> modifiedSet = <String>{
+    final modifiedSet = {
       ..._suggestions[suggestionId]!.votedUserIds,
-      userId
-    };
+    }..add(userId);
+
     _suggestions[suggestionId] = _suggestions[suggestionId]!.copyWith(
       votedUserIds: modifiedSet,
     );
@@ -159,9 +160,10 @@ class MySuggestionDataSource implements SuggestionsDataSource {
 
   @override
   Future<void> downvote(String suggestionId) async {
-    final Set<String> modifiedSet = <String>{
-      ..._suggestions[suggestionId]!.votedUserIds..remove(userId)
-    };
+    final modifiedSet = {
+      ..._suggestions[suggestionId]!.votedUserIds,
+    }..remove(userId);
+
     _suggestions[suggestionId] = _suggestions[suggestionId]!.copyWith(
       votedUserIds: modifiedSet,
     );

@@ -14,7 +14,7 @@ void main() {
   group(
     'suggestion cubit',
     () {
-      final mockSuggestionInteractor = MockSuggestionInteractor();
+      final mockSuggestionRepository = MockSuggestionRepositoryImpl();
       final mockSuggestionsTheme = MockSuggestionsTheme();
       final mockSuggestionsDataSource = MockSuggestionsDataSource();
 
@@ -41,10 +41,10 @@ void main() {
       blocTest<SuggestionCubit, SuggestionState>(
         'create comment',
         build: () {
-          when(mockSuggestionInteractor.createComment(mockedCreateCommentModel))
+          when(mockSuggestionRepository.createComment(mockedCreateCommentModel))
               .thenAnswer((_) async => mockedComment);
           return SuggestionCubit(
-            mockSuggestionInteractor,
+            mockSuggestionRepository,
           );
         },
         seed: () => emptySuggestionState,
@@ -70,7 +70,7 @@ void main() {
         'delete suggestion',
         build: () {
           return SuggestionCubit(
-            mockSuggestionInteractor,
+            mockSuggestionRepository,
           );
         },
         seed: () => emptySuggestionState,
@@ -91,7 +91,7 @@ void main() {
         'upvote',
         build: () {
           return SuggestionCubit(
-            mockSuggestionInteractor,
+            mockSuggestionRepository,
           );
         },
         seed: () => emptySuggestionState,
@@ -114,7 +114,7 @@ void main() {
         'downvote',
         build: () {
           return SuggestionCubit(
-            mockSuggestionInteractor,
+            mockSuggestionRepository,
           );
         },
         seed: () => SuggestionState(
@@ -135,7 +135,7 @@ void main() {
         'add notification',
         build: () {
           return SuggestionCubit(
-            mockSuggestionInteractor,
+            mockSuggestionRepository,
           );
         },
         seed: () => emptySuggestionState,
@@ -160,7 +160,7 @@ void main() {
         'delete notification',
         build: () {
           return SuggestionCubit(
-            mockSuggestionInteractor,
+            mockSuggestionRepository,
           );
         },
         seed: () => SuggestionState(
@@ -183,7 +183,7 @@ void main() {
         'show successful result message',
         build: () {
           return SuggestionCubit(
-            mockSuggestionInteractor,
+            mockSuggestionRepository,
           );
         },
         seed: () => emptySuggestionState,
@@ -205,7 +205,7 @@ void main() {
         'show failed result message',
         build: () {
           return SuggestionCubit(
-            mockSuggestionInteractor,
+            mockSuggestionRepository,
           );
         },
         seed: () => emptySuggestionState,
@@ -227,7 +227,7 @@ void main() {
         'open Bottom Sheet',
         build: () {
           return SuggestionCubit(
-            mockSuggestionInteractor,
+            mockSuggestionRepository,
           );
         },
         seed: () => emptySuggestionState,

@@ -53,16 +53,65 @@ class SuggestionsTextField extends StatelessWidget {
                 ),
               ),
               child: SuggestionsPlatform.isIOS
-                  ? _iosTextField()
-                  : _commonTextField(),
+                  ? _IosTextField(
+                      controller: controller,
+                      hintText: hintText,
+                      onChanged: onChanged,
+                      padding: padding,
+                      autofocus: autofocus,
+                      keyboardAppearance: keyboardAppearance,
+                      focusNode: focusNode,
+                      textAlign: textAlign,
+                      textInputAction: textInputAction,
+                      inputFormatters: inputFormatters,
+                    )
+                  : _CommonTextField(
+                      controller: controller,
+                      hintText: hintText,
+                      onChanged: onChanged,
+                      padding: padding,
+                      autofocus: autofocus,
+                      keyboardAppearance: keyboardAppearance,
+                      focusNode: focusNode,
+                      textAlign: textAlign,
+                      textInputAction: textInputAction,
+                      inputFormatters: inputFormatters,
+                    ),
             ),
           ),
         ],
       ),
     );
   }
+}
 
-  Widget _commonTextField() {
+class _CommonTextField extends StatelessWidget {
+  final TextEditingController controller;
+  final String hintText;
+  final ValueChanged<String>? onChanged;
+  final EdgeInsetsGeometry padding;
+  final bool autofocus;
+  final Brightness? keyboardAppearance;
+  final FocusNode? focusNode;
+  final TextAlign textAlign;
+  final TextInputAction? textInputAction;
+  final List<TextInputFormatter>? inputFormatters;
+
+  const _CommonTextField({
+    required this.controller,
+    required this.hintText,
+    required this.onChanged,
+    required this.padding,
+    required this.autofocus,
+    required this.keyboardAppearance,
+    required this.focusNode,
+    required this.textAlign,
+    required this.textInputAction,
+    required this.inputFormatters,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return TextField(
       focusNode: focusNode,
       keyboardAppearance: keyboardAppearance,
@@ -101,8 +150,35 @@ class SuggestionsTextField extends StatelessWidget {
       inputFormatters: inputFormatters,
     );
   }
+}
 
-  Widget _iosTextField() {
+class _IosTextField extends StatelessWidget {
+  final TextEditingController controller;
+  final String hintText;
+  final ValueChanged<String>? onChanged;
+  final EdgeInsetsGeometry padding;
+  final bool autofocus;
+  final Brightness? keyboardAppearance;
+  final FocusNode? focusNode;
+  final TextAlign textAlign;
+  final TextInputAction? textInputAction;
+  final List<TextInputFormatter>? inputFormatters;
+
+  const _IosTextField({
+    required this.controller,
+    required this.hintText,
+    required this.onChanged,
+    required this.padding,
+    required this.autofocus,
+    required this.keyboardAppearance,
+    required this.focusNode,
+    required this.textAlign,
+    required this.textInputAction,
+    required this.inputFormatters,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return CupertinoTextField(
       controller: controller,
       focusNode: focusNode,

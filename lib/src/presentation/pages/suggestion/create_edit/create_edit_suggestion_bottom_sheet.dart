@@ -78,196 +78,66 @@ class CreateEditSuggestionBottomSheetState
     super.dispose();
   }
 
+  bool _listenWhen(
+    CreateEditSuggestionState previous,
+    CreateEditSuggestionState current,
+  ) {
+    return (previous.savingImageResultMessageType ==
+                SavingResultMessageType.none &&
+            current.savingImageResultMessageType !=
+                SavingResultMessageType.none) ||
+        (!previous.isSubmitted && current.isSubmitted) ||
+        (previous.isPhotoViewOpen != current.isPhotoViewOpen);
+  }
+
+  void _listener(BuildContext context, CreateEditSuggestionState state) {
+    if (state.savingImageResultMessageType != SavingResultMessageType.none) {
+      state.savingImageResultMessageType == SavingResultMessageType.success
+          ? BotToast.showText(text: context.localization.savingImageSuccess)
+          : BotToast.showText(text: context.localization.savingImageError);
+    } else if (state.isSubmitted) {
+      widget.onClose();
+    } else if (state.isPhotoViewOpen) {
+      _openPhotoView(state);
+    }
+    _cubit.reset();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<CreateEditSuggestionCubit, CreateEditSuggestionState>(
       bloc: _cubit,
-      listenWhen: (
-        CreateEditSuggestionState previous,
-        CreateEditSuggestionState current,
-      ) {
-        return (previous.savingImageResultMessageType ==
-                    SavingResultMessageType.none &&
-                current.savingImageResultMessageType !=
-                    SavingResultMessageType.none) ||
-            (!previous.isSubmitted && current.isSubmitted) ||
-            (previous.isPhotoViewOpen != current.isPhotoViewOpen);
-      },
-      listener: (BuildContext context, CreateEditSuggestionState state) {
-        if (state.savingImageResultMessageType !=
-            SavingResultMessageType.none) {
-          state.savingImageResultMessageType == SavingResultMessageType.success
-              ? BotToast.showText(text: context.localization.savingImageSuccess)
-              : BotToast.showText(text: context.localization.savingImageError);
-        } else if (state.isSubmitted) {
-          widget.onClose();
-        } else if (state.isPhotoViewOpen) {
-          _openPhotoView(state);
-        }
-        _cubit.reset();
-      },
+      listenWhen: _listenWhen,
+      listener: _listener,
       builder: (BuildContext context, CreateEditSuggestionState state) {
         if (state.isLabelsBottomSheetOpen) {
-          return _labelsBottomSheet(state.suggestion.labels);
+          return _LabelsBottomSheet(
+            suggestionList: state.suggestion.labels,
+            labelsSheetController: _labelsSheetController,
+            cubit: _cubit,
+          );
         } else if (state.isStatusBottomSheetOpen && i.isAdmin) {
-          return _statusesBottomSheet(state.suggestion.status);
+          return _StatusesBottomSheet(
+            suggestionStatus: state.suggestion.status,
+            statusesSheetController: _statusesSheetController,
+            cubit: _cubit,
+          );
         } else if (!state.isPhotoViewOpen) {
-          return _createEditSuggestionBottomSheet(state);
+          return _CreateEditSuggestionBottomSheet(
+            state: state,
+            cubit: _cubit,
+            titleFocusNode: _titleFocusNode,
+            controller: widget.controller,
+            onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
+            descriptionController: _descriptionController,
+            descriptionFocusNode: _descriptionFocusNode,
+            titleController: _titleController,
+            onClose: widget.onClose,
+          );
         } else {
           return Container();
         }
       },
-    );
-  }
-
-  Widget _createEditSuggestionBottomSheet(CreateEditSuggestionState state) {
-    return BaseBottomSheet(
-      controller: widget.controller,
-      onOpen: () => _titleFocusNode.requestFocus(),
-      onClose: ([_]) => widget.onClose(),
-      backgroundColor: theme.bottomSheetBackgroundColor,
-      previousNavBarColor: theme.primaryBackgroundColor,
-      previousStatusBarColor: theme.primaryBackgroundColor,
-      initialSnapping: 0.85,
-      contentBuilder: (BuildContext context, SheetState sheetState) {
-        return ListView(
-          padding: const EdgeInsets.symmetric(
-            vertical: Dimensions.marginSmall,
-          ),
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          children: <Widget>[
-            SuggestionsTextField(
-              controller: _titleController,
-              focusNode: _titleFocusNode,
-              hintText: context.localization.title,
-              padding: const EdgeInsets.fromLTRB(
-                Dimensions.marginDefault,
-                Dimensions.marginDefault,
-                Dimensions.marginSmall,
-                Dimensions.marginDefault,
-              ),
-              onChanged: (String text) {
-                if (state.suggestion.title != text) {
-                  _cubit.changeSuggestionTitle(text);
-                }
-              },
-              isShowError: state.isShowTitleError,
-            ),
-            const SizedBox(height: Dimensions.marginDefault),
-            SuggestionsTextField(
-              controller: _descriptionController,
-              focusNode: _descriptionFocusNode,
-              hintText: context.localization.description,
-              padding: const EdgeInsets.fromLTRB(
-                Dimensions.marginDefault,
-                Dimensions.marginDefault,
-                Dimensions.marginSmall,
-                Dimensions.marginDefault,
-              ),
-              onChanged: (String text) {
-                if (state.suggestion.description != text) {
-                  _cubit.changeSuggestionDescription(text);
-                }
-              },
-            ),
-            const SizedBox(height: Dimensions.marginBig),
-            Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
-            _LabelItems(
-              labels: state.suggestion.labels,
-              changeLabelsBottomSheetStatus: (value) =>
-                  _cubit.changeLabelsBottomSheetStatus(
-                isLabelsBottomSheetOpen: value,
-              ),
-            ),
-            if (i.isAdmin && state.isEditing) ...<Widget>[
-              Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
-              _SuggestionStatus(
-                suggestionStatus: state.suggestion.status,
-                changeStatusBottomSheetStatus: (value) =>
-                    _cubit.changeStatusBottomSheetStatus(
-                  isStatusBottomSheetOpen: value,
-                ),
-              ),
-            ],
-            if (widget.onUploadMultiplePhotos != null) ...<Widget>[
-              if (state.suggestion.images.isNotEmpty)
-                const SizedBox.shrink()
-              else
-                _dividerWithIndent(),
-              _PhotoPickerItem(
-                state: state,
-                onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
-              ),
-            ],
-            if (!state.isEditing) ...<Widget>[
-              _dividerWithIndent(),
-              const SizedBox(height: Dimensions.marginSmall),
-              _PostAnonymously(
-                isAnonymously: state.suggestion.isAnonymous,
-                changeSuggestionAnonymity: (value) =>
-                    _cubit.changeSuggestionAnonymity(isAnonymous: value),
-              ),
-              const SizedBox(height: Dimensions.marginSmall),
-            ],
-            _SaveSubmitButton(
-              isEditing: state.isEditing,
-              isLoading: state.isLoading,
-              saveSuggestion: _cubit.saveSuggestion,
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Widget _labelsBottomSheet(List<SuggestionLabel> suggestionList) {
-    return LabelBottomSheet(
-      controller: _labelsSheetController,
-      selectedLabels: suggestionList,
-      onCancel: ([_]) => _labelsSheetController.collapse()?.then(
-            (_) => _cubit.changeLabelsBottomSheetStatus(
-              isLabelsBottomSheetOpen: false,
-            ),
-          ),
-      onDone: (List<SuggestionLabel> labels) {
-        _cubit.selectLabels(labels);
-        _labelsSheetController.collapse()?.then(
-              (_) => _cubit.changeLabelsBottomSheetStatus(
-                isLabelsBottomSheetOpen: false,
-              ),
-            );
-      },
-    );
-  }
-
-  Widget _statusesBottomSheet(SuggestionStatus suggestionStatus) {
-    return StatusBottomSheet(
-      controller: _statusesSheetController,
-      selectedStatus: suggestionStatus,
-      onCancel: ([_]) => _statusesSheetController.collapse()?.then(
-            (_) => _cubit.changeStatusBottomSheetStatus(
-              isStatusBottomSheetOpen: false,
-            ),
-          ),
-      onDone: (SuggestionStatus status) {
-        _cubit.changeStatus(status);
-        _statusesSheetController.collapse()?.then(
-              (_) => _cubit.changeStatusBottomSheetStatus(
-                isStatusBottomSheetOpen: false,
-              ),
-            );
-      },
-    );
-  }
-
-  Widget _dividerWithIndent() {
-    return Divider(
-      color: theme.dividerColor,
-      thickness: 0.5,
-      height: 1.5,
-      indent: Dimensions.marginDefault,
-      endIndent: Dimensions.marginDefault,
     );
   }
 
@@ -291,6 +161,65 @@ class CreateEditSuggestionBottomSheetState
       },
     );
     _cubit.changePhotoViewStatus(isPhotoViewOpen: false);
+  }
+}
+
+class _CreateEditSuggestionBottomSheet extends StatelessWidget {
+  final CreateEditSuggestionState state;
+  final CreateEditSuggestionCubit cubit;
+  final FocusNode titleFocusNode;
+  final SheetController controller;
+  final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
+  final TextEditingController descriptionController;
+  final FocusNode descriptionFocusNode;
+  final TextEditingController titleController;
+  final VoidCallback onClose;
+
+  const _CreateEditSuggestionBottomSheet({
+    required this.state,
+    required this.cubit,
+    required this.titleFocusNode,
+    required this.controller,
+    required this.onUploadMultiplePhotos,
+    required this.descriptionController,
+    required this.descriptionFocusNode,
+    required this.titleController,
+    required this.onClose,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BaseBottomSheet(
+      controller: controller,
+      onOpen: titleFocusNode.requestFocus,
+      onClose: ([_]) => onClose(),
+      backgroundColor: theme.bottomSheetBackgroundColor,
+      previousNavBarColor: theme.primaryBackgroundColor,
+      previousStatusBarColor: theme.primaryBackgroundColor,
+      initialSnapping: 0.85,
+      contentBuilder: (BuildContext context, SheetState sheetState) {
+        return _EditSuggestionBottomSheetListView(
+          titleController: titleController,
+          descriptionController: descriptionController,
+          titleFocusNode: titleFocusNode,
+          descriptionFocusNode: descriptionFocusNode,
+          state: state,
+          onUploadMultiplePhotos: onUploadMultiplePhotos,
+          onTitleChanged: cubit.changeSuggestionTitle,
+          onDescriptionChanged: cubit.changeSuggestionDescription,
+          onLabelChanged: (value) => cubit.changeLabelsBottomSheetStatus(
+            isLabelsBottomSheetOpen: value,
+          ),
+          onAnonymityChanged: (value) => cubit.changeSuggestionAnonymity(
+            isAnonymous: value,
+          ),
+          onStatusChanged: (value) => cubit.changeStatusBottomSheetStatus(
+            isStatusBottomSheetOpen: value,
+          ),
+          onSave: cubit.saveSuggestion,
+        );
+      },
+    );
   }
 }
 
@@ -336,37 +265,32 @@ class _SuggestionStatus extends StatelessWidget {
     required this.changeStatusBottomSheetStatus,
   });
 
-  @override
-  Widget build(BuildContext context) {
-    late final String status;
+  String _suggestionStatus(BuildContext context) {
     switch (suggestionStatus) {
       case SuggestionStatus.completed:
-        status = context.localization.completed;
-        break;
+        return context.localization.completed;
       case SuggestionStatus.inProgress:
-        status = context.localization.inProgress;
-        break;
+        return context.localization.inProgress;
       case SuggestionStatus.requests:
-        status = context.localization.requests;
-        break;
+        return context.localization.requests;
       case SuggestionStatus.cancelled:
-        status = context.localization.cancelled;
-        break;
+        return context.localization.cancelled;
       case SuggestionStatus.duplicate:
-        status = context.localization.duplicate;
-        break;
+        return context.localization.duplicate;
       case SuggestionStatus.unknown:
-        status = '';
-        break;
+        return '';
     }
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return ClickableListItem(
       title: Text(
         context.localization.status,
         style: theme.textSmallPlusSecondaryBold,
       ),
       trailing: Text(
-        status,
+        _suggestionStatus(context),
         style: theme.textSmallPlusBold,
       ),
       onClick: () => changeStatusBottomSheetStatus(true),
@@ -456,88 +380,130 @@ class _PhotoPickerItem extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemCount: state.suggestion.images.length + 1,
                 itemBuilder: (BuildContext context, int i) {
-                  if (i == 0) {
-                    return GestureDetector(
-                      onTap: () {
-                        final availableNumOfPhotos = maxPhotosForOneSuggestion -
-                            state.suggestion.images.length;
-                        availableNumOfPhotos > 0
-                            ? _cubit.addUploadedPhotos(
-                                onUploadMultiplePhotos!(
-                                  availableNumOfPhotos: availableNumOfPhotos,
-                                ),
-                              )
-                            : BotToast.showText(
-                                text:
-                                    context.localization.eventPhotosRestriction,
-                              );
-                      },
-                      child: AddPhotoButton(
-                        width: state.suggestion.images.length > 2
-                            ? tileWidth * 0.9
-                            : tileWidth,
-                        height: (MediaQuery.of(context).size.width - 80) / 3,
-                        style: theme.textSmallPlusBold,
-                        isLoading: state.isLoading,
-                      ),
-                    );
-                  } else {
-                    return GestureDetector(
-                      onTap: () => _cubit.onPhotoClick(i - 1),
-                      child: Container(
-                        margin: const EdgeInsets.only(
-                          right: Dimensions.marginDefault,
-                        ),
-                        width: tileWidth,
-                        height: 98,
-                        clipBehavior: Clip.hardEdge,
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(Dimensions.smallCircularRadius),
-                          ),
-                        ),
-                        child: FittedBox(
-                          fit: BoxFit.cover,
-                          child: SuggestionsNetworkImage(
-                            url: state.suggestion.images[i - 1],
-                          ),
-                        ),
-                      ),
-                    );
-                  }
+                  return _PhotoItem(
+                    i: i,
+                    state: state,
+                    tileWidth: tileWidth,
+                    onUploadPhotos: () {
+                      final availableNumOfPhotos = maxPhotosForOneSuggestion -
+                          state.suggestion.images.length;
+                      availableNumOfPhotos > 0
+                          ? _cubit.addUploadedPhotos(
+                              onUploadMultiplePhotos!(
+                                availableNumOfPhotos: availableNumOfPhotos,
+                              ),
+                            )
+                          : BotToast.showText(
+                              text: context.localization.eventPhotosRestriction,
+                            );
+                    },
+                    onPhotoClick: () => _cubit.onPhotoClick(i - 1),
+                  );
                 },
               ),
             ),
           )
-        : ClickableListItem(
-            title: Text(
-              context.localization.addPhoto,
-              style: theme.textSmallPlusSecondaryBold,
-            ),
-            trailing: state.isLoading
-                ? CircularProgressIndicator(
-                    strokeWidth: 1,
-                    valueColor:
-                        AlwaysStoppedAnimation<Color>(theme.primaryIconColor),
-                  )
-                : SvgPicture.asset(
-                    AssetStrings.plusIconThickImage,
-                    package: AssetStrings.packageName,
-                    colorFilter: ColorFilter.mode(
-                      theme.primaryIconColor,
-                      BlendMode.srcIn,
-                    ),
-                    height: state.suggestion.images.isNotEmpty
-                        ? Dimensions.smallSize
-                        : Dimensions.defaultSize,
-                  ),
-            onClick: () => _cubit.addUploadedPhotos(
+        : _AddButton(
+            state: state,
+            onUploadPhotos: () => _cubit.addUploadedPhotos(
               onUploadMultiplePhotos!(
                 availableNumOfPhotos: maxPhotosForOneSuggestion,
               ),
             ),
-            verticalPadding: Dimensions.marginDefault,
           );
+  }
+}
+
+class _PhotoItem extends StatelessWidget {
+  final int i;
+  final CreateEditSuggestionState state;
+  final VoidCallback onUploadPhotos;
+  final double tileWidth;
+  final VoidCallback onPhotoClick;
+
+  const _PhotoItem({
+    required this.i,
+    required this.state,
+    required this.onUploadPhotos,
+    required this.tileWidth,
+    required this.onPhotoClick,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (i == 0) {
+      return GestureDetector(
+        onTap: onUploadPhotos,
+        child: AddPhotoButton(
+          width:
+              state.suggestion.images.length > 2 ? tileWidth * 0.9 : tileWidth,
+          height: (MediaQuery.of(context).size.width - 80) / 3,
+          style: theme.textSmallPlusBold,
+          isLoading: state.isLoading,
+        ),
+      );
+    } else {
+      return GestureDetector(
+        onTap: onPhotoClick,
+        child: Container(
+          margin: const EdgeInsets.only(
+            right: Dimensions.marginDefault,
+          ),
+          width: tileWidth,
+          height: 98,
+          clipBehavior: Clip.hardEdge,
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(Dimensions.smallCircularRadius),
+            ),
+          ),
+          child: FittedBox(
+            fit: BoxFit.cover,
+            child: SuggestionsNetworkImage(
+              url: state.suggestion.images[i - 1],
+            ),
+          ),
+        ),
+      );
+    }
+  }
+}
+
+class _AddButton extends StatelessWidget {
+  final CreateEditSuggestionState state;
+  final VoidCallback onUploadPhotos;
+
+  const _AddButton({
+    required this.state,
+    required this.onUploadPhotos,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ClickableListItem(
+      title: Text(
+        context.localization.addPhoto,
+        style: theme.textSmallPlusSecondaryBold,
+      ),
+      trailing: state.isLoading
+          ? CircularProgressIndicator(
+              strokeWidth: 1,
+              valueColor: AlwaysStoppedAnimation<Color>(theme.primaryIconColor),
+            )
+          : SvgPicture.asset(
+              AssetStrings.plusIconThickImage,
+              package: AssetStrings.packageName,
+              colorFilter: ColorFilter.mode(
+                theme.primaryIconColor,
+                BlendMode.srcIn,
+              ),
+              height: state.suggestion.images.isNotEmpty
+                  ? Dimensions.smallSize
+                  : Dimensions.defaultSize,
+            ),
+      onClick: onUploadPhotos,
+      verticalPadding: Dimensions.marginDefault,
+    );
   }
 }
 
@@ -598,6 +564,222 @@ class _PhotoPreviewState extends State<_PhotoPreview> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _EditSuggestionBottomSheetListView extends StatelessWidget {
+  final TextEditingController titleController;
+  final TextEditingController descriptionController;
+  final FocusNode titleFocusNode;
+  final FocusNode descriptionFocusNode;
+  final CreateEditSuggestionState state;
+  final ValueChanged<String> onTitleChanged;
+  final ValueChanged<String> onDescriptionChanged;
+  final ValueChanged<bool> onLabelChanged;
+  final ValueChanged<bool> onStatusChanged;
+  final ValueChanged<bool> onAnonymityChanged;
+  final VoidCallback onSave;
+  final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
+
+  const _EditSuggestionBottomSheetListView({
+    required this.titleController,
+    required this.descriptionController,
+    required this.titleFocusNode,
+    required this.descriptionFocusNode,
+    required this.state,
+    required this.onTitleChanged,
+    required this.onDescriptionChanged,
+    required this.onLabelChanged,
+    required this.onStatusChanged,
+    required this.onAnonymityChanged,
+    required this.onSave,
+    required this.onUploadMultiplePhotos,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      padding: const EdgeInsets.symmetric(
+        vertical: Dimensions.marginSmall,
+      ),
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      children: <Widget>[
+        SuggestionsTextField(
+          controller: titleController,
+          focusNode: titleFocusNode,
+          hintText: context.localization.title,
+          padding: const EdgeInsets.fromLTRB(
+            Dimensions.marginDefault,
+            Dimensions.marginDefault,
+            Dimensions.marginSmall,
+            Dimensions.marginDefault,
+          ),
+          onChanged: (String text) {
+            if (state.suggestion.title != text) {
+              onTitleChanged(text);
+            }
+          },
+          isShowError: state.isShowTitleError,
+        ),
+        const SizedBox(height: Dimensions.marginDefault),
+        SuggestionsTextField(
+          controller: descriptionController,
+          focusNode: descriptionFocusNode,
+          hintText: context.localization.description,
+          padding: const EdgeInsets.fromLTRB(
+            Dimensions.marginDefault,
+            Dimensions.marginDefault,
+            Dimensions.marginSmall,
+            Dimensions.marginDefault,
+          ),
+          onChanged: (String text) {
+            if (state.suggestion.description != text) {
+              onDescriptionChanged(text);
+            }
+          },
+        ),
+        const SizedBox(height: Dimensions.marginBig),
+        Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
+        _LabelItems(
+          labels: state.suggestion.labels,
+          changeLabelsBottomSheetStatus: onLabelChanged,
+        ),
+        ..._suggestionStatus(),
+        ..._multiplePicker(),
+        ..._anonymitySwitch(),
+        _SaveSubmitButton(
+          isEditing: state.isEditing,
+          isLoading: state.isLoading,
+          saveSuggestion: onSave,
+        ),
+      ],
+    );
+  }
+
+  List<Widget> _suggestionStatus() {
+    if (i.isAdmin && state.isEditing) {
+      return <Widget>[
+        Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
+        _SuggestionStatus(
+          suggestionStatus: state.suggestion.status,
+          changeStatusBottomSheetStatus: onStatusChanged,
+        ),
+      ];
+    }
+    return [];
+  }
+
+  List<Widget> _multiplePicker() {
+    if (onUploadMultiplePhotos != null) {
+      return <Widget>[
+        if (state.suggestion.images.isNotEmpty)
+          const SizedBox.shrink()
+        else
+          const _DividerWithIndent(),
+        _PhotoPickerItem(
+          state: state,
+          onUploadMultiplePhotos: onUploadMultiplePhotos,
+        ),
+      ];
+    }
+    return [];
+  }
+
+  List<Widget> _anonymitySwitch() {
+    if (!state.isEditing) {
+      return <Widget>[
+        const _DividerWithIndent(),
+        const SizedBox(height: Dimensions.marginSmall),
+        _PostAnonymously(
+          isAnonymously: state.suggestion.isAnonymous,
+          changeSuggestionAnonymity: onAnonymityChanged,
+        ),
+        const SizedBox(height: Dimensions.marginSmall),
+      ];
+    }
+    return [];
+  }
+}
+
+class _StatusesBottomSheet extends StatelessWidget {
+  final SuggestionStatus suggestionStatus;
+  final SheetController statusesSheetController;
+  final CreateEditSuggestionCubit cubit;
+
+  const _StatusesBottomSheet({
+    required this.suggestionStatus,
+    required this.statusesSheetController,
+    required this.cubit,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return StatusBottomSheet(
+      controller: statusesSheetController,
+      selectedStatus: suggestionStatus,
+      onCancel: ([_]) => statusesSheetController.collapse()?.then(
+            (_) => cubit.changeStatusBottomSheetStatus(
+              isStatusBottomSheetOpen: false,
+            ),
+          ),
+      onDone: (SuggestionStatus status) {
+        cubit.changeStatus(status);
+        statusesSheetController.collapse()?.then(
+              (_) => cubit.changeStatusBottomSheetStatus(
+                isStatusBottomSheetOpen: false,
+              ),
+            );
+      },
+    );
+  }
+}
+
+class _LabelsBottomSheet extends StatelessWidget {
+  final List<SuggestionLabel> suggestionList;
+  final SheetController labelsSheetController;
+  final CreateEditSuggestionCubit cubit;
+
+  const _LabelsBottomSheet({
+    required this.suggestionList,
+    required this.labelsSheetController,
+    required this.cubit,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return LabelBottomSheet(
+      controller: labelsSheetController,
+      selectedLabels: suggestionList,
+      onCancel: ([_]) => labelsSheetController.collapse()?.then(
+            (_) => cubit.changeLabelsBottomSheetStatus(
+              isLabelsBottomSheetOpen: false,
+            ),
+          ),
+      onDone: (List<SuggestionLabel> labels) {
+        cubit.selectLabels(labels);
+        labelsSheetController.collapse()?.then(
+              (_) => cubit.changeLabelsBottomSheetStatus(
+                isLabelsBottomSheetOpen: false,
+              ),
+            );
+      },
+    );
+  }
+}
+
+class _DividerWithIndent extends StatelessWidget {
+  const _DividerWithIndent();
+
+  @override
+  Widget build(BuildContext context) {
+    return Divider(
+      color: theme.dividerColor,
+      thickness: 0.5,
+      height: 1.5,
+      indent: Dimensions.marginDefault,
+      endIndent: Dimensions.marginDefault,
     );
   }
 }

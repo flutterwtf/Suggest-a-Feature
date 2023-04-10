@@ -1,3 +1,8 @@
+// ignore_for_file: always_use_package_imports
+// ignore_for_file: lines_longer_than_80_chars
+// ignore_for_file: noop_primitive_operations
+// ignore_for_file: require_trailing_commas
+
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';

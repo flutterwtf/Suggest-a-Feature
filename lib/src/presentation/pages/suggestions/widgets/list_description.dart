@@ -13,33 +13,46 @@ class ListDescription extends StatelessWidget {
     super.key,
   });
 
-  @override
-  Widget build(BuildContext context) {
-    final String header;
-    final String description;
+  String statusHeader(BuildContext context) {
     switch (status) {
       case SuggestionStatus.requests:
-        header = context.localization.requestsHeader;
-        description = context.localization.requestsDescription;
-        break;
+        return context.localization.requestsHeader;
       case SuggestionStatus.inProgress:
-        header = context.localization.inProgressHeader;
-        description = context.localization.inProgressDescription;
-        break;
+        return context.localization.inProgressHeader;
       case SuggestionStatus.completed:
-        header = context.localization.completedHeader;
-        description = context.localization.completedDescription;
-        break;
+        return context.localization.completedHeader;
       case SuggestionStatus.cancelled:
-        header = context.localization.cancelledHeader;
-        description = context.localization.cancelledDescription;
-        break;
+        return context.localization.cancelledHeader;
       case SuggestionStatus.duplicate:
-        header = context.localization.duplicatedHeader;
-        description = context.localization.duplicatedDescription;
-        break;
+        return context.localization.duplicatedHeader;
       case SuggestionStatus.unknown:
-        return const SizedBox.shrink();
+        return '';
+    }
+  }
+
+  String statusDescription(BuildContext context) {
+    switch (status) {
+      case SuggestionStatus.requests:
+        return context.localization.requestsDescription;
+      case SuggestionStatus.inProgress:
+        return context.localization.inProgressDescription;
+      case SuggestionStatus.completed:
+        return context.localization.completedDescription;
+      case SuggestionStatus.cancelled:
+        return context.localization.cancelledDescription;
+      case SuggestionStatus.duplicate:
+        return context.localization.duplicatedDescription;
+      case SuggestionStatus.unknown:
+        return '';
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final header = statusHeader(context);
+    final description = statusDescription(context);
+    if (status == SuggestionStatus.unknown) {
+      return const SizedBox.shrink();
     }
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: Dimensions.margin2x),

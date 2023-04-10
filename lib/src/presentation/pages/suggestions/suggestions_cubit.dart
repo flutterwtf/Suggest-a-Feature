@@ -1,16 +1,16 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:suggest_a_feature/src/domain/data_interfaces/suggestion_repository.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
-import 'package:suggest_a_feature/src/domain/interactors/suggestion_interactor.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart'
     as injector;
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_state.dart';
 
 class SuggestionsCubit extends Cubit<SuggestionsState> {
-  final SuggestionInteractor _suggestionInteractor;
+  final SuggestionRepository _suggestionRepository;
   StreamSubscription<List<Suggestion>>? _suggestionSubscription;
 
-  SuggestionsCubit(this._suggestionInteractor)
+  SuggestionsCubit(this._suggestionRepository)
       : super(
           const SuggestionsState(
             requests: <Suggestion>[],
@@ -22,10 +22,10 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
 
   void init() {
     _suggestionSubscription?.cancel();
-    _suggestionSubscription = _suggestionInteractor.suggestionsStream.listen(
+    _suggestionSubscription = _suggestionRepository.suggestionsStream.listen(
       _onNewSuggestions,
     );
-    _suggestionInteractor.initSuggestions();
+    _suggestionRepository.initSuggestions();
   }
 
   void dispose() {
@@ -34,19 +34,18 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
   }
 
   Future<void> _onNewSuggestions(List<Suggestion> suggestions) async {
-    suggestions.sort(
-      (Suggestion a, Suggestion b) => b.upvotesCount.compareTo(a.upvotesCount),
-    );
+    suggestions.sort((a, b) => b.upvotesCount.compareTo(a.upvotesCount));
+
     emit(
       state.newState(
         requests: suggestions
-            .where((Suggestion s) => s.status == SuggestionStatus.requests)
+            .where((s) => s.status == SuggestionStatus.requests)
             .toList(growable: false),
         inProgress: suggestions
-            .where((Suggestion s) => s.status == SuggestionStatus.inProgress)
+            .where((s) => s.status == SuggestionStatus.inProgress)
             .toList(growable: false),
         completed: suggestions
-            .where((Suggestion s) => s.status == SuggestionStatus.completed)
+            .where((s) => s.status == SuggestionStatus.completed)
             .toList(growable: false),
       ),
     );
@@ -55,16 +54,13 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
   void vote(SuggestionStatus status, int i) {
     switch (status) {
       case SuggestionStatus.requests:
-        final newList = _changeListElement(state.requests, i);
-        emit(state.newState(requests: newList));
+        _voteForSuggestion(state.requests[i]);
         break;
       case SuggestionStatus.inProgress:
-        final newList = _changeListElement(state.inProgress, i);
-        emit(state.newState(inProgress: newList));
+        _voteForSuggestion(state.inProgress[i]);
         break;
       case SuggestionStatus.completed:
-        final newList = _changeListElement(state.completed, i);
-        emit(state.newState(completed: newList));
+        _voteForSuggestion(state.completed[i]);
         break;
       case SuggestionStatus.unknown:
       case SuggestionStatus.duplicate:
@@ -73,21 +69,12 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
     }
   }
 
-  List<Suggestion> _changeListElement(List<Suggestion> suggestionsList, int i) {
-    final newList = <Suggestion>[...suggestionsList];
-    final isVoted = newList[i].votedUserIds.contains(injector.i.userId);
-    final newVotedUserIds = <String>{...newList[i].votedUserIds};
+  void _voteForSuggestion(Suggestion suggestion) {
+    final isVoted = suggestion.votedUserIds.contains(injector.i.userId);
 
-    !isVoted
-        ? _suggestionInteractor.upvote(newList[i].id)
-        : _suggestionInteractor.downvote(newList[i].id);
-
-    newList[i] = newList[i].copyWith(
-      votedUserIds: !isVoted
-          ? <String>{...newVotedUserIds..add(injector.i.userId)}
-          : <String>{...newVotedUserIds..remove(injector.i.userId)},
-    );
-    return newList;
+    isVoted
+        ? _suggestionRepository.downvote(suggestion.id)
+        : _suggestionRepository.upvote(suggestion.id);
   }
 
   void openCreateBottomSheet() =>

@@ -1,20 +1,20 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:suggest_a_feature/src/domain/data_interfaces/suggestion_repository.dart';
 import 'package:suggest_a_feature/src/domain/entities/comment.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion_author.dart';
-import 'package:suggest_a_feature/src/domain/interactors/suggestion_interactor.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/suggestion_state.dart';
 import 'package:suggest_a_feature/src/presentation/utils/image_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/typedefs.dart';
 
 class SuggestionCubit extends Cubit<SuggestionState> {
-  final SuggestionInteractor _suggestionInteractor;
+  final SuggestionRepository _suggestionRepository;
   StreamSubscription<List<Suggestion>>? _suggestionSubscription;
 
-  SuggestionCubit(this._suggestionInteractor)
+  SuggestionCubit(this._suggestionRepository)
       : super(
           SuggestionState(
             isPopped: false,
@@ -41,7 +41,7 @@ class SuggestionCubit extends Cubit<SuggestionState> {
     );
     _suggestionSubscription?.cancel();
     _suggestionSubscription =
-        _suggestionInteractor.suggestionsStream.listen(_onNewSuggestions);
+        _suggestionRepository.suggestionsStream.listen(_onNewSuggestions);
     _loadComments(getUserById, suggestion.id);
     if (!suggestion.isAnonymous) {
       _loadAuthorProfile(getUserById, suggestion.authorId);
@@ -52,14 +52,14 @@ class SuggestionCubit extends Cubit<SuggestionState> {
     OnGetUserById getUserById,
     String userId,
   ) async {
-    if (!_suggestionInteractor.userInfo.containsKey(userId)) {
+    if (!_suggestionRepository.userInfo.containsKey(userId)) {
       final author = await getUserById(userId);
       if (author != null) {
-        _suggestionInteractor.userInfo[userId] = author;
+        _suggestionRepository.userInfo[userId] = author;
         emit(state.newState(author: author));
       }
     } else {
-      emit(state.newState(author: _suggestionInteractor.userInfo[userId]));
+      emit(state.newState(author: _suggestionRepository.userInfo[userId]));
     }
   }
 
@@ -68,7 +68,7 @@ class SuggestionCubit extends Cubit<SuggestionState> {
     String suggestionId,
   ) async {
     try {
-      final comments = await _suggestionInteractor.getAllComments(suggestionId);
+      final comments = await _suggestionRepository.getAllComments(suggestionId);
       final extendedComments = await Future.wait(
         comments.map(
           (Comment e) async {
@@ -89,7 +89,10 @@ class SuggestionCubit extends Cubit<SuggestionState> {
           suggestion: state.suggestion.copyWith(comments: extendedComments),
         ),
       );
-      _suggestionInteractor.refreshSuggestions(state.suggestion);
+      _suggestionRepository.refreshSuggestions(
+        state.suggestion,
+        saveComments: false,
+      );
     } catch (e) {
       log('Comments loading error', error: e);
     }
@@ -173,7 +176,7 @@ class SuggestionCubit extends Cubit<SuggestionState> {
     required bool postedByAdmin,
   }) async {
     try {
-      final comment = await _suggestionInteractor.createComment(
+      final comment = await _suggestionRepository.createComment(
         CreateCommentModel(
           authorId: i.userId,
           isAnonymous: isAnonymous,
@@ -192,7 +195,10 @@ class SuggestionCubit extends Cubit<SuggestionState> {
           ),
         ),
       );
-      _suggestionInteractor.refreshSuggestions(state.suggestion);
+      _suggestionRepository.refreshSuggestions(
+        state.suggestion,
+        saveComments: false,
+      );
     } catch (e) {
       log('Comment creation error', error: e);
     }
@@ -201,7 +207,7 @@ class SuggestionCubit extends Cubit<SuggestionState> {
   Future<void> deleteSuggestion() async {
     _suggestionSubscription?.cancel();
     _suggestionSubscription = null;
-    await _suggestionInteractor.deleteSuggestion(state.suggestion.id);
+    await _suggestionRepository.deleteSuggestion(state.suggestion.id);
     emit(state.newState(isPopped: true));
   }
 
@@ -210,8 +216,8 @@ class SuggestionCubit extends Cubit<SuggestionState> {
     final newVotedUserIds = <String>{...state.suggestion.votedUserIds};
 
     isVoted
-        ? _suggestionInteractor.downvote(state.suggestion.id)
-        : _suggestionInteractor.upvote(state.suggestion.id);
+        ? _suggestionRepository.downvote(state.suggestion.id)
+        : _suggestionRepository.upvote(state.suggestion.id);
     emit(
       state.newState(
         suggestion: state.suggestion.copyWith(
@@ -227,8 +233,8 @@ class SuggestionCubit extends Cubit<SuggestionState> {
     final newNotifyUserIds = <String>{...state.suggestion.notifyUserIds};
 
     isNotificationOn
-        ? await _suggestionInteractor.addNotifyToUpdateUser(state.suggestion.id)
-        : await _suggestionInteractor
+        ? await _suggestionRepository.addNotifyToUpdateUser(state.suggestion.id)
+        : await _suggestionRepository
             .deleteNotifyToUpdateUser(state.suggestion.id);
     emit(
       state.newState(

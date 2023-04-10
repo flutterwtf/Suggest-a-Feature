@@ -5,7 +5,7 @@ abstract class SuggestionsDataSource {
   /// The current user id.
   String get userId;
 
-  /// Creates suggestion.
+  /// Creates a suggestion.
   ///
   /// Uses a [CreateSuggestionModel] type parameter, which does not have
   /// an id field.
@@ -21,7 +21,7 @@ abstract class SuggestionsDataSource {
 
   Future<void> deleteSuggestionById(String suggestionId);
 
-  /// Creates comment.
+  /// Creates a comment.
   ///
   /// Uses a [CreateCommentModel] type parameter,
   /// which does not have an id field.
@@ -39,9 +39,9 @@ abstract class SuggestionsDataSource {
   /// Takes away a vote from the suggestion, lowering its priority.
   Future<void> downvote(String suggestionId);
 
-  /// Subscribes the user to change the status of the suggestion.
+  /// Subscribes the user to the status changes of the suggestion.
   Future<void> addNotifyToUpdateUser(String suggestionId);
 
-  /// Unsubscribes the user to change the status of the suggestion.
+  /// Unsubscribes the user from the status changes of the suggestion.
   Future<void> deleteNotifyToUpdateUser(String suggestionId);
 }

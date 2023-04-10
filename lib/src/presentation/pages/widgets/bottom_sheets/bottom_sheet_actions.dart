@@ -33,13 +33,13 @@ class BottomSheetActions extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           if (hasLeftButton)
-            NewSuggestionTextButton(
+            _NewSuggestionTextButton(
               title: context.localization.cancel,
               onClick: onCancel ?? () {},
               isTonal: false,
             ),
           const SizedBox(width: Dimensions.marginMicro),
-          NewSuggestionTextButton(
+          _NewSuggestionTextButton(
             title: context.localization.done,
             onClick: onDone,
             enabled: isDoneActive,
@@ -50,29 +50,30 @@ class BottomSheetActions extends StatelessWidget {
   }
 }
 
-class NewSuggestionTextButton extends StatefulWidget {
+class _NewSuggestionTextButton extends StatefulWidget {
   final String title;
   final bool enabled;
   final bool isTonal;
   final VoidCallback onClick;
-  final VoidCallback? onDisabledClick;
 
-  const NewSuggestionTextButton({
+  const _NewSuggestionTextButton({
     required this.title,
     required this.onClick,
-    this.onDisabledClick,
     this.enabled = true,
     this.isTonal = true,
-    super.key,
   });
 
   @override
-  State<NewSuggestionTextButton> createState() =>
+  State<_NewSuggestionTextButton> createState() =>
       _NewSuggestionTextButtonState();
 }
 
-class _NewSuggestionTextButtonState extends State<NewSuggestionTextButton> {
+class _NewSuggestionTextButtonState extends State<_NewSuggestionTextButton> {
   bool _pressed = false;
+
+  void _onTap(bool value) {
+    setState(() => _pressed = value);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,22 +91,14 @@ class _NewSuggestionTextButtonState extends State<NewSuggestionTextButton> {
       textColor = theme.focusedTextColor;
     }
     return GestureDetector(
-      onTap: widget.enabled ? widget.onClick : widget.onDisabledClick?.call,
-      onTapDown: (_) => setState(() {
+      onTap: () {
         if (widget.enabled) {
-          _pressed = true;
+          widget.onClick();
         }
-      }),
-      onTapUp: (_) => setState(() {
-        if (widget.enabled) {
-          _pressed = false;
-        }
-      }),
-      onTapCancel: () => setState(() {
-        if (widget.enabled) {
-          _pressed = false;
-        }
-      }),
+      },
+      onTapDown: (_) => _onTap(widget.enabled || _pressed),
+      onTapUp: (_) => _onTap(!widget.enabled && _pressed),
+      onTapCancel: () => _onTap(!widget.enabled && _pressed),
       child: Container(
         alignment: Alignment.center,
         clipBehavior: Clip.hardEdge,

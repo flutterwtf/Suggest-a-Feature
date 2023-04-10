@@ -33,6 +33,9 @@ class SuggestionCard extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             Container(
+              margin: const EdgeInsets.only(
+                bottom: Dimensions.marginDefault,
+              ),
               padding: const EdgeInsets.only(
                 left: Dimensions.marginDefault,
                 right: Dimensions.margin3x,
@@ -45,38 +48,10 @@ class SuggestionCard extends StatelessWidget {
                   Radius.circular(Dimensions.mediumCircularRadius),
                 ),
               ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  _VoteCounter(
-                    upvotesCount: suggestion.upvotesCount,
-                    isVoted: suggestion.votedUserIds.contains(userId),
-                    voteCallBack: voteCallBack,
-                  ),
-                  const SizedBox(width: Dimensions.marginDefault),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          suggestion.title,
-                          style: theme.textSmallPlusBold,
-                        ),
-                        const SizedBox(height: Dimensions.marginSmall),
-                        if (suggestion.description != null)
-                          Text(
-                            suggestion.description!,
-                            style: theme.textSmallPlus,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            softWrap: true,
-                          ),
-                        const SizedBox(height: Dimensions.marginDefault),
-                        SuggestionLabels(labels: suggestion.labels),
-                      ],
-                    ),
-                  ),
-                ],
+              child: _CardContent(
+                suggestion: suggestion,
+                voteCallBack: voteCallBack,
+                userId: userId,
               ),
             ),
             Align(
@@ -86,6 +61,55 @@ class SuggestionCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _CardContent extends StatelessWidget {
+  final Suggestion suggestion;
+  final VoidCallback voteCallBack;
+  final String userId;
+
+  const _CardContent({
+    required this.suggestion,
+    required this.voteCallBack,
+    required this.userId,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        _VoteCounter(
+          upvotesCount: suggestion.upvotesCount,
+          isVoted: suggestion.votedUserIds.contains(userId),
+          voteCallBack: voteCallBack,
+        ),
+        const SizedBox(width: Dimensions.marginDefault),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                suggestion.title,
+                style: theme.textSmallPlusBold,
+              ),
+              const SizedBox(height: Dimensions.marginSmall),
+              if (suggestion.description != null)
+                Text(
+                  suggestion.description!,
+                  style: theme.textSmallPlus,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  softWrap: true,
+                ),
+              const SizedBox(height: Dimensions.marginDefault),
+              SuggestionLabels(labels: suggestion.labels),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

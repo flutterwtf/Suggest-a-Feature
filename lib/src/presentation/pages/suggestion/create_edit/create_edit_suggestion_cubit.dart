@@ -1,14 +1,14 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:suggest_a_feature/src/domain/data_interfaces/suggestion_repository.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
-import 'package:suggest_a_feature/src/domain/interactors/suggestion_interactor.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_state.dart';
 import 'package:suggest_a_feature/src/presentation/utils/image_utils.dart';
 
 class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
-  final SuggestionInteractor _suggestionInteractor;
+  final SuggestionRepository _suggestionRepository;
 
-  CreateEditSuggestionCubit(this._suggestionInteractor)
+  CreateEditSuggestionCubit(this._suggestionRepository)
       : super(
           CreateEditSuggestionState(
             suggestion: Suggestion.empty(),
@@ -141,7 +141,7 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
       return;
     }
     if (state.isEditing) {
-      await _suggestionInteractor.updateSuggestion(state.suggestion);
+      await _suggestionRepository.updateSuggestion(state.suggestion);
     } else {
       final model = CreateSuggestionModel(
         title: state.suggestion.title,
@@ -151,7 +151,7 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
         authorId: i.userId,
         isAnonymous: state.suggestion.isAnonymous,
       );
-      await _suggestionInteractor.createSuggestion(model);
+      await _suggestionRepository.createSuggestion(model);
     }
     emit(state.newState(isSubmitted: true));
   }

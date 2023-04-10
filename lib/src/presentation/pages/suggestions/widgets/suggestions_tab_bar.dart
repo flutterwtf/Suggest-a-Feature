@@ -33,8 +33,8 @@ class SuggestionsTabBar extends StatelessWidget {
           height: tabHeight,
           child: _TabButton(
             status: SuggestionStatus.requests,
-            activeImage: AssetStrings.suggestionsRequests,
-            inactiveImage: AssetStrings.suggestionsRequestsInactive,
+            activeImagePath: AssetStrings.suggestionsRequests,
+            inactiveImagePath: AssetStrings.suggestionsRequestsInactive,
             color: theme.requestsTabColor,
             text: context.localization.requests,
             state: state,
@@ -44,8 +44,8 @@ class SuggestionsTabBar extends StatelessWidget {
           height: tabHeight,
           child: _TabButton(
             status: SuggestionStatus.inProgress,
-            activeImage: AssetStrings.suggestionsInProgress,
-            inactiveImage: AssetStrings.suggestionsInProgressInactive,
+            activeImagePath: AssetStrings.suggestionsInProgress,
+            inactiveImagePath: AssetStrings.suggestionsInProgressInactive,
             color: theme.inProgressTabColor,
             text: context.localization.inProgress,
             state: state,
@@ -55,8 +55,8 @@ class SuggestionsTabBar extends StatelessWidget {
           height: tabHeight,
           child: _TabButton(
             status: SuggestionStatus.completed,
-            activeImage: AssetStrings.suggestionsCompleted,
-            inactiveImage: AssetStrings.suggestionsCompletedInactive,
+            activeImagePath: AssetStrings.suggestionsCompleted,
+            inactiveImagePath: AssetStrings.suggestionsCompletedInactive,
             color: theme.completedTabColor,
             text: context.localization.completed,
             state: state,
@@ -69,8 +69,8 @@ class SuggestionsTabBar extends StatelessWidget {
 
 class _TabButton extends StatelessWidget {
   final SuggestionStatus status;
-  final String activeImage;
-  final String inactiveImage;
+  final String activeImagePath;
+  final String inactiveImagePath;
   final Color color;
   final String text;
   final SuggestionsState state;
@@ -83,11 +83,11 @@ class _TabButton extends StatelessWidget {
 
   const _TabButton({
     required this.status,
-    required this.activeImage,
+    required this.activeImagePath,
     required this.color,
     required this.state,
     required this.text,
-    required this.inactiveImage,
+    required this.inactiveImagePath,
   });
 
   @override
@@ -95,36 +95,13 @@ class _TabButton extends StatelessWidget {
     final isActive = state.activeTab == status;
     return Column(
       children: <Widget>[
-        Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            Container(
-              height: inactiveIconHeight,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    color: isActive
-                        ? color.withOpacity(0.3)
-                        : theme.secondaryBackgroundColor,
-                    blurRadius: 7,
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: activeIconHeight,
-              child: SvgPicture.asset(
-                isActive ? activeImage : inactiveImage,
-                package: AssetStrings.packageName,
-                colorFilter: ColorFilter.mode(
-                  isActive ? color : theme.secondaryIconColor,
-                  BlendMode.srcIn,
-                ),
-                height: isActive ? activeIconHeight : inactiveIconHeight,
-              ),
-            ),
-          ],
+        _TabIcon(
+          inactiveIconHeight: inactiveIconHeight,
+          activeIconHeight: activeIconHeight,
+          inactiveImagePath: inactiveImagePath,
+          activeImagePath: activeImagePath,
+          isActive: isActive,
+          color: color,
         ),
         FittedBox(
           child: Text(
@@ -135,6 +112,59 @@ class _TabButton extends StatelessWidget {
                     height: textHeight,
                   )
                 : theme.textSmallPlusSecondary.copyWith(height: textHeight),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _TabIcon extends StatelessWidget {
+  final double inactiveIconHeight;
+  final bool isActive;
+  final Color color;
+  final double activeIconHeight;
+  final String activeImagePath;
+  final String inactiveImagePath;
+
+  const _TabIcon({
+    required this.inactiveIconHeight,
+    required this.activeIconHeight,
+    required this.inactiveImagePath,
+    required this.color,
+    required this.activeImagePath,
+    required this.isActive,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.center,
+      children: <Widget>[
+        Container(
+          height: inactiveIconHeight,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                color: isActive
+                    ? color.withOpacity(0.3)
+                    : theme.secondaryBackgroundColor,
+                blurRadius: 7,
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: activeIconHeight,
+          child: SvgPicture.asset(
+            isActive ? activeImagePath : inactiveImagePath,
+            package: AssetStrings.packageName,
+            colorFilter: ColorFilter.mode(
+              isActive ? color : theme.secondaryIconColor,
+              BlendMode.srcIn,
+            ),
+            height: isActive ? activeIconHeight : inactiveIconHeight,
           ),
         ),
       ],
