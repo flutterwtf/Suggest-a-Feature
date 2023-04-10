@@ -21,7 +21,7 @@ import 'package:suggest_a_feature/src/presentation/utils/typedefs.dart';
 import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
 
 class SuggestionsPage extends StatefulWidget {
-  /// The current user id.
+  /// Current user id.
   final String userId;
 
   /// Additional headers for the image provider, for example for authentication.
