@@ -33,14 +33,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
-  bot_toast:
-    dependency: transitive
-    description:
-      name: bot_toast
-      sha256: "19306147033316a7873c5d261b874fca3f341c05e4e1c12be56153ad11187edd"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.3"
   cached_network_image:
     dependency: transitive
     description:
