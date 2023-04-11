@@ -1,4 +1,3 @@
-import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:suggest_a_feature/src/domain/entities/admin_settings.dart';
@@ -33,9 +32,9 @@ import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
 
 class SuggestionPage extends StatefulWidget {
   final Suggestion suggestion;
-  final OnGetUserById onGetUserById;
   final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
   final OnSaveToGalleryCallback? onSaveToGallery;
+  final OnGetUserById onGetUserById;
 
   const SuggestionPage({
     required this.suggestion,
@@ -78,9 +77,16 @@ class _SuggestionPageState extends State<SuggestionPage> {
 
   void _listener(BuildContext context, SuggestionState state) {
     if (state.savingImageResultMessageType != SavingResultMessageType.none) {
-      state.savingImageResultMessageType == SavingResultMessageType.success
-          ? BotToast.showText(text: context.localization.savingImageSuccess)
-          : BotToast.showText(text: context.localization.savingImageError);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            state.savingImageResultMessageType ==
+                    SavingResultMessageType.success
+                ? context.localization.savingImageSuccess
+                : context.localization.savingImageError,
+          ),
+        ),
+      );
     }
     if (state.isPopped) {
       Navigator.of(context).pop();
@@ -94,7 +100,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
       bloc: _cubit,
       listenWhen: _listenWhen,
       listener: _listener,
-      builder: (BuildContext context, SuggestionState state) {
+      builder: (context, state) {
         return Stack(
           children: <Widget>[
             Scaffold(
@@ -174,13 +180,13 @@ class _MainContent extends StatelessWidget {
   const _MainContent({
     required this.state,
     required this.cubit,
-    required this.onSaveToGallery,
+    this.onSaveToGallery,
   });
 
   @override
   Widget build(BuildContext context) {
     return NotificationListener<OverscrollIndicatorNotification>(
-      onNotification: (OverscrollIndicatorNotification overscroll) {
+      onNotification: (overscroll) {
         overscroll.disallowIndicator();
         return true;
       },
@@ -256,7 +262,10 @@ class _SuggestionInfo extends StatelessWidget {
   final Suggestion suggestion;
   final SuggestionCubit cubit;
 
-  const _SuggestionInfo({required this.suggestion, required this.cubit});
+  const _SuggestionInfo({
+    required this.suggestion,
+    required this.cubit,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -300,9 +309,9 @@ class _SuggestionInfo extends StatelessWidget {
 }
 
 class _AttachedImages extends StatelessWidget {
-  final OnSaveToGalleryCallback? onSaveToGallery;
   final SuggestionCubit cubit;
   final List<String> images;
+  final OnSaveToGalleryCallback? onSaveToGallery;
 
   const _AttachedImages({
     required this.cubit,
@@ -466,10 +475,10 @@ class _WrappedAttachedImage extends StatelessWidget {
           barrierColor: Colors.black,
           context: context,
           useRootNavigator: false,
-          builder: (BuildContext context) {
+          builder: (_) {
             return PhotoView(
               onDownloadClick: onSaveToGallery != null
-                  ? (String path) =>
+                  ? (path) =>
                       cubit.showSavingResultMessage(onSaveToGallery!(path))
                   : null,
               initialIndex: images.indexOf(attachedImage),
@@ -530,9 +539,9 @@ class _CommentCard extends StatelessWidget {
 class _BottomSheet extends StatelessWidget {
   final SuggestionState state;
   final SuggestionCubit cubit;
-  final OnGetUserById onGetUserById;
   final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
   final OnSaveToGalleryCallback? onSaveToGallery;
+  final OnGetUserById onGetUserById;
 
   const _BottomSheet({
     required this.state,
@@ -623,7 +632,7 @@ class _OpenNotificationBottomSheet extends StatelessWidget {
     return NotificationSuggestionBottomSheet(
       controller: sheetController,
       isNotificationOn: isNotificationOn,
-      onChangeNotification: (bool isNotificationOn) => cubit.changeNotification(
+      onChangeNotification: (isNotificationOn) => cubit.changeNotification(
         isNotificationOn: isNotificationOn,
       ),
       onCancel: ([_]) =>
@@ -743,7 +752,10 @@ class _UpvoteButton extends StatelessWidget {
   final SuggestionState state;
   final SuggestionCubit cubit;
 
-  const _UpvoteButton({required this.state, required this.cubit});
+  const _UpvoteButton({
+    required this.state,
+    required this.cubit,
+  });
 
   @override
   Widget build(BuildContext context) {

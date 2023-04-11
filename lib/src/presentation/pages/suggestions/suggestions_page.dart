@@ -112,7 +112,7 @@ class _SuggestionsPageState extends State<SuggestionsPage>
   Widget build(BuildContext context) {
     return BlocBuilder<SuggestionsCubit, SuggestionsState>(
       bloc: _cubit,
-      builder: (BuildContext context, SuggestionsState state) {
+      builder: (context, state) {
         return Stack(
           children: <Widget>[
             Scaffold(
@@ -219,9 +219,9 @@ class _BottomSheet extends StatelessWidget {
 
   const _BottomSheet({
     required this.sheetController,
-    required this.onSaveToGallery,
-    required this.onUploadMultiplePhotos,
     required this.cubit,
+    this.onSaveToGallery,
+    this.onUploadMultiplePhotos,
   });
 
   @override
@@ -250,10 +250,10 @@ class _TabBarView extends StatelessWidget {
     required this.state,
     required this.tabController,
     required this.onGetUserById,
-    required this.onSaveToGallery,
     required this.userId,
-    required this.onUploadMultiplePhotos,
     required this.onVote,
+    this.onSaveToGallery,
+    this.onUploadMultiplePhotos,
   });
 
   @override
@@ -270,7 +270,7 @@ class _TabBarView extends StatelessWidget {
             onSaveToGallery: onSaveToGallery,
             onUploadMultiplePhotos: onUploadMultiplePhotos,
             userId: userId,
-            vote: (int i) => onVote(SuggestionStatus.requests, i),
+            vote: (i) => onVote(SuggestionStatus.requests, i),
           ),
           SuggestionList(
             status: SuggestionStatus.inProgress,
@@ -280,7 +280,7 @@ class _TabBarView extends StatelessWidget {
             onSaveToGallery: onSaveToGallery,
             onUploadMultiplePhotos: onUploadMultiplePhotos,
             userId: userId,
-            vote: (int i) => onVote(SuggestionStatus.inProgress, i),
+            vote: (i) => onVote(SuggestionStatus.inProgress, i),
           ),
           SuggestionList(
             status: SuggestionStatus.completed,

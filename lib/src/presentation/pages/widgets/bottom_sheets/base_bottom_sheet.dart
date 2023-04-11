@@ -63,7 +63,7 @@ class BaseBottomSheet extends StatefulWidget {
 
 class _BaseBottomSheetState extends State<BaseBottomSheet>
     with TickerProviderStateMixin {
-  late final AnimationController _dimmingController;
+  late AnimationController _dimmingController;
 
   @override
   void initState() {
@@ -160,8 +160,8 @@ class _SlidingSheet extends StatelessWidget {
     required this.titleTopPadding,
     required this.contentBuilder,
     this.onOpen,
-    this.controller,
     this.title,
+    this.controller,
     this.headerBuilder,
     this.footerBuilder,
   });
@@ -197,13 +197,13 @@ class _SlidingSheet extends StatelessWidget {
           ...additionalSnappings,
         ],
         initialSnap: initialSnapping,
-        onSnap: (SheetState state, double? snap) {
+        onSnap: (state, _) {
           if (state.isCollapsed) {
             onDismiss(ClosureType.swipeDown);
           }
         },
       ),
-      headerBuilder: (context, state) => _HeaderBuilder(
+      headerBuilder: (_, state) => _HeaderBuilder(
         state: state,
         headerBuilder: headerBuilder,
       ),
@@ -296,7 +296,7 @@ class _Grabbing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SheetListenerBuilder(
-      builder: (BuildContext context, SheetState state) {
+      builder: (_, state) {
         if (state.extent != 1) {
           return SizedBox(
             height: state.extent > 0.95

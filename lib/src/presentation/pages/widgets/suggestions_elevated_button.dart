@@ -28,9 +28,9 @@ class SuggestionsElevatedButton extends StatefulWidget {
 }
 
 class _SuggestionsElevatedButtonState extends State<SuggestionsElevatedButton> {
-  var _isPressed = false;
+  var _pressed = false;
 
-  void _onPan(bool value) => setState(() => _isPressed = value);
+  void _onTap(bool value) => setState(() => _pressed = value);
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +38,9 @@ class _SuggestionsElevatedButtonState extends State<SuggestionsElevatedButton> {
       behavior: HitTestBehavior.translucent,
       onTap: () =>
           widget.isLoading ? () => <dynamic, dynamic>{} : widget.onClick(),
-      onTapDown: (_) => _onPan(true),
-      onTapUp: (_) => _onPan(false),
-      onTapCancel: () => _onPan(false),
+      onTapDown: (_) => _onTap(true),
+      onTapUp: (_) => _onTap(false),
+      onTapCancel: () => _onTap(false),
       child: SizedBox(
         height: Dimensions.buttonHeight,
         child: ElevatedButton(
@@ -49,7 +49,7 @@ class _SuggestionsElevatedButtonState extends State<SuggestionsElevatedButton> {
             padding: EdgeInsets.zero,
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             elevation: 0,
-            backgroundColor: _isPressed
+            backgroundColor: _pressed
                 ? widget.backgroundColor ?? theme.pressedElevatedButtonColor
                 : widget.backgroundColor ?? theme.elevatedButtonColor,
             shape: RoundedRectangleBorder(

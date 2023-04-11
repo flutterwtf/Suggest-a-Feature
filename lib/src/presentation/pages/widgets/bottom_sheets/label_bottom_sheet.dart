@@ -52,7 +52,7 @@ class _LabelBottomSheetState extends State<LabelBottomSheet> {
         }
       },
       backgroundColor: theme.bottomSheetBackgroundColor,
-      contentBuilder: (BuildContext context, SheetState sheetState) {
+      contentBuilder: (_, __) {
         return _LabelsListView(
           onTap: (label) => setState(
             () => selectedLabels.contains(label)

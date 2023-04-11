@@ -19,7 +19,7 @@ class SuggestionsTextButton extends StatefulWidget {
 class _SuggestionsTextButtonState extends State<SuggestionsTextButton> {
   var _pressed = false;
 
-  void _onPan(bool value) => setState(() => _pressed = value);
+  void _onTap(bool value) => setState(() => _pressed = value);
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +28,9 @@ class _SuggestionsTextButtonState extends State<SuggestionsTextButton> {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: widget.onClick,
-      onTapDown: (_) => _onPan(true),
-      onTapUp: (_) => _onPan(false),
-      onTapCancel: () => _onPan(false),
+      onTapDown: (_) => _onTap(true),
+      onTapUp: (_) => _onTap(false),
+      onTapCancel: () => _onTap(false),
       child: Padding(
         padding: const EdgeInsets.symmetric(
           vertical: Dimensions.marginMiddle,
