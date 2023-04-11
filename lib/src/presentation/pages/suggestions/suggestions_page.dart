@@ -86,7 +86,7 @@ class _SuggestionsPageState extends State<SuggestionsPage>
     with SingleTickerProviderStateMixin {
   final SuggestionsCubit _cubit = i.suggestionsCubit;
   late final TabController _tabController;
-  final SheetController _sheetController = SheetController();
+  late final SheetController _sheetController;
 
   @override
   void initState() {
@@ -98,6 +98,7 @@ class _SuggestionsPageState extends State<SuggestionsPage>
         SuggestionStatus.values[_tabController.index],
       ),
     );
+    _sheetController = SheetController();
   }
 
   @override

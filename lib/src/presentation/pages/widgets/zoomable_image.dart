@@ -6,7 +6,7 @@ import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 class ZoomableImage extends StatefulWidget {
   final String imageUrl;
   final VoidCallback changeScrollPhysics;
-  final void Function(bool value) changeZoomStatus;
+  final ValueChanged<bool> changeZoomStatus;
 
   const ZoomableImage({
     required this.imageUrl,
@@ -22,8 +22,8 @@ class ZoomableImage extends StatefulWidget {
 class _ZoomableImageState extends State<ZoomableImage>
     with SingleTickerProviderStateMixin {
   late final AnimationController _animationController;
-  Animation<double>? _animation;
-  void Function() _animationListener = () {};
+  late final Animation<double>? _animation;
+  VoidCallback _animationListener = () {};
 
   @override
   void initState() {
@@ -46,13 +46,13 @@ class _ZoomableImageState extends State<ZoomableImage>
         ),
         fit: BoxFit.contain,
         mode: ExtendedImageMode.gesture,
-        initGestureConfigHandler: (ExtendedImageState state) {
+        initGestureConfigHandler: (state) {
           return GestureConfig(
             minScale: 1,
             animationMinScale: 1,
             maxScale: 3,
             animationMaxScale: 3.5,
-            gestureDetailsIsChanged: (GestureDetails? details) {
+            gestureDetailsIsChanged: (details) {
               final isZoomed = details!.totalScale! > 1;
               widget.changeZoomStatus(isZoomed);
             },

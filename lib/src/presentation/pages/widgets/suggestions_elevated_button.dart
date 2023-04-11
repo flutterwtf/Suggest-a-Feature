@@ -28,7 +28,9 @@ class SuggestionsElevatedButton extends StatefulWidget {
 }
 
 class _SuggestionsElevatedButtonState extends State<SuggestionsElevatedButton> {
-  bool _isPressed = false;
+  var _isPressed = false;
+
+  void _onPan(bool value) => setState(() => _isPressed = value);
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +38,9 @@ class _SuggestionsElevatedButtonState extends State<SuggestionsElevatedButton> {
       behavior: HitTestBehavior.translucent,
       onTap: () =>
           widget.isLoading ? () => <dynamic, dynamic>{} : widget.onClick(),
-      onTapDown: (_) => setState(() => _isPressed = true),
-      onTapUp: (_) => setState(() => _isPressed = false),
-      onTapCancel: () => setState(() => _isPressed = false),
+      onTapDown: (_) => _onPan(true),
+      onTapUp: (_) => _onPan(false),
+      onTapCancel: () => _onPan(false),
       child: SizedBox(
         height: Dimensions.buttonHeight,
         child: ElevatedButton(

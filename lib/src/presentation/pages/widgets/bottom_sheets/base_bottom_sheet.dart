@@ -63,7 +63,7 @@ class BaseBottomSheet extends StatefulWidget {
 
 class _BaseBottomSheetState extends State<BaseBottomSheet>
     with TickerProviderStateMixin {
-  late AnimationController _dimmingController;
+  late final AnimationController _dimmingController;
 
   @override
   void initState() {
@@ -150,18 +150,18 @@ class _SlidingSheet extends StatelessWidget {
 
   const _SlidingSheet({
     required this.onDismiss,
-    required this.onOpen,
     required this.openBouncing,
     required this.openDuration,
-    required this.controller,
     required this.backgroundColor,
     required this.initialSnapping,
     required this.additionalSnappings,
     required this.contentPadding,
-    required this.title,
     required this.titleBottomPadding,
     required this.titleTopPadding,
     required this.contentBuilder,
+    this.onOpen,
+    this.controller,
+    this.title,
     this.headerBuilder,
     this.footerBuilder,
   });

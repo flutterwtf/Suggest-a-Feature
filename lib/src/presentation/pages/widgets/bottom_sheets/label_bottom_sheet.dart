@@ -54,13 +54,11 @@ class _LabelBottomSheetState extends State<LabelBottomSheet> {
       backgroundColor: theme.bottomSheetBackgroundColor,
       contentBuilder: (BuildContext context, SheetState sheetState) {
         return _LabelsListView(
-          onTap: (label) => setState(() {
-            if (!selectedLabels.contains(label)) {
-              selectedLabels.add(label);
-            } else {
-              selectedLabels.remove(label);
-            }
-          }),
+          onTap: (label) => setState(
+            () => selectedLabels.contains(label)
+                ? selectedLabels.remove(label)
+                : selectedLabels.add(label),
+          ),
           onCancel: widget.onCancel,
           onDone: widget.onDone,
           selectedLabels: selectedLabels,

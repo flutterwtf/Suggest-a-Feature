@@ -27,12 +27,12 @@ class StatusBottomSheet extends StatefulWidget {
 }
 
 class _StatusBottomSheetState extends State<StatusBottomSheet> {
-  late SuggestionStatus selectedStatus;
+  late SuggestionStatus _selectedStatus;
 
   @override
   void initState() {
     super.initState();
-    selectedStatus = widget.selectedStatus;
+    _selectedStatus = widget.selectedStatus;
   }
 
   @override
@@ -60,15 +60,15 @@ class _StatusBottomSheetState extends State<StatusBottomSheet> {
           children: <Widget>[
             _Statuses(
               onStatusTap: (status) {
-                if (selectedStatus != status) {
-                  setState(() => selectedStatus = status);
+                if (_selectedStatus != status) {
+                  setState(() => _selectedStatus = status);
                 }
               },
-              selectedStatus: selectedStatus,
+              selectedStatus: _selectedStatus,
             ),
             BottomSheetActions(
               onCancel: widget.onCancel,
-              onDone: () => widget.onDone(selectedStatus),
+              onDone: () => widget.onDone(_selectedStatus),
             ),
           ],
         );

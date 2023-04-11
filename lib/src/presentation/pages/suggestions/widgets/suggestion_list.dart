@@ -9,11 +9,11 @@ class SuggestionList extends StatelessWidget {
   final SuggestionStatus status;
   final List<Suggestion> suggestions;
   final Color color;
-  final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
-  final OnSaveToGalleryCallback? onSaveToGallery;
   final OnGetUserById onGetUserById;
   final String userId;
   final ValueChanged<int> vote;
+  final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
+  final OnSaveToGalleryCallback? onSaveToGallery;
 
   const SuggestionList({
     required this.status,
@@ -64,10 +64,10 @@ class _ListItem extends StatelessWidget {
   final SuggestionStatus status;
   final List<Suggestion> suggestions;
   final Color color;
-  final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
-  final OnSaveToGalleryCallback? onSaveToGallery;
   final OnGetUserById onGetUserById;
   final int index;
+  final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
+  final OnSaveToGalleryCallback? onSaveToGallery;
 
   const _ListItem({
     required this.status,

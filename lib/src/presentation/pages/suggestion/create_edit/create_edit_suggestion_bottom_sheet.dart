@@ -44,11 +44,11 @@ class CreateEditSuggestionBottomSheet extends StatefulWidget {
   });
 
   @override
-  CreateEditSuggestionBottomSheetState createState() =>
-      CreateEditSuggestionBottomSheetState();
+  State<CreateEditSuggestionBottomSheet> createState() =>
+      _CreateEditSuggestionBottomSheetState();
 }
 
-class CreateEditSuggestionBottomSheetState
+class _CreateEditSuggestionBottomSheetState
     extends State<CreateEditSuggestionBottomSheet>
     with TickerProviderStateMixin {
   final CreateEditSuggestionCubit _cubit = i.createEditSuggestionCubit;

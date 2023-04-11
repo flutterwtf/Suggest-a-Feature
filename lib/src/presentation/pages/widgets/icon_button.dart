@@ -25,22 +25,18 @@ class SuggestionsIconButton extends StatefulWidget {
 }
 
 class _SuggestionsIconButtonState extends State<SuggestionsIconButton> {
-  bool _pressed = false;
+  var _pressed = false;
+
+  void _onPan(bool value) => setState(() => _pressed = value);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () => widget.onClick(),
-      onTapDown: (_) {
-        setState(() => _pressed = true);
-      },
-      onTapUp: (_) {
-        setState(() => _pressed = false);
-      },
-      onTapCancel: () {
-        setState(() => _pressed = false);
-      },
+      onTapDown: (_) => _onPan(true),
+      onTapUp: (_) => _onPan(false),
+      onTapCancel: () => _onPan(false),
       child: Padding(
         padding: widget.padding,
         child: SvgPicture.asset(

@@ -25,7 +25,7 @@ class ClickableListItem extends StatefulWidget {
 }
 
 class _ClickableListItemState extends State<ClickableListItem> {
-  bool _pressed = false;
+  var _pressed = false;
 
   void _onPan(bool value) => setState(() => _pressed = value);
 

@@ -33,15 +33,15 @@ import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
 
 class SuggestionPage extends StatefulWidget {
   final Suggestion suggestion;
+  final OnGetUserById onGetUserById;
   final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
   final OnSaveToGalleryCallback? onSaveToGallery;
-  final OnGetUserById onGetUserById;
 
   const SuggestionPage({
     required this.suggestion,
-    required this.onUploadMultiplePhotos,
-    required this.onSaveToGallery,
     required this.onGetUserById,
+    this.onUploadMultiplePhotos,
+    this.onSaveToGallery,
     super.key,
   });
 
@@ -305,9 +305,9 @@ class _AttachedImages extends StatelessWidget {
   final List<String> images;
 
   const _AttachedImages({
-    required this.onSaveToGallery,
     required this.cubit,
     required this.images,
+    this.onSaveToGallery,
   });
 
   @override
@@ -386,7 +386,7 @@ class _CommentList extends StatelessWidget {
 class _Avatar extends StatelessWidget {
   final String? avatar;
 
-  const _Avatar({required this.avatar});
+  const _Avatar({this.avatar});
 
   @override
   Widget build(BuildContext context) {
@@ -445,16 +445,16 @@ class _SuggestionHeaderContent extends StatelessWidget {
 }
 
 class _WrappedAttachedImage extends StatelessWidget {
-  final OnSaveToGalleryCallback? onSaveToGallery;
   final SuggestionCubit cubit;
   final List<String> images;
   final String attachedImage;
+  final OnSaveToGalleryCallback? onSaveToGallery;
 
   const _WrappedAttachedImage({
-    required this.onSaveToGallery,
     required this.cubit,
     required this.attachedImage,
     required this.images,
+    this.onSaveToGallery,
   });
 
   @override
@@ -530,16 +530,16 @@ class _CommentCard extends StatelessWidget {
 class _BottomSheet extends StatelessWidget {
   final SuggestionState state;
   final SuggestionCubit cubit;
+  final OnGetUserById onGetUserById;
   final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
   final OnSaveToGalleryCallback? onSaveToGallery;
-  final OnGetUserById onGetUserById;
 
   const _BottomSheet({
     required this.state,
     required this.cubit,
-    required this.onUploadMultiplePhotos,
-    required this.onSaveToGallery,
     required this.onGetUserById,
+    this.onUploadMultiplePhotos,
+    this.onSaveToGallery,
   });
 
   @override
@@ -664,8 +664,8 @@ class _OpenCreateEditBottomSheet extends StatelessWidget {
   const _OpenCreateEditBottomSheet({
     required this.suggestion,
     required this.cubit,
-    required this.onUploadMultiplePhotos,
-    required this.onSaveToGallery,
+    this.onUploadMultiplePhotos,
+    this.onSaveToGallery,
   });
 
   @override
