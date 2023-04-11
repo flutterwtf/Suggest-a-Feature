@@ -18,7 +18,9 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
             completed: <Suggestion>[],
             isCreateBottomSheetOpened: false,
           ),
-        );
+        ) {
+    init();
+  }
 
   void init() {
     _suggestionSubscription?.cancel();

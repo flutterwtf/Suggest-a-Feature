@@ -76,11 +76,14 @@ class _Injector {
 
   SuggestionRepository get suggestionRepository => _suggestionRepository;
 
+  @Deprecated('Will be deleted soon')
   SuggestionsCubit get suggestionsCubit =>
       SuggestionsCubit(suggestionRepository);
 
+  @Deprecated('Will be deleted soon')
   SuggestionCubit get suggestionCubit => SuggestionCubit(suggestionRepository);
 
+  @Deprecated('Will be deleted soon')
   CreateEditSuggestionCubit get createEditSuggestionCubit =>
       CreateEditSuggestionCubit(suggestionRepository);
 }
