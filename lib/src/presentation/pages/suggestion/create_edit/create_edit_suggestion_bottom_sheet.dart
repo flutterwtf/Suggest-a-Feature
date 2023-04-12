@@ -710,13 +710,13 @@ class _EditSuggestionBottomSheetListView extends StatelessWidget {
   List<Widget> _multiplePicker({required bool isImagesEmpty}) {
     if (onUploadMultiplePhotos != null) {
       return [
-        if (isImagesEmpty) ...[
+        if (!isImagesEmpty)
+          const SizedBox.shrink()
+        else
           const _DividerWithIndent(),
-          _PhotoPickerItem(
-            onUploadMultiplePhotos: onUploadMultiplePhotos,
-          ),
-        ] else
-          const SizedBox.shrink(),
+        _PhotoPickerItem(
+          onUploadMultiplePhotos: onUploadMultiplePhotos,
+        ),
       ];
     }
     return [];
