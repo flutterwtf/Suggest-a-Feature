@@ -38,9 +38,9 @@ class SuggestionPage extends StatefulWidget {
 
   const SuggestionPage({
     required this.suggestion,
-    required this.onUploadMultiplePhotos,
-    required this.onSaveToGallery,
     required this.onGetUserById,
+    this.onUploadMultiplePhotos,
+    this.onSaveToGallery,
     super.key,
   });
 
@@ -100,7 +100,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
       bloc: _cubit,
       listenWhen: _listenWhen,
       listener: _listener,
-      builder: (BuildContext context, SuggestionState state) {
+      builder: (context, state) {
         return Stack(
           children: <Widget>[
             Scaffold(
@@ -180,13 +180,13 @@ class _MainContent extends StatelessWidget {
   const _MainContent({
     required this.state,
     required this.cubit,
-    required this.onSaveToGallery,
+    this.onSaveToGallery,
   });
 
   @override
   Widget build(BuildContext context) {
     return NotificationListener<OverscrollIndicatorNotification>(
-      onNotification: (OverscrollIndicatorNotification overscroll) {
+      onNotification: (overscroll) {
         overscroll.disallowIndicator();
         return true;
       },
@@ -262,7 +262,10 @@ class _SuggestionInfo extends StatelessWidget {
   final Suggestion suggestion;
   final SuggestionCubit cubit;
 
-  const _SuggestionInfo({required this.suggestion, required this.cubit});
+  const _SuggestionInfo({
+    required this.suggestion,
+    required this.cubit,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -306,14 +309,14 @@ class _SuggestionInfo extends StatelessWidget {
 }
 
 class _AttachedImages extends StatelessWidget {
-  final OnSaveToGalleryCallback? onSaveToGallery;
   final SuggestionCubit cubit;
   final List<String> images;
+  final OnSaveToGalleryCallback? onSaveToGallery;
 
   const _AttachedImages({
-    required this.onSaveToGallery,
     required this.cubit,
     required this.images,
+    this.onSaveToGallery,
   });
 
   @override
@@ -392,7 +395,7 @@ class _CommentList extends StatelessWidget {
 class _Avatar extends StatelessWidget {
   final String? avatar;
 
-  const _Avatar({required this.avatar});
+  const _Avatar({this.avatar});
 
   @override
   Widget build(BuildContext context) {
@@ -451,16 +454,16 @@ class _SuggestionHeaderContent extends StatelessWidget {
 }
 
 class _WrappedAttachedImage extends StatelessWidget {
-  final OnSaveToGalleryCallback? onSaveToGallery;
   final SuggestionCubit cubit;
   final List<String> images;
   final String attachedImage;
+  final OnSaveToGalleryCallback? onSaveToGallery;
 
   const _WrappedAttachedImage({
-    required this.onSaveToGallery,
     required this.cubit,
     required this.attachedImage,
     required this.images,
+    this.onSaveToGallery,
   });
 
   @override
@@ -472,10 +475,10 @@ class _WrappedAttachedImage extends StatelessWidget {
           barrierColor: Colors.black,
           context: context,
           useRootNavigator: false,
-          builder: (BuildContext context) {
+          builder: (_) {
             return PhotoView(
               onDownloadClick: onSaveToGallery != null
-                  ? (String path) =>
+                  ? (path) =>
                       cubit.showSavingResultMessage(onSaveToGallery!(path))
                   : null,
               initialIndex: images.indexOf(attachedImage),
@@ -543,9 +546,9 @@ class _BottomSheet extends StatelessWidget {
   const _BottomSheet({
     required this.state,
     required this.cubit,
-    required this.onUploadMultiplePhotos,
-    required this.onSaveToGallery,
     required this.onGetUserById,
+    this.onUploadMultiplePhotos,
+    this.onSaveToGallery,
   });
 
   @override
@@ -629,7 +632,7 @@ class _OpenNotificationBottomSheet extends StatelessWidget {
     return NotificationSuggestionBottomSheet(
       controller: sheetController,
       isNotificationOn: isNotificationOn,
-      onChangeNotification: (bool isNotificationOn) => cubit.changeNotification(
+      onChangeNotification: (isNotificationOn) => cubit.changeNotification(
         isNotificationOn: isNotificationOn,
       ),
       onCancel: ([_]) =>
@@ -670,8 +673,8 @@ class _OpenCreateEditBottomSheet extends StatelessWidget {
   const _OpenCreateEditBottomSheet({
     required this.suggestion,
     required this.cubit,
-    required this.onUploadMultiplePhotos,
-    required this.onSaveToGallery,
+    this.onUploadMultiplePhotos,
+    this.onSaveToGallery,
   });
 
   @override
@@ -749,7 +752,10 @@ class _UpvoteButton extends StatelessWidget {
   final SuggestionState state;
   final SuggestionCubit cubit;
 
-  const _UpvoteButton({required this.state, required this.cubit});
+  const _UpvoteButton({
+    required this.state,
+    required this.cubit,
+  });
 
   @override
   Widget build(BuildContext context) {

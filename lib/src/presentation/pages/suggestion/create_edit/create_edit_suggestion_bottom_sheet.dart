@@ -36,32 +36,34 @@ class CreateEditSuggestionBottomSheet extends StatefulWidget {
   const CreateEditSuggestionBottomSheet({
     required this.onClose,
     required this.controller,
-    required this.onUploadMultiplePhotos,
-    required this.onSaveToGallery,
     this.suggestion,
+    this.onUploadMultiplePhotos,
+    this.onSaveToGallery,
     super.key,
   });
 
   @override
-  CreateEditSuggestionBottomSheetState createState() =>
-      CreateEditSuggestionBottomSheetState();
+  State<CreateEditSuggestionBottomSheet> createState() =>
+      _CreateEditSuggestionBottomSheetState();
 }
 
-class CreateEditSuggestionBottomSheetState
+class _CreateEditSuggestionBottomSheetState
     extends State<CreateEditSuggestionBottomSheet>
     with TickerProviderStateMixin {
   final CreateEditSuggestionCubit _cubit = i.createEditSuggestionCubit;
-  final SheetController _labelsSheetController = SheetController();
-  final SheetController _statusesSheetController = SheetController();
-  late TextEditingController _titleController;
-  late TextEditingController _descriptionController;
-  late FocusNode _titleFocusNode;
-  late FocusNode _descriptionFocusNode;
+  late final SheetController _labelsSheetController;
+  late final SheetController _statusesSheetController;
+  late final TextEditingController _titleController;
+  late final TextEditingController _descriptionController;
+  late final FocusNode _titleFocusNode;
+  late final FocusNode _descriptionFocusNode;
 
   @override
   void initState() {
     super.initState();
     _cubit.init(widget.suggestion);
+    _labelsSheetController = SheetController();
+    _statusesSheetController = SheetController();
     _titleController = TextEditingController(text: widget.suggestion?.title);
     _descriptionController =
         TextEditingController(text: widget.suggestion?.description);
@@ -74,6 +76,7 @@ class CreateEditSuggestionBottomSheetState
     _titleController.dispose();
     _descriptionController.dispose();
     _titleFocusNode.dispose();
+    _descriptionFocusNode.dispose();
     super.dispose();
   }
 
@@ -115,7 +118,7 @@ class CreateEditSuggestionBottomSheetState
       bloc: _cubit,
       listenWhen: _listenWhen,
       listener: _listener,
-      builder: (BuildContext context, CreateEditSuggestionState state) {
+      builder: (_, state) {
         if (state.isLabelsBottomSheetOpen) {
           return _LabelsBottomSheet(
             suggestionList: state.suggestion.labels,
@@ -158,7 +161,7 @@ class CreateEditSuggestionBottomSheetState
           initialIndex: state.openPhotoIndex!,
           onDeleteClick: _cubit.removePhoto,
           onDownloadClick: widget.onSaveToGallery != null
-              ? (String path) =>
+              ? (path) =>
                   _cubit.showSavingResultMessage(widget.onSaveToGallery!(path))
               : null,
           photos: state.suggestion.images,
@@ -186,11 +189,11 @@ class _CreateEditSuggestionBottomSheet extends StatelessWidget {
     required this.cubit,
     required this.titleFocusNode,
     required this.controller,
-    required this.onUploadMultiplePhotos,
     required this.descriptionController,
     required this.descriptionFocusNode,
     required this.titleController,
     required this.onClose,
+    this.onUploadMultiplePhotos,
   });
 
   @override

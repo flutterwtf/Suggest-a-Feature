@@ -36,7 +36,7 @@ class SuggestionList extends StatelessWidget {
           padding: const EdgeInsets.symmetric(
             horizontal: Dimensions.marginDefault,
           ),
-          itemBuilder: (BuildContext context, int index) {
+          itemBuilder: (_, index) {
             return index == 0
                 ? ListDescription(status: status, length: suggestions.length)
                 : _ListItem(

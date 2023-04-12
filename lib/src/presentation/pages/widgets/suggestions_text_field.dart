@@ -100,14 +100,14 @@ class _CommonTextField extends StatelessWidget {
   const _CommonTextField({
     required this.controller,
     required this.hintText,
-    required this.onChanged,
     required this.padding,
     required this.autofocus,
-    required this.keyboardAppearance,
-    required this.focusNode,
     required this.textAlign,
-    required this.textInputAction,
-    required this.inputFormatters,
+    this.onChanged,
+    this.keyboardAppearance,
+    this.focusNode,
+    this.textInputAction,
+    this.inputFormatters,
   });
 
   @override
@@ -167,14 +167,14 @@ class _IosTextField extends StatelessWidget {
   const _IosTextField({
     required this.controller,
     required this.hintText,
-    required this.onChanged,
     required this.padding,
     required this.autofocus,
-    required this.keyboardAppearance,
-    required this.focusNode,
     required this.textAlign,
-    required this.textInputAction,
-    required this.inputFormatters,
+    this.onChanged,
+    this.keyboardAppearance,
+    this.focusNode,
+    this.textInputAction,
+    this.inputFormatters,
   });
 
   @override

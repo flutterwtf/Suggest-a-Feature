@@ -30,7 +30,8 @@ class _PhotoViewState extends State<PhotoView> {
   late int _currentIndex;
   final Map<int, Offset> _touchPositions = <int, Offset>{};
   ScrollPhysics _scrollPhysics = const _CustomPageViewScrollPhysics();
-  bool _isZoomed = false;
+
+  var _isZoomed = false;
 
   @override
   void initState() {
@@ -61,15 +62,15 @@ class _PhotoViewState extends State<PhotoView> {
             child: Hero(
               tag: 'photo_view',
               child: Listener(
-                onPointerDown: (PointerDownEvent opd) {
+                onPointerDown: (opd) {
                   _touchPositions[opd.pointer] = opd.position;
                   _changeScrollPhysics();
                 },
-                onPointerCancel: (PointerCancelEvent opc) {
+                onPointerCancel: (opc) {
                   _touchPositions.remove(opc.pointer);
                   _changeScrollPhysics();
                 },
-                onPointerUp: (PointerUpEvent opu) {
+                onPointerUp: (opu) {
                   _touchPositions.remove(opu.pointer);
                   _changeScrollPhysics();
                 },
@@ -77,8 +78,8 @@ class _PhotoViewState extends State<PhotoView> {
                   physics: _scrollPhysics,
                   itemCount: widget.photos.length,
                   controller: _galleryPageController,
-                  onPageChanged: (int pageIndex) => _currentIndex = pageIndex,
-                  itemBuilder: (BuildContext context, int index) {
+                  onPageChanged: (pageIndex) => _currentIndex = pageIndex,
+                  itemBuilder: (_, index) {
                     return ZoomableImage(
                       imageUrl: widget.photos[index],
                       changeScrollPhysics: _changeScrollPhysics,
@@ -112,6 +113,7 @@ class _PhotoViewState extends State<PhotoView> {
         systemNavigationBarColor: widget.previousNavBarColor,
       ),
     );
+    _galleryPageController.dispose();
     super.dispose();
   }
 }

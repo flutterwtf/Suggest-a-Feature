@@ -51,6 +51,12 @@ class _SuggestionsFabState extends State<SuggestionsFab>
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: widget.onClick,
