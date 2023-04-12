@@ -39,9 +39,9 @@ class SuggestionPage extends StatefulWidget {
 
   const SuggestionPage({
     required this.suggestion,
-    required this.onUploadMultiplePhotos,
-    required this.onSaveToGallery,
     required this.onGetUserById,
+    this.onUploadMultiplePhotos,
+    this.onSaveToGallery,
     super.key,
   });
 
@@ -164,7 +164,7 @@ class _MainContent extends StatelessWidget {
   final OnSaveToGalleryCallback? onSaveToGallery;
 
   const _MainContent({
-    required this.onSaveToGallery,
+    this.onSaveToGallery,
   });
 
   @override
@@ -307,8 +307,8 @@ class _AttachedImages extends StatelessWidget {
   final List<String> images;
 
   const _AttachedImages({
-    required this.onSaveToGallery,
     required this.images,
+    this.onSaveToGallery,
   });
 
   @override
@@ -386,7 +386,7 @@ class _CommentList extends StatelessWidget {
 class _Avatar extends StatelessWidget {
   final String? avatar;
 
-  const _Avatar({required this.avatar});
+  const _Avatar({this.avatar});
 
   @override
   Widget build(BuildContext context) {
@@ -450,9 +450,9 @@ class _WrappedAttachedImage extends StatelessWidget {
   final String attachedImage;
 
   const _WrappedAttachedImage({
-    required this.onSaveToGallery,
     required this.attachedImage,
     required this.images,
+    this.onSaveToGallery,
   });
 
   @override
@@ -464,7 +464,7 @@ class _WrappedAttachedImage extends StatelessWidget {
           barrierColor: Colors.black,
           context: context,
           useRootNavigator: false,
-          builder: (context) {
+          builder: (_) {
             return PhotoView(
               onDownloadClick: onSaveToGallery != null
                   ? (path) =>
@@ -533,9 +533,9 @@ class _BottomSheet extends StatelessWidget {
   final OnGetUserById onGetUserById;
 
   const _BottomSheet({
-    required this.onUploadMultiplePhotos,
-    required this.onSaveToGallery,
     required this.onGetUserById,
+    this.onUploadMultiplePhotos,
+    this.onSaveToGallery,
   });
 
   @override
@@ -657,8 +657,8 @@ class _OpenCreateEditBottomSheet extends StatelessWidget {
 
   const _OpenCreateEditBottomSheet({
     required this.suggestion,
-    required this.onUploadMultiplePhotos,
-    required this.onSaveToGallery,
+    this.onUploadMultiplePhotos,
+    this.onSaveToGallery,
   });
 
   @override

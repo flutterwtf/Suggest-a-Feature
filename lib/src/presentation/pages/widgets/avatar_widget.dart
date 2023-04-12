@@ -5,7 +5,7 @@ import 'package:suggest_a_feature/src/presentation/pages/widgets/network_image.d
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
-class AvatarWidget extends StatefulWidget {
+class AvatarWidget extends StatelessWidget {
   final String? avatar;
   final double size;
   final Color? backgroundColor;
@@ -20,27 +20,20 @@ class AvatarWidget extends StatefulWidget {
   });
 
   @override
-  State<AvatarWidget> createState() => _AvatarWidgetState();
-}
-
-class _AvatarWidgetState extends State<AvatarWidget> {
-  bool pressed = false;
-
-  @override
   Widget build(BuildContext context) {
     return Container(
-      width: widget.size,
-      height: widget.size,
+      width: size,
+      height: size,
       decoration: BoxDecoration(
-        color: widget.backgroundColor ?? theme.primaryBackgroundColor,
-        borderRadius: BorderRadius.all(Radius.circular(widget.size)),
+        color: backgroundColor ?? theme.primaryBackgroundColor,
+        borderRadius: BorderRadius.all(Radius.circular(size)),
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(widget.size),
-        child: widget.avatar != null && widget.avatar!.isNotEmpty
-            ? SuggestionsNetworkImage(url: widget.avatar!)
+        borderRadius: BorderRadius.circular(size),
+        child: avatar != null && avatar!.isNotEmpty
+            ? SuggestionsNetworkImage(url: avatar!)
             : Padding(
-                padding: EdgeInsets.all(widget.iconPadding),
+                padding: EdgeInsets.all(iconPadding),
                 child: SvgPicture.asset(
                   AssetStrings.profileIconImage,
                   package: AssetStrings.packageName,

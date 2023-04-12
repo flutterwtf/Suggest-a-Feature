@@ -73,7 +73,7 @@ class _AddButton extends StatelessWidget {
             context.localization.add,
             style: style.copyWith(color: theme.primaryTextColor),
           ),
-        )
+        ),
       ],
     );
   }

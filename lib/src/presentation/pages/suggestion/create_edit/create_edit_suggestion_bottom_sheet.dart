@@ -37,29 +37,31 @@ class CreateEditSuggestionBottomSheet extends StatefulWidget {
   const CreateEditSuggestionBottomSheet({
     required this.onClose,
     required this.controller,
-    required this.onUploadMultiplePhotos,
-    required this.onSaveToGallery,
     this.suggestion,
+    this.onUploadMultiplePhotos,
+    this.onSaveToGallery,
     super.key,
   });
 
   @override
-  CreateEditSuggestionBottomSheetState createState() =>
-      CreateEditSuggestionBottomSheetState();
+  State<CreateEditSuggestionBottomSheet> createState() =>
+      _CreateEditSuggestionBottomSheetState();
 }
 
-class CreateEditSuggestionBottomSheetState
+class _CreateEditSuggestionBottomSheetState
     extends State<CreateEditSuggestionBottomSheet> {
-  final SheetController _labelsSheetController = SheetController();
-  final SheetController _statusesSheetController = SheetController();
-  late TextEditingController _titleController;
-  late TextEditingController _descriptionController;
-  late FocusNode _titleFocusNode;
-  late FocusNode _descriptionFocusNode;
+  late final SheetController _labelsSheetController;
+  late final SheetController _statusesSheetController;
+  late final TextEditingController _titleController;
+  late final TextEditingController _descriptionController;
+  late final FocusNode _titleFocusNode;
+  late final FocusNode _descriptionFocusNode;
 
   @override
   void initState() {
     super.initState();
+    _labelsSheetController = SheetController();
+    _statusesSheetController = SheetController();
     _titleController = TextEditingController(text: widget.suggestion?.title);
     _descriptionController =
         TextEditingController(text: widget.suggestion?.description);
@@ -72,6 +74,7 @@ class CreateEditSuggestionBottomSheetState
     _titleController.dispose();
     _descriptionController.dispose();
     _titleFocusNode.dispose();
+    _descriptionFocusNode.dispose();
     super.dispose();
   }
 
@@ -116,7 +119,7 @@ class CreateEditSuggestionBottomSheetState
       child: BlocConsumer<CreateEditSuggestionCubit, CreateEditSuggestionState>(
         listenWhen: _listenWhen,
         listener: _listener,
-        builder: (context, state) {
+        builder: (_, state) {
           if (state.isLabelsBottomSheetOpen) {
             return _LabelsBottomSheet(
               suggestionLabels: state.suggestion.labels,
@@ -183,11 +186,11 @@ class _CreateEditSuggestionBottomSheet extends StatelessWidget {
   const _CreateEditSuggestionBottomSheet({
     required this.titleFocusNode,
     required this.controller,
-    required this.onUploadMultiplePhotos,
     required this.descriptionController,
     required this.descriptionFocusNode,
     required this.titleController,
     required this.onClose,
+    this.onUploadMultiplePhotos,
   });
 
   @override

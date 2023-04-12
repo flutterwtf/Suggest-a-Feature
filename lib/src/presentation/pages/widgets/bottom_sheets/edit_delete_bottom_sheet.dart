@@ -40,7 +40,7 @@ class _EditDeleteSuggestionBottomSheetState
       backgroundColor: theme.bottomSheetBackgroundColor,
       previousNavBarColor: theme.primaryBackgroundColor,
       previousStatusBarColor: theme.primaryBackgroundColor,
-      contentBuilder: (BuildContext context, SheetState sheetState) {
+      contentBuilder: (context, _) {
         return ListView(
           padding: const EdgeInsets.only(
             top: Dimensions.marginDefault,

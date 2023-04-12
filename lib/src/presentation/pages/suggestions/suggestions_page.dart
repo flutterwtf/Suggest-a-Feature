@@ -221,9 +221,9 @@ class _BottomSheet extends StatefulWidget {
   final VoidCallback onCloseBottomSheet;
 
   const _BottomSheet({
-    required this.onSaveToGallery,
-    required this.onUploadMultiplePhotos,
     required this.onCloseBottomSheet,
+    this.onSaveToGallery,
+    this.onUploadMultiplePhotos,
   });
 
   @override
@@ -260,10 +260,10 @@ class _TabBarView extends StatelessWidget {
   const _TabBarView({
     required this.tabController,
     required this.onGetUserById,
-    required this.onSaveToGallery,
     required this.userId,
-    required this.onUploadMultiplePhotos,
     required this.onVote,
+    this.onSaveToGallery,
+    this.onUploadMultiplePhotos,
   });
 
   @override
