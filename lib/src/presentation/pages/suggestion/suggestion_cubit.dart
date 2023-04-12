@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:suggest_a_feature/src/domain/data_interfaces/i_suggestion_repository.dart';
+import 'package:suggest_a_feature/src/domain/data_interfaces/suggestion_repository.dart';
 import 'package:suggest_a_feature/src/domain/entities/comment.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion_author.dart';
@@ -11,11 +11,11 @@ import 'package:suggest_a_feature/src/presentation/utils/image_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/typedefs.dart';
 
 class SuggestionCubit extends Cubit<SuggestionState> {
-  final ISuggestionRepository _suggestionRepository;
+  final SuggestionRepository _suggestionRepository;
   StreamSubscription<List<Suggestion>>? _suggestionSubscription;
 
   SuggestionCubit({
-    required ISuggestionRepository suggestionRepository,
+    required SuggestionRepository suggestionRepository,
     required Suggestion suggestion,
     required OnGetUserById onGetUserById,
   })  : _suggestionRepository = suggestionRepository,
@@ -110,13 +110,9 @@ class SuggestionCubit extends Cubit<SuggestionState> {
 
   @override
   Future<void> close() async {
-    dispose();
-    await super.close();
-  }
-
-  void dispose() {
     _suggestionSubscription?.cancel();
     _suggestionSubscription = null;
+    await super.close();
   }
 
   void reset() {

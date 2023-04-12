@@ -1,15 +1,15 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:suggest_a_feature/src/domain/data_interfaces/i_suggestion_repository.dart';
+import 'package:suggest_a_feature/src/domain/data_interfaces/suggestion_repository.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_state.dart';
 import 'package:suggest_a_feature/src/presentation/utils/image_utils.dart';
 
 class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
-  final ISuggestionRepository _suggestionRepository;
+  final SuggestionRepository _suggestionRepository;
 
   CreateEditSuggestionCubit({
-    required ISuggestionRepository suggestionRepository,
+    required SuggestionRepository suggestionRepository,
     Suggestion? suggestion,
   })  : _suggestionRepository = suggestionRepository,
         super(

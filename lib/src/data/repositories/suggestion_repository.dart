@@ -1,12 +1,12 @@
 import 'package:rxdart/rxdart.dart';
 import 'package:suggest_a_feature/src/data/interfaces/cache_data_source.dart';
 import 'package:suggest_a_feature/src/data/interfaces/suggestions_data_source.dart';
-import 'package:suggest_a_feature/src/domain/data_interfaces/i_suggestion_repository.dart';
+import 'package:suggest_a_feature/src/domain/data_interfaces/suggestion_repository.dart';
 import 'package:suggest_a_feature/src/domain/entities/comment.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion_author.dart';
 
-class SuggestionRepositoryImpl implements ISuggestionRepository {
+class SuggestionRepositoryImpl implements SuggestionRepository {
   final SuggestionsDataSource _suggestionsDataSource;
   final CacheDataSource _cacheDataSource;
 
