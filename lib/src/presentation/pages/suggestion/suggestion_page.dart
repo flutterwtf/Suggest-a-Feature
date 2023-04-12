@@ -7,6 +7,7 @@ import 'package:suggest_a_feature/src/domain/entities/suggestion_author.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/suggestion_cubit.dart';
+import 'package:suggest_a_feature/src/presentation/pages/suggestion/suggestion_cubit_scope.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/suggestion_state.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/appbar_widget.dart';
@@ -49,6 +50,7 @@ class SuggestionPage extends StatefulWidget {
 }
 
 class _SuggestionPageState extends State<SuggestionPage> {
+  @Deprecated('message')
   final SuggestionCubit _cubit = i.suggestionCubit;
 
   @override
@@ -59,12 +61,6 @@ class _SuggestionPageState extends State<SuggestionPage> {
       getUserById: widget.onGetUserById,
       isAdmin: i.isAdmin,
     );
-  }
-
-  @override
-  void dispose() {
-    _cubit.dispose();
-    super.dispose();
   }
 
   bool _listenWhen(SuggestionState previous, SuggestionState current) {
@@ -91,64 +87,71 @@ class _SuggestionPageState extends State<SuggestionPage> {
     if (state.isPopped) {
       Navigator.of(context).pop();
     }
-    _cubit.reset();
+    context.read<SuggestionCubit>().reset();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<SuggestionCubit, SuggestionState>(
-      bloc: _cubit,
-      listenWhen: _listenWhen,
-      listener: _listener,
-      builder: (BuildContext context, SuggestionState state) {
-        return Stack(
-          children: <Widget>[
-            Scaffold(
-              appBar: _appBar(state),
-              backgroundColor: theme.primaryBackgroundColor,
-              body: _MainContent(
-                state: state,
-                cubit: _cubit,
-                onSaveToGallery: widget.onSaveToGallery,
-              ),
-            ),
-            SafeArea(
-              top: false,
-              bottom: SuggestionsPlatform.isIOS,
-              child: Container(
-                padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).padding.bottom +
-                      Dimensions.marginSmall,
+    return SuggestionCubitScope(
+      child: BlocConsumer<SuggestionCubit, SuggestionState>(
+        listenWhen: _listenWhen,
+        listener: _listener,
+        builder: (context, state) {
+          final cubit = context.read<SuggestionCubit>();
+          return Stack(
+            children: [
+              Scaffold(
+                appBar: _appBar(state),
+                backgroundColor: theme.primaryBackgroundColor,
+                body: _MainContent(
+                  state: state,
+                  cubit: _cubit,
+                  onSaveToGallery: widget.onSaveToGallery,
                 ),
-                alignment: Alignment.bottomCenter,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    Flexible(child: _NewCommentButton(cubit: _cubit)),
-                    const SizedBox(width: Dimensions.marginDefault),
-                    if (state.suggestion.votedUserIds.contains(i.userId))
-                      const SizedBox.shrink()
-                    else
+              ),
+              SafeArea(
+                top: false,
+                bottom: SuggestionsPlatform.isIOS,
+                child: Container(
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).padding.bottom +
+                        Dimensions.marginSmall,
+                  ),
+                  alignment: Alignment.bottomCenter,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
                       Flexible(
-                        child: _UpvoteButton(
-                          state: state,
-                          cubit: _cubit,
+                        child: _NewCommentButton(
+                          onClick: cubit.openCreateCommentBottomSheet,
                         ),
                       ),
-                  ],
+                      const SizedBox(width: Dimensions.marginDefault),
+                      if (state.suggestion.votedUserIds.contains(i.userId))
+                        const SizedBox.shrink()
+                      else
+                        Flexible(
+                          child: _UpvoteButton(
+                            isVisible: !state.suggestion.votedUserIds
+                                .contains(i.userId),
+                            onClick: cubit.vote,
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            _BottomSheet(
-              state: state,
-              cubit: _cubit,
-              onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
-              onSaveToGallery: widget.onSaveToGallery,
-              onGetUserById: widget.onGetUserById,
-            ),
-          ],
-        );
-      },
+              _BottomSheet(
+                state: state,
+                cubit: _cubit,
+                onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
+                onSaveToGallery: widget.onSaveToGallery,
+                onGetUserById: widget.onGetUserById,
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 
@@ -197,7 +200,10 @@ class _MainContent extends StatelessWidget {
               author: state.author,
               isAnonymous: state.suggestion.isAnonymous,
             ),
-            _SuggestionInfo(suggestion: state.suggestion, cubit: cubit),
+            _SuggestionInfo(
+              suggestion: state.suggestion,
+              onVote: cubit.vote,
+            ),
             const SizedBox(height: Dimensions.marginSmall),
             if (state.suggestion.images.isNotEmpty) ...<Widget>[
               _AttachedImages(
@@ -260,9 +266,12 @@ class _UserInfo extends StatelessWidget {
 
 class _SuggestionInfo extends StatelessWidget {
   final Suggestion suggestion;
-  final SuggestionCubit cubit;
+  final VoidCallback onVote;
 
-  const _SuggestionInfo({required this.suggestion, required this.cubit});
+  const _SuggestionInfo({
+    required this.suggestion,
+    required this.onVote,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -283,7 +292,7 @@ class _SuggestionInfo extends StatelessWidget {
           ),
           const SizedBox(height: Dimensions.marginDefault + 5),
           _SuggestionHeaderContent(
-            cubit: cubit,
+            onVote: onVote,
             isVoted: suggestion.votedUserIds.contains(i.userId),
             upvotesCount: suggestion.upvotesCount,
             title: suggestion.title,
@@ -412,13 +421,13 @@ class _Avatar extends StatelessWidget {
 }
 
 class _SuggestionHeaderContent extends StatelessWidget {
-  final SuggestionCubit cubit;
+  final VoidCallback onVote;
   final bool isVoted;
   final int upvotesCount;
   final String title;
 
   const _SuggestionHeaderContent({
-    required this.cubit,
+    required this.onVote,
     required this.isVoted,
     required this.upvotesCount,
     required this.title,
@@ -428,10 +437,10 @@ class _SuggestionHeaderContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+      children: [
         GestureDetector(
           behavior: HitTestBehavior.translucent,
-          onTap: cubit.vote,
+          onTap: onVote,
           child: Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: Dimensions.marginSmall),
@@ -552,61 +561,50 @@ class _BottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (state.bottomSheetType) {
       case SuggestionBottomSheetType.confirmation:
-        return _OpenConfirmationBottomSheet(
-          confirmationQuestion: context.localization.deletionQuestion,
-          cubit: cubit,
-        );
+        return const _OpenConfirmationBottomSheet();
       case SuggestionBottomSheetType.notification:
         return _OpenNotificationBottomSheet(
           isNotificationOn: state.suggestion.notifyUserIds.contains(i.userId),
-          cubit: cubit,
         );
       case SuggestionBottomSheetType.editDelete:
         return _OpenEditDeleteBottomSheet(
           suggestion: state.suggestion,
-          cubit: cubit,
         );
       case SuggestionBottomSheetType.createEdit:
         return _OpenCreateEditBottomSheet(
           suggestion: state.suggestion,
-          cubit: cubit,
           onUploadMultiplePhotos: onUploadMultiplePhotos,
           onSaveToGallery: onSaveToGallery,
         );
       case SuggestionBottomSheetType.createComment:
         return _OpenCreateCommentBottomSheet(
-          cubit: cubit,
           onGetUserById: onGetUserById,
         );
       case SuggestionBottomSheetType.none:
-        return Container();
+        return const SizedBox.shrink();
     }
   }
 }
 
 class _OpenConfirmationBottomSheet extends StatelessWidget {
-  final String confirmationQuestion;
-  final SuggestionCubit cubit;
-
-  const _OpenConfirmationBottomSheet({
-    required this.confirmationQuestion,
-    required this.cubit,
-  });
+  const _OpenConfirmationBottomSheet();
 
   @override
   Widget build(BuildContext context) {
     final sheetController = SheetController();
+    final cubit = context.read<SuggestionCubit>();
     return ConfirmationBottomSheet(
       controller: sheetController,
-      question: confirmationQuestion,
+      question: context.localization.deletionQuestion,
       onConfirm: () {
         cubit
           ..closeBottomSheet()
           ..deleteSuggestion();
       },
-      onCancel: ([_]) => sheetController.collapse()?.then(
-            (_) => cubit.closeBottomSheet(),
-          ),
+      onCancel: ([_]) async {
+        await sheetController.collapse();
+        cubit.closeBottomSheet();
+      },
       onConfirmAsset: AssetStrings.checkIconImage,
       onCancelText: context.localization.cancel,
       onConfirmText: context.localization.yesDelete,
@@ -616,45 +614,47 @@ class _OpenConfirmationBottomSheet extends StatelessWidget {
 
 class _OpenNotificationBottomSheet extends StatelessWidget {
   final bool isNotificationOn;
-  final SuggestionCubit cubit;
 
   const _OpenNotificationBottomSheet({
     required this.isNotificationOn,
-    required this.cubit,
   });
 
   @override
   Widget build(BuildContext context) {
     final sheetController = SheetController();
+    final cubit = context.read<SuggestionCubit>();
     return NotificationSuggestionBottomSheet(
       controller: sheetController,
       isNotificationOn: isNotificationOn,
-      onChangeNotification: (bool isNotificationOn) => cubit.changeNotification(
+      onChangeNotification: (isNotificationOn) => cubit.changeNotification(
         isNotificationOn: isNotificationOn,
       ),
-      onCancel: ([_]) =>
-          sheetController.collapse()?.then((_) => cubit.closeBottomSheet()),
+      onCancel: ([_]) async {
+        await sheetController.collapse();
+        cubit.closeBottomSheet();
+      },
     );
   }
 }
 
 class _OpenEditDeleteBottomSheet extends StatelessWidget {
   final Suggestion suggestion;
-  final SuggestionCubit cubit;
 
   const _OpenEditDeleteBottomSheet({
     required this.suggestion,
-    required this.cubit,
   });
 
   @override
   Widget build(BuildContext context) {
     final sheetController = SheetController();
+    final cubit = context.read<SuggestionCubit>();
     return EditDeleteSuggestionBottomSheet(
       creationDate: suggestion.creationTime,
       controller: sheetController,
-      onCancel: ([_]) =>
-          sheetController.collapse()?.then((_) => cubit.closeBottomSheet()),
+      onCancel: ([_]) async {
+        await sheetController.collapse();
+        cubit.closeBottomSheet();
+      },
       onEditClick: cubit.openCreateEditBottomSheet,
       onDeleteClick: cubit.openConfirmationBottomSheet,
     );
@@ -663,13 +663,11 @@ class _OpenEditDeleteBottomSheet extends StatelessWidget {
 
 class _OpenCreateEditBottomSheet extends StatelessWidget {
   final Suggestion suggestion;
-  final SuggestionCubit cubit;
   final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
   final OnSaveToGalleryCallback? onSaveToGallery;
 
   const _OpenCreateEditBottomSheet({
     required this.suggestion,
-    required this.cubit,
     required this.onUploadMultiplePhotos,
     required this.onSaveToGallery,
   });
@@ -677,6 +675,7 @@ class _OpenCreateEditBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sheetController = SheetController();
+    final cubit = context.read<SuggestionCubit>();
     return CreateEditSuggestionBottomSheet(
       onClose: ([_]) async {
         await sheetController.collapse();
@@ -691,17 +690,16 @@ class _OpenCreateEditBottomSheet extends StatelessWidget {
 }
 
 class _OpenCreateCommentBottomSheet extends StatelessWidget {
-  final SuggestionCubit cubit;
   final OnGetUserById onGetUserById;
 
   const _OpenCreateCommentBottomSheet({
-    required this.cubit,
     required this.onGetUserById,
   });
 
   @override
   Widget build(BuildContext context) {
     final sheetController = SheetController();
+    final cubit = context.read<SuggestionCubit>();
     return CreateCommentBottomSheet(
       controller: sheetController,
       onClose: ([_]) async {
@@ -725,9 +723,9 @@ class _OpenCreateCommentBottomSheet extends StatelessWidget {
 }
 
 class _NewCommentButton extends StatelessWidget {
-  final SuggestionCubit cubit;
+  final VoidCallback onClick;
 
-  const _NewCommentButton({required this.cubit});
+  const _NewCommentButton({required this.onClick});
 
   @override
   Widget build(BuildContext context) {
@@ -737,7 +735,7 @@ class _NewCommentButton extends StatelessWidget {
       ),
       child: SuggestionsElevatedButton(
         buttonText: context.localization.newComment,
-        onClick: cubit.openCreateCommentBottomSheet,
+        onClick: onClick,
         backgroundColor: theme.secondaryBackgroundColor,
         textColor: theme.primaryTextColor,
       ),
@@ -746,15 +744,18 @@ class _NewCommentButton extends StatelessWidget {
 }
 
 class _UpvoteButton extends StatelessWidget {
-  final SuggestionState state;
-  final SuggestionCubit cubit;
+  final bool isVisible;
+  final VoidCallback onClick;
 
-  const _UpvoteButton({required this.state, required this.cubit});
+  const _UpvoteButton({
+    required this.isVisible,
+    required this.onClick,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Visibility(
-      visible: !state.suggestion.votedUserIds.contains(i.userId),
+      visible: isVisible,
       child: Align(
         alignment: Alignment.bottomCenter,
         child: Padding(
@@ -762,7 +763,7 @@ class _UpvoteButton extends StatelessWidget {
             right: Dimensions.marginDefault,
           ),
           child: SuggestionsElevatedButton(
-            onClick: cubit.vote,
+            onClick: onClick,
             imageIconPath: AssetStrings.suggestionsUpvoteArrow,
             buttonText: context.localization.upvote,
           ),
@@ -782,7 +783,7 @@ class _CommentInfo extends StatelessWidget {
     final author = _getDisplayedAuthor(comment, context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
+      children: [
         AvatarWidget(
           backgroundColor: theme.primaryBackgroundColor,
           avatar: author.avatar,
