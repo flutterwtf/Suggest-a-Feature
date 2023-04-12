@@ -2,7 +2,7 @@ import 'package:suggest_a_feature/src/data/cache_data_source.dart';
 import 'package:suggest_a_feature/src/data/interfaces/cache_data_source.dart';
 import 'package:suggest_a_feature/src/data/interfaces/suggestions_data_source.dart';
 import 'package:suggest_a_feature/src/data/repositories/suggestion_repository.dart';
-import 'package:suggest_a_feature/src/domain/data_interfaces/suggestion_repository.dart';
+import 'package:suggest_a_feature/src/domain/data_interfaces/i_suggestion_repository.dart';
 import 'package:suggest_a_feature/src/domain/entities/admin_settings.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
 
@@ -69,7 +69,7 @@ class _Injector {
 
   SuggestionsDataSource get suggestionsDataSource => _suggestionsDataSource;
 
-  late SuggestionRepository _suggestionRepository;
+  late ISuggestionRepository _suggestionRepository;
 
-  SuggestionRepository get suggestionRepository => _suggestionRepository;
+  ISuggestionRepository get suggestionRepository => _suggestionRepository;
 }

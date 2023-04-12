@@ -49,8 +49,7 @@ class CreateEditSuggestionBottomSheet extends StatefulWidget {
 }
 
 class CreateEditSuggestionBottomSheetState
-    extends State<CreateEditSuggestionBottomSheet>
-    with TickerProviderStateMixin {
+    extends State<CreateEditSuggestionBottomSheet> {
   final SheetController _labelsSheetController = SheetController();
   final SheetController _statusesSheetController = SheetController();
   late TextEditingController _titleController;
@@ -137,9 +136,9 @@ class CreateEditSuggestionBottomSheetState
               titleController: _titleController,
               onClose: widget.onClose,
             );
-          } else {
-            return Container();
           }
+
+          return const SizedBox.shrink();
         },
       ),
     );
@@ -359,11 +358,8 @@ class _PostAnonymously extends StatelessWidget {
 
 class _PhotoPickerItem extends StatelessWidget {
   final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
-  @Deprecated('message')
-  final CreateEditSuggestionState state;
 
   const _PhotoPickerItem({
-    @Deprecated('message') required this.state,
     required this.onUploadMultiplePhotos,
   });
 
@@ -395,19 +391,21 @@ class _PhotoPickerItem extends StatelessWidget {
                     onUploadPhotos: () {
                       final availableNumOfPhotos = maxPhotosForOneSuggestion -
                           state.suggestion.images.length;
-                      availableNumOfPhotos > 0
-                          ? cubit.addUploadedPhotos(
-                              onUploadMultiplePhotos!(
-                                availableNumOfPhotos: availableNumOfPhotos,
-                              ),
-                            )
-                          : ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  context.localization.eventPhotosRestriction,
-                                ),
-                              ),
-                            );
+                      if (availableNumOfPhotos > 0) {
+                        cubit.addUploadedPhotos(
+                          onUploadMultiplePhotos!(
+                            availableNumOfPhotos: availableNumOfPhotos,
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              context.localization.eventPhotosRestriction,
+                            ),
+                          ),
+                        );
+                      }
                     },
                     onPhotoClick: () => cubit.onPhotoClick(i - 1),
                   );
@@ -416,6 +414,7 @@ class _PhotoPickerItem extends StatelessWidget {
             ),
           );
         }
+
         return _AddButton(
           isLoading: state.isLoading,
           isSmall: state.suggestion.images.isNotEmpty,
@@ -547,7 +546,7 @@ class _PhotoPreviewState extends State<_PhotoPreview> {
                 Dimensions.smallSize * widget.suggestionImages.length
             : Dimensions.veryBigSize,
         child: Stack(
-          children: <Widget>[
+          children: [
             if (widget.suggestionImages.isNotEmpty)
               SizedBox(
                 width: Dimensions.defaultSize,
@@ -621,7 +620,7 @@ class _EditSuggestionBottomSheetListView extends StatelessWidget {
           ),
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          children: <Widget>[
+          children: [
             SuggestionsTextField(
               controller: titleController,
               focusNode: titleFocusNode,
@@ -632,7 +631,7 @@ class _EditSuggestionBottomSheetListView extends StatelessWidget {
                 Dimensions.marginSmall,
                 Dimensions.marginDefault,
               ),
-              onChanged: (String text) {
+              onChanged: (text) {
                 if (state.suggestion.title != text) {
                   onTitleChanged(text);
                 }
@@ -678,7 +677,7 @@ class _EditSuggestionBottomSheetListView extends StatelessWidget {
 
   List<Widget> _suggestionStatus(CreateEditSuggestionState state) {
     if (i.isAdmin && state.isEditing) {
-      return <Widget>[
+      return [
         Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
         _SuggestionStatus(
           suggestionStatus: state.suggestion.status,
@@ -691,13 +690,12 @@ class _EditSuggestionBottomSheetListView extends StatelessWidget {
 
   List<Widget> _multiplePicker(CreateEditSuggestionState state) {
     if (onUploadMultiplePhotos != null) {
-      return <Widget>[
+      return [
         if (state.suggestion.images.isNotEmpty)
           const SizedBox.shrink()
         else
           const _DividerWithIndent(),
         _PhotoPickerItem(
-          state: state,
           onUploadMultiplePhotos: onUploadMultiplePhotos,
         ),
       ];
@@ -707,7 +705,7 @@ class _EditSuggestionBottomSheetListView extends StatelessWidget {
 
   List<Widget> _anonymitySwitch(CreateEditSuggestionState state) {
     if (!state.isEditing) {
-      return <Widget>[
+      return [
         const _DividerWithIndent(),
         const SizedBox(height: Dimensions.marginSmall),
         _PostAnonymously(

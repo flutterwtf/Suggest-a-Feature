@@ -1,21 +1,21 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:suggest_a_feature/src/domain/data_interfaces/suggestion_repository.dart';
+import 'package:suggest_a_feature/src/domain/data_interfaces/i_suggestion_repository.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart'
     as injector;
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_state.dart';
 
 class SuggestionsCubit extends Cubit<SuggestionsState> {
-  final SuggestionRepository _suggestionRepository;
+  final ISuggestionRepository _suggestionRepository;
   StreamSubscription<List<Suggestion>>? _suggestionSubscription;
 
   SuggestionsCubit(this._suggestionRepository)
       : super(
           const SuggestionsState(
-            requests: <Suggestion>[],
-            inProgress: <Suggestion>[],
-            completed: <Suggestion>[],
+            requests: [],
+            inProgress: [],
+            completed: [],
             isCreateBottomSheetOpened: false,
           ),
         ) {

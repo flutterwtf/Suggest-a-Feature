@@ -1,40 +1,30 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:suggest_a_feature/src/domain/data_interfaces/suggestion_repository.dart';
+import 'package:suggest_a_feature/src/domain/data_interfaces/i_suggestion_repository.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_state.dart';
 import 'package:suggest_a_feature/src/presentation/utils/image_utils.dart';
 
 class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
-  final SuggestionRepository _suggestionRepository;
+  final ISuggestionRepository _suggestionRepository;
 
-  CreateEditSuggestionCubit(
-    this._suggestionRepository,
+  CreateEditSuggestionCubit({
+    required ISuggestionRepository suggestionRepository,
     Suggestion? suggestion,
-  ) : super(
+  })  : _suggestionRepository = suggestionRepository,
+        super(
           CreateEditSuggestionState(
-            suggestion: Suggestion.empty(),
+            suggestion: suggestion ?? Suggestion.empty(),
             savingImageResultMessageType: SavingResultMessageType.none,
             isShowTitleError: false,
-            isEditing: false,
+            isEditing: suggestion != null,
             isSubmitted: false,
             isLoading: false,
             isLabelsBottomSheetOpen: false,
             isStatusBottomSheetOpen: false,
             isPhotoViewOpen: false,
           ),
-        ) {
-    _init(suggestion);
-  }
-
-  void _init(Suggestion? suggestion) {
-    emit(
-      state.newState(
-        suggestion: suggestion,
-        isEditing: suggestion != null,
-      ),
-    );
-  }
+        );
 
   void reset() {
     emit(

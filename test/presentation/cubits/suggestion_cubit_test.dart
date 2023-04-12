@@ -48,9 +48,9 @@ void main() {
           );
           when(mockSuggestionRepository.userInfo).thenAnswer((_) => {});
           return SuggestionCubit(
-            mockSuggestionRepository,
-            mockedRequestSuggestion,
-            (_) => Future.value(const SuggestionAuthor.empty()),
+            suggestionRepository: mockSuggestionRepository,
+            suggestion: mockedRequestSuggestion,
+            onGetUserById: (_) => Future.value(const SuggestionAuthor.empty()),
           );
         },
         seed: () => emptySuggestionState,
@@ -80,9 +80,9 @@ void main() {
           );
           when(mockSuggestionRepository.userInfo).thenAnswer((_) => {});
           return SuggestionCubit(
-            mockSuggestionRepository,
-            mockedRequestSuggestion,
-            (_) => Future.value(const SuggestionAuthor.empty()),
+            suggestionRepository: mockSuggestionRepository,
+            suggestion: mockedRequestSuggestion,
+            onGetUserById: (_) => Future.value(const SuggestionAuthor.empty()),
           );
         },
         seed: () => emptySuggestionState,
@@ -107,9 +107,9 @@ void main() {
           );
           when(mockSuggestionRepository.userInfo).thenAnswer((_) => {});
           return SuggestionCubit(
-            mockSuggestionRepository,
-            mockedRequestSuggestion,
-            (_) => Future.value(const SuggestionAuthor.empty()),
+            suggestionRepository: mockSuggestionRepository,
+            suggestion: mockedRequestSuggestion,
+            onGetUserById: (_) => Future.value(const SuggestionAuthor.empty()),
           );
         },
         seed: () => emptySuggestionState,
@@ -137,9 +137,9 @@ void main() {
           );
           when(mockSuggestionRepository.userInfo).thenAnswer((_) => {});
           return SuggestionCubit(
-            mockSuggestionRepository,
-            mockedRequestSuggestion,
-            (_) => Future.value(const SuggestionAuthor.empty()),
+            suggestionRepository: mockSuggestionRepository,
+            suggestion: mockedRequestSuggestion,
+            onGetUserById: (_) => Future.value(const SuggestionAuthor.empty()),
           );
         },
         seed: () => SuggestionState(
@@ -164,9 +164,9 @@ void main() {
           );
           when(mockSuggestionRepository.userInfo).thenAnswer((_) => {});
           return SuggestionCubit(
-            mockSuggestionRepository,
-            mockedRequestSuggestion,
-            (_) => Future.value(const SuggestionAuthor.empty()),
+            suggestionRepository: mockSuggestionRepository,
+            suggestion: mockedRequestSuggestion,
+            onGetUserById: (_) => Future.value(const SuggestionAuthor.empty()),
           );
         },
         seed: () => emptySuggestionState,
@@ -195,9 +195,9 @@ void main() {
           );
           when(mockSuggestionRepository.userInfo).thenAnswer((_) => {});
           return SuggestionCubit(
-            mockSuggestionRepository,
-            mockedRequestSuggestion,
-            (_) => Future.value(const SuggestionAuthor.empty()),
+            suggestionRepository: mockSuggestionRepository,
+            suggestion: mockedRequestSuggestion,
+            onGetUserById: (_) => Future.value(const SuggestionAuthor.empty()),
           );
         },
         seed: () => SuggestionState(
@@ -224,9 +224,9 @@ void main() {
           );
           when(mockSuggestionRepository.userInfo).thenAnswer((_) => {});
           return SuggestionCubit(
-            mockSuggestionRepository,
-            mockedRequestSuggestion,
-            (_) => Future.value(const SuggestionAuthor.empty()),
+            suggestionRepository: mockSuggestionRepository,
+            suggestion: mockedRequestSuggestion,
+            onGetUserById: (_) => Future.value(const SuggestionAuthor.empty()),
           );
         },
         seed: () => emptySuggestionState,
@@ -252,9 +252,9 @@ void main() {
           );
           when(mockSuggestionRepository.userInfo).thenAnswer((_) => {});
           return SuggestionCubit(
-            mockSuggestionRepository,
-            mockedRequestSuggestion,
-            (_) => Future.value(const SuggestionAuthor.empty()),
+            suggestionRepository: mockSuggestionRepository,
+            suggestion: mockedRequestSuggestion,
+            onGetUserById: (_) => Future.value(const SuggestionAuthor.empty()),
           );
         },
         seed: () => emptySuggestionState,
@@ -280,9 +280,9 @@ void main() {
           );
           when(mockSuggestionRepository.userInfo).thenAnswer((_) => {});
           return SuggestionCubit(
-            mockSuggestionRepository,
-            mockedRequestSuggestion,
-            (_) => Future.value(const SuggestionAuthor.empty()),
+            suggestionRepository: mockSuggestionRepository,
+            suggestion: mockedRequestSuggestion,
+            onGetUserById: (_) => Future.value(const SuggestionAuthor.empty()),
           );
         },
         seed: () => emptySuggestionState,

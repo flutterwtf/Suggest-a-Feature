@@ -229,7 +229,7 @@ class _UserInfo extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(Dimensions.marginDefault),
       child: Row(
-        children: <Widget>[
+        children: [
           Text(
             context.localization.postedBy,
             style: theme.textSmallPlusSecondary,
@@ -270,7 +270,7 @@ class _SuggestionInfo extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
+        children: [
           Padding(
             padding: const EdgeInsets.only(left: Dimensions.margin3x + 5),
             child: SuggestionLabels(labels: suggestion.labels),
@@ -283,7 +283,7 @@ class _SuggestionInfo extends StatelessWidget {
             title: suggestion.title,
           ),
           const SizedBox(height: Dimensions.marginDefault),
-          if (suggestion.description != null) ...<Widget>[
+          if (suggestion.description != null) ...[
             Padding(
               padding: const EdgeInsets.only(left: Dimensions.marginSmall),
               child: Text(
@@ -321,7 +321,7 @@ class _AttachedImages extends StatelessWidget {
       color: theme.secondaryBackgroundColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
+        children: [
           Text(
             context.localization.attachedPhotos,
             style: theme.textSmallPlusSecondaryBold,
@@ -355,7 +355,7 @@ class _CommentList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+      children: [
         Container(
           width: double.infinity,
           color: theme.secondaryBackgroundColor,
@@ -372,7 +372,7 @@ class _CommentList extends StatelessWidget {
         Wrap(
           runSpacing: 2,
           children: comments
-              .map((Comment comment) => _CommentCard(comment: comment))
+              .map((comment) => _CommentCard(comment: comment))
               .toList(),
         ),
       ],
@@ -461,7 +461,7 @@ class _WrappedAttachedImage extends StatelessWidget {
           barrierColor: Colors.black,
           context: context,
           useRootNavigator: false,
-          builder: (BuildContext context) {
+          builder: (context) {
             return PhotoView(
               onDownloadClick: onSaveToGallery != null
                   ? (path) =>

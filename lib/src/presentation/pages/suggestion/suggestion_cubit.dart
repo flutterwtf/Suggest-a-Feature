@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:suggest_a_feature/src/domain/data_interfaces/suggestion_repository.dart';
+import 'package:suggest_a_feature/src/domain/data_interfaces/i_suggestion_repository.dart';
 import 'package:suggest_a_feature/src/domain/entities/comment.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion_author.dart';
@@ -11,14 +11,15 @@ import 'package:suggest_a_feature/src/presentation/utils/image_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/typedefs.dart';
 
 class SuggestionCubit extends Cubit<SuggestionState> {
-  final SuggestionRepository _suggestionRepository;
+  final ISuggestionRepository _suggestionRepository;
   StreamSubscription<List<Suggestion>>? _suggestionSubscription;
 
-  SuggestionCubit(
-    this._suggestionRepository,
-    Suggestion suggestion,
-    OnGetUserById onGetUserById,
-  ) : super(
+  SuggestionCubit({
+    required ISuggestionRepository suggestionRepository,
+    required Suggestion suggestion,
+    required OnGetUserById onGetUserById,
+  })  : _suggestionRepository = suggestionRepository,
+        super(
           SuggestionState(
             isPopped: false,
             isEditable: false,

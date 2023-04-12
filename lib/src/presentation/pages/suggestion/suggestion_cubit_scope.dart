@@ -20,9 +20,9 @@ class SuggestionCubitScope extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => SuggestionCubit(
-        i.suggestionRepository,
-        suggestion,
-        onGetUserById,
+        suggestionRepository: i.suggestionRepository,
+        suggestion: suggestion,
+        onGetUserById: onGetUserById,
       ),
       child: child,
     );

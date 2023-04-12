@@ -18,8 +18,8 @@ class CreateEditSuggestionCubitScope extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => CreateEditSuggestionCubit(
-        i.suggestionRepository,
-        suggestion,
+        suggestionRepository: i.suggestionRepository,
+        suggestion: suggestion,
       ),
       child: child,
     );
