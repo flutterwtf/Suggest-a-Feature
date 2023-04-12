@@ -19,15 +19,21 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
             isCreateBottomSheetOpened: false,
           ),
         ) {
-    init();
+    _init();
   }
 
-  void init() {
+  void _init() {
     _suggestionSubscription?.cancel();
     _suggestionSubscription = _suggestionRepository.suggestionsStream.listen(
       _onNewSuggestions,
     );
     _suggestionRepository.initSuggestions();
+  }
+
+  @override
+  Future<void> close() async {
+    dispose();
+    await super.close();
   }
 
   void dispose() {

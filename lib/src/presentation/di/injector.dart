@@ -4,7 +4,6 @@ import 'package:suggest_a_feature/src/data/interfaces/suggestions_data_source.da
 import 'package:suggest_a_feature/src/data/repositories/suggestion_repository.dart';
 import 'package:suggest_a_feature/src/domain/data_interfaces/suggestion_repository.dart';
 import 'package:suggest_a_feature/src/domain/entities/admin_settings.dart';
-import 'package:suggest_a_feature/src/presentation/pages/suggestion/suggestion_cubit.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
 
 // ignore: library_private_types_in_public_api
@@ -73,7 +72,4 @@ class _Injector {
   late SuggestionRepository _suggestionRepository;
 
   SuggestionRepository get suggestionRepository => _suggestionRepository;
-
-  @Deprecated('Will be deleted soon')
-  SuggestionCubit get suggestionCubit => SuggestionCubit(suggestionRepository);
 }

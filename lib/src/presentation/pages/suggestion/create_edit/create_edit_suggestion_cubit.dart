@@ -24,10 +24,10 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
             isPhotoViewOpen: false,
           ),
         ) {
-    init(suggestion);
+    _init(suggestion);
   }
 
-  void init(Suggestion? suggestion) {
+  void _init(Suggestion? suggestion) {
     emit(
       state.newState(
         suggestion: suggestion,

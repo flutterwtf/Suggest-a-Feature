@@ -50,19 +50,6 @@ class SuggestionPage extends StatefulWidget {
 }
 
 class _SuggestionPageState extends State<SuggestionPage> {
-  @Deprecated('message')
-  final SuggestionCubit _cubit = i.suggestionCubit;
-
-  @override
-  void initState() {
-    super.initState();
-    _cubit.init(
-      suggestion: widget.suggestion,
-      getUserById: widget.onGetUserById,
-      isAdmin: i.isAdmin,
-    );
-  }
-
   bool _listenWhen(SuggestionState previous, SuggestionState current) {
     return previous.savingImageResultMessageType ==
                 SavingResultMessageType.none &&
@@ -93,6 +80,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
   @override
   Widget build(BuildContext context) {
     return SuggestionCubitScope(
+      suggestion: widget.suggestion,
+      onGetUserById: widget.onGetUserById,
       child: BlocConsumer<SuggestionCubit, SuggestionState>(
         listenWhen: _listenWhen,
         listener: _listener,
@@ -101,11 +90,9 @@ class _SuggestionPageState extends State<SuggestionPage> {
           return Stack(
             children: [
               Scaffold(
-                appBar: _appBar(state),
+                appBar: _appBar(cubit, state.isEditable),
                 backgroundColor: theme.primaryBackgroundColor,
                 body: _MainContent(
-                  state: state,
-                  cubit: _cubit,
                   onSaveToGallery: widget.onSaveToGallery,
                 ),
               ),
@@ -142,8 +129,6 @@ class _SuggestionPageState extends State<SuggestionPage> {
                 ),
               ),
               _BottomSheet(
-                state: state,
-                cubit: _cubit,
                 onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
                 onSaveToGallery: widget.onSaveToGallery,
                 onGetUserById: widget.onGetUserById,
@@ -155,19 +140,19 @@ class _SuggestionPageState extends State<SuggestionPage> {
     );
   }
 
-  SuggestionsAppBar _appBar(SuggestionState state) {
+  SuggestionsAppBar _appBar(SuggestionCubit cubit, bool isEditable) {
     return SuggestionsAppBar(
       onBackClick: Navigator.of(context).pop,
       screenTitle: context.localization.suggestion,
       trailing: Padding(
         padding: const EdgeInsets.only(right: Dimensions.marginDefault),
-        child: state.isEditable
+        child: isEditable
             ? SuggestionsIconButton(
-                onClick: _cubit.openEditDeleteBottomSheet,
+                onClick: cubit.openEditDeleteBottomSheet,
                 imageIcon: AssetStrings.penIconImage,
               )
             : SuggestionsIconButton(
-                onClick: _cubit.openNotificationBottomSheet,
+                onClick: cubit.openNotificationBottomSheet,
                 imageIcon: AssetStrings.notificationsIconImage,
               ),
       ),
@@ -176,56 +161,56 @@ class _SuggestionPageState extends State<SuggestionPage> {
 }
 
 class _MainContent extends StatelessWidget {
-  final SuggestionState state;
-  final SuggestionCubit cubit;
   final OnSaveToGalleryCallback? onSaveToGallery;
 
   const _MainContent({
-    required this.state,
-    required this.cubit,
     required this.onSaveToGallery,
   });
 
   @override
   Widget build(BuildContext context) {
-    return NotificationListener<OverscrollIndicatorNotification>(
-      onNotification: (OverscrollIndicatorNotification overscroll) {
-        overscroll.disallowIndicator();
-        return true;
+    return BlocBuilder<SuggestionCubit, SuggestionState>(
+      builder: (context, state) {
+        final cubit = context.read<SuggestionCubit>();
+        return NotificationListener<OverscrollIndicatorNotification>(
+          onNotification: (OverscrollIndicatorNotification overscroll) {
+            overscroll.disallowIndicator();
+            return true;
+          },
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                _UserInfo(
+                  author: state.author,
+                  isAnonymous: state.suggestion.isAnonymous,
+                ),
+                _SuggestionInfo(
+                  suggestion: state.suggestion,
+                  onVote: cubit.vote,
+                ),
+                const SizedBox(height: Dimensions.marginSmall),
+                if (state.suggestion.images.isNotEmpty) ...[
+                  _AttachedImages(
+                    onSaveToGallery: onSaveToGallery,
+                    images: state.suggestion.images,
+                  ),
+                  const SizedBox(height: Dimensions.marginSmall),
+                ],
+                if (state.suggestion.comments.isNotEmpty)
+                  _CommentList(comments: state.suggestion.comments),
+                if (state.suggestion.votedUserIds.contains(i.userId))
+                  const SizedBox(
+                    height: Dimensions.size2x * 2 + Dimensions.marginMiddle,
+                  )
+                else
+                  const SizedBox(
+                    height: Dimensions.size2x * 3 + Dimensions.margin2x,
+                  ),
+              ],
+            ),
+          ),
+        );
       },
-      child: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            _UserInfo(
-              author: state.author,
-              isAnonymous: state.suggestion.isAnonymous,
-            ),
-            _SuggestionInfo(
-              suggestion: state.suggestion,
-              onVote: cubit.vote,
-            ),
-            const SizedBox(height: Dimensions.marginSmall),
-            if (state.suggestion.images.isNotEmpty) ...<Widget>[
-              _AttachedImages(
-                onSaveToGallery: onSaveToGallery,
-                cubit: cubit,
-                images: state.suggestion.images,
-              ),
-              const SizedBox(height: Dimensions.marginSmall),
-            ],
-            if (state.suggestion.comments.isNotEmpty)
-              _CommentList(comments: state.suggestion.comments),
-            if (state.suggestion.votedUserIds.contains(i.userId))
-              const SizedBox(
-                height: Dimensions.size2x * 2 + Dimensions.marginMiddle,
-              )
-            else
-              const SizedBox(
-                height: Dimensions.size2x * 3 + Dimensions.margin2x,
-              ),
-          ],
-        ),
-      ),
     );
   }
 }
@@ -316,12 +301,10 @@ class _SuggestionInfo extends StatelessWidget {
 
 class _AttachedImages extends StatelessWidget {
   final OnSaveToGalleryCallback? onSaveToGallery;
-  final SuggestionCubit cubit;
   final List<String> images;
 
   const _AttachedImages({
     required this.onSaveToGallery,
-    required this.cubit,
     required this.images,
   });
 
@@ -349,9 +332,8 @@ class _AttachedImages extends StatelessWidget {
             runSpacing: Dimensions.marginDefault,
             children: images
                 .map(
-                  (String image) => _WrappedAttachedImage(
+                  (image) => _WrappedAttachedImage(
                     onSaveToGallery: onSaveToGallery,
-                    cubit: cubit,
                     images: images,
                     attachedImage: image,
                   ),
@@ -461,13 +443,11 @@ class _SuggestionHeaderContent extends StatelessWidget {
 
 class _WrappedAttachedImage extends StatelessWidget {
   final OnSaveToGalleryCallback? onSaveToGallery;
-  final SuggestionCubit cubit;
   final List<String> images;
   final String attachedImage;
 
   const _WrappedAttachedImage({
     required this.onSaveToGallery,
-    required this.cubit,
     required this.attachedImage,
     required this.images,
   });
@@ -484,8 +464,10 @@ class _WrappedAttachedImage extends StatelessWidget {
           builder: (BuildContext context) {
             return PhotoView(
               onDownloadClick: onSaveToGallery != null
-                  ? (String path) =>
-                      cubit.showSavingResultMessage(onSaveToGallery!(path))
+                  ? (path) =>
+                      context.read<SuggestionCubit>().showSavingResultMessage(
+                        onSaveToGallery!(path),
+                      )
                   : null,
               initialIndex: images.indexOf(attachedImage),
               photos: images,
@@ -524,7 +506,7 @@ class _CommentCard extends StatelessWidget {
       color: theme.secondaryBackgroundColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
+        children: [
           _CommentInfo(
             comment: comment,
           ),
@@ -543,15 +525,11 @@ class _CommentCard extends StatelessWidget {
 }
 
 class _BottomSheet extends StatelessWidget {
-  final SuggestionState state;
-  final SuggestionCubit cubit;
   final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
   final OnSaveToGalleryCallback? onSaveToGallery;
   final OnGetUserById onGetUserById;
 
   const _BottomSheet({
-    required this.state,
-    required this.cubit,
     required this.onUploadMultiplePhotos,
     required this.onSaveToGallery,
     required this.onGetUserById,
@@ -559,30 +537,35 @@ class _BottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    switch (state.bottomSheetType) {
-      case SuggestionBottomSheetType.confirmation:
-        return const _OpenConfirmationBottomSheet();
-      case SuggestionBottomSheetType.notification:
-        return _OpenNotificationBottomSheet(
-          isNotificationOn: state.suggestion.notifyUserIds.contains(i.userId),
-        );
-      case SuggestionBottomSheetType.editDelete:
-        return _OpenEditDeleteBottomSheet(
-          suggestion: state.suggestion,
-        );
-      case SuggestionBottomSheetType.createEdit:
-        return _OpenCreateEditBottomSheet(
-          suggestion: state.suggestion,
-          onUploadMultiplePhotos: onUploadMultiplePhotos,
-          onSaveToGallery: onSaveToGallery,
-        );
-      case SuggestionBottomSheetType.createComment:
-        return _OpenCreateCommentBottomSheet(
-          onGetUserById: onGetUserById,
-        );
-      case SuggestionBottomSheetType.none:
-        return const SizedBox.shrink();
-    }
+    return BlocBuilder<SuggestionCubit, SuggestionState>(
+      builder: (context, state) {
+        switch (state.bottomSheetType) {
+          case SuggestionBottomSheetType.confirmation:
+            return const _OpenConfirmationBottomSheet();
+          case SuggestionBottomSheetType.notification:
+            return _OpenNotificationBottomSheet(
+              isNotificationOn:
+                  state.suggestion.notifyUserIds.contains(i.userId),
+            );
+          case SuggestionBottomSheetType.editDelete:
+            return _OpenEditDeleteBottomSheet(
+              suggestion: state.suggestion,
+            );
+          case SuggestionBottomSheetType.createEdit:
+            return _OpenCreateEditBottomSheet(
+              suggestion: state.suggestion,
+              onUploadMultiplePhotos: onUploadMultiplePhotos,
+              onSaveToGallery: onSaveToGallery,
+            );
+          case SuggestionBottomSheetType.createComment:
+            return _OpenCreateCommentBottomSheet(
+              onGetUserById: onGetUserById,
+            );
+          case SuggestionBottomSheetType.none:
+            return const SizedBox.shrink();
+        }
+      },
+    );
   }
 }
 
