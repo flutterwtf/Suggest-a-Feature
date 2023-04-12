@@ -24,11 +24,11 @@ void main() {
         author: const SuggestionAuthor.empty(),
         savingImageResultMessageType: SavingResultMessageType.none,
         bottomSheetType: SuggestionBottomSheetType.none,
-        suggestion: mockedSuggestion,
+        suggestion: mockedRequestSuggestion,
       );
 
       final commentedSuggestion =
-          mockedSuggestion.copyWith(comments: <Comment>[mockedComment]);
+          mockedRequestSuggestion.copyWith(comments: [mockedComment]);
 
       setUp(() {
         i.init(
@@ -43,8 +43,14 @@ void main() {
         build: () {
           when(mockSuggestionRepository.createComment(mockedCreateCommentModel))
               .thenAnswer((_) async => mockedComment);
+          when(mockSuggestionRepository.suggestionsStream).thenAnswer(
+            (_) => Stream.value([mockedRequestSuggestion]),
+          );
+          when(mockSuggestionRepository.userInfo).thenAnswer((_) => {});
           return SuggestionCubit(
             mockSuggestionRepository,
+            mockedRequestSuggestion,
+            (_) => Future.value(const SuggestionAuthor.empty()),
           );
         },
         seed: () => emptySuggestionState,
@@ -69,8 +75,14 @@ void main() {
       blocTest<SuggestionCubit, SuggestionState>(
         'delete suggestion',
         build: () {
+          when(mockSuggestionRepository.suggestionsStream).thenAnswer(
+            (_) => Stream.value([mockedRequestSuggestion]),
+          );
+          when(mockSuggestionRepository.userInfo).thenAnswer((_) => {});
           return SuggestionCubit(
             mockSuggestionRepository,
+            mockedRequestSuggestion,
+            (_) => Future.value(const SuggestionAuthor.empty()),
           );
         },
         seed: () => emptySuggestionState,
@@ -82,7 +94,7 @@ void main() {
             author: const SuggestionAuthor.empty(),
             savingImageResultMessageType: SavingResultMessageType.none,
             bottomSheetType: SuggestionBottomSheetType.none,
-            suggestion: mockedSuggestion,
+            suggestion: mockedRequestSuggestion,
           ),
         ],
       );
@@ -90,31 +102,44 @@ void main() {
       blocTest<SuggestionCubit, SuggestionState>(
         'upvote',
         build: () {
+          when(mockSuggestionRepository.suggestionsStream).thenAnswer(
+            (_) => Stream.value([mockedRequestSuggestion]),
+          );
+          when(mockSuggestionRepository.userInfo).thenAnswer((_) => {});
           return SuggestionCubit(
             mockSuggestionRepository,
+            mockedRequestSuggestion,
+            (_) => Future.value(const SuggestionAuthor.empty()),
           );
         },
         seed: () => emptySuggestionState,
         act: (SuggestionCubit cubit) => cubit.vote(),
-        expect: () => <SuggestionState>[
+        expect: () => [
           SuggestionState(
             isPopped: false,
             isEditable: false,
             author: const SuggestionAuthor.empty(),
             savingImageResultMessageType: SavingResultMessageType.none,
             bottomSheetType: SuggestionBottomSheetType.none,
-            suggestion: mockedSuggestion.copyWith(
+            suggestion: mockedRequestSuggestion.copyWith(
               votedUserIds: <String>{mockedSuggestionAuthor.id},
             ),
           ),
+          emptySuggestionState,
         ],
       );
 
       blocTest<SuggestionCubit, SuggestionState>(
         'downvote',
         build: () {
+          when(mockSuggestionRepository.suggestionsStream).thenAnswer(
+            (_) => Stream.value([mockedRequestSuggestion]),
+          );
+          when(mockSuggestionRepository.userInfo).thenAnswer((_) => {});
           return SuggestionCubit(
             mockSuggestionRepository,
+            mockedRequestSuggestion,
+            (_) => Future.value(const SuggestionAuthor.empty()),
           );
         },
         seed: () => SuggestionState(
@@ -123,7 +148,7 @@ void main() {
           author: const SuggestionAuthor.empty(),
           savingImageResultMessageType: SavingResultMessageType.none,
           bottomSheetType: SuggestionBottomSheetType.none,
-          suggestion: mockedSuggestion.copyWith(
+          suggestion: mockedRequestSuggestion.copyWith(
             votedUserIds: <String>{mockedSuggestionAuthor.id},
           ),
         ),
@@ -134,8 +159,14 @@ void main() {
       blocTest<SuggestionCubit, SuggestionState>(
         'add notification',
         build: () {
+          when(mockSuggestionRepository.suggestionsStream).thenAnswer(
+            (_) => Stream.value([mockedRequestSuggestion]),
+          );
+          when(mockSuggestionRepository.userInfo).thenAnswer((_) => {});
           return SuggestionCubit(
             mockSuggestionRepository,
+            mockedRequestSuggestion,
+            (_) => Future.value(const SuggestionAuthor.empty()),
           );
         },
         seed: () => emptySuggestionState,
@@ -149,7 +180,7 @@ void main() {
             author: const SuggestionAuthor.empty(),
             savingImageResultMessageType: SavingResultMessageType.none,
             bottomSheetType: SuggestionBottomSheetType.none,
-            suggestion: mockedSuggestion.copyWith(
+            suggestion: mockedRequestSuggestion.copyWith(
               notifyUserIds: <String>{mockedSuggestionAuthor.id},
             ),
           ),
@@ -159,8 +190,14 @@ void main() {
       blocTest<SuggestionCubit, SuggestionState>(
         'delete notification',
         build: () {
+          when(mockSuggestionRepository.suggestionsStream).thenAnswer(
+            (_) => Stream.value([mockedRequestSuggestion]),
+          );
+          when(mockSuggestionRepository.userInfo).thenAnswer((_) => {});
           return SuggestionCubit(
             mockSuggestionRepository,
+            mockedRequestSuggestion,
+            (_) => Future.value(const SuggestionAuthor.empty()),
           );
         },
         seed: () => SuggestionState(
@@ -169,7 +206,7 @@ void main() {
           author: const SuggestionAuthor.empty(),
           savingImageResultMessageType: SavingResultMessageType.none,
           bottomSheetType: SuggestionBottomSheetType.none,
-          suggestion: mockedSuggestion.copyWith(
+          suggestion: mockedRequestSuggestion.copyWith(
             notifyUserIds: <String>{mockedSuggestionAuthor.id},
           ),
         ),
@@ -182,8 +219,14 @@ void main() {
       blocTest<SuggestionCubit, SuggestionState>(
         'show successful result message',
         build: () {
+          when(mockSuggestionRepository.suggestionsStream).thenAnswer(
+            (_) => Stream.value([mockedRequestSuggestion]),
+          );
+          when(mockSuggestionRepository.userInfo).thenAnswer((_) => {});
           return SuggestionCubit(
             mockSuggestionRepository,
+            mockedRequestSuggestion,
+            (_) => Future.value(const SuggestionAuthor.empty()),
           );
         },
         seed: () => emptySuggestionState,
@@ -196,7 +239,7 @@ void main() {
             author: const SuggestionAuthor.empty(),
             savingImageResultMessageType: SavingResultMessageType.success,
             bottomSheetType: SuggestionBottomSheetType.none,
-            suggestion: mockedSuggestion,
+            suggestion: mockedRequestSuggestion,
           ),
         ],
       );
@@ -204,8 +247,14 @@ void main() {
       blocTest<SuggestionCubit, SuggestionState>(
         'show failed result message',
         build: () {
+          when(mockSuggestionRepository.suggestionsStream).thenAnswer(
+            (_) => Stream.value([mockedRequestSuggestion]),
+          );
+          when(mockSuggestionRepository.userInfo).thenAnswer((_) => {});
           return SuggestionCubit(
             mockSuggestionRepository,
+            mockedRequestSuggestion,
+            (_) => Future.value(const SuggestionAuthor.empty()),
           );
         },
         seed: () => emptySuggestionState,
@@ -218,7 +267,7 @@ void main() {
             author: const SuggestionAuthor.empty(),
             savingImageResultMessageType: SavingResultMessageType.fail,
             bottomSheetType: SuggestionBottomSheetType.none,
-            suggestion: mockedSuggestion,
+            suggestion: mockedRequestSuggestion,
           ),
         ],
       );
@@ -226,8 +275,14 @@ void main() {
       blocTest<SuggestionCubit, SuggestionState>(
         'open Bottom Sheet',
         build: () {
+          when(mockSuggestionRepository.suggestionsStream).thenAnswer(
+            (_) => Stream.value([mockedRequestSuggestion]),
+          );
+          when(mockSuggestionRepository.userInfo).thenAnswer((_) => {});
           return SuggestionCubit(
             mockSuggestionRepository,
+            mockedRequestSuggestion,
+            (_) => Future.value(const SuggestionAuthor.empty()),
           );
         },
         seed: () => emptySuggestionState,
@@ -239,7 +294,7 @@ void main() {
             author: const SuggestionAuthor.empty(),
             savingImageResultMessageType: SavingResultMessageType.none,
             bottomSheetType: SuggestionBottomSheetType.createComment,
-            suggestion: mockedSuggestion,
+            suggestion: mockedRequestSuggestion,
           ),
         ],
       );
