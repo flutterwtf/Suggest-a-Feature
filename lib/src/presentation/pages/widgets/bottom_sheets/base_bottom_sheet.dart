@@ -150,18 +150,18 @@ class _SlidingSheet extends StatelessWidget {
 
   const _SlidingSheet({
     required this.onDismiss,
-    required this.onOpen,
     required this.openBouncing,
     required this.openDuration,
-    required this.controller,
     required this.backgroundColor,
     required this.initialSnapping,
     required this.additionalSnappings,
     required this.contentPadding,
-    required this.title,
     required this.titleBottomPadding,
     required this.titleTopPadding,
     required this.contentBuilder,
+    this.onOpen,
+    this.title,
+    this.controller,
     this.headerBuilder,
     this.footerBuilder,
   });
@@ -197,13 +197,13 @@ class _SlidingSheet extends StatelessWidget {
           ...additionalSnappings,
         ],
         initialSnap: initialSnapping,
-        onSnap: (SheetState state, double? snap) {
+        onSnap: (state, _) {
           if (state.isCollapsed) {
             onDismiss(ClosureType.swipeDown);
           }
         },
       ),
-      headerBuilder: (context, state) => _HeaderBuilder(
+      headerBuilder: (_, state) => _HeaderBuilder(
         state: state,
         headerBuilder: headerBuilder,
       ),
@@ -296,7 +296,7 @@ class _Grabbing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SheetListenerBuilder(
-      builder: (BuildContext context, SheetState state) {
+      builder: (_, state) {
         if (state.extent != 1) {
           return SizedBox(
             height: state.extent > 0.95

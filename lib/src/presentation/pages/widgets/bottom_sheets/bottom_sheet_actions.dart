@@ -69,11 +69,9 @@ class _NewSuggestionTextButton extends StatefulWidget {
 }
 
 class _NewSuggestionTextButtonState extends State<_NewSuggestionTextButton> {
-  bool _pressed = false;
+  var _pressed = false;
 
-  void _onTap(bool value) {
-    setState(() => _pressed = value);
-  }
+  void _onTap(bool value) => setState(() => _pressed = value);
 
   @override
   Widget build(BuildContext context) {

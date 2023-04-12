@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
@@ -17,7 +18,7 @@ typedef OnCreateComment = void Function(
 });
 
 class CreateCommentBottomSheet extends StatefulWidget {
-  final Future<void> Function() onClose;
+  final AsyncCallback onClose;
   final SheetController controller;
   final OnCreateComment onCreateComment;
 
@@ -34,20 +35,23 @@ class CreateCommentBottomSheet extends StatefulWidget {
 }
 
 class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
-  final TextEditingController _commentController = TextEditingController();
-  bool _isAnonymously = false;
-  bool _isFromAdmin = true;
-  bool _isShowCommentError = false;
-  late FocusNode _inputFocusNode;
+  late final TextEditingController _commentController;
+  late final FocusNode _inputFocusNode;
+
+  var _isAnonymously = false;
+  var _isFromAdmin = true;
+  var _isShowCommentError = false;
 
   @override
   void initState() {
     super.initState();
+    _commentController = TextEditingController();
     _inputFocusNode = FocusNode();
   }
 
   @override
   void dispose() {
+    _commentController.dispose();
     _inputFocusNode.dispose();
     super.dispose();
   }
@@ -56,12 +60,12 @@ class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
   Widget build(BuildContext context) {
     return BaseBottomSheet(
       controller: widget.controller,
-      onOpen: () => _inputFocusNode.requestFocus(),
+      onOpen: _inputFocusNode.requestFocus,
       onClose: ([_]) => widget.onClose(),
       backgroundColor: theme.bottomSheetBackgroundColor,
       previousNavBarColor: theme.primaryBackgroundColor,
       previousStatusBarColor: theme.primaryBackgroundColor,
-      contentBuilder: (BuildContext context, SheetState sheetState) {
+      contentBuilder: (_, __) {
         return ListView(
           padding: const EdgeInsets.only(
             top: Dimensions.marginSmall,
@@ -74,13 +78,11 @@ class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
               commentController: _commentController,
               inputFocusNode: _inputFocusNode,
               isShowCommentError: _isShowCommentError,
-              onFocusChanged: (bool hasFocus) {
-                if (!hasFocus && _commentController.text.isEmpty) {
-                  setState(() => _isShowCommentError = true);
-                } else {
-                  setState(() => _isShowCommentError = false);
-                }
-              },
+              onFocusChanged: (hasFocus) => setState(
+                () => !hasFocus && _commentController.text.isEmpty
+                    ? _isShowCommentError = true
+                    : _isShowCommentError = false,
+              ),
             ),
             const SizedBox(height: Dimensions.marginBig),
             ..._postAdmin(
