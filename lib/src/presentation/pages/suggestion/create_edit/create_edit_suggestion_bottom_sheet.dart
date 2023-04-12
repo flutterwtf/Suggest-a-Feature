@@ -391,7 +391,7 @@ class _PhotoPickerItem extends StatelessWidget {
                   return _PhotoItem(
                     isAddButtonShown: i == 0,
                     isLoading: state.isLoading,
-                    imageUrl: state.suggestion.images[i - 1],
+                    imageUrl: i != 0 ? state.suggestion.images[i - 1] : '',
                     tileWidth: state.suggestion.images.length > 2
                         ? tileWidth * 0.9
                         : tileWidth,
