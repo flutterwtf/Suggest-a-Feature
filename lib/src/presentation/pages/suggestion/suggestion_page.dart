@@ -51,11 +51,11 @@ class SuggestionPage extends StatefulWidget {
 
 class _SuggestionPageState extends State<SuggestionPage> {
   bool _listenWhen(SuggestionState previous, SuggestionState current) {
-    return previous.savingImageResultMessageType ==
-                SavingResultMessageType.none &&
-            current.savingImageResultMessageType !=
-                SavingResultMessageType.none ||
-        !previous.isPopped && current.isPopped;
+    return previous.savingImageResultMessageType !=
+            current.savingImageResultMessageType ||
+        previous.isPopped != current.isPopped ||
+        previous.isEditable != current.isEditable ||
+        previous.suggestion.votedUserIds != current.suggestion.votedUserIds;
   }
 
   void _listener(BuildContext context, SuggestionState state) {
@@ -170,6 +170,9 @@ class _MainContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SuggestionCubit, SuggestionState>(
+      buildWhen: (previous, current) =>
+          previous.author != current.author ||
+          previous.suggestion != current.suggestion,
       builder: (context, state) {
         final cubit = context.read<SuggestionCubit>();
         return NotificationListener<OverscrollIndicatorNotification>(
@@ -466,8 +469,8 @@ class _WrappedAttachedImage extends StatelessWidget {
               onDownloadClick: onSaveToGallery != null
                   ? (path) =>
                       context.read<SuggestionCubit>().showSavingResultMessage(
-                        onSaveToGallery!(path),
-                      )
+                            onSaveToGallery!(path),
+                          )
                   : null,
               initialIndex: images.indexOf(attachedImage),
               photos: images,
@@ -538,6 +541,9 @@ class _BottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SuggestionCubit, SuggestionState>(
+      buildWhen: (previous, current) =>
+          previous.bottomSheetType != current.bottomSheetType ||
+          previous.suggestion != current.suggestion,
       builder: (context, state) {
         switch (state.bottomSheetType) {
           case SuggestionBottomSheetType.confirmation:

@@ -79,12 +79,13 @@ class CreateEditSuggestionBottomSheetState
     CreateEditSuggestionState previous,
     CreateEditSuggestionState current,
   ) {
-    return (previous.savingImageResultMessageType ==
-                SavingResultMessageType.none &&
-            current.savingImageResultMessageType !=
-                SavingResultMessageType.none) ||
-        (!previous.isSubmitted && current.isSubmitted) ||
-        (previous.isPhotoViewOpen != current.isPhotoViewOpen);
+    return previous.savingImageResultMessageType !=
+            current.savingImageResultMessageType ||
+        previous.isSubmitted != current.isSubmitted ||
+        previous.isPhotoViewOpen != current.isPhotoViewOpen ||
+        previous.isLabelsBottomSheetOpen != current.isLabelsBottomSheetOpen ||
+        previous.suggestion.labels != current.suggestion.labels ||
+        previous.suggestion.status != current.suggestion.status;
   }
 
   void _listener(BuildContext context, CreateEditSuggestionState state) {
@@ -118,7 +119,7 @@ class CreateEditSuggestionBottomSheetState
         builder: (context, state) {
           if (state.isLabelsBottomSheetOpen) {
             return _LabelsBottomSheet(
-              suggestionList: state.suggestion.labels,
+              suggestionLabels: state.suggestion.labels,
               labelsSheetController: _labelsSheetController,
             );
           } else if (state.isStatusBottomSheetOpen && i.isAdmin) {
@@ -366,6 +367,9 @@ class _PhotoPickerItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CreateEditSuggestionCubit, CreateEditSuggestionState>(
+      buildWhen: (previous, current) =>
+          previous.isLoading != current.isLoading ||
+          previous.suggestion.images != current.suggestion.images,
       builder: (context, state) {
         final cubit = context.read<CreateEditSuggestionCubit>();
 
@@ -385,9 +389,12 @@ class _PhotoPickerItem extends StatelessWidget {
                 itemCount: state.suggestion.images.length + 1,
                 itemBuilder: (BuildContext context, int i) {
                   return _PhotoItem(
-                    i: i,
-                    state: state,
-                    tileWidth: tileWidth,
+                    isAddButtonShown: i == 0,
+                    isLoading: state.isLoading,
+                    imageUrl: state.suggestion.images[i - 1],
+                    tileWidth: state.suggestion.images.length > 2
+                        ? tileWidth * 0.9
+                        : tileWidth,
                     onUploadPhotos: () {
                       final availableNumOfPhotos = maxPhotosForOneSuggestion -
                           state.suggestion.images.length;
@@ -430,15 +437,17 @@ class _PhotoPickerItem extends StatelessWidget {
 }
 
 class _PhotoItem extends StatelessWidget {
-  final int i;
-  final CreateEditSuggestionState state;
+  final bool isAddButtonShown;
+  final bool isLoading;
+  final String imageUrl;
   final VoidCallback onUploadPhotos;
   final double tileWidth;
   final VoidCallback onPhotoClick;
 
   const _PhotoItem({
-    required this.i,
-    required this.state,
+    required this.isAddButtonShown,
+    required this.isLoading,
+    required this.imageUrl,
     required this.onUploadPhotos,
     required this.tileWidth,
     required this.onPhotoClick,
@@ -446,15 +455,14 @@ class _PhotoItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (i == 0) {
+    if (isAddButtonShown) {
       return GestureDetector(
         onTap: onUploadPhotos,
         child: AddPhotoButton(
-          width:
-              state.suggestion.images.length > 2 ? tileWidth * 0.9 : tileWidth,
+          width: tileWidth,
           height: (MediaQuery.of(context).size.width - 80) / 3,
           style: theme.textSmallPlusBold,
-          isLoading: state.isLoading,
+          isLoading: isLoading,
         ),
       );
     } else {
@@ -475,7 +483,7 @@ class _PhotoItem extends StatelessWidget {
           child: FittedBox(
             fit: BoxFit.cover,
             child: SuggestionsNetworkImage(
-              url: state.suggestion.images[i - 1],
+              url: imageUrl,
             ),
           ),
         ),
@@ -661,9 +669,17 @@ class _EditSuggestionBottomSheetListView extends StatelessWidget {
               labels: state.suggestion.labels,
               changeLabelsBottomSheetStatus: onLabelChanged,
             ),
-            ..._suggestionStatus(state),
-            ..._multiplePicker(state),
-            ..._anonymitySwitch(state),
+            ..._suggestionStatus(
+              isEditing: state.isEditing,
+              status: state.suggestion.status,
+            ),
+            ..._multiplePicker(
+              isImagesEmpty: state.suggestion.images.isEmpty,
+            ),
+            ..._anonymitySwitch(
+              isEditing: state.isEditing,
+              isAnonymous: state.suggestion.isAnonymous,
+            ),
             _SaveSubmitButton(
               isEditing: state.isEditing,
               isLoading: state.isLoading,
@@ -675,12 +691,15 @@ class _EditSuggestionBottomSheetListView extends StatelessWidget {
     );
   }
 
-  List<Widget> _suggestionStatus(CreateEditSuggestionState state) {
-    if (i.isAdmin && state.isEditing) {
+  List<Widget> _suggestionStatus({
+    required bool isEditing,
+    required SuggestionStatus status,
+  }) {
+    if (i.isAdmin && isEditing) {
       return [
         Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
         _SuggestionStatus(
-          suggestionStatus: state.suggestion.status,
+          suggestionStatus: status,
           changeStatusBottomSheetStatus: onStatusChanged,
         ),
       ];
@@ -688,28 +707,31 @@ class _EditSuggestionBottomSheetListView extends StatelessWidget {
     return [];
   }
 
-  List<Widget> _multiplePicker(CreateEditSuggestionState state) {
+  List<Widget> _multiplePicker({required bool isImagesEmpty}) {
     if (onUploadMultiplePhotos != null) {
       return [
-        if (state.suggestion.images.isNotEmpty)
-          const SizedBox.shrink()
-        else
+        if (isImagesEmpty) ...[
           const _DividerWithIndent(),
-        _PhotoPickerItem(
-          onUploadMultiplePhotos: onUploadMultiplePhotos,
-        ),
+          _PhotoPickerItem(
+            onUploadMultiplePhotos: onUploadMultiplePhotos,
+          ),
+        ] else
+          const SizedBox.shrink(),
       ];
     }
     return [];
   }
 
-  List<Widget> _anonymitySwitch(CreateEditSuggestionState state) {
-    if (!state.isEditing) {
+  List<Widget> _anonymitySwitch({
+    required bool isEditing,
+    required bool isAnonymous,
+  }) {
+    if (!isEditing) {
       return [
         const _DividerWithIndent(),
         const SizedBox(height: Dimensions.marginSmall),
         _PostAnonymously(
-          isAnonymously: state.suggestion.isAnonymous,
+          isAnonymously: isAnonymous,
           changeSuggestionAnonymity: onAnonymityChanged,
         ),
         const SizedBox(height: Dimensions.marginSmall),
@@ -752,11 +774,11 @@ class _StatusesBottomSheet extends StatelessWidget {
 }
 
 class _LabelsBottomSheet extends StatelessWidget {
-  final List<SuggestionLabel> suggestionList;
+  final List<SuggestionLabel> suggestionLabels;
   final SheetController labelsSheetController;
 
   const _LabelsBottomSheet({
-    required this.suggestionList,
+    required this.suggestionLabels,
     required this.labelsSheetController,
   });
 
@@ -765,7 +787,7 @@ class _LabelsBottomSheet extends StatelessWidget {
     final cubit = context.read<CreateEditSuggestionCubit>();
     return LabelBottomSheet(
       controller: labelsSheetController,
-      selectedLabels: suggestionList,
+      selectedLabels: suggestionLabels,
       onCancel: ([_]) async {
         await labelsSheetController.collapse();
         cubit.changeLabelsBottomSheetStatus(
