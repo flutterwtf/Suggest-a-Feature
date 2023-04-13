@@ -34,7 +34,7 @@ class BottomSheetOptionBar extends StatelessWidget {
             title: context.localization.done,
             onClick: onDone,
           ),
-        )
+        ),
       ],
     );
   }

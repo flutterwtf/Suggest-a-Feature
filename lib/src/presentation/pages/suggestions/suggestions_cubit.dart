@@ -13,14 +13,16 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
   SuggestionsCubit(this._suggestionRepository)
       : super(
           const SuggestionsState(
-            requests: <Suggestion>[],
-            inProgress: <Suggestion>[],
-            completed: <Suggestion>[],
+            requests: [],
+            inProgress: [],
+            completed: [],
             isCreateBottomSheetOpened: false,
           ),
-        );
+        ) {
+    _init();
+  }
 
-  void init() {
+  void _init() {
     _suggestionSubscription?.cancel();
     _suggestionSubscription = _suggestionRepository.suggestionsStream.listen(
       _onNewSuggestions,
@@ -28,9 +30,11 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
     _suggestionRepository.initSuggestions();
   }
 
-  void dispose() {
+  @override
+  Future<void> close() async {
     _suggestionSubscription?.cancel();
     _suggestionSubscription = null;
+    await super.close();
   }
 
   Future<void> _onNewSuggestions(List<Suggestion> suggestions) async {

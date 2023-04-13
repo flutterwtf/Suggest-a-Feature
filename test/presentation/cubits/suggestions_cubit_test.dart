@@ -18,13 +18,21 @@ void main() {
       final mockSuggestionsDataSource = MockSuggestionsDataSource();
       final mockSuggestionRepository = MockSuggestionRepositoryImpl();
       final emptySuggestionsState = SuggestionsState(
-        requests: <Suggestion>[mockedSuggestion, mockedSuggestion2],
-        inProgress: <Suggestion>[mockedSuggestion, mockedSuggestion2],
-        completed: <Suggestion>[mockedSuggestion, mockedSuggestion2],
+        requests: [mockedRequestSuggestion, mockedRequestSuggestion2],
+        inProgress: [mockedInProgressSuggestion, mockedInProgressSuggestion2],
+        completed: [mockedCompletedSuggestion, mockedCompletedSuggestion2],
         isCreateBottomSheetOpened: false,
       );
-      final upvotedSuggestion = mockedSuggestion2.copyWith(
-        votedUserIds: <String>{mockedSuggestionAuthor.id},
+      final mockedSuggestions = [
+        mockedRequestSuggestion,
+        mockedInProgressSuggestion,
+        mockedCompletedSuggestion,
+        mockedRequestSuggestion2,
+        mockedInProgressSuggestion2,
+        mockedCompletedSuggestion2,
+      ];
+      final upvotedSuggestion = mockedRequestSuggestion2.copyWith(
+        votedUserIds: {mockedSuggestionAuthor.id},
       );
 
       setUp(() {
@@ -38,17 +46,17 @@ void main() {
       blocTest<SuggestionsCubit, SuggestionsState>(
         'open CreateBottomSheet',
         build: () {
+          when(mockSuggestionRepository.suggestionsStream).thenAnswer(
+            (_) => Stream.value(mockedSuggestions),
+          );
           return SuggestionsCubit(
             mockSuggestionRepository,
           );
         },
         seed: () => emptySuggestionsState,
-        act: (SuggestionsCubit cubit) => cubit.openCreateBottomSheet(),
-        expect: () => <SuggestionsState>[
-          SuggestionsState(
-            requests: <Suggestion>[mockedSuggestion, mockedSuggestion2],
-            inProgress: <Suggestion>[mockedSuggestion, mockedSuggestion2],
-            completed: <Suggestion>[mockedSuggestion, mockedSuggestion2],
+        act: (cubit) => cubit.openCreateBottomSheet(),
+        expect: () => [
+          emptySuggestionsState.newState(
             isCreateBottomSheetOpened: true,
           ),
         ],
@@ -57,36 +65,38 @@ void main() {
       blocTest<SuggestionsCubit, SuggestionsState>(
         'close CreateBottomSheet',
         build: () {
+          when(mockSuggestionRepository.suggestionsStream).thenAnswer(
+            (_) => Stream.value(mockedSuggestions),
+          );
           return SuggestionsCubit(
             mockSuggestionRepository,
           );
         },
-        seed: () => SuggestionsState(
-          requests: <Suggestion>[mockedSuggestion, mockedSuggestion2],
-          inProgress: <Suggestion>[mockedSuggestion, mockedSuggestion2],
-          completed: <Suggestion>[mockedSuggestion, mockedSuggestion2],
+        seed: () => emptySuggestionsState.newState(
           isCreateBottomSheetOpened: true,
         ),
-        act: (SuggestionsCubit cubit) => cubit.closeCreateBottomSheet(),
-        expect: () => <SuggestionsState>[emptySuggestionsState],
+        act: (cubit) => cubit.closeCreateBottomSheet(),
+        expect: () => [
+          emptySuggestionsState,
+        ],
       );
 
       blocTest<SuggestionsCubit, SuggestionsState>(
         'change active tab',
         build: () {
+          when(mockSuggestionRepository.suggestionsStream).thenAnswer(
+            (_) => Stream.value(mockedSuggestions),
+          );
           return SuggestionsCubit(
             mockSuggestionRepository,
           );
         },
-        seed: () => emptySuggestionsState,
-        act: (SuggestionsCubit cubit) =>
-            cubit.changeActiveTab(SuggestionStatus.completed),
-        expect: () => <SuggestionsState>[
-          SuggestionsState(
-            requests: <Suggestion>[mockedSuggestion, mockedSuggestion2],
-            inProgress: <Suggestion>[mockedSuggestion, mockedSuggestion2],
-            completed: <Suggestion>[mockedSuggestion, mockedSuggestion2],
-            isCreateBottomSheetOpened: false,
+        seed: () => emptySuggestionsState.newState(
+          activeTab: SuggestionStatus.inProgress,
+        ),
+        act: (cubit) => cubit.changeActiveTab(SuggestionStatus.completed),
+        expect: () => [
+          emptySuggestionsState.newState(
             activeTab: SuggestionStatus.completed,
           ),
         ],
@@ -96,8 +106,8 @@ void main() {
         'vote requested suggestion',
         build: () {
           final dataStream = BehaviorSubject.seeded([
-            mockedSuggestion,
-            mockedSuggestion2,
+            mockedRequestSuggestion,
+            mockedRequestSuggestion2,
           ]);
 
           when(mockSuggestionRepository.suggestionsStream).thenAnswer(
@@ -105,15 +115,17 @@ void main() {
           );
 
           when(mockSuggestionRepository.upvote(any)).thenAnswer(
-            (_) async => dataStream.add([mockedSuggestion, upvotedSuggestion]),
+            (_) async => dataStream.add(
+              [mockedRequestSuggestion, upvotedSuggestion],
+            ),
           );
 
           return SuggestionsCubit(
             mockSuggestionRepository,
-          )..init();
+          );
         },
         seed: () => SuggestionsState(
-          requests: [mockedSuggestion, mockedSuggestion2],
+          requests: [mockedRequestSuggestion, mockedRequestSuggestion2],
           inProgress: const [],
           completed: const [],
           isCreateBottomSheetOpened: false,
@@ -123,7 +135,7 @@ void main() {
         },
         expect: () => <SuggestionsState>[
           SuggestionsState(
-            requests: [upvotedSuggestion, mockedSuggestion],
+            requests: [upvotedSuggestion, mockedRequestSuggestion],
             inProgress: const [],
             completed: const [],
             isCreateBottomSheetOpened: false,

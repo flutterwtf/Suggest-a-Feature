@@ -14,7 +14,7 @@ final CreateSuggestionModel mockedCreateSuggestionModel = CreateSuggestionModel(
   isAnonymous: false,
 );
 
-final Suggestion mockedSuggestion = Suggestion(
+final Suggestion mockedRequestSuggestion = Suggestion(
   id: '1',
   title: 'Suggestion',
   description: 'Description',
@@ -24,7 +24,7 @@ final Suggestion mockedSuggestion = Suggestion(
   status: SuggestionStatus.requests,
 );
 
-final Suggestion mockedSuggestion2 = Suggestion(
+final Suggestion mockedRequestSuggestion2 = Suggestion(
   id: '2',
   title: 'Suggestion2',
   description: 'Description2',
@@ -32,6 +32,46 @@ final Suggestion mockedSuggestion2 = Suggestion(
   isAnonymous: true,
   creationTime: DateTime(2022),
   status: SuggestionStatus.requests,
+);
+
+final Suggestion mockedInProgressSuggestion = Suggestion(
+  id: '3',
+  title: 'Suggestion3',
+  description: 'Description3',
+  authorId: '1',
+  isAnonymous: false,
+  creationTime: DateTime(2022),
+  status: SuggestionStatus.inProgress,
+);
+
+final Suggestion mockedInProgressSuggestion2 = Suggestion(
+  id: '4',
+  title: 'Suggestion4',
+  description: 'Description4',
+  authorId: '1',
+  isAnonymous: true,
+  creationTime: DateTime(2022),
+  status: SuggestionStatus.inProgress,
+);
+
+final Suggestion mockedCompletedSuggestion = Suggestion(
+  id: '5',
+  title: 'Suggestion5',
+  description: 'Description5',
+  authorId: '1',
+  isAnonymous: true,
+  creationTime: DateTime(2022),
+  status: SuggestionStatus.completed,
+);
+
+final Suggestion mockedCompletedSuggestion2 = Suggestion(
+  id: '6',
+  title: 'Suggestion6',
+  description: 'Description6',
+  authorId: '1',
+  isAnonymous: false,
+  creationTime: DateTime(2022),
+  status: SuggestionStatus.completed,
 );
 
 final Comment mockedComment = Comment(
