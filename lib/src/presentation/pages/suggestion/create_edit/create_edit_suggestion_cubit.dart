@@ -8,13 +8,16 @@ import 'package:suggest_a_feature/src/presentation/utils/image_utils.dart';
 class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
   final SuggestionRepository _suggestionRepository;
 
-  CreateEditSuggestionCubit(this._suggestionRepository)
-      : super(
+  CreateEditSuggestionCubit({
+    required SuggestionRepository suggestionRepository,
+    Suggestion? suggestion,
+  })  : _suggestionRepository = suggestionRepository,
+        super(
           CreateEditSuggestionState(
-            suggestion: Suggestion.empty(),
+            suggestion: suggestion ?? Suggestion.empty(),
             savingImageResultMessageType: SavingResultMessageType.none,
             isShowTitleError: false,
-            isEditing: false,
+            isEditing: suggestion != null,
             isSubmitted: false,
             isLoading: false,
             isLabelsBottomSheetOpen: false,
@@ -22,15 +25,6 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
             isPhotoViewOpen: false,
           ),
         );
-
-  void init(Suggestion? suggestion) {
-    emit(
-      state.newState(
-        suggestion: suggestion,
-        isEditing: suggestion != null,
-      ),
-    );
-  }
 
   void reset() {
     emit(

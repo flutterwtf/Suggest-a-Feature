@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_cubit.dart';
+import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_cubit_scope.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_state.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/add_event_photo_button.dart';
@@ -48,9 +49,7 @@ class CreateEditSuggestionBottomSheet extends StatefulWidget {
 }
 
 class _CreateEditSuggestionBottomSheetState
-    extends State<CreateEditSuggestionBottomSheet>
-    with TickerProviderStateMixin {
-  final CreateEditSuggestionCubit _cubit = i.createEditSuggestionCubit;
+    extends State<CreateEditSuggestionBottomSheet> {
   late final SheetController _labelsSheetController;
   late final SheetController _statusesSheetController;
   late final TextEditingController _titleController;
@@ -61,7 +60,6 @@ class _CreateEditSuggestionBottomSheetState
   @override
   void initState() {
     super.initState();
-    _cubit.init(widget.suggestion);
     _labelsSheetController = SheetController();
     _statusesSheetController = SheetController();
     _titleController = TextEditingController(text: widget.suggestion?.title);
@@ -84,15 +82,17 @@ class _CreateEditSuggestionBottomSheetState
     CreateEditSuggestionState previous,
     CreateEditSuggestionState current,
   ) {
-    return (previous.savingImageResultMessageType ==
-                SavingResultMessageType.none &&
-            current.savingImageResultMessageType !=
-                SavingResultMessageType.none) ||
-        (!previous.isSubmitted && current.isSubmitted) ||
-        (previous.isPhotoViewOpen != current.isPhotoViewOpen);
+    return previous.savingImageResultMessageType !=
+            current.savingImageResultMessageType ||
+        previous.isSubmitted != current.isSubmitted ||
+        previous.isPhotoViewOpen != current.isPhotoViewOpen ||
+        previous.isLabelsBottomSheetOpen != current.isLabelsBottomSheetOpen ||
+        previous.suggestion.labels != current.suggestion.labels ||
+        previous.suggestion.status != current.suggestion.status;
   }
 
   void _listener(BuildContext context, CreateEditSuggestionState state) {
+    final cubit = context.read<CreateEditSuggestionCubit>();
     if (state.savingImageResultMessageType != SavingResultMessageType.none) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -107,50 +107,51 @@ class _CreateEditSuggestionBottomSheetState
     } else if (state.isSubmitted) {
       widget.onClose();
     } else if (state.isPhotoViewOpen) {
-      _openPhotoView(state);
+      _openPhotoView(state, cubit);
     }
-    _cubit.reset();
+    cubit.reset();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<CreateEditSuggestionCubit, CreateEditSuggestionState>(
-      bloc: _cubit,
-      listenWhen: _listenWhen,
-      listener: _listener,
-      builder: (_, state) {
-        if (state.isLabelsBottomSheetOpen) {
-          return _LabelsBottomSheet(
-            suggestionList: state.suggestion.labels,
-            labelsSheetController: _labelsSheetController,
-            cubit: _cubit,
-          );
-        } else if (state.isStatusBottomSheetOpen && i.isAdmin) {
-          return _StatusesBottomSheet(
-            suggestionStatus: state.suggestion.status,
-            statusesSheetController: _statusesSheetController,
-            cubit: _cubit,
-          );
-        } else if (!state.isPhotoViewOpen) {
-          return _CreateEditSuggestionBottomSheet(
-            state: state,
-            cubit: _cubit,
-            titleFocusNode: _titleFocusNode,
-            controller: widget.controller,
-            onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
-            descriptionController: _descriptionController,
-            descriptionFocusNode: _descriptionFocusNode,
-            titleController: _titleController,
-            onClose: widget.onClose,
-          );
-        } else {
-          return Container();
-        }
-      },
+    return CreateEditSuggestionCubitScope(
+      suggestion: widget.suggestion,
+      child: BlocConsumer<CreateEditSuggestionCubit, CreateEditSuggestionState>(
+        listenWhen: _listenWhen,
+        listener: _listener,
+        builder: (_, state) {
+          if (state.isLabelsBottomSheetOpen) {
+            return _LabelsBottomSheet(
+              suggestionLabels: state.suggestion.labels,
+              labelsSheetController: _labelsSheetController,
+            );
+          } else if (state.isStatusBottomSheetOpen && i.isAdmin) {
+            return _StatusesBottomSheet(
+              suggestionStatus: state.suggestion.status,
+              statusesSheetController: _statusesSheetController,
+            );
+          } else if (!state.isPhotoViewOpen) {
+            return _CreateEditSuggestionBottomSheet(
+              titleFocusNode: _titleFocusNode,
+              controller: widget.controller,
+              onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
+              descriptionController: _descriptionController,
+              descriptionFocusNode: _descriptionFocusNode,
+              titleController: _titleController,
+              onClose: widget.onClose,
+            );
+          }
+
+          return const SizedBox.shrink();
+        },
+      ),
     );
   }
 
-  Future<void> _openPhotoView(CreateEditSuggestionState state) async {
+  Future<void> _openPhotoView(
+    CreateEditSuggestionState state,
+    CreateEditSuggestionCubit cubit,
+  ) async {
     await showDialog<void>(
       useSafeArea: false,
       barrierColor: Colors.black,
@@ -159,23 +160,21 @@ class _CreateEditSuggestionBottomSheetState
       builder: (BuildContext context) {
         return PhotoView(
           initialIndex: state.openPhotoIndex!,
-          onDeleteClick: _cubit.removePhoto,
+          onDeleteClick: cubit.removePhoto,
           onDownloadClick: widget.onSaveToGallery != null
-              ? (path) =>
-                  _cubit.showSavingResultMessage(widget.onSaveToGallery!(path))
+              ? (String path) =>
+                  cubit.showSavingResultMessage(widget.onSaveToGallery!(path))
               : null,
           photos: state.suggestion.images,
           previousNavBarColor: theme.thirdBackgroundColor,
         );
       },
     );
-    _cubit.changePhotoViewStatus(isPhotoViewOpen: false);
+    cubit.changePhotoViewStatus(isPhotoViewOpen: false);
   }
 }
 
 class _CreateEditSuggestionBottomSheet extends StatelessWidget {
-  final CreateEditSuggestionState state;
-  final CreateEditSuggestionCubit cubit;
   final FocusNode titleFocusNode;
   final SheetController controller;
   final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
@@ -185,8 +184,6 @@ class _CreateEditSuggestionBottomSheet extends StatelessWidget {
   final VoidCallback onClose;
 
   const _CreateEditSuggestionBottomSheet({
-    required this.state,
-    required this.cubit,
     required this.titleFocusNode,
     required this.controller,
     required this.descriptionController,
@@ -198,6 +195,7 @@ class _CreateEditSuggestionBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<CreateEditSuggestionCubit>();
     return BaseBottomSheet(
       controller: controller,
       onOpen: titleFocusNode.requestFocus,
@@ -206,13 +204,12 @@ class _CreateEditSuggestionBottomSheet extends StatelessWidget {
       previousNavBarColor: theme.primaryBackgroundColor,
       previousStatusBarColor: theme.primaryBackgroundColor,
       initialSnapping: 0.85,
-      contentBuilder: (BuildContext context, SheetState sheetState) {
+      contentBuilder: (context, sheetState) {
         return _EditSuggestionBottomSheetListView(
           titleController: titleController,
           descriptionController: descriptionController,
           titleFocusNode: titleFocusNode,
           descriptionFocusNode: descriptionFocusNode,
-          state: state,
           onUploadMultiplePhotos: onUploadMultiplePhotos,
           onTitleChanged: cubit.changeSuggestionTitle,
           onDescriptionChanged: cubit.changeSuggestionDescription,
@@ -364,22 +361,27 @@ class _PostAnonymously extends StatelessWidget {
 }
 
 class _PhotoPickerItem extends StatelessWidget {
-  final CreateEditSuggestionCubit _cubit = i.createEditSuggestionCubit;
   final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
-  final CreateEditSuggestionState state;
 
-  _PhotoPickerItem({
-    required this.state,
+  const _PhotoPickerItem({
     required this.onUploadMultiplePhotos,
   });
 
   @override
   Widget build(BuildContext context) {
-    final tileWidth = state.suggestion.images.length == 1
-        ? (MediaQuery.of(context).size.width - Dimensions.margin3x) / 2
-        : (MediaQuery.of(context).size.width - Dimensions.margin4x) / 3;
-    return state.suggestion.images.isNotEmpty
-        ? SizedBox(
+    return BlocBuilder<CreateEditSuggestionCubit, CreateEditSuggestionState>(
+      buildWhen: (previous, current) =>
+          previous.isLoading != current.isLoading ||
+          previous.suggestion.images != current.suggestion.images,
+      builder: (context, state) {
+        final cubit = context.read<CreateEditSuggestionCubit>();
+
+        if (state.suggestion.images.isNotEmpty) {
+          final tileWidth = state.suggestion.images.length == 1
+              ? (MediaQuery.of(context).size.width - Dimensions.margin3x) / 2
+              : (MediaQuery.of(context).size.width - Dimensions.margin4x) / 3;
+
+          return SizedBox(
             height:
                 MediaQuery.of(context).size.height * Dimensions.smallSize / 100,
             child: Padding(
@@ -390,53 +392,65 @@ class _PhotoPickerItem extends StatelessWidget {
                 itemCount: state.suggestion.images.length + 1,
                 itemBuilder: (BuildContext context, int i) {
                   return _PhotoItem(
-                    i: i,
-                    state: state,
-                    tileWidth: tileWidth,
+                    isAddButtonShown: i == 0,
+                    isLoading: state.isLoading,
+                    imageUrl: i != 0 ? state.suggestion.images[i - 1] : '',
+                    tileWidth: state.suggestion.images.length > 2
+                        ? tileWidth * 0.9
+                        : tileWidth,
                     onUploadPhotos: () {
                       final availableNumOfPhotos = maxPhotosForOneSuggestion -
                           state.suggestion.images.length;
-                      availableNumOfPhotos > 0
-                          ? _cubit.addUploadedPhotos(
-                              onUploadMultiplePhotos!(
-                                availableNumOfPhotos: availableNumOfPhotos,
-                              ),
-                            )
-                          : ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  context.localization.eventPhotosRestriction,
-                                ),
-                              ),
-                            );
+                      if (availableNumOfPhotos > 0) {
+                        cubit.addUploadedPhotos(
+                          onUploadMultiplePhotos!(
+                            availableNumOfPhotos: availableNumOfPhotos,
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              context.localization.eventPhotosRestriction,
+                            ),
+                          ),
+                        );
+                      }
                     },
-                    onPhotoClick: () => _cubit.onPhotoClick(i - 1),
+                    onPhotoClick: () => cubit.onPhotoClick(i - 1),
                   );
                 },
               ),
             ),
-          )
-        : _AddButton(
-            state: state,
-            onUploadPhotos: () => _cubit.addUploadedPhotos(
-              onUploadMultiplePhotos!(
-                availableNumOfPhotos: maxPhotosForOneSuggestion,
-              ),
-            ),
           );
+        }
+
+        return _AddButton(
+          isLoading: state.isLoading,
+          isSmall: state.suggestion.images.isNotEmpty,
+          onUploadPhotos: () => cubit.addUploadedPhotos(
+            onUploadMultiplePhotos!(
+              availableNumOfPhotos: maxPhotosForOneSuggestion,
+            ),
+          ),
+        );
+      },
+    );
   }
 }
 
 class _PhotoItem extends StatelessWidget {
-  final int i;
-  final CreateEditSuggestionState state;
+  final bool isAddButtonShown;
+  final bool isLoading;
+  final String imageUrl;
   final VoidCallback onUploadPhotos;
   final double tileWidth;
   final VoidCallback onPhotoClick;
 
   const _PhotoItem({
-    required this.i,
-    required this.state,
+    required this.isAddButtonShown,
+    required this.isLoading,
+    required this.imageUrl,
     required this.onUploadPhotos,
     required this.tileWidth,
     required this.onPhotoClick,
@@ -444,15 +458,14 @@ class _PhotoItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (i == 0) {
+    if (isAddButtonShown) {
       return GestureDetector(
         onTap: onUploadPhotos,
         child: AddPhotoButton(
-          width:
-              state.suggestion.images.length > 2 ? tileWidth * 0.9 : tileWidth,
+          width: tileWidth,
           height: (MediaQuery.of(context).size.width - 80) / 3,
           style: theme.textSmallPlusBold,
-          isLoading: state.isLoading,
+          isLoading: isLoading,
         ),
       );
     } else {
@@ -473,7 +486,7 @@ class _PhotoItem extends StatelessWidget {
           child: FittedBox(
             fit: BoxFit.cover,
             child: SuggestionsNetworkImage(
-              url: state.suggestion.images[i - 1],
+              url: imageUrl,
             ),
           ),
         ),
@@ -483,11 +496,13 @@ class _PhotoItem extends StatelessWidget {
 }
 
 class _AddButton extends StatelessWidget {
-  final CreateEditSuggestionState state;
+  final bool isLoading;
+  final bool isSmall;
   final VoidCallback onUploadPhotos;
 
   const _AddButton({
-    required this.state,
+    required this.isLoading,
+    required this.isSmall,
     required this.onUploadPhotos,
   });
 
@@ -498,7 +513,7 @@ class _AddButton extends StatelessWidget {
         context.localization.addPhoto,
         style: theme.textSmallPlusSecondaryBold,
       ),
-      trailing: state.isLoading
+      trailing: isLoading
           ? CircularProgressIndicator(
               strokeWidth: 1,
               valueColor: AlwaysStoppedAnimation<Color>(theme.primaryIconColor),
@@ -510,9 +525,7 @@ class _AddButton extends StatelessWidget {
                 theme.primaryIconColor,
                 BlendMode.srcIn,
               ),
-              height: state.suggestion.images.isNotEmpty
-                  ? Dimensions.smallSize
-                  : Dimensions.defaultSize,
+              height: isSmall ? Dimensions.smallSize : Dimensions.defaultSize,
             ),
       onClick: onUploadPhotos,
       verticalPadding: Dimensions.marginDefault,
@@ -544,7 +557,7 @@ class _PhotoPreviewState extends State<_PhotoPreview> {
                 Dimensions.smallSize * widget.suggestionImages.length
             : Dimensions.veryBigSize,
         child: Stack(
-          children: <Widget>[
+          children: [
             if (widget.suggestionImages.isNotEmpty)
               SizedBox(
                 width: Dimensions.defaultSize,
@@ -586,7 +599,6 @@ class _EditSuggestionBottomSheetListView extends StatelessWidget {
   final TextEditingController descriptionController;
   final FocusNode titleFocusNode;
   final FocusNode descriptionFocusNode;
-  final CreateEditSuggestionState state;
   final ValueChanged<String> onTitleChanged;
   final ValueChanged<String> onDescriptionChanged;
   final ValueChanged<bool> onLabelChanged;
@@ -600,7 +612,6 @@ class _EditSuggestionBottomSheetListView extends StatelessWidget {
     required this.descriptionController,
     required this.titleFocusNode,
     required this.descriptionFocusNode,
-    required this.state,
     required this.onTitleChanged,
     required this.onDescriptionChanged,
     required this.onLabelChanged,
@@ -612,71 +623,86 @@ class _EditSuggestionBottomSheetListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.symmetric(
-        vertical: Dimensions.marginSmall,
-      ),
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      children: <Widget>[
-        SuggestionsTextField(
-          controller: titleController,
-          focusNode: titleFocusNode,
-          hintText: context.localization.title,
-          padding: const EdgeInsets.fromLTRB(
-            Dimensions.marginDefault,
-            Dimensions.marginDefault,
-            Dimensions.marginSmall,
-            Dimensions.marginDefault,
+    return BlocBuilder<CreateEditSuggestionCubit, CreateEditSuggestionState>(
+      builder: (context, state) {
+        return ListView(
+          padding: const EdgeInsets.symmetric(
+            vertical: Dimensions.marginSmall,
           ),
-          onChanged: (String text) {
-            if (state.suggestion.title != text) {
-              onTitleChanged(text);
-            }
-          },
-          isShowError: state.isShowTitleError,
-        ),
-        const SizedBox(height: Dimensions.marginDefault),
-        SuggestionsTextField(
-          controller: descriptionController,
-          focusNode: descriptionFocusNode,
-          hintText: context.localization.description,
-          padding: const EdgeInsets.fromLTRB(
-            Dimensions.marginDefault,
-            Dimensions.marginDefault,
-            Dimensions.marginSmall,
-            Dimensions.marginDefault,
-          ),
-          onChanged: (String text) {
-            if (state.suggestion.description != text) {
-              onDescriptionChanged(text);
-            }
-          },
-        ),
-        const SizedBox(height: Dimensions.marginBig),
-        Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
-        _LabelItems(
-          labels: state.suggestion.labels,
-          changeLabelsBottomSheetStatus: onLabelChanged,
-        ),
-        ..._suggestionStatus(),
-        ..._multiplePicker(),
-        ..._anonymitySwitch(),
-        _SaveSubmitButton(
-          isEditing: state.isEditing,
-          isLoading: state.isLoading,
-          saveSuggestion: onSave,
-        ),
-      ],
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          children: [
+            SuggestionsTextField(
+              controller: titleController,
+              focusNode: titleFocusNode,
+              hintText: context.localization.title,
+              padding: const EdgeInsets.fromLTRB(
+                Dimensions.marginDefault,
+                Dimensions.marginDefault,
+                Dimensions.marginSmall,
+                Dimensions.marginDefault,
+              ),
+              onChanged: (text) {
+                if (state.suggestion.title != text) {
+                  onTitleChanged(text);
+                }
+              },
+              isShowError: state.isShowTitleError,
+            ),
+            const SizedBox(height: Dimensions.marginDefault),
+            SuggestionsTextField(
+              controller: descriptionController,
+              focusNode: descriptionFocusNode,
+              hintText: context.localization.description,
+              padding: const EdgeInsets.fromLTRB(
+                Dimensions.marginDefault,
+                Dimensions.marginDefault,
+                Dimensions.marginSmall,
+                Dimensions.marginDefault,
+              ),
+              onChanged: (String text) {
+                if (state.suggestion.description != text) {
+                  onDescriptionChanged(text);
+                }
+              },
+            ),
+            const SizedBox(height: Dimensions.marginBig),
+            Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
+            _LabelItems(
+              labels: state.suggestion.labels,
+              changeLabelsBottomSheetStatus: onLabelChanged,
+            ),
+            ..._suggestionStatus(
+              isEditing: state.isEditing,
+              status: state.suggestion.status,
+            ),
+            ..._multiplePicker(
+              isImagesEmpty: state.suggestion.images.isEmpty,
+            ),
+            ..._anonymitySwitch(
+              isEditing: state.isEditing,
+              isAnonymous: state.suggestion.isAnonymous,
+            ),
+            _SaveSubmitButton(
+              isEditing: state.isEditing,
+              isLoading: state.isLoading,
+              saveSuggestion: onSave,
+            ),
+          ],
+        );
+      },
     );
   }
 
-  List<Widget> _suggestionStatus() {
-    if (i.isAdmin && state.isEditing) {
-      return <Widget>[
+  List<Widget> _suggestionStatus({
+    required bool isEditing,
+    required SuggestionStatus status,
+  }) {
+    if (i.isAdmin && isEditing) {
+      return [
         Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
         _SuggestionStatus(
-          suggestionStatus: state.suggestion.status,
+          suggestionStatus: status,
           changeStatusBottomSheetStatus: onStatusChanged,
         ),
       ];
@@ -684,15 +710,14 @@ class _EditSuggestionBottomSheetListView extends StatelessWidget {
     return [];
   }
 
-  List<Widget> _multiplePicker() {
+  List<Widget> _multiplePicker({required bool isImagesEmpty}) {
     if (onUploadMultiplePhotos != null) {
-      return <Widget>[
-        if (state.suggestion.images.isNotEmpty)
+      return [
+        if (!isImagesEmpty)
           const SizedBox.shrink()
         else
           const _DividerWithIndent(),
         _PhotoPickerItem(
-          state: state,
           onUploadMultiplePhotos: onUploadMultiplePhotos,
         ),
       ];
@@ -700,13 +725,16 @@ class _EditSuggestionBottomSheetListView extends StatelessWidget {
     return [];
   }
 
-  List<Widget> _anonymitySwitch() {
-    if (!state.isEditing) {
-      return <Widget>[
+  List<Widget> _anonymitySwitch({
+    required bool isEditing,
+    required bool isAnonymous,
+  }) {
+    if (!isEditing) {
+      return [
         const _DividerWithIndent(),
         const SizedBox(height: Dimensions.marginSmall),
         _PostAnonymously(
-          isAnonymously: state.suggestion.isAnonymous,
+          isAnonymously: isAnonymous,
           changeSuggestionAnonymity: onAnonymityChanged,
         ),
         const SizedBox(height: Dimensions.marginSmall),
@@ -719,64 +747,62 @@ class _EditSuggestionBottomSheetListView extends StatelessWidget {
 class _StatusesBottomSheet extends StatelessWidget {
   final SuggestionStatus suggestionStatus;
   final SheetController statusesSheetController;
-  final CreateEditSuggestionCubit cubit;
 
   const _StatusesBottomSheet({
     required this.suggestionStatus,
     required this.statusesSheetController,
-    required this.cubit,
   });
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<CreateEditSuggestionCubit>();
     return StatusBottomSheet(
       controller: statusesSheetController,
       selectedStatus: suggestionStatus,
-      onCancel: ([_]) => statusesSheetController.collapse()?.then(
-            (_) => cubit.changeStatusBottomSheetStatus(
-              isStatusBottomSheetOpen: false,
-            ),
-          ),
-      onDone: (SuggestionStatus status) {
+      onCancel: ([_]) async {
+        await statusesSheetController.collapse();
+        cubit.changeStatusBottomSheetStatus(
+          isStatusBottomSheetOpen: false,
+        );
+      },
+      onDone: (status) async {
         cubit.changeStatus(status);
-        statusesSheetController.collapse()?.then(
-              (_) => cubit.changeStatusBottomSheetStatus(
-                isStatusBottomSheetOpen: false,
-              ),
-            );
+        await statusesSheetController.collapse();
+        cubit.changeStatusBottomSheetStatus(
+          isStatusBottomSheetOpen: false,
+        );
       },
     );
   }
 }
 
 class _LabelsBottomSheet extends StatelessWidget {
-  final List<SuggestionLabel> suggestionList;
+  final List<SuggestionLabel> suggestionLabels;
   final SheetController labelsSheetController;
-  final CreateEditSuggestionCubit cubit;
 
   const _LabelsBottomSheet({
-    required this.suggestionList,
+    required this.suggestionLabels,
     required this.labelsSheetController,
-    required this.cubit,
   });
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<CreateEditSuggestionCubit>();
     return LabelBottomSheet(
       controller: labelsSheetController,
-      selectedLabels: suggestionList,
-      onCancel: ([_]) => labelsSheetController.collapse()?.then(
-            (_) => cubit.changeLabelsBottomSheetStatus(
-              isLabelsBottomSheetOpen: false,
-            ),
-          ),
-      onDone: (List<SuggestionLabel> labels) {
+      selectedLabels: suggestionLabels,
+      onCancel: ([_]) async {
+        await labelsSheetController.collapse();
+        cubit.changeLabelsBottomSheetStatus(
+          isLabelsBottomSheetOpen: false,
+        );
+      },
+      onDone: (labels) async {
         cubit.selectLabels(labels);
-        labelsSheetController.collapse()?.then(
-              (_) => cubit.changeLabelsBottomSheetStatus(
-                isLabelsBottomSheetOpen: false,
-              ),
-            );
+        await labelsSheetController.collapse();
+        cubit.changeLabelsBottomSheetStatus(
+          isLabelsBottomSheetOpen: false,
+        );
       },
     );
   }

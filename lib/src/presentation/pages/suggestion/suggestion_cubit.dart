@@ -14,8 +14,12 @@ class SuggestionCubit extends Cubit<SuggestionState> {
   final SuggestionRepository _suggestionRepository;
   StreamSubscription<List<Suggestion>>? _suggestionSubscription;
 
-  SuggestionCubit(this._suggestionRepository)
-      : super(
+  SuggestionCubit({
+    required SuggestionRepository suggestionRepository,
+    required Suggestion suggestion,
+    required OnGetUserById onGetUserById,
+  })  : _suggestionRepository = suggestionRepository,
+        super(
           SuggestionState(
             isPopped: false,
             isEditable: false,
@@ -24,9 +28,15 @@ class SuggestionCubit extends Cubit<SuggestionState> {
             bottomSheetType: SuggestionBottomSheetType.none,
             suggestion: Suggestion.empty(),
           ),
-        );
+        ) {
+    _init(
+      suggestion: suggestion,
+      getUserById: onGetUserById,
+      isAdmin: i.isAdmin,
+    );
+  }
 
-  void init({
+  void _init({
     required Suggestion suggestion,
     required OnGetUserById getUserById,
     required bool isAdmin,
@@ -98,9 +108,11 @@ class SuggestionCubit extends Cubit<SuggestionState> {
     }
   }
 
-  void dispose() {
+  @override
+  Future<void> close() async {
     _suggestionSubscription?.cancel();
     _suggestionSubscription = null;
+    await super.close();
   }
 
   void reset() {

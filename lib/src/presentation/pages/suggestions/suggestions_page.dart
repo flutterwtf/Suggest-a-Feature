@@ -6,6 +6,7 @@ import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_cubit.dart';
+import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_cubit_scope.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_state.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/widgets/suggestion_list.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/widgets/suggestions_tab_bar.dart';
@@ -82,102 +83,106 @@ class SuggestionsPage extends StatefulWidget {
   State<SuggestionsPage> createState() => _SuggestionsPageState();
 }
 
-class _SuggestionsPageState extends State<SuggestionsPage>
+class _SuggestionsPageState extends State<SuggestionsPage> {
+  @override
+  Widget build(BuildContext context) {
+    return SuggestionsCubitScope(
+      child: BlocBuilder<SuggestionsCubit, SuggestionsState>(
+        buildWhen: (previous, current) =>
+            previous.isCreateBottomSheetOpened !=
+                current.isCreateBottomSheetOpened ||
+            previous.activeTab != current.activeTab,
+        builder: (context, state) {
+          final cubit = context.read<SuggestionsCubit>();
+          return Stack(
+            children: [
+              Scaffold(
+                appBar: widget.customAppBar ??
+                    SuggestionsAppBar(
+                      onBackClick: Navigator.of(context).pop,
+                      screenTitle: context.localization.suggestAFeature,
+                    ),
+                backgroundColor: theme.primaryBackgroundColor,
+                body: Stack(
+                  children: [
+                    _MainContent(
+                      userId: widget.userId,
+                      onTabChanged: (index) {
+                        cubit.changeActiveTab(
+                          SuggestionStatus.values[index],
+                        );
+                      },
+                      activeTab: state.activeTab,
+                      onGetUserById: widget.onGetUserById,
+                      onSaveToGallery: widget.onSaveToGallery,
+                      onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
+                    ),
+                    _BottomFab(
+                      openCreateBottomSheet: cubit.openCreateBottomSheet,
+                    ),
+                  ],
+                ),
+              ),
+              if (state.isCreateBottomSheetOpened)
+                _BottomSheet(
+                  onSaveToGallery: widget.onSaveToGallery,
+                  onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
+                  onCloseBottomSheet: cubit.closeCreateBottomSheet,
+                ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _MainContent extends StatefulWidget {
+  final String userId;
+  final ValueChanged<int> onTabChanged;
+  final SuggestionStatus activeTab;
+  final OnGetUserById onGetUserById;
+  final OnSaveToGalleryCallback? onSaveToGallery;
+  final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
+
+  const _MainContent({
+    required this.userId,
+    required this.onTabChanged,
+    required this.activeTab,
+    required this.onGetUserById,
+    required this.onSaveToGallery,
+    required this.onUploadMultiplePhotos,
+  });
+
+  @override
+  State<_MainContent> createState() => _MainContentState();
+}
+
+class _MainContentState extends State<_MainContent>
     with SingleTickerProviderStateMixin {
-  final SuggestionsCubit _cubit = i.suggestionsCubit;
   late final TabController _tabController;
-  late final SheetController _sheetController;
 
   @override
   void initState() {
     super.initState();
-    _cubit.init();
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(
-      () => _cubit.changeActiveTab(
-        SuggestionStatus.values[_tabController.index],
-      ),
+      () => widget.onTabChanged(_tabController.index),
     );
-    _sheetController = SheetController();
   }
 
   @override
   void dispose() {
-    _cubit.dispose();
     _tabController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SuggestionsCubit, SuggestionsState>(
-      bloc: _cubit,
-      builder: (context, state) {
-        return Stack(
-          children: <Widget>[
-            Scaffold(
-              appBar: widget.customAppBar ??
-                  SuggestionsAppBar(
-                    onBackClick: Navigator.of(context).pop,
-                    screenTitle: context.localization.suggestAFeature,
-                  ),
-              backgroundColor: theme.primaryBackgroundColor,
-              body: Stack(
-                children: <Widget>[
-                  _MainContent(
-                    userId: widget.userId,
-                    state: state,
-                    tabController: _tabController,
-                    onGetUserById: widget.onGetUserById,
-                    onSaveToGallery: widget.onSaveToGallery,
-                    onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
-                    cubit: _cubit,
-                  ),
-                  _BottomFab(
-                    openCreateBottomSheet: _cubit.openCreateBottomSheet,
-                  ),
-                ],
-              ),
-            ),
-            if (state.isCreateBottomSheetOpened)
-              _BottomSheet(
-                sheetController: _sheetController,
-                onSaveToGallery: widget.onSaveToGallery,
-                onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
-                cubit: _cubit,
-              ),
-          ],
-        );
-      },
-    );
-  }
-}
-
-class _MainContent extends StatelessWidget {
-  final String userId;
-  final SuggestionsState state;
-  final TabController tabController;
-  final OnGetUserById onGetUserById;
-  final OnSaveToGalleryCallback? onSaveToGallery;
-  final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
-  final SuggestionsCubit cubit;
-
-  const _MainContent({
-    required this.userId,
-    required this.state,
-    required this.tabController,
-    required this.onGetUserById,
-    required this.onSaveToGallery,
-    required this.onUploadMultiplePhotos,
-    required this.cubit,
-  });
-
-  @override
-  Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
       child: Column(
-        children: <Widget>[
+        children: [
           Container(
             margin: const EdgeInsets.only(
               left: Dimensions.marginDefault,
@@ -192,18 +197,17 @@ class _MainContent extends StatelessWidget {
             ),
             padding: const EdgeInsets.all(Dimensions.marginSmall),
             child: SuggestionsTabBar(
-              state: state,
-              tabController: tabController,
+              activeTab: widget.activeTab,
+              tabController: _tabController,
             ),
           ),
           _TabBarView(
-            state: state,
-            onUploadMultiplePhotos: onUploadMultiplePhotos,
-            onSaveToGallery: onSaveToGallery,
-            onGetUserById: onGetUserById,
-            userId: userId,
-            onVote: cubit.vote,
-            tabController: tabController,
+            onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
+            onSaveToGallery: widget.onSaveToGallery,
+            onGetUserById: widget.onGetUserById,
+            userId: widget.userId,
+            onVote: context.read<SuggestionsCubit>().vote,
+            tabController: _tabController,
           ),
         ],
       ),
@@ -211,34 +215,41 @@ class _MainContent extends StatelessWidget {
   }
 }
 
-class _BottomSheet extends StatelessWidget {
-  final SheetController sheetController;
+class _BottomSheet extends StatefulWidget {
   final OnSaveToGalleryCallback? onSaveToGallery;
   final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
-  final SuggestionsCubit cubit;
+  final VoidCallback onCloseBottomSheet;
 
   const _BottomSheet({
-    required this.sheetController,
-    required this.cubit,
+    required this.onCloseBottomSheet,
     this.onSaveToGallery,
     this.onUploadMultiplePhotos,
   });
 
   @override
+  State<_BottomSheet> createState() => _BottomSheetState();
+}
+
+class _BottomSheetState extends State<_BottomSheet> {
+  final SheetController _sheetController = SheetController();
+
+  @override
   Widget build(BuildContext context) {
     return CreateEditSuggestionBottomSheet(
-      controller: sheetController,
-      onClose: ([_]) => sheetController
-          .collapse()
-          ?.then((_) => cubit.closeCreateBottomSheet()),
-      onSaveToGallery: onSaveToGallery,
-      onUploadMultiplePhotos: onUploadMultiplePhotos,
+      controller: _sheetController,
+      onClose: ([_]) async {
+        await _sheetController.collapse();
+        if (mounted) {
+          widget.onCloseBottomSheet();
+        }
+      },
+      onSaveToGallery: widget.onSaveToGallery,
+      onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
     );
   }
 }
 
 class _TabBarView extends StatelessWidget {
-  final SuggestionsState state;
   final TabController tabController;
   final OnGetUserById onGetUserById;
   final OnSaveToGalleryCallback? onSaveToGallery;
@@ -247,7 +258,6 @@ class _TabBarView extends StatelessWidget {
   final String userId;
 
   const _TabBarView({
-    required this.state,
     required this.tabController,
     required this.onGetUserById,
     required this.userId,
@@ -258,42 +268,50 @@ class _TabBarView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: TabBarView(
-        controller: tabController,
-        children: <Widget>[
-          SuggestionList(
-            status: SuggestionStatus.requests,
-            suggestions: state.requests,
-            color: theme.requestsTabColor,
-            onGetUserById: onGetUserById,
-            onSaveToGallery: onSaveToGallery,
-            onUploadMultiplePhotos: onUploadMultiplePhotos,
-            userId: userId,
-            vote: (i) => onVote(SuggestionStatus.requests, i),
+    return BlocBuilder<SuggestionsCubit, SuggestionsState>(
+      buildWhen: (previous, current) =>
+          previous.requests != current.requests ||
+          previous.inProgress != current.inProgress ||
+          previous.completed != current.completed,
+      builder: (context, state) {
+        return Expanded(
+          child: TabBarView(
+            controller: tabController,
+            children: [
+              SuggestionList(
+                status: SuggestionStatus.requests,
+                suggestions: state.requests,
+                color: theme.requestsTabColor,
+                onGetUserById: onGetUserById,
+                onSaveToGallery: onSaveToGallery,
+                onUploadMultiplePhotos: onUploadMultiplePhotos,
+                userId: userId,
+                vote: (i) => onVote(SuggestionStatus.requests, i),
+              ),
+              SuggestionList(
+                status: SuggestionStatus.inProgress,
+                suggestions: state.inProgress,
+                color: theme.inProgressTabColor,
+                onGetUserById: onGetUserById,
+                onSaveToGallery: onSaveToGallery,
+                onUploadMultiplePhotos: onUploadMultiplePhotos,
+                userId: userId,
+                vote: (i) => onVote(SuggestionStatus.inProgress, i),
+              ),
+              SuggestionList(
+                status: SuggestionStatus.completed,
+                suggestions: state.completed,
+                color: theme.completedTabColor,
+                onGetUserById: onGetUserById,
+                onSaveToGallery: onSaveToGallery,
+                onUploadMultiplePhotos: onUploadMultiplePhotos,
+                userId: userId,
+                vote: (i) => onVote(SuggestionStatus.completed, i),
+              ),
+            ],
           ),
-          SuggestionList(
-            status: SuggestionStatus.inProgress,
-            suggestions: state.inProgress,
-            color: theme.inProgressTabColor,
-            onGetUserById: onGetUserById,
-            onSaveToGallery: onSaveToGallery,
-            onUploadMultiplePhotos: onUploadMultiplePhotos,
-            userId: userId,
-            vote: (i) => onVote(SuggestionStatus.inProgress, i),
-          ),
-          SuggestionList(
-            status: SuggestionStatus.completed,
-            suggestions: state.completed,
-            color: theme.completedTabColor,
-            onGetUserById: onGetUserById,
-            onSaveToGallery: onSaveToGallery,
-            onUploadMultiplePhotos: onUploadMultiplePhotos,
-            userId: userId,
-            vote: (i) => onVote(SuggestionStatus.completed, i),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
