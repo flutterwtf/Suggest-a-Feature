@@ -19,7 +19,7 @@ dependencies:
   flutter_svg: ^2.0.3
   intl: ^0.18.0
   rxdart: ^0.27.7
-  wtf_sliding_sheet: ^0.6.1
+  wtf_sliding_sheet: ^1.0.0
 
 dev_dependencies:
   bloc_test: ^9.1.1
