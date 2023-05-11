@@ -166,7 +166,7 @@ class _SlidingSheet extends StatelessWidget {
     this.footerBuilder,
   });
 
-  void _onDismissPrevented(bool backButton, bool backDrop) {
+  void _onDismissPrevented({required bool backButton, required bool backDrop}) {
     if (backButton) {
       onDismiss(ClosureType.backButton);
     } else if (backDrop) {
