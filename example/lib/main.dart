@@ -52,8 +52,120 @@ const AdminSettings _adminSettings = AdminSettings(
 );
 
 class MySuggestionDataSource implements SuggestionsDataSource {
-  final Map<String, Suggestion> _suggestions = <String, Suggestion>{};
-  final Map<String, Comment> _comments = <String, Comment>{};
+  final Map<String, Suggestion> _suggestions = <String, Suggestion>{
+    'mockDataSuggestion1': Suggestion(
+      id: '1',
+      title: 'Hashtags',
+      authorId: '1',
+      isAnonymous: false,
+      creationTime: DateTime.now(),
+      description: 'Ability to add and filter events with #hashtags',
+      status: SuggestionStatus.requests,
+    ),
+    'mockDataSuggestion2': Suggestion(
+      id: '2',
+      title: 'Import/Export as pdf',
+      authorId: '2',
+      isAnonymous: true,
+      labels: const [SuggestionLabel.feature],
+      creationTime: DateTime.now(),
+      description: 'Feature to import and export events',
+      status: SuggestionStatus.requests,
+    ),
+    'mockDataSuggestion3': Suggestion(
+      id: '3',
+      title: 'Notification',
+      authorId: '3',
+      isAnonymous: false,
+      creationTime: DateTime.now(),
+      description: 'Implement notification date change',
+      status: SuggestionStatus.inProgress,
+    ),
+    'mockDataSuggestion4': Suggestion(
+      id: '4',
+      title: 'Video',
+      authorId: '4',
+      isAnonymous: true,
+      labels: const [SuggestionLabel.feature],
+      creationTime: DateTime.now(),
+      description: 'Аbility to save video',
+      status: SuggestionStatus.inProgress,
+    ),
+    'mockDataSuggestion5': Suggestion(
+      id: '5',
+      title: 'Image',
+      authorId: '5',
+      isAnonymous: true,
+      creationTime: DateTime.now(),
+      labels: const [SuggestionLabel.bug],
+      description: 'Poor image quality',
+      status: SuggestionStatus.completed,
+    ),
+    'mockDataSuggestion6': Suggestion(
+      id: '6',
+      title: 'Offline authorization',
+      authorId: '6',
+      isAnonymous: false,
+      creationTime: DateTime.now(),
+      status: SuggestionStatus.completed,
+    ),
+  };
+  final Map<String, Comment> _comments = <String, Comment>{
+    'mockDataComment1': Comment(
+      author: _suggestionAuthor,
+      id: '1',
+      suggestionId: '1',
+      isAnonymous: false,
+      text: 'Good idea',
+      creationTime: DateTime.now(),
+      isFromAdmin: true,
+    ),
+    'mockDataComment2': Comment(
+      author: _suggestionAuthor,
+      id: '2',
+      suggestionId: '2',
+      isAnonymous: false,
+      text: 'It would be helpful',
+      creationTime: DateTime.now(),
+      isFromAdmin: false,
+    ),
+    'mockDataComment3': Comment(
+      author: _suggestionAuthor,
+      id: '3',
+      suggestionId: '3',
+      isAnonymous: false,
+      text: 'Be sure to think about it',
+      creationTime: DateTime.now(),
+      isFromAdmin: true,
+    ),
+    'mockDataComment4': Comment(
+      author: _suggestionAuthor,
+      id: '4',
+      suggestionId: '4',
+      isAnonymous: false,
+      text: 'Good idea',
+      creationTime: DateTime.now(),
+      isFromAdmin: true,
+    ),
+    'mockDataComment5': Comment(
+      author: _suggestionAuthor,
+      id: '5',
+      suggestionId: '5',
+      isAnonymous: false,
+      text: 'Urgent fix',
+      creationTime: DateTime.now(),
+      isFromAdmin: false,
+    ),
+    'mockDataComment6': Comment(
+      author: _suggestionAuthor,
+      id: '6',
+      suggestionId: '6',
+      isAnonymous: true,
+      text: 'Done',
+      creationTime: DateTime.now(),
+      isFromAdmin: true,
+    ),
+  };
 
   MySuggestionDataSource({required this.userId});
 
