@@ -416,8 +416,7 @@ class _SuggestionsLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['en', 'ru', 'uk'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => true;
 
   @override
   bool shouldReload(_SuggestionsLocalizationsDelegate old) => false;
@@ -432,6 +431,8 @@ SuggestionsLocalizations lookupSuggestionsLocalizations(Locale locale) {
       return SuggestionsLocalizationsRu();
     case 'uk':
       return SuggestionsLocalizationsUk();
+    default:
+      return SuggestionsLocalizationsEn();
   }
 
   throw FlutterError(
