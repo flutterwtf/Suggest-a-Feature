@@ -1,6 +1,6 @@
 name: suggest_a_feature
 description: Ready-made Flutter package for collecting suggestions from users.
-version: 0.1.0
+version: 0.1.1
 repository: https://github.com/What-the-Flutter/Suggest-a-Feature
 
 environment:
@@ -16,18 +16,18 @@ dependencies:
   flutter_bloc: ^8.1.2
   flutter_localizations:
     sdk: flutter
-  flutter_svg: ^2.0.3
+  flutter_svg: ^2.0.6
   intl: ^0.18.0
   rxdart: ^0.27.7
-  wtf_sliding_sheet: ^1.0.0
+  wtf_sliding_sheet: ^1.1.0
 
 dev_dependencies:
   bloc_test: ^9.1.1
-  build_runner: ^2.3.3
+  build_runner: ^2.4.4
   flutter_test:
     sdk: flutter
   mockito: ^5.4.0
-  very_good_analysis: ^4.0.0+1
+  very_good_analysis: ^5.0.0+1
 
 flutter:
   assets:

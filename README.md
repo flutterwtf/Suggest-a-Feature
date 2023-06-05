@@ -101,6 +101,7 @@ SuggestionsPage(
 ## Localization
 
 At the moment the package supports 3 languages: English, Russian and Ukrainian.
+English is the default language, it will be set in case the current locale is not supported by the `SuggestionsLocalizations.delegate`.
 
 ``` dart
 MaterialApp(
