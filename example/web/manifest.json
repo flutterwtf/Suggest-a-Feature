@@ -1,11 +1,11 @@
 {
-    "name": "example",
-    "short_name": "example",
+    "name": "Suggest a Feature",
+    "short_name": "Suggest a Feature",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Feedback collection tool for Flutter apps",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

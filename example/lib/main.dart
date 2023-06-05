@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     initializeDateFormatting();
     return MaterialApp(
-      title: 'Suggest a feature Example page',
+      title: 'Suggest a Feature',
       home: Scaffold(
         body: SuggestionsPage(
           onGetUserById: (id) => Future<SuggestionAuthor>(
