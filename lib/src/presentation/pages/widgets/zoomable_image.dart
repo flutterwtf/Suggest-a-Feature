@@ -65,6 +65,9 @@ class _ZoomableImageState extends State<ZoomableImage>
 
     final pos = details.localPosition;
 
+    widget.changeZoomStatus(_transformationController.value.isIdentity());
+    widget.changeScrollPhysics();
+
     final x = -pos.dx * (_doubleTapZoomScale - 1);
     final y = -pos.dy * (_doubleTapZoomScale - 1);
     final zoomedMatrix = Matrix4.identity()
