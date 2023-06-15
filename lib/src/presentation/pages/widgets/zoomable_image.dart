@@ -21,7 +21,7 @@ class _ZoomableImageState extends State<ZoomableImage>
     with SingleTickerProviderStateMixin {
   late final TransformationController _transformationController;
   late final AnimationController _animationController;
-  late Animation<Matrix4>? _animation;
+  late Animation<Matrix4> _animation;
 
   final double _doubleTapZoomScale = 2;
 
@@ -92,5 +92,5 @@ class _ZoomableImageState extends State<ZoomableImage>
   }
 
   void _animationListener() =>
-      _transformationController.value = _animation!.value;
+      _transformationController.value = _animation.value;
 }
