@@ -1,7 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 
 class ZoomableImage extends StatefulWidget {
   final String imageUrl;
@@ -21,80 +19,75 @@ class ZoomableImage extends StatefulWidget {
 
 class _ZoomableImageState extends State<ZoomableImage>
     with SingleTickerProviderStateMixin {
+  late final TransformationController _transformationController;
   late final AnimationController _animationController;
-  late final Animation<double>? _animation;
-  VoidCallback _animationListener = () {};
+  late Animation<Matrix4>? _animation;
+
+  final double _doubleTapZoomScale = 2;
 
   @override
   void initState() {
     super.initState();
+
+    _transformationController = TransformationController();
     _animationController = AnimationController(
-      vsync: this,
       duration: const Duration(milliseconds: 200),
+      vsync: this,
     );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: double.maxFinite,
-      width: double.maxFinite,
-      child: ExtendedImage(
-        image: CachedNetworkImageProvider(
-          widget.imageUrl,
-          headers: i.imageHeaders,
-        ),
-        fit: BoxFit.contain,
-        mode: ExtendedImageMode.gesture,
-        initGestureConfigHandler: (state) {
-          return GestureConfig(
-            minScale: 1,
-            animationMinScale: 1,
-            maxScale: 3,
-            animationMaxScale: 3.5,
-            gestureDetailsIsChanged: (details) {
-              final isZoomed = details!.totalScale! > 1;
-              widget.changeZoomStatus(isZoomed);
-            },
-          );
-        },
-        onDoubleTap: _onDoubleTap,
-      ),
-    );
-  }
-
-  void _onDoubleTap(ExtendedImageGestureState state) {
-    final pointerDownPosition = state.pointerDownPosition;
-    final begin = state.gestureDetails!.totalScale!;
-    final end = begin == 1 ? 2.0 : 1.0;
-
-    _animation?.removeListener(_animationListener);
-    _animationController
-      ..stop()
-      ..reset();
-
-    widget.changeZoomStatus(begin == 1);
-    widget.changeScrollPhysics();
-
-    _animationListener = () {
-      state.handleDoubleTap(
-        scale: _animation!.value,
-        doubleTapPosition: pointerDownPosition,
-      );
-    };
-    _animation = _animationController.drive(
-      Tween<double>(
-        begin: begin,
-        end: end,
-      ),
-    );
-    _animation!.addListener(_animationListener);
-    _animationController.forward();
   }
 
   @override
   void dispose() {
+    _transformationController.dispose();
     _animationController.dispose();
+
     super.dispose();
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onDoubleTapDown: _onDoubleTap,
+      child: InteractiveViewer(
+        transformationController: _transformationController,
+        minScale: 1,
+        maxScale: 3,
+        child: CachedNetworkImage(
+          imageUrl: widget.imageUrl,
+          fit: BoxFit.contain,
+        ),
+      ),
+    );
+  }
+
+  void _onDoubleTap(TapDownDetails details) {
+    _animationController.addListener(_animationListener);
+
+    final pos = details.localPosition;
+
+    final x = -pos.dx * (_doubleTapZoomScale - 1);
+    final y = -pos.dy * (_doubleTapZoomScale - 1);
+    final zoomedMatrix = Matrix4.identity()
+      ..translate(x, y)
+      ..scale(_doubleTapZoomScale);
+
+    final endMatrix = _transformationController.value.isIdentity()
+        ? zoomedMatrix
+        : Matrix4.identity();
+
+    _animation = Matrix4Tween(
+      begin: _transformationController.value,
+      end: endMatrix,
+    ).animate(
+      CurveTween(curve: Curves.easeInOut).animate(_animationController),
+    );
+    _animationController.forward(from: 0).then(
+          (_) => _animationController.removeListener(
+            _animationListener,
+          ),
+        );
+  }
+
+  void _animationListener() =>
+      _transformationController.value = _animation!.value;
 }
