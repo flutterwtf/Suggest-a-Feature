@@ -82,7 +82,6 @@ class _PhotoViewState extends State<PhotoView> {
                   itemBuilder: (_, index) {
                     return ZoomableImage(
                       imageUrl: widget.photos[index],
-                      changeScrollPhysics: _changeScrollPhysics,
                       changeZoomStatus: _changeZoomStatus,
                     );
                   },
@@ -96,7 +95,10 @@ class _PhotoViewState extends State<PhotoView> {
     );
   }
 
-  void _changeZoomStatus(bool isZoomed) => setState(() => _isZoomed = isZoomed);
+  void _changeZoomStatus(bool isZoomed) {
+    setState(() => _isZoomed = isZoomed);
+    _changeScrollPhysics();
+  }
 
   void _changeScrollPhysics() {
     setState(() {
