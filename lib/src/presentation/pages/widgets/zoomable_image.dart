@@ -1,14 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+const double _minZoomScale = 1;
+const double _maxZoomScale = 3;
+const double _doubleTapZoomScale = 2;
+
 class ZoomableImage extends StatefulWidget {
   final String imageUrl;
-  final VoidCallback changeScrollPhysics;
   final ValueChanged<bool> changeZoomStatus;
 
   const ZoomableImage({
     required this.imageUrl,
-    required this.changeScrollPhysics,
     required this.changeZoomStatus,
     super.key,
   });
@@ -22,8 +24,6 @@ class _ZoomableImageState extends State<ZoomableImage>
   late final TransformationController _transformationController;
   late final AnimationController _animationController;
   late Animation<Matrix4> _animation;
-
-  final double _doubleTapZoomScale = 2;
 
   @override
   void initState() {
@@ -49,9 +49,12 @@ class _ZoomableImageState extends State<ZoomableImage>
     return GestureDetector(
       onDoubleTapDown: _onDoubleTap,
       child: InteractiveViewer(
+        onInteractionUpdate: (_) => widget.changeZoomStatus(
+          _transformationController.value[0] > _minZoomScale,
+        ),
         transformationController: _transformationController,
-        minScale: 1,
-        maxScale: 3,
+        minScale: _minZoomScale,
+        maxScale: _maxZoomScale,
         child: CachedNetworkImage(
           imageUrl: widget.imageUrl,
           fit: BoxFit.contain,
@@ -63,10 +66,11 @@ class _ZoomableImageState extends State<ZoomableImage>
   void _onDoubleTap(TapDownDetails details) {
     _animationController.addListener(_animationListener);
 
-    final pos = details.localPosition;
+    widget.changeZoomStatus(
+      !(_transformationController.value[0] > _minZoomScale),
+    );
 
-    widget.changeZoomStatus(_transformationController.value.isIdentity());
-    widget.changeScrollPhysics();
+    final pos = details.localPosition;
 
     final x = -pos.dx * (_doubleTapZoomScale - 1);
     final y = -pos.dy * (_doubleTapZoomScale - 1);
@@ -85,10 +89,12 @@ class _ZoomableImageState extends State<ZoomableImage>
       CurveTween(curve: Curves.easeInOut).animate(_animationController),
     );
     _animationController.forward(from: 0).then(
-          (_) => _animationController.removeListener(
-            _animationListener,
-          ),
+      (_) {
+        _animationController.removeListener(
+          _animationListener,
         );
+      },
+    );
   }
 
   void _animationListener() =>
