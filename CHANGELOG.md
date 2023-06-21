@@ -1,3 +1,6 @@
+## 0.1.2
+* Removed transitive dependency extended_image [#43](https://github.com/What-the-Flutter/Suggest-a-Feature/pull/43)
+
 ## 0.1.1
 * Fixed localization delegate [#40](https://github.com/What-the-Flutter/Suggest-a-Feature/pull/40)
 * Update web example
