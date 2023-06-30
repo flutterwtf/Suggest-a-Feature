@@ -183,23 +183,9 @@ class _MainContentState extends State<_MainContent>
       length: 3,
       child: Column(
         children: [
-          Container(
-            margin: const EdgeInsets.only(
-              left: Dimensions.marginDefault,
-              right: Dimensions.marginDefault,
-              top: Dimensions.marginDefault + Dimensions.marginMicro,
-            ),
-            decoration: BoxDecoration(
-              color: theme.secondaryBackgroundColor,
-              borderRadius: const BorderRadius.all(
-                Radius.circular(Dimensions.mediumCircularRadius),
-              ),
-            ),
-            padding: const EdgeInsets.all(Dimensions.marginSmall),
-            child: SuggestionsTabBar(
-              activeTab: widget.activeTab,
-              tabController: _tabController,
-            ),
+          SuggestionsTabBar(
+            activeTab: widget.activeTab,
+            tabController: _tabController,
           ),
           _TabBarView(
             onUploadMultiplePhotos: widget.onUploadMultiplePhotos,

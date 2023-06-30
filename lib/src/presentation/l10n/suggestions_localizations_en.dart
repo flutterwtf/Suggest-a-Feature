@@ -1,11 +1,10 @@
-// ignore_for_file: always_use_package_imports
-// ignore_for_file: use_super_parameters
+import 'package:suggest_a_feature/src/presentation/l10n/suggestions_localizations.dart';
 
-import 'suggestions_localizations.dart';
+// ignore_for_file: lines_longer_than_80_chars
 
 /// The translations for English (`en`).
 class SuggestionsLocalizationsEn extends SuggestionsLocalizations {
-  SuggestionsLocalizationsEn([String locale = 'en']) : super(locale);
+  SuggestionsLocalizationsEn([super.locale = 'en']);
 
   @override
   String get suggestion => 'Suggestion';
@@ -47,12 +46,10 @@ class SuggestionsLocalizationsEn extends SuggestionsLocalizations {
   String get delete => 'Delete suggestion';
 
   @override
-  String get deletionQuestion =>
-      'Are you sure you want to delete the suggestion?';
+  String get deletionQuestion => 'Are you sure you want to delete the suggestion?';
 
   @override
-  String get deletionPhotoQuestion =>
-      'Are you sure you want to delete this photo?';
+  String get deletionPhotoQuestion => 'Are you sure you want to delete this photo?';
 
   @override
   String get title => 'Briefly describe your suggestion';
@@ -106,7 +103,7 @@ class SuggestionsLocalizationsEn extends SuggestionsLocalizations {
   String get completedDescription => 'What’s been already implemented';
 
   @override
-  String get duplicate => 'Duplicate';
+  String get duplicated => 'Duplicated';
 
   @override
   String get duplicatedHeader => 'Duplicated features';
@@ -115,7 +112,7 @@ class SuggestionsLocalizationsEn extends SuggestionsLocalizations {
   String get duplicatedDescription => 'What’s been already suggested';
 
   @override
-  String get cancelled => 'Cancelled';
+  String get declined => 'Declined';
 
   @override
   String get cancelledHeader => 'Cancelled features';

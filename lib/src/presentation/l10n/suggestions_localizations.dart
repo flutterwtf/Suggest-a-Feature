@@ -1,8 +1,3 @@
-// ignore_for_file: always_use_package_imports
-// ignore_for_file: lines_longer_than_80_chars
-// ignore_for_file: noop_primitive_operations
-// ignore_for_file: require_trailing_commas
-
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
@@ -10,9 +5,11 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
-import 'suggestions_localizations_en.dart';
-import 'suggestions_localizations_ru.dart';
-import 'suggestions_localizations_uk.dart';
+import 'package:suggest_a_feature/src/presentation/l10n/suggestions_localizations_en.dart';
+import 'package:suggest_a_feature/src/presentation/l10n/suggestions_localizations_ru.dart';
+import 'package:suggest_a_feature/src/presentation/l10n/suggestions_localizations_uk.dart';
+
+// ignore_for_file: lines_longer_than_80_chars
 
 /// Callers can lookup localized strings with an instance of SuggestionsLocalizations
 /// returned by `SuggestionsLocalizations.of(context)`.
@@ -67,13 +64,15 @@ import 'suggestions_localizations_uk.dart';
 /// property.
 abstract class SuggestionsLocalizations {
   SuggestionsLocalizations(String locale)
-      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+      : localeName = intl.Intl.canonicalizedLocale(locale);
 
   final String localeName;
 
   static SuggestionsLocalizations? of(BuildContext context) {
     return Localizations.of<SuggestionsLocalizations>(
-        context, SuggestionsLocalizations);
+      context,
+      SuggestionsLocalizations,
+    );
   }
 
   static const LocalizationsDelegate<SuggestionsLocalizations> delegate =
@@ -296,11 +295,11 @@ abstract class SuggestionsLocalizations {
   /// **'What’s been already implemented'**
   String get completedDescription;
 
-  /// No description provided for @duplicate.
+  /// No description provided for @duplicated.
   ///
   /// In en, this message translates to:
-  /// **'Duplicate'**
-  String get duplicate;
+  /// **'Duplicated'**
+  String get duplicated;
 
   /// No description provided for @duplicatedHeader.
   ///
@@ -314,11 +313,11 @@ abstract class SuggestionsLocalizations {
   /// **'What’s been already suggested'**
   String get duplicatedDescription;
 
-  /// No description provided for @cancelled.
+  /// No description provided for @declined.
   ///
   /// In en, this message translates to:
-  /// **'Cancelled'**
-  String get cancelled;
+  /// **'Declined'**
+  String get declined;
 
   /// No description provided for @cancelledHeader.
   ///

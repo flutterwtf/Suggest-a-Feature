@@ -6,9 +6,9 @@ extension SuggestionStatusExtension on SuggestionStatus {
   String statusName(BuildContext context) {
     switch (this) {
       case SuggestionStatus.duplicate:
-        return context.localization.duplicate;
+        return context.localization.duplicated;
       case SuggestionStatus.cancelled:
-        return context.localization.cancelled;
+        return context.localization.declined;
       case SuggestionStatus.requests:
         return context.localization.requests;
       case SuggestionStatus.inProgress:
