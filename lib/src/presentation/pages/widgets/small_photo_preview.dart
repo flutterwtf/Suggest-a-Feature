@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
@@ -30,7 +29,7 @@ class SmallPhotoPreview extends StatelessWidget {
       child: Hero(
         tag: heroTag,
         child: CircleAvatar(
-          backgroundImage: CachedNetworkImageProvider(
+          backgroundImage: NetworkImage(
             src,
             headers: i.imageHeaders,
           ),
