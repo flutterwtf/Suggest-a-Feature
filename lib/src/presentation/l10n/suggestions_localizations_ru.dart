@@ -1,11 +1,10 @@
-// ignore_for_file: always_use_package_imports
-// ignore_for_file: use_super_parameters
+import 'package:suggest_a_feature/src/presentation/l10n/suggestions_localizations.dart';
 
-import 'suggestions_localizations.dart';
+// ignore_for_file: lines_longer_than_80_chars
 
 /// The translations for Russian (`ru`).
 class SuggestionsLocalizationsRu extends SuggestionsLocalizations {
-  SuggestionsLocalizationsRu([String locale = 'ru']) : super(locale);
+  SuggestionsLocalizationsRu([super.locale = 'ru']);
 
   @override
   String get suggestion => 'Предложение';
@@ -47,12 +46,10 @@ class SuggestionsLocalizationsRu extends SuggestionsLocalizations {
   String get delete => 'Удалить предложение';
 
   @override
-  String get deletionQuestion =>
-      'Вы действительно хотите удалить это предложение?';
+  String get deletionQuestion => 'Вы действительно хотите удалить это предложение?';
 
   @override
-  String get deletionPhotoQuestion =>
-      'Вы действительно хотите удалить это фото?';
+  String get deletionPhotoQuestion => 'Вы действительно хотите удалить это фото?';
 
   @override
   String get title => 'Кратко опишите ваше предложение';
@@ -106,7 +103,7 @@ class SuggestionsLocalizationsRu extends SuggestionsLocalizations {
   String get completedDescription => 'Было реализовано в приложении';
 
   @override
-  String get duplicate => 'Дубликаты';
+  String get duplicated => 'Дубликаты';
 
   @override
   String get duplicatedHeader => 'Продублированные предложения';
@@ -115,7 +112,7 @@ class SuggestionsLocalizationsRu extends SuggestionsLocalizations {
   String get duplicatedDescription => 'Было предложенно ранее';
 
   @override
-  String get cancelled => 'Отклонено';
+  String get declined => 'Отклонено';
 
   @override
   String get cancelledHeader => 'Отклонённые предложения';

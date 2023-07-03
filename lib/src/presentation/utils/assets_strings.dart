@@ -14,14 +14,10 @@ class AssetStrings {
   static const String plusIconThickImage = 'assets/plus_icon_thick.svg';
 
   static const String suggestionsRequests = 'assets/suggestions_requests.svg';
-  static const String suggestionsRequestsInactive =
-      'assets/suggestions_requests_grey.svg';
   static const String suggestionsInProgress =
       'assets/suggestions_in_progress.svg';
-  static const String suggestionsInProgressInactive =
-      'assets/suggestions_in_progress_grey.svg';
   static const String suggestionsCompleted = 'assets/suggestions_completed.svg';
-  static const String suggestionsCompletedInactive =
-      'assets/suggestions_completed_grey.svg';
+  static const String suggestionsDeclined = 'assets/suggestions_declined.svg';
+  static const String suggestionsDuplicated = 'assets/suggestions_duplicated.svg';
   static const String suggestionsUpvoteArrow = 'assets/arrow_up_suggestion.svg';
 }

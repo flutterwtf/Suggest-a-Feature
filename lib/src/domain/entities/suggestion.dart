@@ -155,8 +155,8 @@ enum SuggestionStatus {
   requests,
   inProgress,
   completed,
-  duplicate,
-  cancelled,
+  declined,
+  duplicated,
   unknown;
 
   static SuggestionStatus fromName(String? name) {

@@ -1,13 +1,12 @@
-// ignore_for_file: always_use_package_imports
+import 'package:suggest_a_feature/src/presentation/l10n/suggestions_localizations.dart';
+
 // ignore_for_file: use_super_parameters
 // ignore_for_file: avoid_escaping_inner_quotes
 // ignore_for_file: lines_longer_than_80_chars
 
-import 'suggestions_localizations.dart';
-
 /// The translations for Ukrainian (`uk`).
 class SuggestionsLocalizationsUk extends SuggestionsLocalizations {
-  SuggestionsLocalizationsUk([String locale = 'uk']) : super(locale);
+  SuggestionsLocalizationsUk([super.locale = 'uk']);
 
   @override
   String get suggestion => 'Пропозиція';
@@ -106,7 +105,7 @@ class SuggestionsLocalizationsUk extends SuggestionsLocalizations {
   String get completedDescription => 'Було реалізовано у додатку';
 
   @override
-  String get duplicate => 'Дублікати';
+  String get duplicated => 'Дублікати';
 
   @override
   String get duplicatedHeader => 'Продубльовані пропозиції';
@@ -115,7 +114,7 @@ class SuggestionsLocalizationsUk extends SuggestionsLocalizations {
   String get duplicatedDescription => 'Було запропоновано раніше';
 
   @override
-  String get cancelled => 'Відхилено';
+  String get declined => 'Відхилено';
 
   @override
   String get cancelledHeader => 'Відхилені пропозиції';

@@ -17,45 +17,44 @@ class SuggestionsTabBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const tabHeight = 60.0;
     return TabBar(
-      indicator: BoxDecoration(
-        color: theme.primaryBackgroundColor,
-        borderRadius: const BorderRadius.all(
-          Radius.circular(Dimensions.smallCircularRadius),
-        ),
-      ),
-      indicatorSize: TabBarIndicatorSize.tab,
       controller: tabController,
+      isScrollable: true,
+      indicatorColor: theme.barIndicatorColor,
       tabs: [
         Tab(
-          height: tabHeight,
           child: _TabButton(
             isActive: activeTab == SuggestionStatus.requests,
-            activeImagePath: AssetStrings.suggestionsRequests,
-            inactiveImagePath: AssetStrings.suggestionsRequestsInactive,
-            color: theme.requestsTabColor,
+            iconPath: AssetStrings.suggestionsRequests,
             text: context.localization.requests,
           ),
         ),
         Tab(
-          height: tabHeight,
           child: _TabButton(
             isActive: activeTab == SuggestionStatus.inProgress,
-            activeImagePath: AssetStrings.suggestionsInProgress,
-            inactiveImagePath: AssetStrings.suggestionsInProgressInactive,
-            color: theme.inProgressTabColor,
+            iconPath: AssetStrings.suggestionsInProgress,
             text: context.localization.inProgress,
           ),
         ),
         Tab(
-          height: tabHeight,
           child: _TabButton(
             isActive: activeTab == SuggestionStatus.completed,
-            activeImagePath: AssetStrings.suggestionsCompleted,
-            inactiveImagePath: AssetStrings.suggestionsCompletedInactive,
-            color: theme.completedTabColor,
+            iconPath: AssetStrings.suggestionsCompleted,
             text: context.localization.completed,
+          ),
+        ),
+        Tab(
+          child: _TabButton(
+            isActive: activeTab == SuggestionStatus.declined,
+            iconPath: AssetStrings.suggestionsDeclined,
+            text: context.localization.declined,
+          ),
+        ),
+        Tab(
+          child: _TabButton(
+            isActive: activeTab == SuggestionStatus.duplicated,
+            iconPath: AssetStrings.suggestionsDuplicated,
+            text: context.localization.duplicated,
           ),
         ),
       ],
@@ -65,46 +64,30 @@ class SuggestionsTabBar extends StatelessWidget {
 
 class _TabButton extends StatelessWidget {
   final bool isActive;
-  final String activeImagePath;
-  final String inactiveImagePath;
-  final Color color;
+  final String iconPath;
   final String text;
-
-  /// We need different heights because of svg files differences
-  /// (inactive icons have smaller margins);
-  static const double activeIconHeight = 38;
-  static const double inactiveIconHeight = 22;
-  static const double textHeight = 1.17;
 
   const _TabButton({
     required this.isActive,
-    required this.activeImagePath,
-    required this.color,
+    required this.iconPath,
     required this.text,
-    required this.inactiveImagePath,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
       children: [
         _TabIcon(
-          inactiveIconHeight: inactiveIconHeight,
-          activeIconHeight: activeIconHeight,
-          inactiveImagePath: inactiveImagePath,
-          activeImagePath: activeImagePath,
+          iconPath: iconPath,
           isActive: isActive,
-          color: color,
         ),
+        const SizedBox(width: Dimensions.marginSmall),
         FittedBox(
           child: Text(
             text,
             style: isActive
-                ? theme.textSmallPlusBold.copyWith(
-                    color: color,
-                    height: textHeight,
-                  )
-                : theme.textSmallPlusSecondary.copyWith(height: textHeight),
+                ? theme.textSmallPlusBold
+                : theme.textSmallPlusSecondary,
           ),
         ),
       ],
@@ -113,54 +96,25 @@ class _TabButton extends StatelessWidget {
 }
 
 class _TabIcon extends StatelessWidget {
-  final double inactiveIconHeight;
   final bool isActive;
-  final Color color;
-  final double activeIconHeight;
-  final String activeImagePath;
-  final String inactiveImagePath;
+  final String iconPath;
 
   const _TabIcon({
-    required this.inactiveIconHeight,
-    required this.activeIconHeight,
-    required this.inactiveImagePath,
-    required this.color,
-    required this.activeImagePath,
+    required this.iconPath,
     required this.isActive,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: <Widget>[
-        Container(
-          height: inactiveIconHeight,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                color: isActive
-                    ? color.withOpacity(0.3)
-                    : theme.secondaryBackgroundColor,
-                blurRadius: 7,
-              ),
-            ],
-          ),
+    return SizedBox(
+      child: SvgPicture.asset(
+        iconPath,
+        package: AssetStrings.packageName,
+        colorFilter: ColorFilter.mode(
+          isActive ? theme.primaryIconColor : theme.secondaryIconColor,
+          BlendMode.srcIn,
         ),
-        SizedBox(
-          height: activeIconHeight,
-          child: SvgPicture.asset(
-            isActive ? activeImagePath : inactiveImagePath,
-            package: AssetStrings.packageName,
-            colorFilter: ColorFilter.mode(
-              isActive ? color : theme.secondaryIconColor,
-              BlendMode.srcIn,
-            ),
-            height: isActive ? activeIconHeight : inactiveIconHeight,
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

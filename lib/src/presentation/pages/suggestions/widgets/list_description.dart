@@ -21,9 +21,9 @@ class ListDescription extends StatelessWidget {
         return context.localization.inProgressHeader;
       case SuggestionStatus.completed:
         return context.localization.completedHeader;
-      case SuggestionStatus.cancelled:
+      case SuggestionStatus.declined:
         return context.localization.cancelledHeader;
-      case SuggestionStatus.duplicate:
+      case SuggestionStatus.duplicated:
         return context.localization.duplicatedHeader;
       case SuggestionStatus.unknown:
         return '';
@@ -38,9 +38,9 @@ class ListDescription extends StatelessWidget {
         return context.localization.inProgressDescription;
       case SuggestionStatus.completed:
         return context.localization.completedDescription;
-      case SuggestionStatus.cancelled:
+      case SuggestionStatus.declined:
         return context.localization.cancelledDescription;
-      case SuggestionStatus.duplicate:
+      case SuggestionStatus.duplicated:
         return context.localization.duplicatedDescription;
       case SuggestionStatus.unknown:
         return '';
