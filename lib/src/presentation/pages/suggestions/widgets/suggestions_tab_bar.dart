@@ -67,9 +67,6 @@ class _TabButton extends StatelessWidget {
   final String iconPath;
   final String text;
 
-  /// We need different heights because of svg files differences
-  /// (inc const double textHeight = 1.17;
-
   const _TabButton({
     required this.isActive,
     required this.iconPath,
@@ -79,10 +76,9 @@ class _TabButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         _TabIcon(
-          activeImagePath: iconPath,
+          iconPath: iconPath,
           isActive: isActive,
         ),
         const SizedBox(width: Dimensions.marginSmall),
@@ -101,10 +97,10 @@ class _TabButton extends StatelessWidget {
 
 class _TabIcon extends StatelessWidget {
   final bool isActive;
-  final String activeImagePath;
+  final String iconPath;
 
   const _TabIcon({
-    required this.activeImagePath,
+    required this.iconPath,
     required this.isActive,
   });
 
@@ -112,10 +108,10 @@ class _TabIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       child: SvgPicture.asset(
-        activeImagePath,
+        iconPath,
         package: AssetStrings.packageName,
         colorFilter: ColorFilter.mode(
-          isActive ? theme.activeTabColor : theme.secondaryIconColor,
+          isActive ? theme.primaryIconColor : theme.secondaryIconColor,
           BlendMode.srcIn,
         ),
       ),

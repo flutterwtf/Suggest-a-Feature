@@ -38,7 +38,6 @@ class SuggestionsTheme {
   final Color activatedUpvoteArrowColor;
 
   final Color barIndicatorColor;
-  final Color activeTabColor;
   final Color requestsTabColor;
   final Color inProgressTabColor;
   final Color completedTabColor;
@@ -78,7 +77,6 @@ class SuggestionsTheme {
     required this.upvoteArrowColor,
     required this.activatedUpvoteArrowColor,
     required this.barIndicatorColor,
-    required this.activeTabColor,
     required this.requestsTabColor,
     required this.inProgressTabColor,
     required this.completedTabColor,
@@ -120,7 +118,6 @@ class SuggestionsTheme {
         upvoteArrowColor: const Color.fromRGBO(140, 140, 140, 1),
         activatedUpvoteArrowColor: const Color.fromRGBO(241, 96, 29, 1),
         barIndicatorColor: const Color.fromRGBO(241, 96, 29, 1),
-        activeTabColor: const Color.fromRGBO(0, 0, 0, 1),
         requestsTabColor: const Color.fromRGBO(241, 96, 29, 1),
         inProgressTabColor: const Color.fromRGBO(245, 167, 24, 1),
         completedTabColor: const Color.fromRGBO(38, 155, 85, 1),
@@ -214,7 +211,6 @@ class SuggestionsTheme {
       activatedUpvoteArrowColor:
           activatedUpvoteArrowColor ?? this.activatedUpvoteArrowColor,
       barIndicatorColor: barIndicatorColor ?? this.barIndicatorColor,
-      activeTabColor: activeTabColor ?? this.activeTabColor,
       requestsTabColor: requestsTabColor ?? this.requestsTabColor,
       inProgressTabColor: inProgressTabColor ?? this.inProgressTabColor,
       completedTabColor: completedTabColor ?? this.completedTabColor,
