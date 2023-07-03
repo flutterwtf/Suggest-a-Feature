@@ -43,6 +43,20 @@ class SuggestionsTabBar extends StatelessWidget {
             text: context.localization.completed,
           ),
         ),
+        Tab(
+          child: _TabButton(
+            isActive: activeTab == SuggestionStatus.declined,
+            iconPath: AssetStrings.suggestionsDeclined,
+            text: context.localization.declined,
+          ),
+        ),
+        Tab(
+          child: _TabButton(
+            isActive: activeTab == SuggestionStatus.duplicated,
+            iconPath: AssetStrings.suggestionsDuplicated,
+            text: context.localization.duplicated,
+          ),
+        ),
       ],
     );
   }

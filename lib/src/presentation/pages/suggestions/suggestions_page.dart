@@ -165,7 +165,7 @@ class _MainContentState extends State<_MainContent>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 5, vsync: this);
     _tabController.addListener(
       () => widget.onTabChanged(_tabController.index),
     );
@@ -180,7 +180,7 @@ class _MainContentState extends State<_MainContent>
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 5,
       child: Column(
         children: [
           SuggestionsTabBar(
@@ -258,7 +258,9 @@ class _TabBarView extends StatelessWidget {
       buildWhen: (previous, current) =>
           previous.requests != current.requests ||
           previous.inProgress != current.inProgress ||
-          previous.completed != current.completed,
+          previous.completed != current.completed ||
+          previous.declined != current.declined ||
+          previous.duplicated != current.duplicated,
       builder: (context, state) {
         return Expanded(
           child: TabBarView(
@@ -293,6 +295,26 @@ class _TabBarView extends StatelessWidget {
                 onUploadMultiplePhotos: onUploadMultiplePhotos,
                 userId: userId,
                 vote: (i) => onVote(SuggestionStatus.completed, i),
+              ),
+              SuggestionList(
+                status: SuggestionStatus.declined,
+                suggestions: state.declined,
+                color: theme.declinedTabColor,
+                onGetUserById: onGetUserById,
+                onSaveToGallery: onSaveToGallery,
+                onUploadMultiplePhotos: onUploadMultiplePhotos,
+                userId: userId,
+                vote: (i) => onVote(SuggestionStatus.declined, i),
+              ),
+              SuggestionList(
+                status: SuggestionStatus.duplicated,
+                suggestions: state.duplicated,
+                color: theme.duplicatedTabColor,
+                onGetUserById: onGetUserById,
+                onSaveToGallery: onSaveToGallery,
+                onUploadMultiplePhotos: onUploadMultiplePhotos,
+                userId: userId,
+                vote: (i) => onVote(SuggestionStatus.duplicated, i),
               ),
             ],
           ),

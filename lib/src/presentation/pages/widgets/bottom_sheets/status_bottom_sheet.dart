@@ -141,19 +141,19 @@ class _StatusesList extends StatelessWidget {
           ),
           const SizedBox(height: Dimensions.marginMiddle),
           _StatusItem(
-            status: SuggestionStatus.duplicate,
-            onTap: onStatusTap,
-            selectedStatus: selectedStatus,
-          ),
-          const SizedBox(height: Dimensions.marginMiddle),
-          _StatusItem(
             status: SuggestionStatus.completed,
             onTap: onStatusTap,
             selectedStatus: selectedStatus,
           ),
           const SizedBox(height: Dimensions.marginMiddle),
           _StatusItem(
-            status: SuggestionStatus.cancelled,
+            status: SuggestionStatus.declined,
+            onTap: onStatusTap,
+            selectedStatus: selectedStatus,
+          ),
+          const SizedBox(height: Dimensions.marginMiddle),
+          _StatusItem(
+            status: SuggestionStatus.duplicated,
             onTap: onStatusTap,
             selectedStatus: selectedStatus,
           ),

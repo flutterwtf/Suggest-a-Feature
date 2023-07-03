@@ -16,6 +16,8 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
             requests: [],
             inProgress: [],
             completed: [],
+            declined: [],
+            duplicated: [],
             isCreateBottomSheetOpened: false,
           ),
         ) {
@@ -51,6 +53,12 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
         completed: suggestions
             .where((s) => s.status == SuggestionStatus.completed)
             .toList(growable: false),
+        declined: suggestions
+            .where((s) => s.status == SuggestionStatus.declined)
+            .toList(growable: false),
+        duplicated: suggestions
+            .where((s) => s.status == SuggestionStatus.duplicated)
+            .toList(growable: false),
       ),
     );
   }
@@ -66,9 +74,13 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
       case SuggestionStatus.completed:
         _voteForSuggestion(state.completed[i]);
         break;
+      case SuggestionStatus.declined:
+        _voteForSuggestion(state.declined[i]);
+        break;
+      case SuggestionStatus.duplicated:
+        _voteForSuggestion(state.duplicated[i]);
+        break;
       case SuggestionStatus.unknown:
-      case SuggestionStatus.duplicate:
-      case SuggestionStatus.cancelled:
         break;
     }
   }

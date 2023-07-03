@@ -18,6 +18,6 @@ class AssetStrings {
       'assets/suggestions_in_progress.svg';
   static const String suggestionsCompleted = 'assets/suggestions_completed.svg';
   static const String suggestionsDeclined = 'assets/suggestions_declined.svg';
-  static const String suggestionsDuplicated = 'assets/suggestions_duplicated';
+  static const String suggestionsDuplicated = 'assets/suggestions_duplicated.svg';
   static const String suggestionsUpvoteArrow = 'assets/arrow_up_suggestion.svg';
 }

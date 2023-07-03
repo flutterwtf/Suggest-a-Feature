@@ -5,7 +5,7 @@ import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_lab
 import 'package:suggest_a_feature/src/presentation/pages/widgets/votes_counter.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
-class SuggestionCard extends StatelessWidget {
+class SuggestionCard extends StatefulWidget {
   final int index;
   final SuggestionStatus status;
   final Suggestion suggestion;
@@ -26,40 +26,50 @@ class SuggestionCard extends StatelessWidget {
   });
 
   @override
+  State<SuggestionCard> createState() => _SuggestionCardState();
+}
+
+class _SuggestionCardState extends State<SuggestionCard> {
+  @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onClick,
-      child: IntrinsicHeight(
-        child: Stack(
-          children: <Widget>[
-            Container(
-              margin: const EdgeInsets.only(
-                bottom: Dimensions.marginDefault,
+    return IntrinsicHeight(
+      child: Stack(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(
+              bottom: Dimensions.marginDefault,
+            ),
+            child: Material(
+              color: theme.secondaryBackgroundColor,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(Dimensions.mediumCircularRadius),
               ),
-              padding: const EdgeInsets.only(
-                left: Dimensions.marginDefault,
-                right: Dimensions.margin3x,
-                top: Dimensions.marginBig,
-                bottom: Dimensions.marginDefault,
-              ),
-              decoration: BoxDecoration(
-                color: theme.secondaryBackgroundColor,
+              child: InkWell(
                 borderRadius: const BorderRadius.all(
                   Radius.circular(Dimensions.mediumCircularRadius),
                 ),
-              ),
-              child: _CardContent(
-                suggestion: suggestion,
-                voteCallBack: voteCallBack,
-                userId: userId,
+                onTap: widget.onClick,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: Dimensions.marginDefault,
+                    right: Dimensions.margin3x,
+                    top: Dimensions.marginBig,
+                    bottom: Dimensions.marginDefault,
+                  ),
+                  child: _CardContent(
+                    suggestion: widget.suggestion,
+                    voteCallBack: widget.voteCallBack,
+                    userId: widget.userId,
+                  ),
+                ),
               ),
             ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: _SuggestionIndicator(color: color),
-            ),
-          ],
-        ),
+          ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: _SuggestionIndicator(color: widget.color),
+          ),
+        ],
       ),
     );
   }

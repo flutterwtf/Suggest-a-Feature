@@ -279,9 +279,9 @@ class _SuggestionStatus extends StatelessWidget {
         return context.localization.inProgress;
       case SuggestionStatus.requests:
         return context.localization.requests;
-      case SuggestionStatus.cancelled:
+      case SuggestionStatus.declined:
         return context.localization.declined;
-      case SuggestionStatus.duplicate:
+      case SuggestionStatus.duplicated:
         return context.localization.duplicated;
       case SuggestionStatus.unknown:
         return '';

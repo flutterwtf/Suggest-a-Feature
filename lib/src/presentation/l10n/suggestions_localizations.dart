@@ -411,7 +411,8 @@ class _SuggestionsLocalizationsDelegate
   @override
   Future<SuggestionsLocalizations> load(Locale locale) {
     return SynchronousFuture<SuggestionsLocalizations>(
-        lookupSuggestionsLocalizations(locale));
+      lookupSuggestionsLocalizations(locale),
+    );
   }
 
   @override
