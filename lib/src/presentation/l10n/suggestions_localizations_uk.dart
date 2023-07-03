@@ -1,5 +1,7 @@
 import 'package:suggest_a_feature/src/presentation/l10n/suggestions_localizations.dart';
 
+// ignore_for_file: use_super_parameters
+// ignore_for_file: avoid_escaping_inner_quotes
 // ignore_for_file: lines_longer_than_80_chars
 
 /// The translations for Ukrainian (`uk`).
@@ -91,7 +93,7 @@ class SuggestionsLocalizationsUk extends SuggestionsLocalizations {
   String get inProgressHeader => 'Пропозиції у розробці';
 
   @override
-  String get inProgressDescription => "Незабаром з'явиться у додатку";
+  String get inProgressDescription => 'Незабаром з\'явиться у додатку';
 
   @override
   String get completed => 'Реалізовано';
