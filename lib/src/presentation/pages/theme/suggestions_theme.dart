@@ -37,9 +37,12 @@ class SuggestionsTheme {
   final Color upvoteArrowColor;
   final Color activatedUpvoteArrowColor;
 
+  final Color barIndicatorColor;
   final Color requestsTabColor;
   final Color inProgressTabColor;
   final Color completedTabColor;
+  final Color declinedTabColor;
+  final Color duplicatedTabColor;
 
   final Color featureLabelColor;
   final Color bugLabelColor;
@@ -73,9 +76,12 @@ class SuggestionsTheme {
     required this.errorColor,
     required this.upvoteArrowColor,
     required this.activatedUpvoteArrowColor,
+    required this.barIndicatorColor,
     required this.requestsTabColor,
     required this.inProgressTabColor,
     required this.completedTabColor,
+    required this.declinedTabColor,
+    required this.duplicatedTabColor,
     required this.featureLabelColor,
     required this.bugLabelColor,
     required this.fade,
@@ -111,9 +117,12 @@ class SuggestionsTheme {
         errorColor: const Color.fromRGBO(246, 24, 48, 1),
         upvoteArrowColor: const Color.fromRGBO(140, 140, 140, 1),
         activatedUpvoteArrowColor: const Color.fromRGBO(241, 96, 29, 1),
+        barIndicatorColor: const Color.fromRGBO(241, 96, 29, 1),
         requestsTabColor: const Color.fromRGBO(241, 96, 29, 1),
         inProgressTabColor: const Color.fromRGBO(245, 167, 24, 1),
         completedTabColor: const Color.fromRGBO(38, 155, 85, 1),
+        declinedTabColor: const Color.fromRGBO(246, 24, 48, 1),
+        duplicatedTabColor: const Color.fromRGBO(29, 121, 241, 1),
         featureLabelColor: const Color.fromRGBO(0, 133, 255, 1),
         bugLabelColor: const Color.fromRGBO(246, 24, 48, 1),
         fade: const Color.fromRGBO(0, 0, 0, 0.65),
@@ -149,9 +158,13 @@ class SuggestionsTheme {
     Color? errorColor,
     Color? upvoteArrowColor,
     Color? activatedUpvoteArrowColor,
+    Color? barIndicatorColor,
+    Color? activeTabColor,
     Color? requestsTabColor,
     Color? inProgressTabColor,
     Color? completedTabColor,
+    Color? declinedTabColor,
+    Color? duplicatedTabColor,
     Color? featureLabelColor,
     Color? bugLabelColor,
     Color? fade,
@@ -197,9 +210,12 @@ class SuggestionsTheme {
       upvoteArrowColor: upvoteArrowColor ?? this.upvoteArrowColor,
       activatedUpvoteArrowColor:
           activatedUpvoteArrowColor ?? this.activatedUpvoteArrowColor,
+      barIndicatorColor: barIndicatorColor ?? this.barIndicatorColor,
       requestsTabColor: requestsTabColor ?? this.requestsTabColor,
       inProgressTabColor: inProgressTabColor ?? this.inProgressTabColor,
       completedTabColor: completedTabColor ?? this.completedTabColor,
+      declinedTabColor: declinedTabColor ?? this.declinedTabColor,
+      duplicatedTabColor: duplicatedTabColor ?? this.duplicatedTabColor,
       featureLabelColor: featureLabelColor ?? this.featureLabelColor,
       bugLabelColor: bugLabelColor ?? this.bugLabelColor,
       fade: fade ?? this.fade,

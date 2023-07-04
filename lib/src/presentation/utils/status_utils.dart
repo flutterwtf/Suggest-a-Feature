@@ -5,10 +5,10 @@ import 'package:suggest_a_feature/suggest_a_feature.dart';
 extension SuggestionStatusExtension on SuggestionStatus {
   String statusName(BuildContext context) {
     switch (this) {
-      case SuggestionStatus.duplicate:
-        return context.localization.duplicate;
-      case SuggestionStatus.cancelled:
-        return context.localization.cancelled;
+      case SuggestionStatus.duplicated:
+        return context.localization.duplicated;
+      case SuggestionStatus.declined:
+        return context.localization.declined;
       case SuggestionStatus.requests:
         return context.localization.requests;
       case SuggestionStatus.inProgress:

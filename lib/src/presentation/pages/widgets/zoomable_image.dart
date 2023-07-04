@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 const double _minZoomScale = 1;
@@ -55,8 +54,8 @@ class _ZoomableImageState extends State<ZoomableImage>
         transformationController: _transformationController,
         minScale: _minZoomScale,
         maxScale: _maxZoomScale,
-        child: CachedNetworkImage(
-          imageUrl: widget.imageUrl,
+        child: Image.network(
+          widget.imageUrl,
           fit: BoxFit.contain,
         ),
       ),

@@ -21,6 +21,8 @@ void main() {
         requests: [mockedRequestSuggestion, mockedRequestSuggestion2],
         inProgress: [mockedInProgressSuggestion, mockedInProgressSuggestion2],
         completed: [mockedCompletedSuggestion, mockedCompletedSuggestion2],
+        declined: const [],
+        duplicated: const [],
         isCreateBottomSheetOpened: false,
       );
       final mockedSuggestions = [
@@ -128,6 +130,8 @@ void main() {
           requests: [mockedRequestSuggestion, mockedRequestSuggestion2],
           inProgress: const [],
           completed: const [],
+          declined: const [],
+          duplicated: const [],
           isCreateBottomSheetOpened: false,
         ),
         act: (cubit) {
@@ -138,6 +142,8 @@ void main() {
             requests: [upvotedSuggestion, mockedRequestSuggestion],
             inProgress: const [],
             completed: const [],
+            declined: const [],
+            duplicated: const [],
             isCreateBottomSheetOpened: false,
           ),
         ],

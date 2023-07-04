@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
@@ -23,9 +22,9 @@ class SuggestionsNetworkImage extends StatelessWidget {
       constraints: BoxConstraints(
         maxHeight: maxHeight,
       ),
-      child: Image(
-        filterQuality: FilterQuality.medium,
-        image: CachedNetworkImageProvider(url, headers: i.imageHeaders),
+      child: Image.network(
+        url,
+        headers: i.imageHeaders,
         fit: boxFit,
         loadingBuilder: (
           BuildContext context,
