@@ -67,21 +67,15 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
     switch (status) {
       case SuggestionStatus.requests:
         _voteForSuggestion(state.requests[i]);
-        break;
       case SuggestionStatus.inProgress:
         _voteForSuggestion(state.inProgress[i]);
-        break;
       case SuggestionStatus.completed:
         _voteForSuggestion(state.completed[i]);
-        break;
       case SuggestionStatus.declined:
         _voteForSuggestion(state.declined[i]);
-        break;
       case SuggestionStatus.duplicated:
         _voteForSuggestion(state.duplicated[i]);
-        break;
       case SuggestionStatus.unknown:
-        break;
     }
   }
 

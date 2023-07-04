@@ -125,16 +125,12 @@ class _DashPainter extends CustomPainter {
     switch (borderType) {
       case BorderType.circle:
         path = _getCirclePath(size);
-        break;
       case BorderType.rRect:
         path = _getRRectPath(size, radius);
-        break;
       case BorderType.rect:
         path = _getRectPath(size);
-        break;
       case BorderType.oval:
         path = _getOvalPath(size);
-        break;
     }
 
     return _dashPath(
