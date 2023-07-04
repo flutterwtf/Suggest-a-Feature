@@ -37,7 +37,7 @@ You can check interactive example [here](https://what-the-flutter.github.io/Sugg
 A small demo:
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/What-the-Flutter/Suggest-a-Feature/master/example/assets/suggest_a_feature.gif" width="280" />
+  <img src="https://github.com/What-the-Flutter/Suggest-a-Feature/assets/93796040/adb45e1d-204e-4614-932d-3c73d4899a05"/>
 </p>
 
 ## Usage
