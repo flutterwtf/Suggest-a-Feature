@@ -1,3 +1,9 @@
+## 0.2.0
+* Dart 3.0.0 is now the minimum version
+* Upgrade dependencies
+* Removed cached_network_image dependency [#46](https://github.com/What-the-Flutter/Suggest-a-Feature/pull/46)
+* Added `Declined` and `Duplicated` suggestion statuses [#45](https://github.com/What-the-Flutter/Suggest-a-Feature/pull/45)
+
 ## 0.1.2
 * Removed transitive dependency extended_image [#43](https://github.com/What-the-Flutter/Suggest-a-Feature/pull/43)
 
