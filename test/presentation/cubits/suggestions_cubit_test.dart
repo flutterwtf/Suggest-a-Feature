@@ -24,6 +24,8 @@ void main() {
         declined: const [],
         duplicated: const [],
         isCreateBottomSheetOpened: false,
+        isSortingBottomSheetOpened: false,
+        sortType: SortType.likes,
       );
       final mockedSuggestions = [
         mockedRequestSuggestion,
@@ -133,6 +135,8 @@ void main() {
           declined: const [],
           duplicated: const [],
           isCreateBottomSheetOpened: false,
+          isSortingBottomSheetOpened: false,
+          sortType: SortType.likes,
         ),
         act: (cubit) {
           cubit.vote(SuggestionStatus.requests, 1);
@@ -145,6 +149,8 @@ void main() {
             declined: const [],
             duplicated: const [],
             isCreateBottomSheetOpened: false,
+            isSortingBottomSheetOpened: false,
+            sortType: SortType.likes,
           ),
         ],
       );

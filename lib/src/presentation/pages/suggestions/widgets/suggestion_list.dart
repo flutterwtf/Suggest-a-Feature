@@ -14,6 +14,7 @@ class SuggestionList extends StatelessWidget {
   final OnGetUserById onGetUserById;
   final String userId;
   final ValueChanged<int> vote;
+  final VoidCallback openSortingBottomSheet;
 
   const SuggestionList({
     required this.status,
@@ -22,6 +23,7 @@ class SuggestionList extends StatelessWidget {
     required this.onGetUserById,
     required this.userId,
     required this.vote,
+    required this.openSortingBottomSheet,
     this.onUploadMultiplePhotos,
     this.onSaveToGallery,
     super.key,
@@ -38,7 +40,11 @@ class SuggestionList extends StatelessWidget {
           ),
           itemBuilder: (_, index) {
             return index == 0
-                ? ListDescription(status: status, length: suggestions.length)
+                ? ListDescription(
+                    status: status,
+                    length: suggestions.length,
+                    openSortingBottomSheet: openSortingBottomSheet,
+                  )
                 : _ListItem(
                     index: index,
                     suggestions: suggestions,

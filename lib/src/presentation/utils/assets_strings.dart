@@ -1,6 +1,7 @@
 class AssetStrings {
   static const String packageName = 'suggest_a_feature';
 
+  static const String arrowDownIcon = 'assets/arrow_down_icon.svg';
   static const String addPhotoButton = 'assets/add_photo_icon.svg';
   static const String backIconImage = 'assets/arrow_left_icon.svg';
   static const String checkIconImage = 'assets/check_icon.svg';
@@ -18,6 +19,7 @@ class AssetStrings {
       'assets/suggestions_in_progress.svg';
   static const String suggestionsCompleted = 'assets/suggestions_completed.svg';
   static const String suggestionsDeclined = 'assets/suggestions_declined.svg';
-  static const String suggestionsDuplicated = 'assets/suggestions_duplicated.svg';
+  static const String suggestionsDuplicated =
+      'assets/suggestions_duplicated.svg';
   static const String suggestionsUpvoteArrow = 'assets/arrow_up_suggestion.svg';
 }

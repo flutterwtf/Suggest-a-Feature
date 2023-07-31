@@ -4,6 +4,7 @@ import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/bottom_sheet_actions.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_labels.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_radio_button.dart';
 import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
@@ -160,31 +161,9 @@ class _LabelItem extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         SuggestionLabels(labels: <SuggestionLabel>[label]),
-        GestureDetector(
+        SuggestionsRadioButton(
+          selected: selectedLabels.contains(label),
           onTap: () => onTap(label),
-          child: SizedBox(
-            height: Dimensions.defaultSize,
-            width: Dimensions.defaultSize,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: theme.primaryIconColor,
-                  width: 0.5,
-                ),
-                color: selectedLabels.contains(label)
-                    ? theme.primaryIconColor
-                    : theme.thirdBackgroundColor,
-                shape: BoxShape.circle,
-              ),
-              child: selectedLabels.contains(label)
-                  ? Icon(
-                      Icons.check,
-                      size: Dimensions.smallSize,
-                      color: theme.primaryBackgroundColor,
-                    )
-                  : null,
-            ),
-          ),
         ),
       ],
     );

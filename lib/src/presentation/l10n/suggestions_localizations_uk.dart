@@ -157,4 +157,13 @@ class SuggestionsLocalizationsUk extends SuggestionsLocalizations {
 
   @override
   String get eventPhotosRestriction => 'Ви можете прикріпити до 10 фото 🖼️';
+
+  @override
+  String get sortBy => 'Сортувати за';
+
+  @override
+  String get numberOfLikes => 'Кількістю лайків';
+
+  @override
+  String get creationDate => 'Датою створення';
 }

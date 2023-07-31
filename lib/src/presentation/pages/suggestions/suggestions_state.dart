@@ -9,6 +9,8 @@ class SuggestionsState extends Equatable {
   final List<Suggestion> duplicated;
   final SuggestionStatus activeTab;
   final bool isCreateBottomSheetOpened;
+  final bool isSortingBottomSheetOpened;
+  final SortType sortType;
 
   const SuggestionsState({
     required this.requests,
@@ -17,6 +19,8 @@ class SuggestionsState extends Equatable {
     required this.declined,
     required this.duplicated,
     required this.isCreateBottomSheetOpened,
+    required this.isSortingBottomSheetOpened,
+    required this.sortType,
     this.activeTab = SuggestionStatus.requests,
   });
 
@@ -28,6 +32,8 @@ class SuggestionsState extends Equatable {
     List<Suggestion>? duplicated,
     SuggestionStatus? activeTab,
     bool? isCreateBottomSheetOpened,
+    bool? isSortingBottomSheetOpened,
+    SortType? sortType,
   }) {
     return SuggestionsState(
       requests: requests ?? this.requests,
@@ -38,6 +44,9 @@ class SuggestionsState extends Equatable {
       activeTab: activeTab ?? this.activeTab,
       isCreateBottomSheetOpened:
           isCreateBottomSheetOpened ?? this.isCreateBottomSheetOpened,
+      isSortingBottomSheetOpened:
+          isSortingBottomSheetOpened ?? this.isSortingBottomSheetOpened,
+      sortType: sortType ?? this.sortType,
     );
   }
 
@@ -50,5 +59,17 @@ class SuggestionsState extends Equatable {
         duplicated,
         activeTab,
         isCreateBottomSheetOpened,
+        isSortingBottomSheetOpened,
       ];
+}
+
+enum SortType { likes, date }
+
+extension SortTypeExtension on SortType {
+  Comparator<Suggestion> get sortFunction {
+    return switch (this) {
+      SortType.likes => (a, b) => b.upvotesCount.compareTo(a.upvotesCount),
+      SortType.date => (a, b) => b.creationTime.compareTo(a.creationTime),
+    };
+  }
 }

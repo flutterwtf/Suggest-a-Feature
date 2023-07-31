@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:suggest_a_feature/src/domain/data_interfaces/suggestion_repository.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
@@ -19,6 +20,8 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
             declined: [],
             duplicated: [],
             isCreateBottomSheetOpened: false,
+            isSortingBottomSheetOpened: false,
+            sortType: SortType.likes,
           ),
         ) {
     _init();
@@ -40,7 +43,7 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
   }
 
   Future<void> _onNewSuggestions(List<Suggestion> suggestions) async {
-    suggestions.sort((a, b) => b.upvotesCount.compareTo(a.upvotesCount));
+    suggestions.sort(state.sortType.sortFunction);
 
     emit(
       state.newState(
@@ -95,4 +98,15 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
 
   void changeActiveTab(SuggestionStatus activeTab) =>
       emit(state.newState(activeTab: activeTab));
+
+  void openSortingBottomSheet() =>
+      emit(state.newState(isSortingBottomSheetOpened: true));
+
+  void closeSortingBottomSheet(SortType sortType) {
+    final sortTypeChanged = sortType != state.sortType;
+    emit(
+      state.newState(isSortingBottomSheetOpened: false, sortType: sortType),
+    );
+    if (sortTypeChanged) _onNewSuggestions(_suggestionRepository.suggestions);
+  }
 }

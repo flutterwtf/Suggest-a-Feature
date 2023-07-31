@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
-
 import 'package:suggest_a_feature/src/presentation/l10n/suggestions_localizations_en.dart';
 import 'package:suggest_a_feature/src/presentation/l10n/suggestions_localizations_ru.dart';
 import 'package:suggest_a_feature/src/presentation/l10n/suggestions_localizations_uk.dart';
@@ -402,6 +401,24 @@ abstract class SuggestionsLocalizations {
   /// In en, this message translates to:
   /// **'You can attach up to 10 photos 🖼️'**
   String get eventPhotosRestriction;
+
+  /// No description provided for @sortBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort by'**
+  String get sortBy;
+
+  /// No description provided for @numberOfLikes.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of likes'**
+  String get numberOfLikes;
+
+  /// No description provided for @creationDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Creation date'**
+  String get creationDate;
 }
 
 class _SuggestionsLocalizationsDelegate
@@ -416,7 +433,8 @@ class _SuggestionsLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) => true;
+  bool isSupported(Locale locale) =>
+      <String>['en', 'ru', 'uk'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_SuggestionsLocalizationsDelegate old) => false;
@@ -431,7 +449,11 @@ SuggestionsLocalizations lookupSuggestionsLocalizations(Locale locale) {
       return SuggestionsLocalizationsRu();
     case 'uk':
       return SuggestionsLocalizationsUk();
-    default:
-      return SuggestionsLocalizationsEn();
   }
+
+  throw FlutterError(
+      'SuggestionsLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+      'an issue with the localizations generation tool. Please file an issue '
+      'on GitHub with a reproducible sample app and the gen-l10n configuration '
+      'that was used.');
 }
