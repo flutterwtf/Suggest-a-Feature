@@ -48,5 +48,8 @@
   "commentHint": "Your comment…",
   "publish": "Publish",
   "add": "Add",
-  "eventPhotosRestriction": "You can attach up to 10 photos 🖼️"
+  "eventPhotosRestriction": "You can attach up to 10 photos 🖼️",
+  "sortBy": "Sort by",
+  "numberOfLikes": "Number of likes",
+   "creationDate": "Creation date"
 }

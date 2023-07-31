@@ -8,7 +8,7 @@ class SuggestionsState extends Equatable {
   final List<Suggestion> declined;
   final List<Suggestion> duplicated;
   final SuggestionStatus activeTab;
-  final bool isCreateBottomSheetOpened;
+  final SortType sortType;
 
   const SuggestionsState({
     required this.requests,
@@ -16,7 +16,7 @@ class SuggestionsState extends Equatable {
     required this.completed,
     required this.declined,
     required this.duplicated,
-    required this.isCreateBottomSheetOpened,
+    required this.sortType,
     this.activeTab = SuggestionStatus.requests,
   });
 
@@ -27,7 +27,7 @@ class SuggestionsState extends Equatable {
     List<Suggestion>? declined,
     List<Suggestion>? duplicated,
     SuggestionStatus? activeTab,
-    bool? isCreateBottomSheetOpened,
+    SortType? sortType,
   }) {
     return SuggestionsState(
       requests: requests ?? this.requests,
@@ -36,8 +36,7 @@ class SuggestionsState extends Equatable {
       declined: declined ?? this.declined,
       duplicated: duplicated ?? this.duplicated,
       activeTab: activeTab ?? this.activeTab,
-      isCreateBottomSheetOpened:
-          isCreateBottomSheetOpened ?? this.isCreateBottomSheetOpened,
+      sortType: sortType ?? this.sortType,
     );
   }
 
@@ -49,6 +48,91 @@ class SuggestionsState extends Equatable {
         declined,
         duplicated,
         activeTab,
-        isCreateBottomSheetOpened,
+        sortType,
       ];
+}
+
+class CreateState extends SuggestionsState {
+  const CreateState({
+    required super.requests,
+    required super.inProgress,
+    required super.completed,
+    required super.declined,
+    required super.duplicated,
+    required super.sortType,
+    super.activeTab,
+  });
+
+  @override
+  CreateState newState({
+    List<Suggestion>? requests,
+    List<Suggestion>? inProgress,
+    List<Suggestion>? completed,
+    List<Suggestion>? declined,
+    List<Suggestion>? duplicated,
+    SuggestionStatus? activeTab,
+    SortType? sortType,
+  }) {
+    return CreateState(
+      requests: requests ?? this.requests,
+      inProgress: inProgress ?? this.inProgress,
+      completed: completed ?? this.completed,
+      declined: declined ?? this.declined,
+      duplicated: duplicated ?? this.duplicated,
+      activeTab: activeTab ?? this.activeTab,
+      sortType: sortType ?? this.sortType,
+    );
+  }
+}
+
+class SortingState extends SuggestionsState {
+  const SortingState({
+    required super.requests,
+    required super.inProgress,
+    required super.completed,
+    required super.declined,
+    required super.duplicated,
+    required super.sortType,
+    super.activeTab,
+  });
+
+  @override
+  SortingState newState({
+    List<Suggestion>? requests,
+    List<Suggestion>? inProgress,
+    List<Suggestion>? completed,
+    List<Suggestion>? declined,
+    List<Suggestion>? duplicated,
+    SuggestionStatus? activeTab,
+    SortType? sortType,
+  }) {
+    return SortingState(
+      requests: requests ?? this.requests,
+      inProgress: inProgress ?? this.inProgress,
+      completed: completed ?? this.completed,
+      declined: declined ?? this.declined,
+      duplicated: duplicated ?? this.duplicated,
+      activeTab: activeTab ?? this.activeTab,
+      sortType: sortType ?? this.sortType,
+    );
+  }
+}
+
+enum SortType { likes, date }
+
+extension SortTypeExtension on SortType {
+  Comparator<Suggestion> get sortFunction {
+    return switch (this) {
+      SortType.likes => (a, b) => b.upvotesCount.compareTo(a.upvotesCount),
+      SortType.date => (a, b) => b.creationTime.compareTo(a.creationTime),
+    };
+  }
+}
+
+extension SuggestionsStateType on SuggestionsState {
+  Type get type {
+    if (this is SortingState) return SortingState;
+    if (this is CreateState) return CreateState;
+    return SuggestionsState;
+  }
 }

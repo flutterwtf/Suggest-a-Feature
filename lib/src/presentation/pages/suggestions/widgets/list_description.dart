@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
 import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:suggest_a_feature/suggest_a_feature.dart';
@@ -6,10 +8,12 @@ import 'package:suggest_a_feature/suggest_a_feature.dart';
 class ListDescription extends StatelessWidget {
   final SuggestionStatus status;
   final int length;
+  final VoidCallback openSortingBottomSheet;
 
   const ListDescription({
     required this.status,
     required this.length,
+    required this.openSortingBottomSheet,
     super.key,
   });
 
@@ -58,14 +62,52 @@ class ListDescription extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: Dimensions.margin2x),
       child: Column(
         children: <Widget>[
-          RichText(
-            textAlign: TextAlign.center,
-            text: TextSpan(
-              children: <TextSpan>[
-                TextSpan(text: header, style: theme.textMediumBold),
-                TextSpan(text: ' ($length)', style: theme.textSmallPlus),
-              ],
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  children: <TextSpan>[
+                    TextSpan(text: header, style: theme.textMediumBold),
+                    TextSpan(text: ' ($length)', style: theme.textSmallPlus),
+                  ],
+                ),
+              ),
+              GestureDetector(
+                onTap: openSortingBottomSheet,
+                behavior: HitTestBehavior.translucent,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 6,
+                    horizontal: Dimensions.marginSmall,
+                  ),
+                  decoration: BoxDecoration(
+                    color: theme.secondaryBackgroundColor,
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(Dimensions.middleCircularRadius),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Text(
+                        context.localization.sortBy,
+                        style: theme.textSmallPlus
+                            .copyWith(color: theme.enabledTextColor),
+                      ),
+                      SvgPicture.asset(
+                        AssetStrings.arrowDownIcon,
+                        package: AssetStrings.packageName,
+                        colorFilter: ColorFilter.mode(
+                          theme.barIndicatorColor,
+                          BlendMode.srcIn,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: Dimensions.marginSmall),
           Text(
