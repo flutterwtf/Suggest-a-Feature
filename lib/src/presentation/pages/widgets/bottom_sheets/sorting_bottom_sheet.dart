@@ -9,12 +9,14 @@ import 'package:suggest_a_feature/suggest_a_feature.dart';
 import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
 
 class SortingBottomSheet extends StatefulWidget {
-  final ValueChanged<SortType> closeSortingBottomSheet;
+  final VoidCallback closeBottomSheet;
+  final ValueChanged<SortType> onChanged;
   final SortType value;
 
   const SortingBottomSheet({
-    required this.closeSortingBottomSheet,
+    required this.closeBottomSheet,
     required this.value,
+    required this.onChanged,
     super.key,
   });
 
@@ -24,13 +26,6 @@ class SortingBottomSheet extends StatefulWidget {
 
 class _SortingBottomSheetState extends State<SortingBottomSheet> {
   final SheetController _controller = SheetController();
-  late SortType _value;
-
-  @override
-  void initState() {
-    super.initState();
-    _value = widget.value;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,15 +42,15 @@ class _SortingBottomSheetState extends State<SortingBottomSheet> {
             _SortRow(
               title: context.localization.numberOfLikes,
               value: SortType.likes,
-              selected: _value == SortType.likes,
-              onChanged: _changeSortValue,
+              selected: widget.value == SortType.likes,
+              onChanged: widget.onChanged,
             ),
             const SizedBox(height: Dimensions.marginSmall),
             _SortRow(
               title: context.localization.creationDate,
               value: SortType.date,
-              onChanged: _changeSortValue,
-              selected: _value == SortType.date,
+              onChanged: widget.onChanged,
+              selected: widget.value == SortType.date,
             ),
           ],
         );
@@ -63,11 +58,9 @@ class _SortingBottomSheetState extends State<SortingBottomSheet> {
     );
   }
 
-  void _changeSortValue(SortType value) => setState(() => _value = value);
-
   Future<void> _onClose() async {
     await _controller.collapse();
-    widget.closeSortingBottomSheet(_value);
+    widget.closeBottomSheet();
   }
 }
 

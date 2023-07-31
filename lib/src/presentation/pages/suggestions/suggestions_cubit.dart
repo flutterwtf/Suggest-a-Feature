@@ -19,8 +19,6 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
             completed: [],
             declined: [],
             duplicated: [],
-            isCreateBottomSheetOpened: false,
-            isSortingBottomSheetOpened: false,
             sortType: SortType.likes,
           ),
         ) {
@@ -90,23 +88,47 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
         : _suggestionRepository.upvote(suggestion.id);
   }
 
-  void openCreateBottomSheet() =>
-      emit(state.newState(isCreateBottomSheetOpened: true));
+  void openCreateBottomSheet() => emit(
+        CreateState(
+          requests: state.requests,
+          inProgress: state.inProgress,
+          completed: state.completed,
+          declined: state.declined,
+          duplicated: state.duplicated,
+          sortType: state.sortType,
+          activeTab: state.activeTab,
+        ),
+      );
 
-  void closeCreateBottomSheet() =>
-      emit(state.newState(isCreateBottomSheetOpened: false));
+  void closeBottomSheet() => emit(
+        SuggestionsState(
+          requests: state.requests,
+          inProgress: state.inProgress,
+          completed: state.completed,
+          declined: state.declined,
+          duplicated: state.duplicated,
+          sortType: state.sortType,
+        ),
+      );
 
   void changeActiveTab(SuggestionStatus activeTab) =>
       emit(state.newState(activeTab: activeTab));
 
-  void openSortingBottomSheet() =>
-      emit(state.newState(isSortingBottomSheetOpened: true));
+  void openSortingBottomSheet() => emit(
+        SortingState(
+          requests: state.requests,
+          inProgress: state.inProgress,
+          completed: state.completed,
+          declined: state.declined,
+          duplicated: state.duplicated,
+          sortType: state.sortType,
+        ),
+      );
 
-  void closeSortingBottomSheet(SortType sortType) {
-    final sortTypeChanged = sortType != state.sortType;
-    emit(
-      state.newState(isSortingBottomSheetOpened: false, sortType: sortType),
-    );
-    if (sortTypeChanged) _onNewSuggestions(_suggestionRepository.suggestions);
+  void onSortTypeChanged(SortType sortType) {
+    if (sortType != state.sortType) {
+      emit(state.newState(sortType: sortType));
+      _onNewSuggestions(_suggestionRepository.suggestions);
+    }
   }
 }

@@ -90,11 +90,9 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
     return SuggestionsCubitScope(
       child: BlocBuilder<SuggestionsCubit, SuggestionsState>(
         buildWhen: (previous, current) =>
-            previous.isCreateBottomSheetOpened !=
-                current.isCreateBottomSheetOpened ||
+            previous.type != current.type ||
             previous.activeTab != current.activeTab ||
-            previous.isSortingBottomSheetOpened !=
-                current.isSortingBottomSheetOpened,
+            previous.sortType != current.sortType,
         builder: (context, state) {
           final cubit = context.read<SuggestionsCubit>();
           return Stack(
@@ -126,16 +124,17 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
                   ],
                 ),
               ),
-              if (state.isCreateBottomSheetOpened)
+              if (state is CreateState)
                 _BottomSheet(
                   onSaveToGallery: widget.onSaveToGallery,
                   onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
-                  onCloseBottomSheet: cubit.closeCreateBottomSheet,
+                  onCloseBottomSheet: cubit.closeBottomSheet,
                 ),
-              if (state.isSortingBottomSheetOpened)
+              if (state is SortingState)
                 SortingBottomSheet(
-                  closeSortingBottomSheet: cubit.closeSortingBottomSheet,
+                  closeBottomSheet: cubit.closeBottomSheet,
                   value: state.sortType,
+                  onChanged: cubit.onSortTypeChanged,
                 )
             ],
           );

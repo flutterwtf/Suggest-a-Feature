@@ -23,8 +23,6 @@ void main() {
         completed: [mockedCompletedSuggestion, mockedCompletedSuggestion2],
         declined: const [],
         duplicated: const [],
-        isCreateBottomSheetOpened: false,
-        isSortingBottomSheetOpened: false,
         sortType: SortType.likes,
       );
       final mockedSuggestions = [
@@ -60,8 +58,14 @@ void main() {
         seed: () => emptySuggestionsState,
         act: (cubit) => cubit.openCreateBottomSheet(),
         expect: () => [
-          emptySuggestionsState.newState(
-            isCreateBottomSheetOpened: true,
+          CreateState(
+            requests: emptySuggestionsState.requests,
+            inProgress: emptySuggestionsState.inProgress,
+            completed: emptySuggestionsState.completed,
+            declined: emptySuggestionsState.declined,
+            duplicated: emptySuggestionsState.duplicated,
+            sortType: emptySuggestionsState.sortType,
+            activeTab: emptySuggestionsState.activeTab,
           ),
         ],
       );
@@ -76,10 +80,16 @@ void main() {
             mockSuggestionRepository,
           );
         },
-        seed: () => emptySuggestionsState.newState(
-          isCreateBottomSheetOpened: true,
+        seed: () => CreateState(
+          requests: emptySuggestionsState.requests,
+          inProgress: emptySuggestionsState.inProgress,
+          completed: emptySuggestionsState.completed,
+          declined: emptySuggestionsState.declined,
+          duplicated: emptySuggestionsState.duplicated,
+          sortType: emptySuggestionsState.sortType,
+          activeTab: emptySuggestionsState.activeTab,
         ),
-        act: (cubit) => cubit.closeCreateBottomSheet(),
+        act: (cubit) => cubit.closeBottomSheet(),
         expect: () => [
           emptySuggestionsState,
         ],
@@ -134,8 +144,6 @@ void main() {
           completed: const [],
           declined: const [],
           duplicated: const [],
-          isCreateBottomSheetOpened: false,
-          isSortingBottomSheetOpened: false,
           sortType: SortType.likes,
         ),
         act: (cubit) {
@@ -148,8 +156,6 @@ void main() {
             completed: const [],
             declined: const [],
             duplicated: const [],
-            isCreateBottomSheetOpened: false,
-            isSortingBottomSheetOpened: false,
             sortType: SortType.likes,
           ),
         ],
