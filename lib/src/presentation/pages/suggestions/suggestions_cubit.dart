@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:suggest_a_feature/src/domain/data_interfaces/suggestion_repository.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
@@ -18,7 +19,7 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
             completed: [],
             declined: [],
             duplicated: [],
-            isCreateBottomSheetOpened: false,
+            sortType: SortType.likes,
           ),
         ) {
     _init();
@@ -40,7 +41,7 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
   }
 
   Future<void> _onNewSuggestions(List<Suggestion> suggestions) async {
-    suggestions.sort((a, b) => b.upvotesCount.compareTo(a.upvotesCount));
+    suggestions.sort(state.sortType.sortFunction);
 
     emit(
       state.newState(
@@ -87,12 +88,47 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
         : _suggestionRepository.upvote(suggestion.id);
   }
 
-  void openCreateBottomSheet() =>
-      emit(state.newState(isCreateBottomSheetOpened: true));
+  void openCreateBottomSheet() => emit(
+        CreateState(
+          requests: state.requests,
+          inProgress: state.inProgress,
+          completed: state.completed,
+          declined: state.declined,
+          duplicated: state.duplicated,
+          sortType: state.sortType,
+          activeTab: state.activeTab,
+        ),
+      );
 
-  void closeCreateBottomSheet() =>
-      emit(state.newState(isCreateBottomSheetOpened: false));
+  void closeBottomSheet() => emit(
+        SuggestionsState(
+          requests: state.requests,
+          inProgress: state.inProgress,
+          completed: state.completed,
+          declined: state.declined,
+          duplicated: state.duplicated,
+          sortType: state.sortType,
+        ),
+      );
 
   void changeActiveTab(SuggestionStatus activeTab) =>
       emit(state.newState(activeTab: activeTab));
+
+  void openSortingBottomSheet() => emit(
+        SortingState(
+          requests: state.requests,
+          inProgress: state.inProgress,
+          completed: state.completed,
+          declined: state.declined,
+          duplicated: state.duplicated,
+          sortType: state.sortType,
+        ),
+      );
+
+  void onSortTypeChanged(SortType sortType) {
+    if (sortType != state.sortType) {
+      emit(state.newState(sortType: sortType));
+      _onNewSuggestions(_suggestionRepository.suggestions);
+    }
+  }
 }

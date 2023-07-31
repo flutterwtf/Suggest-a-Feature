@@ -46,10 +46,12 @@ class SuggestionsLocalizationsRu extends SuggestionsLocalizations {
   String get delete => 'Удалить предложение';
 
   @override
-  String get deletionQuestion => 'Вы действительно хотите удалить это предложение?';
+  String get deletionQuestion =>
+      'Вы действительно хотите удалить это предложение?';
 
   @override
-  String get deletionPhotoQuestion => 'Вы действительно хотите удалить это фото?';
+  String get deletionPhotoQuestion =>
+      'Вы действительно хотите удалить это фото?';
 
   @override
   String get title => 'Кратко опишите ваше предложение';
@@ -155,4 +157,13 @@ class SuggestionsLocalizationsRu extends SuggestionsLocalizations {
 
   @override
   String get eventPhotosRestriction => 'Вы можете прикрепить до 10 фото 🖼️';
+
+  @override
+  String get sortBy => 'Сортировать по';
+
+  @override
+  String get numberOfLikes => 'Количеству лайков';
+
+  @override
+  String get creationDate => 'Дате создания';
 }
