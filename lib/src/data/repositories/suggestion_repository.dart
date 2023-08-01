@@ -19,7 +19,8 @@ class SuggestionRepositoryImpl implements SuggestionRepository {
       SimpleBehaviorSubject<List<Suggestion>>([]);
 
   @override
-  Stream<List<Suggestion>> get suggestionsStream => _suggestionsSubject.stream();
+  Stream<List<Suggestion>> get suggestionsStream =>
+      _suggestionsSubject.stream();
 
   @override
   List<Suggestion> get suggestions => _suggestionsSubject.value;
