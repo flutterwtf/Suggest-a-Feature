@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
@@ -34,7 +33,8 @@ class _SuggestionsElevatedButtonState extends State<SuggestionsElevatedButton> {
     return SizedBox(
       height: Dimensions.buttonHeight,
       child: ElevatedButton(
-        style: context.themeData.elevatedButtonTheme.style?.copyWith(
+        style: (context.theme.elevatedButtonTheme.style ?? const ButtonStyle())
+            .copyWith(
           backgroundColor: MaterialStatePropertyAll(widget.backgroundColor),
         ),
         onPressed: () =>
@@ -70,7 +70,7 @@ class _ButtonContent extends StatelessWidget {
             imageIconPath!,
             package: AssetStrings.packageName,
             colorFilter: ColorFilter.mode(
-              theme.onAccentColor,
+              context.theme.colorScheme.onPrimary,
               BlendMode.srcIn,
             ),
           ),
@@ -78,8 +78,8 @@ class _ButtonContent extends StatelessWidget {
         ],
         Text(
           buttonText,
-          style: context.themeData.textTheme.headlineSmall?.copyWith(
-            color: textColor ?? theme.onAccentColor,
+          style: context.theme.textTheme.labelLarge?.copyWith(
+            color: textColor,
           ),
         ),
       ],

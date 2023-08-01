@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 
 class SuggestionsSwitch extends StatelessWidget {
   final bool value;
@@ -15,9 +15,11 @@ class SuggestionsSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoSwitch(
       value: value,
-      activeColor: theme.accentColor,
-      trackColor: theme.primaryBackgroundColor,
-      thumbColor: value ? theme.onAccentColor : theme.dividerColor,
+      activeColor: context.theme.colorScheme.primary,
+      trackColor: context.theme.colorScheme.background,
+      thumbColor: value
+          ? context.theme.colorScheme.onPrimary
+          : context.theme.dividerColor,
       onChanged: onChanged,
     );
   }

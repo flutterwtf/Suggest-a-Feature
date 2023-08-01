@@ -78,14 +78,17 @@ class _NewSuggestionTextButtonState extends State<_NewSuggestionTextButton> {
   Widget build(BuildContext context) {
     var color = widget.enabled
         ? widget.isTonal
-            ? theme.focusedColor
+            ? context.theme.colorScheme.secondaryContainer
             : Colors.transparent
-        : theme.disabledTextButtonColor;
-    var textColor =
-        widget.enabled ? theme.accentColor : theme.disabledTextColor;
+        : context.theme.disabledColor;
+    var textColor = widget.enabled
+        ? context.theme.colorScheme.primary
+        : theme.disabledTextColor;
     if (_pressed) {
-      color = widget.isTonal ? theme.focusedTonalColor : theme.focusedColor;
-      textColor = theme.pressedAccentColor;
+      color = widget.isTonal
+          ? context.theme.colorScheme.secondary
+          : context.theme.colorScheme.secondaryContainer;
+      textColor = context.theme.colorScheme.primaryContainer;
     }
     return GestureDetector(
       onTap: () {
@@ -107,8 +110,7 @@ class _NewSuggestionTextButtonState extends State<_NewSuggestionTextButton> {
         ),
         child: Text(
           widget.title,
-          style: context.themeData.textTheme.headlineSmall
-              ?.copyWith(color: textColor),
+          style: context.theme.textTheme.labelLarge?.copyWith(color: textColor),
         ),
       ),
     );

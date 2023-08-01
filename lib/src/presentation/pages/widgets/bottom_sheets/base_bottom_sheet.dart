@@ -259,7 +259,7 @@ class _SafeArea extends StatelessWidget {
                 ),
                 child: Text(
                   title!,
-                  style: context.themeData.textTheme.displayLarge,
+                  style: context.theme.textTheme.titleLarge,
                 ),
               ),
             contentBuilder(context, state),

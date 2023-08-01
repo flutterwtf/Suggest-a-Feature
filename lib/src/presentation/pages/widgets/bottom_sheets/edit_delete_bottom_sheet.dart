@@ -8,6 +8,7 @@ import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
 import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/date_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
+import 'package:suggest_a_feature/src/presentation/utils/font_sizes.dart';
 import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
 
 class EditDeleteSuggestionBottomSheet extends StatefulWidget {
@@ -38,9 +39,10 @@ class _EditDeleteSuggestionBottomSheetState
     return BaseBottomSheet(
       controller: widget.controller,
       onClose: ([_]) => widget.onCancel(),
-      backgroundColor: theme.bottomSheetBackgroundColor,
-      previousNavBarColor: theme.primaryBackgroundColor,
-      previousStatusBarColor: theme.primaryBackgroundColor,
+      backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
+          theme.bottomSheetBackgroundColor,
+      previousNavBarColor: context.theme.colorScheme.background,
+      previousStatusBarColor: context.theme.colorScheme.background,
       contentBuilder: (context, _) {
         return ListView(
           padding: const EdgeInsets.only(
@@ -80,7 +82,8 @@ class _LeadingText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: context.themeData.textTheme.displayMedium,
+      style: context.theme.textTheme.labelLarge
+          ?.copyWith(fontSize: FontSizes.mediumPlus),
     );
   }
 }
@@ -97,7 +100,8 @@ class _EditItem extends StatelessWidget {
     return ClickableListItem(
       title: Text(
         context.localization.edit,
-        style: context.themeData.textTheme.displayMedium,
+        style: context.theme.textTheme.labelLarge
+            ?.copyWith(fontSize: FontSizes.mediumPlus),
       ),
       leading: SvgPicture.asset(
         AssetStrings.penIconImage,
@@ -105,7 +109,7 @@ class _EditItem extends StatelessWidget {
         height: Dimensions.defaultSize,
         width: Dimensions.defaultSize,
         colorFilter: ColorFilter.mode(
-          theme.onPrimaryColor,
+          context.theme.colorScheme.onBackground,
           BlendMode.srcIn,
         ),
       ),
@@ -126,14 +130,16 @@ class _DeleteItem extends StatelessWidget {
     return ClickableListItem(
       title: Text(
         context.localization.delete,
-        style: context.themeData.textTheme.displayMedium
-            ?.copyWith(color: theme.errorColor),
+        style: context.theme.textTheme.labelLarge?.copyWith(
+          color: context.theme.colorScheme.error,
+          fontSize: FontSizes.mediumPlus,
+        ),
       ),
       leading: SvgPicture.asset(
         AssetStrings.deleteIconImage,
         package: AssetStrings.packageName,
         colorFilter: ColorFilter.mode(
-          theme.errorColor,
+          context.theme.colorScheme.error,
           BlendMode.srcIn,
         ),
         height: Dimensions.defaultSize,

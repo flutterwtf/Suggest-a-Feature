@@ -32,9 +32,10 @@ class _SortingBottomSheetState extends State<SortingBottomSheet> {
     return BaseBottomSheet(
       controller: _controller,
       onClose: ([_]) => _onClose(),
-      backgroundColor: theme.bottomSheetBackgroundColor,
-      previousNavBarColor: theme.primaryBackgroundColor,
-      previousStatusBarColor: theme.primaryBackgroundColor,
+      backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
+          theme.bottomSheetBackgroundColor,
+      previousNavBarColor: context.theme.colorScheme.background,
+      previousStatusBarColor: context.theme.colorScheme.background,
       title: context.localization.sortBy,
       contentBuilder: (context, _) {
         return Column(
@@ -89,7 +90,7 @@ class _SortRow extends StatelessWidget {
         children: [
           Text(
             title,
-            style: context.themeData.textTheme.displaySmall,
+            style: context.theme.textTheme.titleMedium,
           ),
           SuggestionsRadioButton(
             selected: selected,

@@ -132,3 +132,30 @@ user has author rights to commit those actions. Author rights concept is as foll
 has created a suggestion/comment is the only one who can delete or update it. If it somehow happens
 that a user without author rights tries to delete/update a suggestion, an Exception will be thrown.
 `onGetUserById()` function in `SuggestionsPage` constructor will help you with this.
+
+## Theme migration
+
+Since version 0.3.0 the package uses the material theme of your application. Here's what's changed from the previous version:
+* primaryBackgroundColor -> ThemeData.colorScheme.background
+* secondaryBackgroundColor -> ThemeData.colorScheme.surfaceVariant
+* thirdBackgroundColor -> ThemeData.colorScheme.surface
+* bottomSheetBackgroundColor -> ThemeData.bottomSheetTheme.backgroundColor ?? SuggestionsTheme.bottomSheetBackgroundColor,
+* primaryTextColor and primaryIconColor -> ThemeData.colorScheme.onPrimary
+* secondaryTextColor and secondaryIconColor -> ThemeData.colorScheme.onSurfaceVariant
+* dividerColor -> ThemeData.dividerColor
+* elevatedButtonColor -> ThemeData.colorScheme.primary
+* pressedElevatedButtonColor -> ThemeData.colorScheme.primaryVariant
+* elevatedButtonTextColor -> ThemeData.colorScheme.onPrimary
+* focusedTextButtonColor -> ThemeData.colorScheme.secondaryContainer
+* focusedTextColor -> ThemeData.colorTheme.onSecondaryContainer
+* focusedTextFieldBorderLine -> ThemeData.colorScheme.primary
+* focusedTonalButtonColor -> ThemeData.colorScheme.secondary
+* enabledTextColor -> ThemeData.colorScheme.primary
+* tonalButtonColor -> ThemeData.colorScheme.onSecondaryContainer
+* fabColor -> ThemeData.floatingActionButtonTheme.backgroundColor ?? SuggestionsTheme.fabColor
+* activatedUpvoteArrowColor -> ThemeData.colorScheme.primary
+* barIndicatorColor -> ThemeData.colorScheme.primary
+* disabledTextButtonColor -> ThemeData.disabledColor
+* errorColor -> ThemeData.colorScheme.error
+* upvoteArrowColor -> ThemeData.colorScheme.outline
+* dialogBarrierColor -> not used

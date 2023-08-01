@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
@@ -28,7 +27,9 @@ class VotesCounter extends StatelessWidget {
               AssetStrings.suggestionsUpvoteArrow,
               package: AssetStrings.packageName,
               colorFilter: ColorFilter.mode(
-                isVoted ? theme.accentColor : theme.upvoteArrowColor,
+                isVoted
+                    ? context.theme.colorScheme.primary
+                    : context.theme.colorScheme.outline,
                 BlendMode.srcIn,
               ),
               fit: BoxFit.none,
@@ -36,7 +37,7 @@ class VotesCounter extends StatelessWidget {
           ),
           Text(
             '$upvotesCount',
-            style: context.themeData.textTheme.headlineSmall,
+            style: context.theme.textTheme.labelLarge,
           ),
         ],
       ),

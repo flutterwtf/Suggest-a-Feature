@@ -72,11 +72,13 @@ class ListDescription extends StatelessWidget {
                   children: <TextSpan>[
                     TextSpan(
                       text: header,
-                      style: context.themeData.textTheme.displaySmall,
+                      style: context.theme.textTheme.titleMedium,
                     ),
                     TextSpan(
                       text: ' ($length)',
-                      style: context.themeData.textTheme.titleMedium,
+                      style: context.theme.textTheme.labelLarge?.copyWith(
+                        color: context.theme.colorScheme.onSurfaceVariant,
+                      ),
                     ),
                   ],
                 ),
@@ -90,7 +92,7 @@ class ListDescription extends StatelessWidget {
                     horizontal: Dimensions.marginSmall,
                   ),
                   decoration: BoxDecoration(
-                    color: theme.secondaryBackgroundColor,
+                    color: context.theme.colorScheme.surfaceVariant,
                     borderRadius: const BorderRadius.all(
                       Radius.circular(Dimensions.middleCircularRadius),
                     ),
@@ -99,14 +101,15 @@ class ListDescription extends StatelessWidget {
                     children: [
                       Text(
                         context.localization.sortBy,
-                        style: context.themeData.textTheme.titleMedium
-                            ?.copyWith(color: theme.accentColor),
+                        style: context.theme.textTheme.bodyMedium?.copyWith(
+                          color: context.theme.colorScheme.primary,
+                        ),
                       ),
                       SvgPicture.asset(
                         AssetStrings.arrowDownIcon,
                         package: AssetStrings.packageName,
                         colorFilter: ColorFilter.mode(
-                          theme.accentColor,
+                          context.theme.colorScheme.primary,
                           BlendMode.srcIn,
                         ),
                       ),
@@ -120,7 +123,7 @@ class ListDescription extends StatelessWidget {
           Text(
             description,
             textAlign: TextAlign.center,
-            style: context.themeData.textTheme.titleMedium,
+            style: context.theme.textTheme.titleMedium,
           ),
         ],
       ),

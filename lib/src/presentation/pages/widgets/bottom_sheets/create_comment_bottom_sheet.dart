@@ -63,9 +63,10 @@ class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
       controller: widget.controller,
       onOpen: _inputFocusNode.requestFocus,
       onClose: ([_]) => widget.onClose(),
-      backgroundColor: theme.bottomSheetBackgroundColor,
-      previousNavBarColor: theme.primaryBackgroundColor,
-      previousStatusBarColor: theme.primaryBackgroundColor,
+      backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
+          theme.bottomSheetBackgroundColor,
+      previousNavBarColor: context.theme.colorScheme.background,
+      previousStatusBarColor: context.theme.colorScheme.background,
       contentBuilder: (_, __) {
         return ListView(
           padding: const EdgeInsets.only(
@@ -122,7 +123,7 @@ List<Widget> _postAdmin({
 }) {
   if (!i.isAdmin) {
     return <Widget>[
-      Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
+      const Divider(thickness: 0.5, height: 1.5),
       const SizedBox(height: Dimensions.marginSmall),
       _PostAnonymously(
         isAnonymously: isAnonymously,
@@ -132,7 +133,7 @@ List<Widget> _postAdmin({
     ];
   }
   return <Widget>[
-    Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
+    const Divider(thickness: 0.5, height: 1.5),
     const SizedBox(height: Dimensions.marginSmall),
     _PostPostedBy(isFromAdmin: isFromAdmin, onChanged: onChangedAdmin),
     const SizedBox(height: Dimensions.marginSmall),
@@ -186,7 +187,8 @@ class _PostAnonymously extends StatelessWidget {
     return ClickableListItem(
       title: Text(
         context.localization.postAnonymously,
-        style: context.themeData.textTheme.titleLarge,
+        style: context.theme.textTheme.labelLarge
+            ?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
       ),
       trailing: SuggestionsSwitch(
         value: isAnonymously,
@@ -210,7 +212,8 @@ class _PostPostedBy extends StatelessWidget {
     return ClickableListItem(
       title: Text(
         context.localization.postFromAdmin,
-        style: context.themeData.textTheme.titleLarge,
+        style: context.theme.textTheme.labelLarge
+            ?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
       ),
       trailing: SuggestionsSwitch(
         value: isFromAdmin,

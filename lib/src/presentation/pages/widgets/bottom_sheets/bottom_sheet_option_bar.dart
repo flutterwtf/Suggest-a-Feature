@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
+import 'package:suggest_a_feature/src/presentation/utils/font_sizes.dart';
 
 class BottomSheetOptionBar extends StatelessWidget {
   final String title;
@@ -28,7 +29,8 @@ class BottomSheetOptionBar extends StatelessWidget {
         ),
         Text(
           title,
-          style: context.themeData.textTheme.displayMedium,
+          style: context.theme.textTheme.labelLarge
+              ?.copyWith(fontSize: FontSizes.mediumPlus),
         ),
         Align(
           alignment: Alignment.centerRight,

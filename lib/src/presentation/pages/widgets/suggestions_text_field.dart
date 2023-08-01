@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:suggest_a_feature/src/presentation/utils/platform_check.dart';
@@ -46,9 +45,10 @@ class SuggestionsTextField extends StatelessWidget {
           Expanded(
             child: DecoratedBox(
               decoration: BoxDecoration(
-                border:
-                    isShowError ? Border.all(color: theme.errorColor) : null,
-                color: theme.primaryBackgroundColor,
+                border: isShowError
+                    ? Border.all(color: context.theme.colorScheme.error)
+                    : null,
+                color: context.theme.colorScheme.background,
                 borderRadius: BorderRadius.circular(
                   Dimensions.smallCircularRadius,
                 ),
@@ -117,8 +117,8 @@ class _CommonTextField extends StatelessWidget {
       focusNode: focusNode,
       keyboardAppearance: keyboardAppearance,
       controller: controller,
-      cursorColor: theme.onPrimaryColor,
-      style: context.themeData.textTheme.titleMedium,
+      cursorColor: context.theme.colorScheme.onBackground,
+      style: context.theme.textTheme.bodyMedium,
       autofocus: autofocus,
       maxLines: null,
       textAlign: textAlign,
@@ -127,8 +127,8 @@ class _CommonTextField extends StatelessWidget {
       decoration: InputDecoration(
         isDense: true,
         hintText: hintText,
-        hintStyle: context.themeData.textTheme.titleMedium?.copyWith(
-          color: theme.onPrimaryColor.withOpacity(0.7),
+        hintStyle: context.theme.textTheme.bodyMedium?.copyWith(
+          color: context.theme.colorScheme.onBackground.withOpacity(0.7),
         ),
         fillColor: Colors.transparent,
         contentPadding: padding,
@@ -138,7 +138,8 @@ class _CommonTextField extends StatelessWidget {
                 borderRadius: const BorderRadius.all(
                   Radius.circular(Dimensions.smallCircularRadius),
                 ),
-                borderSide: BorderSide(color: theme.accentColor),
+                borderSide:
+                    BorderSide(color: context.theme.colorScheme.primary),
               )
             : null,
       ),
@@ -183,15 +184,15 @@ class _IosTextField extends StatelessWidget {
       controller: controller,
       focusNode: focusNode,
       keyboardAppearance: keyboardAppearance,
-      cursorColor: theme.onPrimaryColor,
-      style: context.themeData.textTheme.titleMedium,
+      cursorColor: context.theme.colorScheme.onBackground,
+      style: context.theme.textTheme.bodyMedium,
       autofocus: autofocus,
       maxLines: null,
       textAlign: textAlign,
       textInputAction: textInputAction,
       placeholder: hintText,
-      placeholderStyle: context.themeData.textTheme.titleMedium?.copyWith(
-        color: theme.onPrimaryColor.withOpacity(0.7),
+      placeholderStyle: context.theme.textTheme.bodyMedium?.copyWith(
+        color: context.theme.colorScheme.onBackground.withOpacity(0.7),
       ),
       cursorHeight: 20,
       decoration: BoxDecoration(
@@ -201,7 +202,7 @@ class _IosTextField extends StatelessWidget {
         ),
         border: Border.all(
           color: (focusNode?.hasFocus ?? false)
-              ? theme.accentColor
+              ? context.theme.colorScheme.primary
               : Colors.transparent,
         ),
       ),

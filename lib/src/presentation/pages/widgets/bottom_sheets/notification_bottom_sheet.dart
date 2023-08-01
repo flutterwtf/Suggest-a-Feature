@@ -41,9 +41,10 @@ class _NotificationSuggestionBottomSheetState
     return BaseBottomSheet(
       controller: widget.controller,
       onClose: ([_]) => widget.onCancel(),
-      backgroundColor: theme.bottomSheetBackgroundColor,
-      previousNavBarColor: theme.primaryBackgroundColor,
-      previousStatusBarColor: theme.primaryBackgroundColor,
+      backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
+          theme.bottomSheetBackgroundColor,
+      previousNavBarColor: context.theme.colorScheme.background,
+      previousStatusBarColor: context.theme.colorScheme.background,
       contentBuilder: (BuildContext context, SheetState sheetState) {
         return ListView(
           padding: const EdgeInsets.symmetric(
@@ -88,13 +89,15 @@ class _NotificationSwitch extends StatelessWidget {
               Text(
                 context.localization.notifyMe,
                 textAlign: TextAlign.start,
-                style: context.themeData.textTheme.headlineMedium,
+                style: context.theme.textTheme.bodyLarge,
               ),
               const SizedBox(height: Dimensions.marginMicro),
               Text(
                 context.localization.notificationDescription,
                 textAlign: TextAlign.start,
-                style: TextStyle(color: theme.secondaryTextColor),
+                style: TextStyle(
+                  color: context.theme.colorScheme.onSurfaceVariant,
+                ),
               ),
             ],
           ),

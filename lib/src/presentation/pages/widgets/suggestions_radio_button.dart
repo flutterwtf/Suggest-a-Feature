@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
-import 'package:suggest_a_feature/suggest_a_feature.dart';
 
 class SuggestionsRadioButton extends StatelessWidget {
   final bool selected;
@@ -21,17 +21,19 @@ class SuggestionsRadioButton extends StatelessWidget {
         child: DecoratedBox(
           decoration: BoxDecoration(
             border: Border.all(
-              color: theme.onPrimaryColor,
+              color: context.theme.colorScheme.onBackground,
               width: 0.5,
             ),
-            color: selected ? theme.onPrimaryColor : theme.thirdBackgroundColor,
+            color: selected
+                ? context.theme.colorScheme.onBackground
+                : context.theme.colorScheme.background,
             shape: BoxShape.circle,
           ),
           child: selected
               ? Icon(
                   Icons.check,
                   size: Dimensions.smallSize,
-                  color: theme.primaryBackgroundColor,
+                  color: context.theme.colorScheme.background,
                 )
               : null,
         ),
