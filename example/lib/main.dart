@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
             () => _suggestionAuthor,
           ),
           suggestionsDataSource: MySuggestionDataSource(userId: '1'),
+          theme: SuggestionsTheme.initial(),
           userId: '1',
           isAdmin: true,
           adminSettings: _adminSettings,

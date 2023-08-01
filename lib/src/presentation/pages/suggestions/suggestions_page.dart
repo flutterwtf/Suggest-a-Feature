@@ -28,6 +28,9 @@ class SuggestionsPage extends StatefulWidget {
   /// Implementation of [SuggestionsDataSource].
   final SuggestionsDataSource suggestionsDataSource;
 
+  /// Current module theme.
+  final SuggestionsTheme theme;
+
   /// Callback processing the upload of photos.
   final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
 
@@ -50,6 +53,7 @@ class SuggestionsPage extends StatefulWidget {
   SuggestionsPage({
     required this.userId,
     required this.suggestionsDataSource,
+    required this.theme,
     required this.onGetUserById,
     this.adminSettings,
     this.isAdmin = false,
@@ -63,7 +67,7 @@ class SuggestionsPage extends StatefulWidget {
           'if isAdmin == true, then adminSettings cannot be null',
         ) {
     i.init(
-      theme: SuggestionsTheme.initial(),
+      theme: theme,
       userId: userId,
       imageHeaders: imageHeaders,
       suggestionsDataSource: suggestionsDataSource,
