@@ -1,10 +1,10 @@
-import 'package:rxdart/rxdart.dart';
 import 'package:suggest_a_feature/src/data/interfaces/cache_data_source.dart';
 import 'package:suggest_a_feature/src/data/interfaces/suggestions_data_source.dart';
 import 'package:suggest_a_feature/src/domain/data_interfaces/suggestion_repository.dart';
 import 'package:suggest_a_feature/src/domain/entities/comment.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion_author.dart';
+import 'package:suggest_a_feature/src/domain/utils/simple_behavior_subject.dart';
 
 class SuggestionRepositoryImpl implements SuggestionRepository {
   final SuggestionsDataSource _suggestionsDataSource;
@@ -15,15 +15,15 @@ class SuggestionRepositoryImpl implements SuggestionRepository {
     this._cacheDataSource,
   );
 
-  final BehaviorSubject<List<Suggestion>> _suggestionsSubject =
-      BehaviorSubject<List<Suggestion>>();
+  final SimpleBehaviorSubject<List<Suggestion>> _suggestionsSubject =
+      SimpleBehaviorSubject<List<Suggestion>>([]);
 
   @override
-  Stream<List<Suggestion>> get suggestionsStream => _suggestionsSubject;
+  Stream<List<Suggestion>> get suggestionsStream =>
+      _suggestionsSubject.stream();
 
   @override
-  List<Suggestion> get suggestions =>
-      _suggestionsSubject.hasValue ? _suggestionsSubject.value : [];
+  List<Suggestion> get suggestions => _suggestionsSubject.value;
 
   @override
   Map<String, SuggestionAuthor?> get userInfo => _cacheDataSource.userInfo;
@@ -38,13 +38,13 @@ class SuggestionRepositoryImpl implements SuggestionRepository {
       comments: saveComments ? oldSuggestion.comments : null,
     );
 
-    _suggestionsSubject.add(suggestions);
+    _suggestionsSubject.value = suggestions;
   }
 
   @override
   Future<void> initSuggestions() async {
     final suggestions = await _suggestionsDataSource.getAllSuggestions();
-    _suggestionsSubject.add(suggestions);
+    _suggestionsSubject.value = suggestions;
   }
 
   @override
@@ -58,7 +58,7 @@ class SuggestionRepositoryImpl implements SuggestionRepository {
 
     final suggestions = List<Suggestion>.from(this.suggestions)
       ..add(createdSuggestion);
-    _suggestionsSubject.add(suggestions);
+    _suggestionsSubject.value = suggestions;
 
     return createdSuggestion;
   }
@@ -76,7 +76,7 @@ class SuggestionRepositoryImpl implements SuggestionRepository {
     await _suggestionsDataSource.deleteSuggestionById(suggestionId);
     final suggestions = List<Suggestion>.from(this.suggestions)
       ..removeWhere((Suggestion e) => e.id == suggestionId);
-    _suggestionsSubject.add(suggestions);
+    _suggestionsSubject.value = suggestions;
   }
 
   @override

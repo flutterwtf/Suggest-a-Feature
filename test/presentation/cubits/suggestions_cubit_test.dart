@@ -1,8 +1,8 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
+import 'package:suggest_a_feature/src/domain/utils/simple_behavior_subject.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_cubit.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_state.dart';
@@ -119,19 +119,18 @@ void main() {
       blocTest<SuggestionsCubit, SuggestionsState>(
         'vote requested suggestion',
         build: () {
-          final dataStream = BehaviorSubject.seeded([
+          final dataStream = SimpleBehaviorSubject([
             mockedRequestSuggestion,
             mockedRequestSuggestion2,
           ]);
 
           when(mockSuggestionRepository.suggestionsStream).thenAnswer(
-            (_) => dataStream,
+            (_) => dataStream.stream(),
           );
 
           when(mockSuggestionRepository.upvote(any)).thenAnswer(
-            (_) async => dataStream.add(
-              [mockedRequestSuggestion, upvotedSuggestion],
-            ),
+            (_) async =>
+                dataStream.value = [mockedRequestSuggestion, upvotedSuggestion],
           );
 
           return SuggestionsCubit(

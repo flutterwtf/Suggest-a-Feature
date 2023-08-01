@@ -1,3 +1,6 @@
+## 0.2.1
+* Sorting added
+
 ## 0.2.0
 * Dart 3.0.0 is now the minimum version
 * Upgrade dependencies
