@@ -21,8 +21,6 @@ class SuggestionsAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: theme.primaryBackgroundColor,
-      elevation: 0,
       centerTitle: true,
       leading: onBackClick != null
           ? Padding(
@@ -33,14 +31,11 @@ class SuggestionsAppBar extends StatelessWidget implements PreferredSizeWidget {
               child: SuggestionsBackButton(
                 onClick: onBackClick!,
                 pressedColor: theme.actionPressedColor,
-                color: theme.primaryTextColor,
+                color: theme.onPrimaryColor,
               ),
             )
           : null,
-      title: Text(
-        screenTitle,
-        style: theme.textMediumBold,
-      ),
+      title: Text(screenTitle),
       actions: trailing != null ? <Widget>[trailing!] : null,
       key: key,
     );

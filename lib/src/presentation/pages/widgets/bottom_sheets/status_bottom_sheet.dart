@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/bottom_sheet_actions.dart';
 import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
@@ -181,7 +182,7 @@ class _StatusItem extends StatelessWidget {
       children: <Widget>[
         Text(
           status.statusName(context),
-          style: theme.textSmallPlusSecondaryBold,
+          style: context.themeData.textTheme.titleLarge,
         ),
         GestureDetector(
           onTap: () => onTap(status),
@@ -191,11 +192,11 @@ class _StatusItem extends StatelessWidget {
             child: DecoratedBox(
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: theme.primaryIconColor,
+                  color: theme.onPrimaryColor,
                   width: 0.5,
                 ),
                 color: selectedStatus == status
-                    ? theme.primaryIconColor
+                    ? theme.onPrimaryColor
                     : theme.thirdBackgroundColor,
                 shape: BoxShape.circle,
               ),

@@ -15,9 +15,9 @@ class SuggestionsSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoSwitch(
       value: value,
-      activeColor: theme.elevatedButtonColor,
+      activeColor: theme.accentColor,
       trackColor: theme.primaryBackgroundColor,
-      thumbColor: value ? theme.elevatedButtonTextColor : theme.dividerColor,
+      thumbColor: value ? theme.onAccentColor : theme.dividerColor,
       onChanged: onChanged,
     );
   }

@@ -38,7 +38,7 @@ class AvatarWidget extends StatelessWidget {
                   AssetStrings.profileIconImage,
                   package: AssetStrings.packageName,
                   colorFilter: ColorFilter.mode(
-                    theme.primaryIconColor,
+                    theme.onPrimaryColor,
                     BlendMode.srcIn,
                   ),
                 ),

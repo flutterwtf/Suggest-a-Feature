@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_switch.dart';
 import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
@@ -87,7 +88,7 @@ class _NotificationSwitch extends StatelessWidget {
               Text(
                 context.localization.notifyMe,
                 textAlign: TextAlign.start,
-                style: theme.textMedium,
+                style: context.themeData.textTheme.headlineMedium,
               ),
               const SizedBox(height: Dimensions.marginMicro),
               Text(

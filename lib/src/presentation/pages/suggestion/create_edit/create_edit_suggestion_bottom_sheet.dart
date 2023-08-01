@@ -7,6 +7,7 @@ import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_cubit_scope.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_state.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/add_event_photo_button.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/label_bottom_sheet.dart';
@@ -243,7 +244,7 @@ class _LabelItems extends StatelessWidget {
     return ClickableListItem(
       title: Text(
         context.localization.labels,
-        style: theme.textSmallPlusSecondaryBold,
+        style: context.themeData.textTheme.titleLarge,
       ),
       trailing: labels.isNotEmpty
           ? SuggestionLabels(labels: labels)
@@ -251,7 +252,7 @@ class _LabelItems extends StatelessWidget {
               AssetStrings.plusIconThickImage,
               package: AssetStrings.packageName,
               colorFilter: ColorFilter.mode(
-                theme.primaryIconColor,
+                theme.onPrimaryColor,
                 BlendMode.srcIn,
               ),
               height: Dimensions.defaultSize,
@@ -293,11 +294,11 @@ class _SuggestionStatus extends StatelessWidget {
     return ClickableListItem(
       title: Text(
         context.localization.status,
-        style: theme.textSmallPlusSecondaryBold,
+        style: context.themeData.textTheme.titleLarge,
       ),
       trailing: Text(
         _suggestionStatus(context),
-        style: theme.textSmallPlusBold,
+        style: context.themeData.textTheme.headlineSmall,
       ),
       onClick: () => changeStatusBottomSheetStatus(true),
       verticalPadding: Dimensions.marginDefault,
@@ -350,7 +351,7 @@ class _PostAnonymously extends StatelessWidget {
     return ClickableListItem(
       title: Text(
         context.localization.postAnonymously,
-        style: theme.textSmallPlusSecondaryBold,
+        style: context.themeData.textTheme.titleLarge,
       ),
       trailing: SuggestionsSwitch(
         value: isAnonymously,
@@ -464,7 +465,7 @@ class _PhotoItem extends StatelessWidget {
         child: AddPhotoButton(
           width: tileWidth,
           height: (MediaQuery.of(context).size.width - 80) / 3,
-          style: theme.textSmallPlusBold,
+          style: context.themeData.textTheme.headlineSmall!,
           isLoading: isLoading,
         ),
       );
@@ -511,18 +512,18 @@ class _AddButton extends StatelessWidget {
     return ClickableListItem(
       title: Text(
         context.localization.addPhoto,
-        style: theme.textSmallPlusSecondaryBold,
+        style: context.themeData.textTheme.titleLarge,
       ),
       trailing: isLoading
           ? CircularProgressIndicator(
               strokeWidth: 1,
-              valueColor: AlwaysStoppedAnimation<Color>(theme.primaryIconColor),
+              valueColor: AlwaysStoppedAnimation<Color>(theme.onPrimaryColor),
             )
           : SvgPicture.asset(
               AssetStrings.plusIconThickImage,
               package: AssetStrings.packageName,
               colorFilter: ColorFilter.mode(
-                theme.primaryIconColor,
+                theme.onPrimaryColor,
                 BlendMode.srcIn,
               ),
               height: isSmall ? Dimensions.smallSize : Dimensions.defaultSize,

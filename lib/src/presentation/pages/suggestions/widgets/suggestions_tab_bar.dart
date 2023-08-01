@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
 import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
@@ -20,7 +21,7 @@ class SuggestionsTabBar extends StatelessWidget {
     return TabBar(
       controller: tabController,
       isScrollable: true,
-      indicatorColor: theme.barIndicatorColor,
+      indicatorColor: theme.accentColor,
       tabs: [
         Tab(
           child: _TabButton(
@@ -86,8 +87,8 @@ class _TabButton extends StatelessWidget {
           child: Text(
             text,
             style: isActive
-                ? theme.textSmallPlusBold
-                : theme.textSmallPlusSecondary,
+                ? context.themeData.textTheme.headlineSmall
+                : context.themeData.textTheme.titleLarge,
           ),
         ),
       ],
@@ -111,7 +112,7 @@ class _TabIcon extends StatelessWidget {
         iconPath,
         package: AssetStrings.packageName,
         colorFilter: ColorFilter.mode(
-          isActive ? theme.primaryIconColor : theme.secondaryIconColor,
+          isActive ? theme.onPrimaryColor : theme.secondaryIconColor,
           BlendMode.srcIn,
         ),
       ),

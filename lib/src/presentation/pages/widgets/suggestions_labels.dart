@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
-import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:suggest_a_feature/src/presentation/utils/label_utils.dart';
 
@@ -52,7 +52,7 @@ class _Label extends StatelessWidget {
         const SizedBox(width: 11),
         Text(
           label.labelName(context),
-          style: theme.textSmallPlusBold.copyWith(
+          style: context.themeData.textTheme.headlineSmall?.copyWith(
             color: label.labelColor(),
           ),
         ),

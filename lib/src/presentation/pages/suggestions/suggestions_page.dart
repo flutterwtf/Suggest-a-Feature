@@ -86,52 +86,56 @@ class SuggestionsPage extends StatefulWidget {
 class _SuggestionsPageState extends State<SuggestionsPage> {
   @override
   Widget build(BuildContext context) {
-    return SuggestionsCubitScope(
-      child: BlocBuilder<SuggestionsCubit, SuggestionsState>(
-        buildWhen: (previous, current) =>
-            previous.isCreateBottomSheetOpened !=
-                current.isCreateBottomSheetOpened ||
-            previous.activeTab != current.activeTab,
-        builder: (context, state) {
-          final cubit = context.read<SuggestionsCubit>();
-          return Stack(
-            children: [
-              Scaffold(
-                appBar: widget.customAppBar ??
-                    SuggestionsAppBar(
-                      onBackClick: Navigator.of(context).pop,
-                      screenTitle: context.localization.suggestAFeature,
-                    ),
-                backgroundColor: theme.primaryBackgroundColor,
-                body: Stack(
-                  children: [
-                    _MainContent(
-                      userId: widget.userId,
-                      onTabChanged: (index) {
-                        cubit.changeActiveTab(
-                          SuggestionStatus.values[index],
-                        );
-                      },
-                      activeTab: state.activeTab,
-                      onGetUserById: widget.onGetUserById,
-                      onSaveToGallery: widget.onSaveToGallery,
-                      onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
-                    ),
-                    _BottomFab(
-                      openCreateBottomSheet: cubit.openCreateBottomSheet,
-                    ),
-                  ],
+    final themeData = generateThemeData(widget.theme);
+    return Theme(
+      data: themeData,
+      child: SuggestionsCubitScope(
+        child: BlocBuilder<SuggestionsCubit, SuggestionsState>(
+          buildWhen: (previous, current) =>
+              previous.isCreateBottomSheetOpened !=
+                  current.isCreateBottomSheetOpened ||
+              previous.activeTab != current.activeTab,
+          builder: (context, state) {
+            final cubit = context.read<SuggestionsCubit>();
+            return Stack(
+              children: [
+                Scaffold(
+                  appBar: widget.customAppBar ??
+                      SuggestionsAppBar(
+                        onBackClick: Navigator.of(context).pop,
+                        screenTitle: context.localization.suggestAFeature,
+                      ),
+                  backgroundColor: theme.primaryBackgroundColor,
+                  body: Stack(
+                    children: [
+                      _MainContent(
+                        userId: widget.userId,
+                        onTabChanged: (index) {
+                          cubit.changeActiveTab(
+                            SuggestionStatus.values[index],
+                          );
+                        },
+                        activeTab: state.activeTab,
+                        onGetUserById: widget.onGetUserById,
+                        onSaveToGallery: widget.onSaveToGallery,
+                        onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
+                      ),
+                      _BottomFab(
+                        openCreateBottomSheet: cubit.openCreateBottomSheet,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              if (state.isCreateBottomSheetOpened)
-                _BottomSheet(
-                  onSaveToGallery: widget.onSaveToGallery,
-                  onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
-                  onCloseBottomSheet: cubit.closeCreateBottomSheet,
-                ),
-            ],
-          );
-        },
+                if (state.isCreateBottomSheetOpened)
+                  _BottomSheet(
+                    onSaveToGallery: widget.onSaveToGallery,
+                    onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
+                    onCloseBottomSheet: cubit.closeCreateBottomSheet,
+                  ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

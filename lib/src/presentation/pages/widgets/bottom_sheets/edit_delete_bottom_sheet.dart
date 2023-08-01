@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/clickable_list_item.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
@@ -79,7 +80,7 @@ class _LeadingText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: theme.textMediumPlusBold,
+      style: context.themeData.textTheme.displayMedium,
     );
   }
 }
@@ -96,7 +97,7 @@ class _EditItem extends StatelessWidget {
     return ClickableListItem(
       title: Text(
         context.localization.edit,
-        style: theme.textMediumPlusBold,
+        style: context.themeData.textTheme.displayMedium,
       ),
       leading: SvgPicture.asset(
         AssetStrings.penIconImage,
@@ -104,7 +105,7 @@ class _EditItem extends StatelessWidget {
         height: Dimensions.defaultSize,
         width: Dimensions.defaultSize,
         colorFilter: ColorFilter.mode(
-          theme.primaryIconColor,
+          theme.onPrimaryColor,
           BlendMode.srcIn,
         ),
       ),
@@ -125,7 +126,8 @@ class _DeleteItem extends StatelessWidget {
     return ClickableListItem(
       title: Text(
         context.localization.delete,
-        style: theme.textMediumPlusBold.copyWith(color: theme.errorColor),
+        style: context.themeData.textTheme.displayMedium
+            ?.copyWith(color: theme.errorColor),
       ),
       leading: SvgPicture.asset(
         AssetStrings.deleteIconImage,

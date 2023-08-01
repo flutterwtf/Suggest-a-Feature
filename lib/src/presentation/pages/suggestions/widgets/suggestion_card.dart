@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_labels.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/votes_counter.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
@@ -103,13 +104,13 @@ class _CardContent extends StatelessWidget {
             children: <Widget>[
               Text(
                 suggestion.title,
-                style: theme.textSmallPlusBold,
+                style: context.themeData.textTheme.headlineSmall,
               ),
               const SizedBox(height: Dimensions.marginSmall),
               if (suggestion.description != null)
                 Text(
                   suggestion.description!,
-                  style: theme.textSmallPlus,
+                  style: context.themeData.textTheme.titleMedium,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   softWrap: true,

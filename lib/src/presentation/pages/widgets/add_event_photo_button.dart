@@ -37,7 +37,7 @@ class AddPhotoButton extends StatelessWidget {
               ? CircularProgressIndicator(
                   strokeWidth: 1,
                   valueColor:
-                      AlwaysStoppedAnimation<Color>(theme.primaryIconColor),
+                      AlwaysStoppedAnimation<Color>(theme.onPrimaryColor),
                 )
               : _AddButton(
                   style: style,
@@ -63,7 +63,7 @@ class _AddButton extends StatelessWidget {
           package: AssetStrings.packageName,
           height: Dimensions.defaultSize,
           colorFilter: ColorFilter.mode(
-            theme.primaryTextColor,
+            theme.onPrimaryColor,
             BlendMode.srcIn,
           ),
         ),
@@ -71,7 +71,7 @@ class _AddButton extends StatelessWidget {
           padding: const EdgeInsets.only(top: Dimensions.marginSmall),
           child: Text(
             context.localization.add,
-            style: style.copyWith(color: theme.primaryTextColor),
+            style: style.copyWith(color: theme.onPrimaryColor),
           ),
         ),
       ],

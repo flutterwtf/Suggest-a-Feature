@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:suggest_a_feature/src/presentation/utils/platform_check.dart';
@@ -77,16 +78,14 @@ class _NewSuggestionTextButtonState extends State<_NewSuggestionTextButton> {
   Widget build(BuildContext context) {
     var color = widget.enabled
         ? widget.isTonal
-            ? theme.tonalButtonColor
+            ? theme.focusedColor
             : Colors.transparent
         : theme.disabledTextButtonColor;
     var textColor =
-        widget.enabled ? theme.enabledTextColor : theme.disabledTextColor;
+        widget.enabled ? theme.accentColor : theme.disabledTextColor;
     if (_pressed) {
-      color = widget.isTonal
-          ? theme.focusedTonalButtonColor
-          : theme.focusedTextButtonColor;
-      textColor = theme.focusedTextColor;
+      color = widget.isTonal ? theme.focusedTonalColor : theme.focusedColor;
+      textColor = theme.pressedAccentColor;
     }
     return GestureDetector(
       onTap: () {
@@ -108,7 +107,8 @@ class _NewSuggestionTextButtonState extends State<_NewSuggestionTextButton> {
         ),
         child: Text(
           widget.title,
-          style: theme.textSmallPlusBold.copyWith(color: textColor),
+          style: context.themeData.textTheme.headlineSmall
+              ?.copyWith(color: textColor),
         ),
       ),
     );

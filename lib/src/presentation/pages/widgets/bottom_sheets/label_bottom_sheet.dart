@@ -168,11 +168,11 @@ class _LabelItem extends StatelessWidget {
             child: DecoratedBox(
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: theme.primaryIconColor,
+                  color: theme.onPrimaryColor,
                   width: 0.5,
                 ),
                 color: selectedLabels.contains(label)
-                    ? theme.primaryIconColor
+                    ? theme.onPrimaryColor
                     : theme.thirdBackgroundColor,
                 shape: BoxShape.circle,
               ),

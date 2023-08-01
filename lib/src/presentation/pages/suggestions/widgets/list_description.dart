@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:suggest_a_feature/suggest_a_feature.dart';
@@ -62,8 +63,14 @@ class ListDescription extends StatelessWidget {
             textAlign: TextAlign.center,
             text: TextSpan(
               children: <TextSpan>[
-                TextSpan(text: header, style: theme.textMediumBold),
-                TextSpan(text: ' ($length)', style: theme.textSmallPlus),
+                TextSpan(
+                  text: header,
+                  style: context.themeData.textTheme.displaySmall,
+                ),
+                TextSpan(
+                  text: ' ($length)',
+                  style: context.themeData.textTheme.titleMedium,
+                ),
               ],
             ),
           ),
@@ -71,7 +78,7 @@ class ListDescription extends StatelessWidget {
           Text(
             description,
             textAlign: TextAlign.center,
-            style: theme.textSmallPlus,
+            style: context.themeData.textTheme.titleLarge,
           ),
         ],
       ),

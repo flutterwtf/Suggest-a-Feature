@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/clickable_list_item.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_elevated_button.dart';
@@ -185,7 +186,7 @@ class _PostAnonymously extends StatelessWidget {
     return ClickableListItem(
       title: Text(
         context.localization.postAnonymously,
-        style: theme.textSmallPlusSecondaryBold,
+        style: context.themeData.textTheme.titleLarge,
       ),
       trailing: SuggestionsSwitch(
         value: isAnonymously,
@@ -209,7 +210,7 @@ class _PostPostedBy extends StatelessWidget {
     return ClickableListItem(
       title: Text(
         context.localization.postFromAdmin,
-        style: theme.textSmallPlusSecondaryBold,
+        style: context.themeData.textTheme.titleLarge,
       ),
       trailing: SuggestionsSwitch(
         value: isFromAdmin,

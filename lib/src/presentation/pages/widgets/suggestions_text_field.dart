@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:suggest_a_feature/src/presentation/utils/platform_check.dart';
 
@@ -116,8 +117,8 @@ class _CommonTextField extends StatelessWidget {
       focusNode: focusNode,
       keyboardAppearance: keyboardAppearance,
       controller: controller,
-      cursorColor: theme.primaryTextColor,
-      style: theme.textSmallPlus,
+      cursorColor: theme.onPrimaryColor,
+      style: context.themeData.textTheme.titleMedium,
       autofocus: autofocus,
       maxLines: null,
       textAlign: textAlign,
@@ -126,8 +127,8 @@ class _CommonTextField extends StatelessWidget {
       decoration: InputDecoration(
         isDense: true,
         hintText: hintText,
-        hintStyle: theme.textSmallPlus.copyWith(
-          color: theme.primaryTextColor.withOpacity(0.7),
+        hintStyle: context.themeData.textTheme.titleMedium?.copyWith(
+          color: theme.onPrimaryColor.withOpacity(0.7),
         ),
         fillColor: Colors.transparent,
         contentPadding: padding,
@@ -137,8 +138,7 @@ class _CommonTextField extends StatelessWidget {
                 borderRadius: const BorderRadius.all(
                   Radius.circular(Dimensions.smallCircularRadius),
                 ),
-                borderSide:
-                    BorderSide(color: theme.focusedTextFieldBorderlineColor),
+                borderSide: BorderSide(color: theme.accentColor),
               )
             : null,
       ),
@@ -183,15 +183,15 @@ class _IosTextField extends StatelessWidget {
       controller: controller,
       focusNode: focusNode,
       keyboardAppearance: keyboardAppearance,
-      cursorColor: theme.primaryTextColor,
-      style: theme.textSmallPlus,
+      cursorColor: theme.onPrimaryColor,
+      style: context.themeData.textTheme.titleMedium,
       autofocus: autofocus,
       maxLines: null,
       textAlign: textAlign,
       textInputAction: textInputAction,
       placeholder: hintText,
-      placeholderStyle: theme.textSmallPlus.copyWith(
-        color: theme.primaryTextColor.withOpacity(0.7),
+      placeholderStyle: context.themeData.textTheme.titleMedium?.copyWith(
+        color: theme.onPrimaryColor.withOpacity(0.7),
       ),
       cursorHeight: 20,
       decoration: BoxDecoration(
@@ -201,7 +201,7 @@ class _IosTextField extends StatelessWidget {
         ),
         border: Border.all(
           color: (focusNode?.hasFocus ?? false)
-              ? theme.focusedTextFieldBorderlineColor
+              ? theme.accentColor
               : Colors.transparent,
         ),
       ),

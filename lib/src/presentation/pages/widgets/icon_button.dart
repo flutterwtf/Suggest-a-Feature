@@ -47,7 +47,7 @@ class _SuggestionsIconButtonState extends State<SuggestionsIconButton> {
           colorFilter: ColorFilter.mode(
             _pressed
                 ? theme.actionPressedColor
-                : widget.color ?? theme.primaryIconColor,
+                : widget.color ?? theme.onPrimaryColor,
             BlendMode.srcIn,
           ),
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/clickable_list_item.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
@@ -121,7 +122,7 @@ class _Question extends StatelessWidget {
       ),
       child: Text(
         question,
-        style: theme.textMediumPlusBold,
+        style: context.themeData.textTheme.displayMedium,
         textAlign: TextAlign.center,
       ),
     );
@@ -155,7 +156,7 @@ class _Confirm extends StatelessWidget {
       ),
       title: Text(
         onConfirmText,
-        style: theme.textMediumPlusBold.copyWith(
+        style: context.themeData.textTheme.displayMedium?.copyWith(
           color: theme.errorColor,
         ),
         textAlign: TextAlign.left,
@@ -183,13 +184,13 @@ class _Cancel extends StatelessWidget {
         width: Dimensions.defaultSize,
         height: Dimensions.defaultSize,
         colorFilter: ColorFilter.mode(
-          theme.primaryIconColor,
+          theme.onPrimaryColor,
           BlendMode.srcIn,
         ),
       ),
       title: Text(
         onCancelText,
-        style: theme.textMediumPlusBold,
+        style: context.themeData.textTheme.displayMedium,
         textAlign: TextAlign.left,
       ),
     );

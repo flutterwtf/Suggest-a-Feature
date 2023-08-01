@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
@@ -28,40 +29,20 @@ class SuggestionsElevatedButton extends StatefulWidget {
 }
 
 class _SuggestionsElevatedButtonState extends State<SuggestionsElevatedButton> {
-  var _pressed = false;
-
-  void _onTap(bool value) => setState(() => _pressed = value);
-
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      onTap: () =>
-          widget.isLoading ? () => <dynamic, dynamic>{} : widget.onClick(),
-      onTapDown: (_) => _onTap(true),
-      onTapUp: (_) => _onTap(false),
-      onTapCancel: () => _onTap(false),
-      child: SizedBox(
-        height: Dimensions.buttonHeight,
-        child: ElevatedButton(
-          onPressed: widget.onClick,
-          style: TextButton.styleFrom(
-            padding: EdgeInsets.zero,
-            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            elevation: 0,
-            backgroundColor: _pressed
-                ? widget.backgroundColor ?? theme.pressedElevatedButtonColor
-                : widget.backgroundColor ?? theme.elevatedButtonColor,
-            shape: RoundedRectangleBorder(
-              borderRadius:
-                  BorderRadius.circular(Dimensions.smallCircularRadius),
-            ),
-          ),
-          child: _ButtonContent(
-            buttonText: widget.buttonText,
-            textColor: widget.textColor,
-            imageIconPath: widget.imageIconPath,
-          ),
+    return SizedBox(
+      height: Dimensions.buttonHeight,
+      child: ElevatedButton(
+        style: context.themeData.elevatedButtonTheme.style?.copyWith(
+          backgroundColor: MaterialStatePropertyAll(widget.backgroundColor),
+        ),
+        onPressed: () =>
+            widget.isLoading ? () => <dynamic, dynamic>{} : widget.onClick(),
+        child: _ButtonContent(
+          buttonText: widget.buttonText,
+          imageIconPath: widget.imageIconPath,
+          textColor: widget.textColor,
         ),
       ),
     );
@@ -89,7 +70,7 @@ class _ButtonContent extends StatelessWidget {
             imageIconPath!,
             package: AssetStrings.packageName,
             colorFilter: ColorFilter.mode(
-              theme.elevatedButtonTextColor,
+              theme.onAccentColor,
               BlendMode.srcIn,
             ),
           ),
@@ -97,8 +78,8 @@ class _ButtonContent extends StatelessWidget {
         ],
         Text(
           buttonText,
-          style: theme.textSmallPlusBold.copyWith(
-            color: textColor ?? theme.elevatedButtonTextColor,
+          style: context.themeData.textTheme.headlineSmall?.copyWith(
+            color: textColor ?? theme.onAccentColor,
           ),
         ),
       ],
