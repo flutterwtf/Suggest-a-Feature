@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:suggest_a_feature/src/presentation/di/injector.dart';
-
-SuggestionsTheme get theme => i.theme;
 
 class SuggestionsTheme {
-  @Deprecated('Use material theme property instead')
-  final Color bottomSheetBackgroundColor;
   final Color actionColor;
   final Color actionPressedColor;
   final Color actionBackgroundColor;
@@ -38,8 +33,6 @@ class SuggestionsTheme {
     required this.bugLabelColor,
     required this.fade,
     required this.fabColor,
-    @Deprecated('Use material theme property instead')
-    this.bottomSheetBackgroundColor = const Color.fromRGBO(248, 248, 248, 1),
   });
 
   factory SuggestionsTheme.initial() => SuggestionsTheme(

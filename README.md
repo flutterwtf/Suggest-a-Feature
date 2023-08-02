@@ -139,7 +139,7 @@ Since version 0.3.0 the package uses the material theme of your application. Her
 * primaryBackgroundColor -> ThemeData.colorScheme.background
 * secondaryBackgroundColor -> ThemeData.colorScheme.surfaceVariant
 * thirdBackgroundColor -> ThemeData.colorScheme.surface
-* bottomSheetBackgroundColor -> ThemeData.bottomSheetTheme.backgroundColor ?? SuggestionsTheme.bottomSheetBackgroundColor,
+* bottomSheetBackgroundColor -> ThemeData.bottomSheetTheme.backgroundColor ?? ThemeData.colorScheme.background,
 * primaryTextColor and primaryIconColor -> ThemeData.colorScheme.onPrimary
 * secondaryTextColor and secondaryIconColor -> ThemeData.colorScheme.onSurfaceVariant
 * dividerColor -> ThemeData.dividerColor

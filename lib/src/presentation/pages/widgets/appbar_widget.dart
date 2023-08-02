@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_back_button.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
-import 'package:suggest_a_feature/suggest_a_feature.dart';
 
 class SuggestionsAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String screenTitle;

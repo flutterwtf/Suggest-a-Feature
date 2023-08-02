@@ -5,7 +5,6 @@ import 'package:suggest_a_feature/src/presentation/pages/widgets/dotted_border.d
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
 import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
-import 'package:suggest_a_feature/suggest_a_feature.dart';
 
 class AddPhotoButton extends StatelessWidget {
   final double width;
