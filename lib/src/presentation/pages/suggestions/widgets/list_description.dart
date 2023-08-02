@@ -74,36 +74,42 @@ class ListDescription extends StatelessWidget {
                   ],
                 ),
               ),
-              GestureDetector(
-                onTap: openSortingBottomSheet,
-                behavior: HitTestBehavior.translucent,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 6,
-                    horizontal: Dimensions.marginSmall,
-                  ),
-                  decoration: BoxDecoration(
-                    color: theme.secondaryBackgroundColor,
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(Dimensions.middleCircularRadius),
+              const SizedBox(width: Dimensions.marginSmall),
+              Flexible(
+                child: GestureDetector(
+                  onTap: openSortingBottomSheet,
+                  behavior: HitTestBehavior.translucent,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 6,
+                      horizontal: Dimensions.marginSmall,
                     ),
-                  ),
-                  child: Row(
-                    children: [
-                      Text(
-                        context.localization.sortBy,
-                        style: theme.textSmallPlus
-                            .copyWith(color: theme.enabledTextColor),
+                    decoration: BoxDecoration(
+                      color: theme.secondaryBackgroundColor,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(Dimensions.middleCircularRadius),
                       ),
-                      SvgPicture.asset(
-                        AssetStrings.arrowDownIcon,
-                        package: AssetStrings.packageName,
-                        colorFilter: ColorFilter.mode(
-                          theme.barIndicatorColor,
-                          BlendMode.srcIn,
+                    ),
+                    child: Row(
+                      children: [
+                        Flexible(
+                          child: Text(
+                            context.localization.sortBy,
+                            style: theme.textSmallPlus
+                                .copyWith(color: theme.enabledTextColor),
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
-                      ),
-                    ],
+                        SvgPicture.asset(
+                          AssetStrings.arrowDownIcon,
+                          package: AssetStrings.packageName,
+                          colorFilter: ColorFilter.mode(
+                            theme.barIndicatorColor,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
