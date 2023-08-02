@@ -6,7 +6,6 @@ import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_cubit.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_cubit_scope.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_state.dart';
-import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/add_event_photo_button.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
@@ -202,7 +201,7 @@ class _CreateEditSuggestionBottomSheet extends StatelessWidget {
       onOpen: titleFocusNode.requestFocus,
       onClose: ([_]) => onClose(),
       backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
-          theme.bottomSheetBackgroundColor,
+          context.theme.colorScheme.background,
       previousNavBarColor: context.theme.colorScheme.background,
       previousStatusBarColor: context.theme.colorScheme.surfaceVariant,
       initialSnapping: 0.85,

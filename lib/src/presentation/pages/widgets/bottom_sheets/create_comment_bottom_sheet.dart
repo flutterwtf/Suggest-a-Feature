@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart';
-import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/clickable_list_item.dart';
@@ -64,7 +63,7 @@ class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
       onOpen: _inputFocusNode.requestFocus,
       onClose: ([_]) => widget.onClose(),
       backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
-          theme.bottomSheetBackgroundColor,
+          context.theme.colorScheme.background,
       previousNavBarColor: context.theme.colorScheme.background,
       previousStatusBarColor: context.theme.colorScheme.background,
       contentBuilder: (_, __) {

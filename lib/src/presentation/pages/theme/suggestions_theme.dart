@@ -60,7 +60,6 @@ class SuggestionsTheme {
       );
 
   SuggestionsTheme copyWith({
-    Color? bottomSheetBackgroundColor,
     Color? actionColor,
     Color? actionPressedColor,
     Color? actionBackgroundColor,
@@ -77,8 +76,6 @@ class SuggestionsTheme {
     Color? fabColor,
   }) {
     return SuggestionsTheme(
-      bottomSheetBackgroundColor:
-          bottomSheetBackgroundColor ?? this.bottomSheetBackgroundColor,
       actionColor: actionColor ?? this.actionColor,
       actionPressedColor: actionPressedColor ?? this.actionPressedColor,
       actionBackgroundColor:

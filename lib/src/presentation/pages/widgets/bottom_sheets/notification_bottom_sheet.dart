@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_switch.dart';
@@ -42,7 +41,7 @@ class _NotificationSuggestionBottomSheetState
       controller: widget.controller,
       onClose: ([_]) => widget.onCancel(),
       backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
-          theme.bottomSheetBackgroundColor,
+          context.theme.colorScheme.background,
       previousNavBarColor: context.theme.colorScheme.background,
       previousStatusBarColor: context.theme.colorScheme.background,
       contentBuilder: (BuildContext context, SheetState sheetState) {

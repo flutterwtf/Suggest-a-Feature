@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/clickable_list_item.dart';
@@ -38,7 +37,7 @@ class ConfirmationBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseBottomSheet(
       backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
-          theme.bottomSheetBackgroundColor,
+          context.theme.colorScheme.background,
       previousNavBarColor: context.theme.colorScheme.background,
       previousStatusBarColor: context.theme.colorScheme.background,
       controller: controller,

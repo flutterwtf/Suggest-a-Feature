@@ -5,7 +5,6 @@ import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/b
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_radio_button.dart';
 import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
-import 'package:suggest_a_feature/suggest_a_feature.dart';
 import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
 
 class SortingBottomSheet extends StatefulWidget {
@@ -33,7 +32,7 @@ class _SortingBottomSheetState extends State<SortingBottomSheet> {
       controller: _controller,
       onClose: ([_]) => _onClose(),
       backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
-          theme.bottomSheetBackgroundColor,
+          context.theme.colorScheme.background,
       previousNavBarColor: context.theme.colorScheme.background,
       previousStatusBarColor: context.theme.colorScheme.background,
       title: context.localization.sortBy,

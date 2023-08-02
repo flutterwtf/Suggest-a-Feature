@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
-import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/bottom_sheet_actions.dart';
@@ -43,7 +42,7 @@ class _StatusBottomSheetState extends State<StatusBottomSheet> {
       titleBottomPadding: 0,
       controller: widget.controller,
       previousNavBarColor: context.theme.bottomSheetTheme.backgroundColor ??
-          theme.bottomSheetBackgroundColor,
+          context.theme.colorScheme.background,
       previousStatusBarColor: context.theme.colorScheme.surface,
       onClose: ([ClosureType? closureType]) async {
         if (closureType == ClosureType.backButton) {
@@ -54,7 +53,7 @@ class _StatusBottomSheetState extends State<StatusBottomSheet> {
         }
       },
       backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
-          theme.bottomSheetBackgroundColor,
+          context.theme.colorScheme.background,
       contentBuilder: (BuildContext context, SheetState sheetState) {
         return ListView(
           padding: const EdgeInsets.only(bottom: Dimensions.marginMiddle),
