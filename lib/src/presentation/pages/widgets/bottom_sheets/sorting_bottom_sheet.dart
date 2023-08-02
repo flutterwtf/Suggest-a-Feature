@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_state.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_radio_button.dart';
 import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
@@ -41,16 +40,16 @@ class _SortingBottomSheetState extends State<SortingBottomSheet> {
           children: [
             _SortRow(
               title: context.localization.numberOfLikes,
-              value: SortType.likes,
-              selected: widget.value == SortType.likes,
+              value: SortType.upvotes,
+              selected: widget.value == SortType.upvotes,
               onChanged: widget.onChanged,
             ),
             const SizedBox(height: Dimensions.marginSmall),
             _SortRow(
               title: context.localization.creationDate,
-              value: SortType.date,
+              value: SortType.creationDate,
               onChanged: widget.onChanged,
-              selected: widget.value == SortType.date,
+              selected: widget.value == SortType.creationDate,
             ),
           ],
         );

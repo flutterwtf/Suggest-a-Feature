@@ -19,3 +19,6 @@ typedef OnSaveToGalleryCallback = Future<bool?> Function(String url);
 ///
 /// The [id] argument is an id of the author which we want to get.
 typedef OnGetUserById = Future<SuggestionAuthor?> Function(String id);
+
+/// Sorting type values
+enum SortType { upvotes, creationDate }
