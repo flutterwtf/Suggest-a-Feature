@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_back_button.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
@@ -21,9 +21,6 @@ class SuggestionsAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: theme.primaryBackgroundColor,
-      elevation: 0,
-      centerTitle: true,
       leading: onBackClick != null
           ? Padding(
               padding: const EdgeInsets.only(
@@ -33,14 +30,11 @@ class SuggestionsAppBar extends StatelessWidget implements PreferredSizeWidget {
               child: SuggestionsBackButton(
                 onClick: onBackClick!,
                 pressedColor: theme.actionPressedColor,
-                color: theme.primaryTextColor,
+                color: context.theme.colorScheme.onBackground,
               ),
             )
           : null,
-      title: Text(
-        screenTitle,
-        style: theme.textMediumBold,
-      ),
+      title: Text(screenTitle),
       actions: trailing != null ? <Widget>[trailing!] : null,
       key: key,
     );

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:suggest_a_feature/src/presentation/utils/platform_check.dart';
 import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
@@ -258,7 +258,7 @@ class _SafeArea extends StatelessWidget {
                 ),
                 child: Text(
                   title!,
-                  style: theme.textLargeBold,
+                  style: context.theme.textTheme.titleLarge,
                 ),
               ),
             contentBuilder(context, state),

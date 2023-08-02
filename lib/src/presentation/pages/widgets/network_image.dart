@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart';
-import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 
 class SuggestionsNetworkImage extends StatelessWidget {
   final String url;
@@ -34,10 +34,13 @@ class SuggestionsNetworkImage extends StatelessWidget {
           if (loadingProgress == null) {
             return child;
           }
-          return ColoredBox(color: noImageColor ?? theme.thirdBackgroundColor);
+          return ColoredBox(
+            color: noImageColor ?? context.theme.colorScheme.surface,
+          );
         },
-        errorBuilder: (_, __, ___) =>
-            ColoredBox(color: noImageColor ?? theme.thirdBackgroundColor),
+        errorBuilder: (_, __, ___) => ColoredBox(
+          color: noImageColor ?? context.theme.colorScheme.surface,
+        ),
       ),
     );
   }
