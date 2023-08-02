@@ -4,6 +4,7 @@ import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 SuggestionsTheme get theme => i.theme;
 
 class SuggestionsTheme {
+  @Deprecated('Use material theme property instead')
   final Color bottomSheetBackgroundColor;
   final Color actionColor;
   final Color actionPressedColor;
@@ -23,7 +24,6 @@ class SuggestionsTheme {
   final Color bugLabelColor;
 
   SuggestionsTheme({
-    required this.bottomSheetBackgroundColor,
     required this.actionColor,
     required this.actionPressedColor,
     required this.actionBackgroundColor,
@@ -38,10 +38,11 @@ class SuggestionsTheme {
     required this.bugLabelColor,
     required this.fade,
     required this.fabColor,
+    @Deprecated('Use material theme property instead')
+    this.bottomSheetBackgroundColor = const Color.fromRGBO(248, 248, 248, 1),
   });
 
   factory SuggestionsTheme.initial() => SuggestionsTheme(
-        bottomSheetBackgroundColor: const Color.fromRGBO(248, 248, 248, 1),
         actionColor: const Color.fromRGBO(51, 51, 51, 0.15),
         actionPressedColor: const Color.fromRGBO(51, 51, 51, 0.2),
         actionBackgroundColor: const Color.fromRGBO(224, 224, 224, 1),

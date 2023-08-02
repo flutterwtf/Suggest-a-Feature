@@ -38,8 +38,7 @@ class _SuggestionsElevatedButtonState extends State<SuggestionsElevatedButton> {
           backgroundColor: MaterialStatePropertyAll(widget.backgroundColor),
           foregroundColor: MaterialStatePropertyAll(widget.textColor),
         ),
-        onPressed: () =>
-            widget.isLoading ? () => <dynamic, dynamic>{} : widget.onClick(),
+        onPressed: () => widget.isLoading ? () {} : widget.onClick(),
         child: _ButtonContent(
           buttonText: widget.buttonText,
           imageIconPath: widget.imageIconPath,
