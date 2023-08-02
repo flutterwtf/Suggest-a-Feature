@@ -8,7 +8,6 @@ import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
 import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/date_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
-import 'package:suggest_a_feature/src/presentation/utils/font_sizes.dart';
 import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
 
 class EditDeleteSuggestionBottomSheet extends StatefulWidget {
@@ -82,8 +81,7 @@ class _LeadingText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: context.theme.textTheme.labelLarge
-          ?.copyWith(fontSize: FontSizes.mediumPlus),
+      style: context.theme.textTheme.titleMedium,
     );
   }
 }
@@ -100,8 +98,7 @@ class _EditItem extends StatelessWidget {
     return ClickableListItem(
       title: Text(
         context.localization.edit,
-        style: context.theme.textTheme.labelLarge
-            ?.copyWith(fontSize: FontSizes.mediumPlus),
+        style: context.theme.textTheme.titleMedium,
       ),
       leading: SvgPicture.asset(
         AssetStrings.penIconImage,
@@ -130,9 +127,8 @@ class _DeleteItem extends StatelessWidget {
     return ClickableListItem(
       title: Text(
         context.localization.delete,
-        style: context.theme.textTheme.labelLarge?.copyWith(
+        style: context.theme.textTheme.titleMedium?.copyWith(
           color: context.theme.colorScheme.error,
-          fontSize: FontSizes.mediumPlus,
         ),
       ),
       leading: SvgPicture.asset(

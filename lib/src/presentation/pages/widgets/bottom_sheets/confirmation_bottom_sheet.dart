@@ -6,7 +6,6 @@ import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/b
 import 'package:suggest_a_feature/src/presentation/pages/widgets/clickable_list_item.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
-import 'package:suggest_a_feature/src/presentation/utils/font_sizes.dart';
 import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
 
 class ConfirmationBottomSheet extends StatelessWidget {
@@ -124,8 +123,7 @@ class _Question extends StatelessWidget {
       ),
       child: Text(
         question,
-        style: context.theme.textTheme.labelLarge
-            ?.copyWith(fontSize: FontSizes.mediumPlus),
+        style: context.theme.textTheme.titleMedium,
         textAlign: TextAlign.center,
       ),
     );
@@ -159,9 +157,8 @@ class _Confirm extends StatelessWidget {
       ),
       title: Text(
         onConfirmText,
-        style: context.theme.textTheme.labelLarge?.copyWith(
+        style: context.theme.textTheme.titleMedium?.copyWith(
           color: context.theme.colorScheme.error,
-          fontSize: FontSizes.mediumPlus,
         ),
         textAlign: TextAlign.left,
       ),
@@ -194,8 +191,7 @@ class _Cancel extends StatelessWidget {
       ),
       title: Text(
         onCancelText,
-        style: context.theme.textTheme.labelLarge
-            ?.copyWith(fontSize: FontSizes.mediumPlus),
+        style: context.theme.textTheme.titleMedium,
         textAlign: TextAlign.left,
       ),
     );
