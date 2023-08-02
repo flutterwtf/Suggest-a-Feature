@@ -144,7 +144,7 @@ Since version 0.3.0 the package uses the material theme of your application. Her
 * secondaryTextColor and secondaryIconColor -> ThemeData.colorScheme.onSurfaceVariant
 * dividerColor -> ThemeData.dividerColor
 * elevatedButtonColor -> ThemeData.colorScheme.primary
-* pressedElevatedButtonColor -> ThemeData.colorScheme.primaryVariant
+* pressedElevatedButtonColor -> ThemeData.colorScheme.primaryContainer
 * elevatedButtonTextColor -> ThemeData.colorScheme.onPrimary
 * focusedTextButtonColor -> ThemeData.colorScheme.secondaryContainer
 * focusedTextColor -> ThemeData.colorTheme.onSecondaryContainer
@@ -157,5 +157,4 @@ Since version 0.3.0 the package uses the material theme of your application. Her
 * barIndicatorColor -> ThemeData.colorScheme.primary
 * disabledTextButtonColor -> ThemeData.disabledColor
 * errorColor -> ThemeData.colorScheme.error
-* upvoteArrowColor -> ThemeData.colorScheme.outline
 * dialogBarrierColor -> not used

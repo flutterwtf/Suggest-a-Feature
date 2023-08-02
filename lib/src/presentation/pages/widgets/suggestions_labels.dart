@@ -39,11 +39,11 @@ class _Label extends StatelessWidget {
           width: Dimensions.microSize,
           height: Dimensions.microSize,
           decoration: BoxDecoration(
-            color: label.labelColor(),
+            color: label.labelColor(context),
             shape: BoxShape.circle,
             boxShadow: <BoxShadow>[
               BoxShadow(
-                color: label.labelColor().withOpacity(0.16),
+                color: label.labelColor(context).withOpacity(0.16),
                 spreadRadius: 5,
               ),
             ],
@@ -53,7 +53,7 @@ class _Label extends StatelessWidget {
         Text(
           label.labelName(context),
           style: context.theme.textTheme.labelLarge?.copyWith(
-            color: label.labelColor(),
+            color: label.labelColor(context),
           ),
         ),
       ],

@@ -72,7 +72,9 @@ class ListDescription extends StatelessWidget {
                   children: <TextSpan>[
                     TextSpan(
                       text: header,
-                      style: context.theme.textTheme.titleMedium,
+                      style: context.theme.textTheme.titleMedium?.copyWith(
+                        color: context.theme.colorScheme.onBackground,
+                      ),
                     ),
                     TextSpan(
                       text: ' ($length)',
@@ -94,7 +96,7 @@ class ListDescription extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: context.theme.colorScheme.surfaceVariant,
                     borderRadius: const BorderRadius.all(
-                      Radius.circular(Dimensions.middleCircularRadius),
+                      Radius.circular(Dimensions.verySmallCircularRadius),
                     ),
                   ),
                   child: Row(
@@ -123,7 +125,7 @@ class ListDescription extends StatelessWidget {
           Text(
             description,
             textAlign: TextAlign.center,
-            style: context.theme.textTheme.titleMedium,
+            style: context.theme.textTheme.bodyMedium,
           ),
         ],
       ),

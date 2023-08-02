@@ -22,8 +22,6 @@ class SuggestionsAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      centerTitle: true,
-      backgroundColor: context.theme.colorScheme.background,
       leading: onBackClick != null
           ? Padding(
               padding: const EdgeInsets.only(

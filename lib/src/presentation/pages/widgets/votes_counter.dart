@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
+import 'package:suggest_a_feature/suggest_a_feature.dart';
 
 class VotesCounter extends StatelessWidget {
   final bool isVoted;
@@ -29,7 +30,7 @@ class VotesCounter extends StatelessWidget {
               colorFilter: ColorFilter.mode(
                 isVoted
                     ? context.theme.colorScheme.primary
-                    : context.theme.colorScheme.outline,
+                    : theme.upvoteArrowColor,
                 BlendMode.srcIn,
               ),
               fit: BoxFit.none,

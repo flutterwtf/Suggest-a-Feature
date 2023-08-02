@@ -36,6 +36,7 @@ class _SuggestionsElevatedButtonState extends State<SuggestionsElevatedButton> {
         style: (context.theme.elevatedButtonTheme.style ?? const ButtonStyle())
             .copyWith(
           backgroundColor: MaterialStatePropertyAll(widget.backgroundColor),
+          foregroundColor: MaterialStatePropertyAll(widget.textColor),
         ),
         onPressed: () =>
             widget.isLoading ? () => <dynamic, dynamic>{} : widget.onClick(),
@@ -76,12 +77,7 @@ class _ButtonContent extends StatelessWidget {
           ),
           const SizedBox(width: Dimensions.marginSmall),
         ],
-        Text(
-          buttonText,
-          style: context.theme.textTheme.labelLarge?.copyWith(
-            color: textColor,
-          ),
-        ),
+        Flexible(child: Text(buttonText, overflow: TextOverflow.ellipsis)),
       ],
     );
   }

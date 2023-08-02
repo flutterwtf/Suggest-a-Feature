@@ -730,8 +730,8 @@ class _NewCommentButton extends StatelessWidget {
       child: SuggestionsElevatedButton(
         buttonText: context.localization.newComment,
         onClick: onClick,
-        backgroundColor: context.theme.colorScheme.surfaceVariant,
-        textColor: context.theme.colorScheme.onBackground,
+        backgroundColor: context.theme.colorScheme.secondaryContainer,
+        textColor: context.theme.colorScheme.onSecondaryContainer,
       ),
     );
   }
@@ -760,8 +760,6 @@ class _UpvoteButton extends StatelessWidget {
             onClick: onClick,
             imageIconPath: AssetStrings.suggestionsUpvoteArrow,
             buttonText: context.localization.upvote,
-            backgroundColor: context.theme.colorScheme.primary,
-            textColor: context.theme.colorScheme.onPrimary,
           ),
         ),
       ),

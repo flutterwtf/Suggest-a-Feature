@@ -5,12 +5,11 @@ SuggestionsTheme get theme => i.theme;
 
 class SuggestionsTheme {
   final Color bottomSheetBackgroundColor;
-  final String fontFamily;
   final Color actionColor;
   final Color actionPressedColor;
   final Color actionBackgroundColor;
   final Color disabledTextColor;
-  final Color errorColor;
+  final Color upvoteArrowColor;
   final Color fade;
   final Color fabColor;
 
@@ -25,12 +24,11 @@ class SuggestionsTheme {
 
   SuggestionsTheme({
     required this.bottomSheetBackgroundColor,
-    required this.fontFamily,
     required this.actionColor,
     required this.actionPressedColor,
     required this.actionBackgroundColor,
     required this.disabledTextColor,
-    required this.errorColor,
+    required this.upvoteArrowColor,
     required this.requestsTabColor,
     required this.inProgressTabColor,
     required this.completedTabColor,
@@ -44,12 +42,11 @@ class SuggestionsTheme {
 
   factory SuggestionsTheme.initial() => SuggestionsTheme(
         bottomSheetBackgroundColor: const Color.fromRGBO(248, 248, 248, 1),
-        fontFamily: 'Rubik',
         actionColor: const Color.fromRGBO(51, 51, 51, 0.15),
         actionPressedColor: const Color.fromRGBO(51, 51, 51, 0.2),
         actionBackgroundColor: const Color.fromRGBO(224, 224, 224, 1),
         disabledTextColor: const Color.fromRGBO(51, 51, 51, 0.38),
-        errorColor: const Color.fromRGBO(246, 24, 48, 1),
+        upvoteArrowColor: const Color.fromRGBO(246, 24, 48, 1),
         requestsTabColor: const Color.fromRGBO(241, 96, 29, 1),
         inProgressTabColor: const Color.fromRGBO(245, 167, 24, 1),
         completedTabColor: const Color.fromRGBO(38, 155, 85, 1),
@@ -63,12 +60,11 @@ class SuggestionsTheme {
 
   SuggestionsTheme copyWith({
     Color? bottomSheetBackgroundColor,
-    String? fontFamily,
     Color? actionColor,
     Color? actionPressedColor,
     Color? actionBackgroundColor,
     Color? disabledTextColor,
-    Color? errorColor,
+    Color? upvoteArrowColor,
     Color? requestsTabColor,
     Color? inProgressTabColor,
     Color? completedTabColor,
@@ -82,13 +78,12 @@ class SuggestionsTheme {
     return SuggestionsTheme(
       bottomSheetBackgroundColor:
           bottomSheetBackgroundColor ?? this.bottomSheetBackgroundColor,
-      fontFamily: fontFamily ?? this.fontFamily,
       actionColor: actionColor ?? this.actionColor,
       actionPressedColor: actionPressedColor ?? this.actionPressedColor,
       actionBackgroundColor:
           actionBackgroundColor ?? this.actionBackgroundColor,
       disabledTextColor: disabledTextColor ?? this.disabledTextColor,
-      errorColor: errorColor ?? this.errorColor,
+      upvoteArrowColor: upvoteArrowColor ?? this.upvoteArrowColor,
       requestsTabColor: requestsTabColor ?? this.requestsTabColor,
       inProgressTabColor: inProgressTabColor ?? this.inProgressTabColor,
       completedTabColor: completedTabColor ?? this.completedTabColor,
