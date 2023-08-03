@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart';
-import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/clickable_list_item.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_elevated_button.dart';
@@ -62,9 +62,10 @@ class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
       controller: widget.controller,
       onOpen: _inputFocusNode.requestFocus,
       onClose: ([_]) => widget.onClose(),
-      backgroundColor: theme.bottomSheetBackgroundColor,
-      previousNavBarColor: theme.primaryBackgroundColor,
-      previousStatusBarColor: theme.primaryBackgroundColor,
+      backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
+          context.theme.colorScheme.background,
+      previousNavBarColor: context.theme.colorScheme.background,
+      previousStatusBarColor: context.theme.colorScheme.background,
       contentBuilder: (_, __) {
         return ListView(
           padding: const EdgeInsets.only(
@@ -121,7 +122,7 @@ List<Widget> _postAdmin({
 }) {
   if (!i.isAdmin) {
     return <Widget>[
-      Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
+      const Divider(thickness: 0.5, height: 1.5),
       const SizedBox(height: Dimensions.marginSmall),
       _PostAnonymously(
         isAnonymously: isAnonymously,
@@ -131,7 +132,7 @@ List<Widget> _postAdmin({
     ];
   }
   return <Widget>[
-    Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
+    const Divider(thickness: 0.5, height: 1.5),
     const SizedBox(height: Dimensions.marginSmall),
     _PostPostedBy(isFromAdmin: isFromAdmin, onChanged: onChangedAdmin),
     const SizedBox(height: Dimensions.marginSmall),
@@ -185,7 +186,8 @@ class _PostAnonymously extends StatelessWidget {
     return ClickableListItem(
       title: Text(
         context.localization.postAnonymously,
-        style: theme.textSmallPlusSecondaryBold,
+        style: context.theme.textTheme.labelLarge
+            ?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
       ),
       trailing: SuggestionsSwitch(
         value: isAnonymously,
@@ -209,7 +211,8 @@ class _PostPostedBy extends StatelessWidget {
     return ClickableListItem(
       title: Text(
         context.localization.postFromAdmin,
-        style: theme.textSmallPlusSecondaryBold,
+        style: context.theme.textTheme.labelLarge
+            ?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
       ),
       trailing: SuggestionsSwitch(
         value: isFromAdmin,

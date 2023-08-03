@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
@@ -47,7 +47,7 @@ class _SuggestionsIconButtonState extends State<SuggestionsIconButton> {
           colorFilter: ColorFilter.mode(
             _pressed
                 ? theme.actionPressedColor
-                : widget.color ?? theme.primaryIconColor,
+                : widget.color ?? context.theme.colorScheme.onBackground,
             BlendMode.srcIn,
           ),
         ),

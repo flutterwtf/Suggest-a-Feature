@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/clickable_list_item.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
@@ -36,9 +36,10 @@ class ConfirmationBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseBottomSheet(
-      backgroundColor: theme.bottomSheetBackgroundColor,
-      previousNavBarColor: theme.primaryBackgroundColor,
-      previousStatusBarColor: theme.primaryBackgroundColor,
+      backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
+          context.theme.colorScheme.background,
+      previousNavBarColor: context.theme.colorScheme.background,
+      previousStatusBarColor: context.theme.colorScheme.background,
       controller: controller,
       onClose: ([ClosureType? closureType]) {
         if (closureType == ClosureType.backButton) {
@@ -121,7 +122,7 @@ class _Question extends StatelessWidget {
       ),
       child: Text(
         question,
-        style: theme.textMediumPlusBold,
+        style: context.theme.textTheme.titleMedium,
         textAlign: TextAlign.center,
       ),
     );
@@ -149,14 +150,14 @@ class _Confirm extends StatelessWidget {
         width: Dimensions.defaultSize,
         height: Dimensions.defaultSize,
         colorFilter: ColorFilter.mode(
-          theme.errorColor,
+          context.theme.colorScheme.error,
           BlendMode.srcIn,
         ),
       ),
       title: Text(
         onConfirmText,
-        style: theme.textMediumPlusBold.copyWith(
-          color: theme.errorColor,
+        style: context.theme.textTheme.titleMedium?.copyWith(
+          color: context.theme.colorScheme.error,
         ),
         textAlign: TextAlign.left,
       ),
@@ -183,13 +184,13 @@ class _Cancel extends StatelessWidget {
         width: Dimensions.defaultSize,
         height: Dimensions.defaultSize,
         colorFilter: ColorFilter.mode(
-          theme.primaryIconColor,
+          context.theme.colorScheme.onBackground,
           BlendMode.srcIn,
         ),
       ),
       title: Text(
         onCancelText,
-        style: theme.textMediumPlusBold,
+        style: context.theme.textTheme.titleMedium,
         textAlign: TextAlign.left,
       ),
     );

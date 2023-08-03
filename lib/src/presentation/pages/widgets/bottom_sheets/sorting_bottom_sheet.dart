@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_state.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_radio_button.dart';
 import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
-import 'package:suggest_a_feature/src/presentation/utils/font_sizes.dart';
-import 'package:suggest_a_feature/suggest_a_feature.dart';
 import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
 
 class SortingBottomSheet extends StatefulWidget {
@@ -32,9 +31,10 @@ class _SortingBottomSheetState extends State<SortingBottomSheet> {
     return BaseBottomSheet(
       controller: _controller,
       onClose: ([_]) => _onClose(),
-      backgroundColor: theme.bottomSheetBackgroundColor,
-      previousNavBarColor: theme.primaryBackgroundColor,
-      previousStatusBarColor: theme.primaryBackgroundColor,
+      backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
+          context.theme.colorScheme.background,
+      previousNavBarColor: context.theme.colorScheme.background,
+      previousStatusBarColor: context.theme.colorScheme.background,
       title: context.localization.sortBy,
       contentBuilder: (context, _) {
         return Column(
@@ -89,7 +89,7 @@ class _SortRow extends StatelessWidget {
         children: [
           Text(
             title,
-            style: theme.textMedium.copyWith(fontWeight: FontSizes.weightBold),
+            style: context.theme.textTheme.titleMedium,
           ),
           SuggestionsRadioButton(
             selected: selected,

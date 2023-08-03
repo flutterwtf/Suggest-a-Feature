@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/suggestion_page.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/widgets/list_description.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/widgets/suggestion_card.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:suggest_a_feature/suggest_a_feature.dart';
 
@@ -121,7 +122,7 @@ class _Shadows extends StatelessWidget {
         context: context,
         contentMarginTop: -11,
         contentMarginBottom: -5,
-        backgroundColor: theme.primaryBackgroundColor,
+        backgroundColor: context.theme.colorScheme.background,
       ),
     );
   }

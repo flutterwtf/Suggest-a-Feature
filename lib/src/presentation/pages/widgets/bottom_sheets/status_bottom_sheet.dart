@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
-import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/bottom_sheet_actions.dart';
 import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
@@ -41,8 +41,9 @@ class _StatusBottomSheetState extends State<StatusBottomSheet> {
       title: context.localization.status,
       titleBottomPadding: 0,
       controller: widget.controller,
-      previousNavBarColor: theme.bottomSheetBackgroundColor,
-      previousStatusBarColor: theme.thirdBackgroundColor,
+      previousNavBarColor: context.theme.bottomSheetTheme.backgroundColor ??
+          context.theme.colorScheme.background,
+      previousStatusBarColor: context.theme.colorScheme.surface,
       onClose: ([ClosureType? closureType]) async {
         if (closureType == ClosureType.backButton) {
           widget.onCancel();
@@ -51,7 +52,8 @@ class _StatusBottomSheetState extends State<StatusBottomSheet> {
           widget.onCancel();
         }
       },
-      backgroundColor: theme.bottomSheetBackgroundColor,
+      backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
+          context.theme.colorScheme.background,
       contentBuilder: (BuildContext context, SheetState sheetState) {
         return ListView(
           padding: const EdgeInsets.only(bottom: Dimensions.marginMiddle),
@@ -92,7 +94,7 @@ class _Statuses extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
-            color: theme.dividerColor,
+            color: context.theme.dividerColor,
             width: 0.5,
           ),
         ),
@@ -181,7 +183,8 @@ class _StatusItem extends StatelessWidget {
       children: <Widget>[
         Text(
           status.statusName(context),
-          style: theme.textSmallPlusSecondaryBold,
+          style: context.theme.textTheme.labelLarge
+              ?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
         ),
         GestureDetector(
           onTap: () => onTap(status),
@@ -191,19 +194,19 @@ class _StatusItem extends StatelessWidget {
             child: DecoratedBox(
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: theme.primaryIconColor,
+                  color: context.theme.colorScheme.onBackground,
                   width: 0.5,
                 ),
                 color: selectedStatus == status
-                    ? theme.primaryIconColor
-                    : theme.thirdBackgroundColor,
+                    ? context.theme.colorScheme.onBackground
+                    : context.theme.colorScheme.surface,
                 shape: BoxShape.circle,
               ),
               child: selectedStatus == status
                   ? Icon(
                       Icons.check,
                       size: Dimensions.smallSize,
-                      color: theme.primaryBackgroundColor,
+                      color: context.theme.colorScheme.background,
                     )
                   : null,
             ),
