@@ -15,7 +15,6 @@ import 'package:suggest_a_feature/src/presentation/pages/widgets/clickable_list_
 import 'package:suggest_a_feature/src/presentation/pages/widgets/network_image.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/photo_view.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/small_photo_preview.dart';
-import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_elevated_button.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_labels.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_switch.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_text_field.dart';
@@ -321,18 +320,14 @@ class _SaveSubmitButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: Dimensions.marginDefault,
-        ),
-        child: SuggestionsElevatedButton(
-          onClick: saveSuggestion,
-          isLoading: isLoading,
-          buttonText: isEditing
-              ? context.localization.save
-              : context.localization.suggest,
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: Dimensions.marginDefault,
+      ),
+      child: FilledButton(
+        onPressed: isLoading ? () {} : saveSuggestion,
+        child: Text(
+          isEditing ? context.localization.save : context.localization.suggest,
         ),
       ),
     );

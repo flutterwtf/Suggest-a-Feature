@@ -122,7 +122,7 @@ class _Shadows extends StatelessWidget {
         context: context,
         contentMarginTop: -11,
         contentMarginBottom: -5,
-        backgroundColor: context.theme.colorScheme.background,
+        backgroundColor: context.theme.scaffoldBackgroundColor,
       ),
     );
   }

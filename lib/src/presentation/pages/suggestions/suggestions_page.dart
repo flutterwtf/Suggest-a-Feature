@@ -105,7 +105,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
                       onBackClick: Navigator.of(context).pop,
                       screenTitle: context.localization.suggestAFeature,
                     ),
-                backgroundColor: context.theme.colorScheme.background,
+                backgroundColor: context.theme.scaffoldBackgroundColor,
                 body: state.loading
                     ? const Center(child: CircularProgressIndicator())
                     : Stack(
