@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:suggest_a_feature/src/presentation/localization/localization_extensions.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_switch.dart';
-import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
 
@@ -85,13 +85,13 @@ class _NotificationSwitch extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                context.localization.notifyMe,
+                localization.notifyMe,
                 textAlign: TextAlign.start,
                 style: theme.textMedium,
               ),
               const SizedBox(height: Dimensions.marginMicro),
               Text(
-                context.localization.notificationDescription,
+                localization.notificationDescription,
                 textAlign: TextAlign.start,
                 style: TextStyle(color: theme.secondaryTextColor),
               ),

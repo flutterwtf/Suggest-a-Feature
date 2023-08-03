@@ -5,6 +5,7 @@ import 'package:suggest_a_feature/src/domain/entities/comment.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion_author.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart';
+import 'package:suggest_a_feature/src/presentation/localization/localization_extensions.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/suggestion_cubit.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/suggestion_cubit_scope.dart';
@@ -23,7 +24,6 @@ import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_ele
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_labels.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/votes_counter.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
-import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/date_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:suggest_a_feature/src/presentation/utils/image_utils.dart';
@@ -65,8 +65,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
           content: Text(
             state.savingImageResultMessageType ==
                     SavingResultMessageType.success
-                ? context.localization.savingImageSuccess
-                : context.localization.savingImageError,
+                ? localization.savingImageSuccess
+                : localization.savingImageError,
           ),
         ),
       );
@@ -143,7 +143,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
   SuggestionsAppBar _appBar(SuggestionCubit cubit, bool isEditable) {
     return SuggestionsAppBar(
       onBackClick: Navigator.of(context).pop,
-      screenTitle: context.localization.suggestion,
+      screenTitle: localization.suggestion,
       trailing: Padding(
         padding: const EdgeInsets.only(right: Dimensions.marginDefault),
         child: isEditable
@@ -234,14 +234,14 @@ class _UserInfo extends StatelessWidget {
       child: Row(
         children: [
           Text(
-            context.localization.postedBy,
+            localization.postedBy,
             style: theme.textSmallPlusSecondary,
           ),
           _Avatar(avatar: author.avatar),
           Expanded(
             child: Text(
               author.username.isEmpty
-                  ? context.localization.anonymousAuthorName
+                  ? localization.anonymousAuthorName
                   : author.username,
               style: theme.textSmallPlus,
             ),
@@ -326,7 +326,7 @@ class _AttachedImages extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            context.localization.attachedPhotos,
+            localization.attachedPhotos,
             style: theme.textSmallPlusSecondaryBold,
           ),
           const SizedBox(height: Dimensions.marginMiddle),
@@ -367,7 +367,7 @@ class _CommentList extends StatelessWidget {
             left: Dimensions.marginDefault,
           ),
           child: Text(
-            context.localization.commentsTitle,
+            localization.commentsTitle,
             style: theme.textSmallPlusBold
                 .copyWith(color: theme.secondaryTextColor),
           ),
@@ -584,7 +584,7 @@ class _OpenConfirmationBottomSheet extends StatelessWidget {
     final cubit = context.read<SuggestionCubit>();
     return ConfirmationBottomSheet(
       controller: sheetController,
-      question: context.localization.deletionQuestion,
+      question: localization.deletionQuestion,
       onConfirm: () {
         cubit
           ..closeBottomSheet()
@@ -595,8 +595,8 @@ class _OpenConfirmationBottomSheet extends StatelessWidget {
         cubit.closeBottomSheet();
       },
       onConfirmAsset: AssetStrings.checkIconImage,
-      onCancelText: context.localization.cancel,
-      onConfirmText: context.localization.yesDelete,
+      onCancelText: localization.cancel,
+      onConfirmText: localization.yesDelete,
     );
   }
 }
@@ -723,7 +723,7 @@ class _NewCommentButton extends StatelessWidget {
         left: Dimensions.marginDefault,
       ),
       child: SuggestionsElevatedButton(
-        buttonText: context.localization.newComment,
+        buttonText: localization.newComment,
         onClick: onClick,
         backgroundColor: theme.secondaryBackgroundColor,
         textColor: theme.primaryTextColor,
@@ -754,7 +754,7 @@ class _UpvoteButton extends StatelessWidget {
           child: SuggestionsElevatedButton(
             onClick: onClick,
             imageIconPath: AssetStrings.suggestionsUpvoteArrow,
-            buttonText: context.localization.upvote,
+            buttonText: localization.upvote,
           ),
         ),
       ),
@@ -786,7 +786,7 @@ class _CommentInfo extends StatelessWidget {
           ),
         ),
         Text(
-          comment.creationTime.formatComment(context.localization.localeName),
+          comment.creationTime.formatComment(localization.locale),
           style: theme.textSmallPlusSecondary,
         ),
       ],
@@ -798,12 +798,12 @@ class _CommentInfo extends StatelessWidget {
       return i.adminSettings ??
           AdminSettings(
             id: comment.author.id,
-            username: context.localization.adminAuthorName,
+            username: localization.adminAuthorName,
           );
     } else if (comment.isAnonymous || comment.author.username.isEmpty) {
       return SuggestionAuthor(
         id: comment.author.id,
-        username: context.localization.anonymousAuthorName,
+        username: localization.anonymousAuthorName,
       );
     }
 

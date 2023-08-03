@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
+import 'package:suggest_a_feature/src/presentation/localization/localization_extensions.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/bottom_sheet_actions.dart';
-import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:suggest_a_feature/src/presentation/utils/status_utils.dart';
 import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
@@ -38,7 +38,7 @@ class _StatusBottomSheetState extends State<StatusBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return BaseBottomSheet(
-      title: context.localization.status,
+      title: localization.status,
       titleBottomPadding: 0,
       controller: widget.controller,
       previousNavBarColor: theme.bottomSheetBackgroundColor,
@@ -180,7 +180,7 @@ class _StatusItem extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Text(
-          status.statusName(context),
+          status.statusName,
           style: theme.textSmallPlusSecondaryBold,
         ),
         GestureDetector(

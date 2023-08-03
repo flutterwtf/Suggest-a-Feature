@@ -37,7 +37,6 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      localizationsDelegates: const [SuggestionsLocalizations.delegate],
     );
   }
 }

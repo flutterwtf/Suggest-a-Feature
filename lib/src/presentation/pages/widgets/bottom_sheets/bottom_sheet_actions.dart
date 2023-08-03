@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:suggest_a_feature/src/presentation/localization/localization_extensions.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
-import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:suggest_a_feature/src/presentation/utils/platform_check.dart';
 
@@ -34,13 +34,13 @@ class BottomSheetActions extends StatelessWidget {
         children: <Widget>[
           if (hasLeftButton)
             _NewSuggestionTextButton(
-              title: context.localization.cancel,
+              title: localization.cancel,
               onClick: onCancel ?? () {},
               isTonal: false,
             ),
           const SizedBox(width: Dimensions.marginMicro),
           _NewSuggestionTextButton(
-            title: context.localization.done,
+            title: localization.done,
             onClick: onDone,
             enabled: isDoneActive,
           ),

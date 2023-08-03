@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:suggest_a_feature/src/presentation/localization/localization_extensions.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_state.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_radio_button.dart';
-import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:suggest_a_feature/src/presentation/utils/font_sizes.dart';
 import 'package:suggest_a_feature/suggest_a_feature.dart';
@@ -35,19 +35,19 @@ class _SortingBottomSheetState extends State<SortingBottomSheet> {
       backgroundColor: theme.bottomSheetBackgroundColor,
       previousNavBarColor: theme.primaryBackgroundColor,
       previousStatusBarColor: theme.primaryBackgroundColor,
-      title: context.localization.sortBy,
+      title: localization.sortBy,
       contentBuilder: (context, _) {
         return Column(
           children: [
             _SortRow(
-              title: context.localization.numberOfLikes,
+              title: localization.numberOfLikes,
               value: SortType.likes,
               selected: widget.value == SortType.likes,
               onChanged: widget.onChanged,
             ),
             const SizedBox(height: Dimensions.marginSmall),
             _SortRow(
-              title: context.localization.creationDate,
+              title: localization.creationDate,
               value: SortType.date,
               onChanged: widget.onChanged,
               selected: widget.value == SortType.date,

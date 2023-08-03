@@ -4,6 +4,7 @@ import 'package:suggest_a_feature/src/data/interfaces/suggestions_data_source.da
 import 'package:suggest_a_feature/src/domain/entities/admin_settings.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart';
+import 'package:suggest_a_feature/src/presentation/localization/localization_extensions.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_cubit.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_cubit_scope.dart';
@@ -15,7 +16,6 @@ import 'package:suggest_a_feature/src/presentation/pages/widgets/appbar_widget.d
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/sorting_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/fab.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
-import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:suggest_a_feature/src/presentation/utils/platform_check.dart';
 import 'package:suggest_a_feature/src/presentation/utils/rendering.dart';
@@ -54,6 +54,9 @@ class SuggestionsPage extends StatefulWidget {
   /// If `true` then [adminSettings] will be used instead of user account.
   final bool isAdmin;
 
+  /// Current locale
+  final String locale;
+
   SuggestionsPage({
     required this.userId,
     required this.suggestionsDataSource,
@@ -65,6 +68,7 @@ class SuggestionsPage extends StatefulWidget {
     this.onUploadMultiplePhotos,
     this.customAppBar,
     this.imageHeaders,
+    this.locale = 'en',
     super.key,
   }) : assert(
           (isAdmin && adminSettings != null) || !isAdmin,
@@ -77,6 +81,7 @@ class SuggestionsPage extends StatefulWidget {
       suggestionsDataSource: suggestionsDataSource,
       adminSettings: adminSettings,
       isAdmin: isAdmin,
+      locale: locale,
     );
   }
 
@@ -101,7 +106,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
                 appBar: widget.customAppBar ??
                     SuggestionsAppBar(
                       onBackClick: Navigator.of(context).pop,
-                      screenTitle: context.localization.suggestAFeature,
+                      screenTitle: localization.suggestAFeature,
                     ),
                 backgroundColor: theme.primaryBackgroundColor,
                 body: Stack(

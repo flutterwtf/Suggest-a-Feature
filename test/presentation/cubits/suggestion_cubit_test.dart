@@ -35,6 +35,7 @@ void main() {
           theme: mockSuggestionsTheme,
           userId: '1',
           suggestionsDataSource: mockSuggestionsDataSource,
+          locale: 'en',
         );
       });
 
