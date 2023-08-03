@@ -3,6 +3,8 @@ import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/bottom_sheet_actions.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/clickable_list_item.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_radio_button.dart';
 import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:suggest_a_feature/src/presentation/utils/status_utils.dart';
@@ -123,8 +125,7 @@ class _StatusesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
-        horizontal: Dimensions.marginDefault,
-        vertical: Dimensions.marginBig,
+        vertical: 18,
       ),
       child: Column(
         children: <Widget>[
@@ -133,25 +134,21 @@ class _StatusesList extends StatelessWidget {
             onTap: onStatusTap,
             selectedStatus: selectedStatus,
           ),
-          const SizedBox(height: Dimensions.marginMiddle),
           _StatusItem(
             status: SuggestionStatus.inProgress,
             onTap: onStatusTap,
             selectedStatus: selectedStatus,
           ),
-          const SizedBox(height: Dimensions.marginMiddle),
           _StatusItem(
             status: SuggestionStatus.completed,
             onTap: onStatusTap,
             selectedStatus: selectedStatus,
           ),
-          const SizedBox(height: Dimensions.marginMiddle),
           _StatusItem(
             status: SuggestionStatus.declined,
             onTap: onStatusTap,
             selectedStatus: selectedStatus,
           ),
-          const SizedBox(height: Dimensions.marginMiddle),
           _StatusItem(
             status: SuggestionStatus.duplicated,
             onTap: onStatusTap,
@@ -176,40 +173,14 @@ class _StatusItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Text(
-          status.statusName(context),
-          style: theme.textSmallPlusSecondaryBold,
-        ),
-        GestureDetector(
-          onTap: () => onTap(status),
-          child: SizedBox(
-            height: Dimensions.defaultSize,
-            width: Dimensions.defaultSize,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: theme.primaryIconColor,
-                  width: 0.5,
-                ),
-                color: selectedStatus == status
-                    ? theme.primaryIconColor
-                    : theme.thirdBackgroundColor,
-                shape: BoxShape.circle,
-              ),
-              child: selectedStatus == status
-                  ? Icon(
-                      Icons.check,
-                      size: Dimensions.smallSize,
-                      color: theme.primaryBackgroundColor,
-                    )
-                  : null,
-            ),
-          ),
-        ),
-      ],
+    return ClickableListItem(
+      title: Text(
+        status.statusName(context),
+        style: theme.textSmallPlusSecondaryBold,
+      ),
+      trailing: SuggestionsRadioButton(selected: selectedStatus == status),
+      onClick: () => onTap(status),
+      verticalPadding: 6,
     );
   }
 }

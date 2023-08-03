@@ -4,10 +4,10 @@ import 'package:suggest_a_feature/suggest_a_feature.dart';
 
 class SuggestionsRadioButton extends StatelessWidget {
   final bool selected;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   const SuggestionsRadioButton({
     required this.selected,
-    required this.onTap,
+    this.onTap,
     super.key,
   });
 
