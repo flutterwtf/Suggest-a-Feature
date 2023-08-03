@@ -6,7 +6,7 @@ import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_cubit.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_cubit_scope.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_state.dart';
-import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/add_event_photo_button.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/label_bottom_sheet.dart';
@@ -166,7 +166,7 @@ class _CreateEditSuggestionBottomSheetState
                   cubit.showSavingResultMessage(widget.onSaveToGallery!(path))
               : null,
           photos: state.suggestion.images,
-          previousNavBarColor: theme.thirdBackgroundColor,
+          previousNavBarColor: context.theme.colorScheme.surface,
         );
       },
     );
@@ -200,9 +200,10 @@ class _CreateEditSuggestionBottomSheet extends StatelessWidget {
       controller: controller,
       onOpen: titleFocusNode.requestFocus,
       onClose: ([_]) => onClose(),
-      backgroundColor: theme.bottomSheetBackgroundColor,
-      previousNavBarColor: theme.primaryBackgroundColor,
-      previousStatusBarColor: theme.primaryBackgroundColor,
+      backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
+          context.theme.colorScheme.background,
+      previousNavBarColor: context.theme.colorScheme.background,
+      previousStatusBarColor: context.theme.colorScheme.surfaceVariant,
       initialSnapping: 0.85,
       contentBuilder: (context, sheetState) {
         return _EditSuggestionBottomSheetListView(
@@ -243,7 +244,8 @@ class _LabelItems extends StatelessWidget {
     return ClickableListItem(
       title: Text(
         context.localization.labels,
-        style: theme.textSmallPlusSecondaryBold,
+        style: context.theme.textTheme.labelLarge
+            ?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
       ),
       trailing: labels.isNotEmpty
           ? SuggestionLabels(labels: labels)
@@ -251,7 +253,7 @@ class _LabelItems extends StatelessWidget {
               AssetStrings.plusIconThickImage,
               package: AssetStrings.packageName,
               colorFilter: ColorFilter.mode(
-                theme.primaryIconColor,
+                context.theme.colorScheme.onBackground,
                 BlendMode.srcIn,
               ),
               height: Dimensions.defaultSize,
@@ -293,11 +295,12 @@ class _SuggestionStatus extends StatelessWidget {
     return ClickableListItem(
       title: Text(
         context.localization.status,
-        style: theme.textSmallPlusSecondaryBold,
+        style: context.theme.textTheme.labelLarge
+            ?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
       ),
       trailing: Text(
         _suggestionStatus(context),
-        style: theme.textSmallPlusBold,
+        style: context.theme.textTheme.labelLarge,
       ),
       onClick: () => changeStatusBottomSheetStatus(true),
       verticalPadding: Dimensions.marginDefault,
@@ -350,7 +353,8 @@ class _PostAnonymously extends StatelessWidget {
     return ClickableListItem(
       title: Text(
         context.localization.postAnonymously,
-        style: theme.textSmallPlusSecondaryBold,
+        style: context.theme.textTheme.labelLarge
+            ?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
       ),
       trailing: SuggestionsSwitch(
         value: isAnonymously,
@@ -464,7 +468,7 @@ class _PhotoItem extends StatelessWidget {
         child: AddPhotoButton(
           width: tileWidth,
           height: (MediaQuery.of(context).size.width - 80) / 3,
-          style: theme.textSmallPlusBold,
+          style: context.theme.textTheme.labelLarge!,
           isLoading: isLoading,
         ),
       );
@@ -511,18 +515,21 @@ class _AddButton extends StatelessWidget {
     return ClickableListItem(
       title: Text(
         context.localization.addPhoto,
-        style: theme.textSmallPlusSecondaryBold,
+        style: context.theme.textTheme.labelLarge
+            ?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
       ),
       trailing: isLoading
           ? CircularProgressIndicator(
               strokeWidth: 1,
-              valueColor: AlwaysStoppedAnimation<Color>(theme.primaryIconColor),
+              valueColor: AlwaysStoppedAnimation<Color>(
+                context.theme.colorScheme.onBackground,
+              ),
             )
           : SvgPicture.asset(
               AssetStrings.plusIconThickImage,
               package: AssetStrings.packageName,
               colorFilter: ColorFilter.mode(
-                theme.primaryIconColor,
+                context.theme.colorScheme.onBackground,
                 BlendMode.srcIn,
               ),
               height: isSmall ? Dimensions.smallSize : Dimensions.defaultSize,
@@ -564,7 +571,7 @@ class _PhotoPreviewState extends State<_PhotoPreview> {
                 child: SmallPhotoPreview(
                   src: widget.suggestionImages[0],
                   heroTag: 'photo_view',
-                  backgroundColor: theme.secondaryBackgroundColor,
+                  backgroundColor: context.theme.colorScheme.surfaceVariant,
                 ),
               ),
             if (widget.suggestionImages.length >= 2)
@@ -574,7 +581,7 @@ class _PhotoPreviewState extends State<_PhotoPreview> {
                 child: SmallPhotoPreview(
                   src: widget.suggestionImages[1],
                   heroTag: 'photo_view',
-                  backgroundColor: theme.secondaryBackgroundColor,
+                  backgroundColor: context.theme.colorScheme.surfaceVariant,
                 ),
               ),
             if (widget.suggestionImages.length >= 3)
@@ -584,7 +591,7 @@ class _PhotoPreviewState extends State<_PhotoPreview> {
                 child: SmallPhotoPreview(
                   src: widget.suggestionImages[2],
                   heroTag: 'photo_view',
-                  backgroundColor: theme.secondaryBackgroundColor,
+                  backgroundColor: context.theme.colorScheme.surfaceVariant,
                 ),
               ),
           ],
@@ -667,7 +674,7 @@ class _EditSuggestionBottomSheetListView extends StatelessWidget {
               },
             ),
             const SizedBox(height: Dimensions.marginBig),
-            Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
+            const Divider(thickness: 0.5, height: 1.5),
             _LabelItems(
               labels: state.suggestion.labels,
               changeLabelsBottomSheetStatus: onLabelChanged,
@@ -700,7 +707,7 @@ class _EditSuggestionBottomSheetListView extends StatelessWidget {
   }) {
     if (i.isAdmin && isEditing) {
       return [
-        Divider(color: theme.dividerColor, thickness: 0.5, height: 1.5),
+        const Divider(thickness: 0.5, height: 1.5),
         _SuggestionStatus(
           suggestionStatus: status,
           changeStatusBottomSheetStatus: onStatusChanged,
@@ -813,8 +820,7 @@ class _DividerWithIndent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Divider(
-      color: theme.dividerColor,
+    return const Divider(
       thickness: 0.5,
       height: 1.5,
       indent: Dimensions.marginDefault,

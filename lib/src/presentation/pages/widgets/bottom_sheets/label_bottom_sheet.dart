@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
-import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/bottom_sheet_actions.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_labels.dart';
@@ -42,8 +42,9 @@ class _LabelBottomSheetState extends State<LabelBottomSheet> {
       title: context.localization.labels,
       titleBottomPadding: 0,
       controller: widget.controller,
-      previousNavBarColor: theme.bottomSheetBackgroundColor,
-      previousStatusBarColor: theme.thirdBackgroundColor,
+      previousNavBarColor: context.theme.bottomSheetTheme.backgroundColor ??
+          context.theme.colorScheme.background,
+      previousStatusBarColor: context.theme.colorScheme.surface,
       onClose: ([ClosureType? closureType]) async {
         if (closureType == ClosureType.backButton) {
           widget.onCancel();
@@ -52,7 +53,8 @@ class _LabelBottomSheetState extends State<LabelBottomSheet> {
           widget.onCancel();
         }
       },
-      backgroundColor: theme.bottomSheetBackgroundColor,
+      backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
+          context.theme.colorScheme.background,
       contentBuilder: (_, __) {
         return _LabelsListView(
           onTap: (label) => setState(
@@ -93,7 +95,7 @@ class _LabelsListView extends StatelessWidget {
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
-                color: theme.dividerColor,
+                color: context.theme.dividerColor,
                 width: 0.5,
               ),
             ),

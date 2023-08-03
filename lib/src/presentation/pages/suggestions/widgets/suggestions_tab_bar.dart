@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
 import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
@@ -20,7 +21,7 @@ class SuggestionsTabBar extends StatelessWidget {
     return TabBar(
       controller: tabController,
       isScrollable: true,
-      indicatorColor: theme.barIndicatorColor,
+      indicatorColor: context.theme.colorScheme.primary,
       tabs: [
         Tab(
           child: _TabButton(
@@ -85,9 +86,10 @@ class _TabButton extends StatelessWidget {
         FittedBox(
           child: Text(
             text,
-            style: isActive
-                ? theme.textSmallPlusBold
-                : theme.textSmallPlusSecondary,
+            style: context.theme.textTheme.labelLarge?.copyWith(
+              color:
+                  isActive ? null : context.theme.colorScheme.onSurfaceVariant,
+            ),
           ),
         ),
       ],
@@ -111,7 +113,9 @@ class _TabIcon extends StatelessWidget {
         iconPath,
         package: AssetStrings.packageName,
         colorFilter: ColorFilter.mode(
-          isActive ? theme.primaryIconColor : theme.secondaryIconColor,
+          isActive
+              ? context.theme.colorScheme.onBackground
+              : context.theme.colorScheme.onSurfaceVariant,
           BlendMode.srcIn,
         ),
       ),
