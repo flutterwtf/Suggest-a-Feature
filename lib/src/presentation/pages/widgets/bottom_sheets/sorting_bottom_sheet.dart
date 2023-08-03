@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_state.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/clickable_list_item.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_radio_button.dart';
 import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
@@ -37,20 +38,24 @@ class _SortingBottomSheetState extends State<SortingBottomSheet> {
       previousStatusBarColor: context.theme.colorScheme.background,
       title: context.localization.sortBy,
       contentBuilder: (context, _) {
+        final textStyle = context.theme.textTheme.titleMedium;
         return Column(
           children: [
-            _SortRow(
-              title: context.localization.numberOfLikes,
-              value: SortType.likes,
-              selected: widget.value == SortType.likes,
-              onChanged: widget.onChanged,
+            ClickableListItem(
+              title: Text(context.localization.numberOfLikes, style: textStyle),
+              onClick: () => widget.onChanged(SortType.likes),
+              trailing: SuggestionsRadioButton(
+                selected: widget.value == SortType.likes,
+              ),
+              verticalPadding: Dimensions.marginMiddle,
             ),
-            const SizedBox(height: Dimensions.marginSmall),
-            _SortRow(
-              title: context.localization.creationDate,
-              value: SortType.date,
-              onChanged: widget.onChanged,
-              selected: widget.value == SortType.date,
+            ClickableListItem(
+              title: Text(context.localization.creationDate, style: textStyle),
+              onClick: () => widget.onChanged(SortType.date),
+              trailing: SuggestionsRadioButton(
+                selected: widget.value == SortType.date,
+              ),
+              verticalPadding: Dimensions.marginMiddle,
             ),
           ],
         );
@@ -61,42 +66,5 @@ class _SortingBottomSheetState extends State<SortingBottomSheet> {
   Future<void> _onClose() async {
     await _controller.collapse();
     widget.closeBottomSheet();
-  }
-}
-
-class _SortRow extends StatelessWidget {
-  final String title;
-  final SortType value;
-  final ValueChanged<SortType> onChanged;
-  final bool selected;
-
-  const _SortRow({
-    required this.title,
-    required this.value,
-    required this.onChanged,
-    required this.selected,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: Dimensions.marginSmall,
-        horizontal: Dimensions.marginDefault,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            title,
-            style: context.theme.textTheme.titleMedium,
-          ),
-          SuggestionsRadioButton(
-            selected: selected,
-            onTap: () => onChanged(value),
-          ),
-        ],
-      ),
-    );
   }
 }
