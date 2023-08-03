@@ -88,7 +88,8 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
         buildWhen: (previous, current) =>
             previous.type != current.type ||
             previous.activeTab != current.activeTab ||
-            previous.sortType != current.sortType,
+            previous.sortType != current.sortType ||
+            previous.loading != current.loading,
         builder: (context, state) {
           final cubit = context.read<SuggestionsCubit>();
           return Stack(
@@ -100,25 +101,28 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
                       screenTitle: context.localization.suggestAFeature,
                     ),
                 backgroundColor: context.theme.colorScheme.background,
-                body: Stack(
-                  children: [
-                    _MainContent(
-                      userId: widget.userId,
-                      onTabChanged: (index) {
-                        cubit.changeActiveTab(
-                          SuggestionStatus.values[index],
-                        );
-                      },
-                      activeTab: state.activeTab,
-                      onGetUserById: widget.onGetUserById,
-                      onSaveToGallery: widget.onSaveToGallery,
-                      onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
-                    ),
-                    _BottomFab(
-                      openCreateBottomSheet: cubit.openCreateBottomSheet,
-                    ),
-                  ],
-                ),
+                body: state.loading
+                    ? const Center(child: CircularProgressIndicator())
+                    : Stack(
+                        children: [
+                          _MainContent(
+                            userId: widget.userId,
+                            onTabChanged: (index) {
+                              cubit.changeActiveTab(
+                                SuggestionStatus.values[index],
+                              );
+                            },
+                            activeTab: state.activeTab,
+                            onGetUserById: widget.onGetUserById,
+                            onSaveToGallery: widget.onSaveToGallery,
+                            onUploadMultiplePhotos:
+                                widget.onUploadMultiplePhotos,
+                          ),
+                          _BottomFab(
+                            openCreateBottomSheet: cubit.openCreateBottomSheet,
+                          ),
+                        ],
+                      ),
               ),
               if (state is CreateState)
                 _BottomSheet(
