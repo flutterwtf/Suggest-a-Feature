@@ -4,7 +4,6 @@ import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/clickable_list_item.dart';
-import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_elevated_button.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_switch.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_text_field.dart';
 import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
@@ -231,16 +230,13 @@ class _CreateCommentButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: Dimensions.marginDefault,
-        ),
-        child: SuggestionsElevatedButton(
-          onClick: onClick,
-          buttonText: context.localization.publish,
-        ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: Dimensions.marginDefault,
+      ),
+      child: FilledButton(
+        onPressed: onClick,
+        child: Text(context.localization.publish),
       ),
     );
   }

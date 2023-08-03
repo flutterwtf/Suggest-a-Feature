@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:suggest_a_feature/src/domain/entities/admin_settings.dart';
 import 'package:suggest_a_feature/src/domain/entities/comment.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
@@ -19,7 +20,6 @@ import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/n
 import 'package:suggest_a_feature/src/presentation/pages/widgets/icon_button.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/network_image.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/photo_view.dart';
-import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_elevated_button.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_labels.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/votes_counter.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
@@ -91,7 +91,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
             children: [
               Scaffold(
                 appBar: _appBar(cubit, state.isEditable),
-                backgroundColor: context.theme.colorScheme.background,
+                backgroundColor: context.theme.scaffoldBackgroundColor,
                 body: _MainContent(
                   onSaveToGallery: widget.onSaveToGallery,
                 ),
@@ -104,11 +104,10 @@ class _SuggestionPageState extends State<SuggestionPage> {
                     bottom: MediaQuery.of(context).padding.bottom +
                         Dimensions.marginSmall,
                   ),
-                  alignment: Alignment.bottomCenter,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Flexible(
+                      Expanded(
                         child: _NewCommentButton(
                           onClick: cubit.openCreateCommentBottomSheet,
                         ),
@@ -117,7 +116,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
                       if (state.suggestion.votedUserIds.contains(i.userId))
                         const SizedBox.shrink()
                       else
-                        Flexible(
+                        Expanded(
                           child: _UpvoteButton(
                             isVisible: !state.suggestion.votedUserIds
                                 .contains(i.userId),
@@ -730,11 +729,17 @@ class _NewCommentButton extends StatelessWidget {
       padding: const EdgeInsets.only(
         left: Dimensions.marginDefault,
       ),
-      child: SuggestionsElevatedButton(
-        buttonText: context.localization.newComment,
-        onClick: onClick,
-        backgroundColor: context.theme.colorScheme.secondaryContainer,
-        textColor: context.theme.colorScheme.onSecondaryContainer,
+      child: FilledButton(
+        style: context.theme.filledButtonTheme.style?.copyWith(
+          backgroundColor: MaterialStateProperty.resolveWith<Color>(
+            (states) => context.theme.colorScheme.secondaryContainer,
+          ),
+          foregroundColor: MaterialStatePropertyAll(
+            context.theme.colorScheme.onSecondaryContainer,
+          ),
+        ),
+        onPressed: onClick,
+        child: Text(context.localization.newComment),
       ),
     );
   }
@@ -759,10 +764,27 @@ class _UpvoteButton extends StatelessWidget {
           padding: const EdgeInsets.only(
             right: Dimensions.marginDefault,
           ),
-          child: SuggestionsElevatedButton(
-            onClick: onClick,
-            imageIconPath: AssetStrings.suggestionsUpvoteArrow,
-            buttonText: context.localization.upvote,
+          child: FilledButton(
+            onPressed: onClick,
+            child: Row(
+              children: [
+                SvgPicture.asset(
+                  AssetStrings.suggestionsUpvoteArrow,
+                  package: AssetStrings.packageName,
+                  colorFilter: ColorFilter.mode(
+                    context.theme.colorScheme.onPrimary,
+                    BlendMode.srcIn,
+                  ),
+                ),
+                const SizedBox(width: Dimensions.marginSmall),
+                Flexible(
+                  child: Text(
+                    context.localization.upvote,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -130,9 +130,15 @@ class _CommonTextField extends StatelessWidget {
         hintStyle: context.theme.textTheme.bodyMedium?.copyWith(
           color: context.theme.colorScheme.onBackground.withOpacity(0.7),
         ),
-        fillColor: Colors.transparent,
+        fillColor: context.theme.colorScheme.background,
+        filled: true,
         contentPadding: padding,
-        border: InputBorder.none,
+        border: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(Dimensions.smallCircularRadius),
+          ),
+          borderSide: BorderSide.none,
+        ),
         focusedBorder: focusNode != null
             ? OutlineInputBorder(
                 borderRadius: const BorderRadius.all(
@@ -196,7 +202,7 @@ class _IosTextField extends StatelessWidget {
       ),
       cursorHeight: 20,
       decoration: BoxDecoration(
-        color: Colors.transparent,
+        color: context.theme.colorScheme.background,
         borderRadius: const BorderRadius.all(
           Radius.circular(Dimensions.smallCircularRadius),
         ),
