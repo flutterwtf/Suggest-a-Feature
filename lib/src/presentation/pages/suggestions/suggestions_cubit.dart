@@ -21,17 +21,19 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
             declined: const [],
             duplicated: const [],
             sortType: sortType,
+            loading: true,
           ),
         ) {
     _init();
   }
 
-  void _init() {
+  Future<void> _init() async {
     _suggestionSubscription?.cancel();
     _suggestionSubscription = _suggestionRepository.suggestionsStream.listen(
       _onNewSuggestions,
     );
-    _suggestionRepository.initSuggestions();
+    await _suggestionRepository.initSuggestions();
+    emit(state.newState(loading: false));
   }
 
   @override
@@ -98,6 +100,7 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
           duplicated: state.duplicated,
           sortType: state.sortType,
           activeTab: state.activeTab,
+          loading: state.loading,
         ),
       );
 
@@ -109,6 +112,7 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
           declined: state.declined,
           duplicated: state.duplicated,
           sortType: state.sortType,
+          loading: state.loading,
         ),
       );
 
@@ -123,6 +127,7 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
           declined: state.declined,
           duplicated: state.duplicated,
           sortType: state.sortType,
+          loading: state.loading,
         ),
       );
 

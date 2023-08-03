@@ -10,6 +10,7 @@ class SuggestionsState extends Equatable {
   final List<Suggestion> duplicated;
   final SuggestionStatus activeTab;
   final SortType sortType;
+  final bool loading;
 
   const SuggestionsState({
     required this.requests,
@@ -18,6 +19,7 @@ class SuggestionsState extends Equatable {
     required this.declined,
     required this.duplicated,
     required this.sortType,
+    required this.loading,
     this.activeTab = SuggestionStatus.requests,
   });
 
@@ -29,6 +31,7 @@ class SuggestionsState extends Equatable {
     List<Suggestion>? duplicated,
     SuggestionStatus? activeTab,
     SortType? sortType,
+    bool? loading,
   }) {
     return SuggestionsState(
       requests: requests ?? this.requests,
@@ -38,6 +41,7 @@ class SuggestionsState extends Equatable {
       duplicated: duplicated ?? this.duplicated,
       activeTab: activeTab ?? this.activeTab,
       sortType: sortType ?? this.sortType,
+      loading: loading ?? this.loading,
     );
   }
 
@@ -50,6 +54,7 @@ class SuggestionsState extends Equatable {
         duplicated,
         activeTab,
         sortType,
+        loading,
       ];
 }
 
@@ -61,6 +66,7 @@ class CreateState extends SuggestionsState {
     required super.declined,
     required super.duplicated,
     required super.sortType,
+    required super.loading,
     super.activeTab,
   });
 
@@ -73,6 +79,7 @@ class CreateState extends SuggestionsState {
     List<Suggestion>? duplicated,
     SuggestionStatus? activeTab,
     SortType? sortType,
+    bool? loading,
   }) {
     return CreateState(
       requests: requests ?? this.requests,
@@ -82,6 +89,7 @@ class CreateState extends SuggestionsState {
       duplicated: duplicated ?? this.duplicated,
       activeTab: activeTab ?? this.activeTab,
       sortType: sortType ?? this.sortType,
+      loading: loading ?? this.loading,
     );
   }
 }
@@ -94,6 +102,7 @@ class SortingState extends SuggestionsState {
     required super.declined,
     required super.duplicated,
     required super.sortType,
+    required super.loading,
     super.activeTab,
   });
 
@@ -106,6 +115,7 @@ class SortingState extends SuggestionsState {
     List<Suggestion>? duplicated,
     SuggestionStatus? activeTab,
     SortType? sortType,
+    bool? loading,
   }) {
     return SortingState(
       requests: requests ?? this.requests,
@@ -115,6 +125,7 @@ class SortingState extends SuggestionsState {
       duplicated: duplicated ?? this.duplicated,
       activeTab: activeTab ?? this.activeTab,
       sortType: sortType ?? this.sortType,
+      loading: loading ?? this.loading,
     );
   }
 }

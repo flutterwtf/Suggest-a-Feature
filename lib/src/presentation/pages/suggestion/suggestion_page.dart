@@ -172,7 +172,8 @@ class _MainContent extends StatelessWidget {
     return BlocBuilder<SuggestionCubit, SuggestionState>(
       buildWhen: (previous, current) =>
           previous.author != current.author ||
-          previous.suggestion != current.suggestion,
+          previous.suggestion != current.suggestion ||
+          previous.loadingComments != current.loadingComments,
       builder: (context, state) {
         final cubit = context.read<SuggestionCubit>();
         return NotificationListener<OverscrollIndicatorNotification>(
@@ -199,7 +200,9 @@ class _MainContent extends StatelessWidget {
                   ),
                   const SizedBox(height: Dimensions.marginSmall),
                 ],
-                if (state.suggestion.comments.isNotEmpty)
+                if (state.loadingComments)
+                  const Center(child: CircularProgressIndicator())
+                else if (state.suggestion.comments.isNotEmpty)
                   _CommentList(comments: state.suggestion.comments),
                 if (state.suggestion.votedUserIds.contains(i.userId))
                   const SizedBox(

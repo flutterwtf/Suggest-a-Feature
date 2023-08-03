@@ -26,6 +26,7 @@ void main() {
         declined: const [],
         duplicated: const [],
         sortType: SortType.upvotes,
+        loading: false,
       );
       final mockedSuggestions = [
         mockedRequestSuggestion,
@@ -66,6 +67,7 @@ void main() {
             duplicated: emptySuggestionsState.duplicated,
             sortType: emptySuggestionsState.sortType,
             activeTab: emptySuggestionsState.activeTab,
+            loading: emptySuggestionsState.loading,
           ),
         ],
       );
@@ -86,6 +88,7 @@ void main() {
           duplicated: emptySuggestionsState.duplicated,
           sortType: emptySuggestionsState.sortType,
           activeTab: emptySuggestionsState.activeTab,
+          loading: emptySuggestionsState.loading,
         ),
         act: (cubit) => cubit.closeBottomSheet(),
         expect: () => [
@@ -138,6 +141,7 @@ void main() {
           declined: const [],
           duplicated: const [],
           sortType: SortType.upvotes,
+          loading: false,
         ),
         act: (cubit) {
           cubit.vote(SuggestionStatus.requests, 1);
@@ -150,6 +154,7 @@ void main() {
             declined: const [],
             duplicated: const [],
             sortType: SortType.upvotes,
+            loading: false,
           ),
         ],
       );

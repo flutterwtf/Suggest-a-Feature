@@ -10,6 +10,7 @@ class SuggestionState extends Equatable {
   final Suggestion suggestion;
   final SavingResultMessageType savingImageResultMessageType;
   final SuggestionBottomSheetType bottomSheetType;
+  final bool loadingComments;
 
   const SuggestionState({
     required this.isPopped,
@@ -18,6 +19,7 @@ class SuggestionState extends Equatable {
     required this.suggestion,
     required this.savingImageResultMessageType,
     required this.bottomSheetType,
+    required this.loadingComments,
   });
 
   SuggestionState newState({
@@ -27,6 +29,7 @@ class SuggestionState extends Equatable {
     Suggestion? suggestion,
     SavingResultMessageType? savingImageResultMessageType,
     SuggestionBottomSheetType? bottomSheetType,
+    bool? loadingComments,
   }) {
     return SuggestionState(
       isPopped: isPopped ?? this.isPopped,
@@ -36,6 +39,7 @@ class SuggestionState extends Equatable {
       bottomSheetType: bottomSheetType ?? this.bottomSheetType,
       savingImageResultMessageType:
           savingImageResultMessageType ?? this.savingImageResultMessageType,
+      loadingComments: loadingComments ?? this.loadingComments,
     );
   }
 
@@ -47,6 +51,7 @@ class SuggestionState extends Equatable {
         suggestion,
         bottomSheetType,
         savingImageResultMessageType,
+        loadingComments,
       ];
 }
 
