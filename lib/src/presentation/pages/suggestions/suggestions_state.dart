@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
+import 'package:suggest_a_feature/src/presentation/utils/typedefs.dart';
 
 class SuggestionsState extends Equatable {
   final List<Suggestion> requests;
@@ -129,13 +130,12 @@ class SortingState extends SuggestionsState {
   }
 }
 
-enum SortType { likes, date }
-
 extension SortTypeExtension on SortType {
   Comparator<Suggestion> get sortFunction {
     return switch (this) {
-      SortType.likes => (a, b) => b.upvotesCount.compareTo(a.upvotesCount),
-      SortType.date => (a, b) => b.creationTime.compareTo(a.creationTime),
+      SortType.upvotes => (a, b) => b.upvotesCount.compareTo(a.upvotesCount),
+      SortType.creationDate => (a, b) =>
+          b.creationTime.compareTo(a.creationTime),
     };
   }
 }

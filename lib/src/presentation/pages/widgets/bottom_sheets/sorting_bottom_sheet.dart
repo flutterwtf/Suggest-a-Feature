@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_state.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/clickable_list_item.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_radio_button.dart';
 import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
+import 'package:suggest_a_feature/src/presentation/utils/typedefs.dart';
 import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
 
 class SortingBottomSheet extends StatefulWidget {
@@ -42,18 +42,18 @@ class _SortingBottomSheetState extends State<SortingBottomSheet> {
         return Column(
           children: [
             ClickableListItem(
-              title: Text(context.localization.numberOfLikes, style: textStyle),
-              onClick: () => widget.onChanged(SortType.likes),
+              title: Text(context.localization.upvote, style: textStyle),
+              onClick: () => widget.onChanged(SortType.upvotes),
               trailing: SuggestionsRadioButton(
-                selected: widget.value == SortType.likes,
+                selected: widget.value == SortType.upvotes,
               ),
               verticalPadding: Dimensions.marginMiddle,
             ),
             ClickableListItem(
               title: Text(context.localization.creationDate, style: textStyle),
-              onClick: () => widget.onChanged(SortType.date),
+              onClick: () => widget.onChanged(SortType.creationDate),
               trailing: SuggestionsRadioButton(
-                selected: widget.value == SortType.date,
+                selected: widget.value == SortType.creationDate,
               ),
               verticalPadding: Dimensions.marginMiddle,
             ),

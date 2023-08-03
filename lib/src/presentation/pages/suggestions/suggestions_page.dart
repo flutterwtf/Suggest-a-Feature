@@ -50,6 +50,9 @@ class SuggestionsPage extends StatefulWidget {
   /// If `true` then [adminSettings] will be used instead of user account.
   final bool isAdmin;
 
+  /// Initial sorting type
+  final SortType sortType;
+
   SuggestionsPage({
     required this.userId,
     required this.suggestionsDataSource,
@@ -61,6 +64,7 @@ class SuggestionsPage extends StatefulWidget {
     this.onUploadMultiplePhotos,
     this.customAppBar,
     this.imageHeaders,
+    this.sortType = SortType.upvotes,
     super.key,
   }) : assert(
           (isAdmin && adminSettings != null) || !isAdmin,
@@ -84,6 +88,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
   @override
   Widget build(BuildContext context) {
     return SuggestionsCubitScope(
+      sortType: widget.sortType,
       child: BlocBuilder<SuggestionsCubit, SuggestionsState>(
         buildWhen: (previous, current) =>
             previous.type != current.type ||
