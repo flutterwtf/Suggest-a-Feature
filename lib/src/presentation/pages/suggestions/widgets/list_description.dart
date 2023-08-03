@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
 import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
@@ -69,8 +70,18 @@ class ListDescription extends StatelessWidget {
                 textAlign: TextAlign.center,
                 text: TextSpan(
                   children: <TextSpan>[
-                    TextSpan(text: header, style: theme.textMediumBold),
-                    TextSpan(text: ' ($length)', style: theme.textSmallPlus),
+                    TextSpan(
+                      text: header,
+                      style: context.theme.textTheme.titleMedium?.copyWith(
+                        color: context.theme.colorScheme.onBackground,
+                      ),
+                    ),
+                    TextSpan(
+                      text: ' ($length)',
+                      style: context.theme.textTheme.labelLarge?.copyWith(
+                        color: context.theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -83,23 +94,24 @@ class ListDescription extends StatelessWidget {
                     horizontal: Dimensions.marginSmall,
                   ),
                   decoration: BoxDecoration(
-                    color: theme.secondaryBackgroundColor,
+                    color: context.theme.colorScheme.surfaceVariant,
                     borderRadius: const BorderRadius.all(
-                      Radius.circular(Dimensions.middleCircularRadius),
+                      Radius.circular(Dimensions.verySmallCircularRadius),
                     ),
                   ),
                   child: Row(
                     children: [
                       Text(
                         context.localization.sortBy,
-                        style: theme.textSmallPlus
-                            .copyWith(color: theme.enabledTextColor),
+                        style: context.theme.textTheme.bodyMedium?.copyWith(
+                          color: context.theme.colorScheme.primary,
+                        ),
                       ),
                       SvgPicture.asset(
                         AssetStrings.arrowDownIcon,
                         package: AssetStrings.packageName,
                         colorFilter: ColorFilter.mode(
-                          theme.barIndicatorColor,
+                          context.theme.colorScheme.primary,
                           BlendMode.srcIn,
                         ),
                       ),
@@ -113,7 +125,7 @@ class ListDescription extends StatelessWidget {
           Text(
             description,
             textAlign: TextAlign.center,
-            style: theme.textSmallPlus,
+            style: context.theme.textTheme.bodyMedium,
           ),
         ],
       ),

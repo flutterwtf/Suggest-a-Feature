@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
 class ClickableListItem extends StatefulWidget {

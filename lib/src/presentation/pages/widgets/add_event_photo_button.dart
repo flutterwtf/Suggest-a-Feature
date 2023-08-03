@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/dotted_border.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
 import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
@@ -36,8 +36,9 @@ class AddPhotoButton extends StatelessWidget {
           child: isLoading
               ? CircularProgressIndicator(
                   strokeWidth: 1,
-                  valueColor:
-                      AlwaysStoppedAnimation<Color>(theme.primaryIconColor),
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    context.theme.colorScheme.onBackground,
+                  ),
                 )
               : _AddButton(
                   style: style,
@@ -63,7 +64,7 @@ class _AddButton extends StatelessWidget {
           package: AssetStrings.packageName,
           height: Dimensions.defaultSize,
           colorFilter: ColorFilter.mode(
-            theme.primaryTextColor,
+            context.theme.colorScheme.onBackground,
             BlendMode.srcIn,
           ),
         ),
@@ -71,7 +72,8 @@ class _AddButton extends StatelessWidget {
           padding: const EdgeInsets.only(top: Dimensions.marginSmall),
           child: Text(
             context.localization.add,
-            style: style.copyWith(color: theme.primaryTextColor),
+            style:
+                style.copyWith(color: context.theme.colorScheme.onBackground),
           ),
         ),
       ],

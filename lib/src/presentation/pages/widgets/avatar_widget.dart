@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/network_image.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
@@ -25,7 +25,7 @@ class AvatarWidget extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: backgroundColor ?? theme.primaryBackgroundColor,
+        color: backgroundColor ?? context.theme.colorScheme.background,
         borderRadius: BorderRadius.all(Radius.circular(size)),
       ),
       child: ClipRRect(
@@ -38,7 +38,7 @@ class AvatarWidget extends StatelessWidget {
                   AssetStrings.profileIconImage,
                   package: AssetStrings.packageName,
                   colorFilter: ColorFilter.mode(
-                    theme.primaryIconColor,
+                    context.theme.colorScheme.onBackground,
                     BlendMode.srcIn,
                   ),
                 ),
