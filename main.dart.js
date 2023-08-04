@@ -88695,9 +88695,9 @@ A.VX.prototype={
 C(a){return new A.vY(new A.amQ(),null,null)}}
 A.amQ.prototype={
 $2(a,b){var s,r,q=null,p=b.a
-if(p!==1){s=p>0.95
-r=s?(1-p)/0.05*25:25
-p=s?(1-p)/0.05:1
+if(p!==1){s=p>0.8
+r=s?(1-p)/0.2*25:25
+p=s?(1-p)/0.2:1
 s=$.cu().c
 s===$&&A.b()
 return A.dT(A.a7q(B.a2,A.OE(A.n8(A.cD(q,q,B.q,q,q,new A.c6(s.a,q,q,A.n4(100),q,q,B.af),q,5,q,B.PI,q,q,q,48),q,q),p),B.q,B.oh),r,q)}else return A.cD(q,q,B.q,q,q,q,q,q,q,q,q,q,q,q)},
