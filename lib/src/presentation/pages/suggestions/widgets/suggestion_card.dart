@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
-import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_labels.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/votes_counter.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
@@ -40,7 +40,7 @@ class _SuggestionCardState extends State<SuggestionCard> {
               bottom: Dimensions.marginDefault,
             ),
             child: Material(
-              color: theme.secondaryBackgroundColor,
+              color: context.theme.colorScheme.surfaceVariant,
               borderRadius: const BorderRadius.all(
                 Radius.circular(Dimensions.mediumCircularRadius),
               ),
@@ -103,13 +103,13 @@ class _CardContent extends StatelessWidget {
             children: <Widget>[
               Text(
                 suggestion.title,
-                style: theme.textSmallPlusBold,
+                style: context.theme.textTheme.labelLarge,
               ),
               const SizedBox(height: Dimensions.marginSmall),
               if (suggestion.description != null)
                 Text(
                   suggestion.description!,
-                  style: theme.textSmallPlus,
+                  style: context.theme.textTheme.bodyMedium,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   softWrap: true,

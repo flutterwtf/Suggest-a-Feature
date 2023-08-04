@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
 import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
@@ -69,41 +70,59 @@ class ListDescription extends StatelessWidget {
                 textAlign: TextAlign.center,
                 text: TextSpan(
                   children: <TextSpan>[
-                    TextSpan(text: header, style: theme.textMediumBold),
-                    TextSpan(text: ' ($length)', style: theme.textSmallPlus),
+                    TextSpan(
+                      text: header,
+                      style: context.theme.textTheme.titleMedium?.copyWith(
+                        color: context.theme.colorScheme.onBackground,
+                      ),
+                    ),
+                    TextSpan(
+                      text: ' ($length)',
+                      style: context.theme.textTheme.labelLarge?.copyWith(
+                        color: context.theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
                   ],
                 ),
               ),
-              GestureDetector(
-                onTap: openSortingBottomSheet,
-                behavior: HitTestBehavior.translucent,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 6,
-                    horizontal: Dimensions.marginSmall,
-                  ),
-                  decoration: BoxDecoration(
-                    color: theme.secondaryBackgroundColor,
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(Dimensions.middleCircularRadius),
+              const SizedBox(width: Dimensions.marginSmall),
+              Flexible(
+                child: GestureDetector(
+                  onTap: openSortingBottomSheet,
+                  behavior: HitTestBehavior.translucent,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 6,
+                      horizontal: Dimensions.marginSmall,
                     ),
-                  ),
-                  child: Row(
-                    children: [
-                      Text(
-                        context.localization.sortBy,
-                        style: theme.textSmallPlus
-                            .copyWith(color: theme.enabledTextColor),
+                    decoration: BoxDecoration(
+                      color: context.theme.colorScheme.surfaceVariant,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(Dimensions.verySmallCircularRadius),
                       ),
-                      SvgPicture.asset(
-                        AssetStrings.arrowDownIcon,
-                        package: AssetStrings.packageName,
-                        colorFilter: ColorFilter.mode(
-                          theme.barIndicatorColor,
-                          BlendMode.srcIn,
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            context.localization.sortBy,
+                            style: context.theme.textTheme.bodyMedium?.copyWith(
+                              color: context.theme.colorScheme.primary,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
-                      ),
-                    ],
+                        SvgPicture.asset(
+                          AssetStrings.arrowDownIcon,
+                          package: AssetStrings.packageName,
+                          colorFilter: ColorFilter.mode(
+                            context.theme.colorScheme.primary,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -113,7 +132,7 @@ class ListDescription extends StatelessWidget {
           Text(
             description,
             textAlign: TextAlign.center,
-            style: theme.textSmallPlus,
+            style: context.theme.textTheme.bodyMedium,
           ),
         ],
       ),

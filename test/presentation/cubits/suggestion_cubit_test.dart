@@ -25,6 +25,7 @@ void main() {
         savingImageResultMessageType: SavingResultMessageType.none,
         bottomSheetType: SuggestionBottomSheetType.none,
         suggestion: mockedRequestSuggestion,
+        loadingComments: false,
       );
 
       final commentedSuggestion =
@@ -68,6 +69,7 @@ void main() {
             savingImageResultMessageType: SavingResultMessageType.none,
             bottomSheetType: SuggestionBottomSheetType.none,
             suggestion: commentedSuggestion,
+            loadingComments: false,
           ),
         ],
       );
@@ -95,6 +97,7 @@ void main() {
             savingImageResultMessageType: SavingResultMessageType.none,
             bottomSheetType: SuggestionBottomSheetType.none,
             suggestion: mockedRequestSuggestion,
+            loadingComments: false,
           ),
         ],
       );
@@ -124,6 +127,7 @@ void main() {
             suggestion: mockedRequestSuggestion.copyWith(
               votedUserIds: <String>{mockedSuggestionAuthor.id},
             ),
+            loadingComments: false,
           ),
           emptySuggestionState,
         ],
@@ -151,6 +155,7 @@ void main() {
           suggestion: mockedRequestSuggestion.copyWith(
             votedUserIds: <String>{mockedSuggestionAuthor.id},
           ),
+          loadingComments: false,
         ),
         act: (SuggestionCubit cubit) => cubit.vote(),
         expect: () => <SuggestionState>[emptySuggestionState],
@@ -183,6 +188,7 @@ void main() {
             suggestion: mockedRequestSuggestion.copyWith(
               notifyUserIds: <String>{mockedSuggestionAuthor.id},
             ),
+            loadingComments: false,
           ),
         ],
       );
@@ -209,6 +215,7 @@ void main() {
           suggestion: mockedRequestSuggestion.copyWith(
             notifyUserIds: <String>{mockedSuggestionAuthor.id},
           ),
+          loadingComments: false,
         ),
         act: (SuggestionCubit cubit) => cubit.changeNotification(
           isNotificationOn: false,
@@ -240,6 +247,7 @@ void main() {
             savingImageResultMessageType: SavingResultMessageType.success,
             bottomSheetType: SuggestionBottomSheetType.none,
             suggestion: mockedRequestSuggestion,
+            loadingComments: false,
           ),
         ],
       );
@@ -268,6 +276,7 @@ void main() {
             savingImageResultMessageType: SavingResultMessageType.fail,
             bottomSheetType: SuggestionBottomSheetType.none,
             suggestion: mockedRequestSuggestion,
+            loadingComments: false,
           ),
         ],
       );
@@ -295,6 +304,7 @@ void main() {
             savingImageResultMessageType: SavingResultMessageType.none,
             bottomSheetType: SuggestionBottomSheetType.createComment,
             suggestion: mockedRequestSuggestion,
+            loadingComments: false,
           ),
         ],
       );

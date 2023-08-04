@@ -1,11 +1,12 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
+import 'package:suggest_a_feature/src/domain/utils/simple_behavior_subject.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_cubit.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_state.dart';
+import 'package:suggest_a_feature/src/presentation/utils/typedefs.dart';
 
 import '../../utils/mocked_entities.dart';
 import '../../utils/shared_mocks.mocks.dart';
@@ -17,13 +18,15 @@ void main() {
       final mockSuggestionsTheme = MockSuggestionsTheme();
       final mockSuggestionsDataSource = MockSuggestionsDataSource();
       final mockSuggestionRepository = MockSuggestionRepositoryImpl();
+      const mockSortType = SortType.upvotes;
       final emptySuggestionsState = SuggestionsState(
         requests: [mockedRequestSuggestion, mockedRequestSuggestion2],
         inProgress: [mockedInProgressSuggestion, mockedInProgressSuggestion2],
         completed: [mockedCompletedSuggestion, mockedCompletedSuggestion2],
         declined: const [],
         duplicated: const [],
-        sortType: SortType.likes,
+        sortType: SortType.upvotes,
+        loading: false,
       );
       final mockedSuggestions = [
         mockedRequestSuggestion,
@@ -51,9 +54,7 @@ void main() {
           when(mockSuggestionRepository.suggestionsStream).thenAnswer(
             (_) => Stream.value(mockedSuggestions),
           );
-          return SuggestionsCubit(
-            mockSuggestionRepository,
-          );
+          return SuggestionsCubit(mockSuggestionRepository, mockSortType);
         },
         seed: () => emptySuggestionsState,
         act: (cubit) => cubit.openCreateBottomSheet(),
@@ -66,6 +67,7 @@ void main() {
             duplicated: emptySuggestionsState.duplicated,
             sortType: emptySuggestionsState.sortType,
             activeTab: emptySuggestionsState.activeTab,
+            loading: emptySuggestionsState.loading,
           ),
         ],
       );
@@ -76,9 +78,7 @@ void main() {
           when(mockSuggestionRepository.suggestionsStream).thenAnswer(
             (_) => Stream.value(mockedSuggestions),
           );
-          return SuggestionsCubit(
-            mockSuggestionRepository,
-          );
+          return SuggestionsCubit(mockSuggestionRepository, mockSortType);
         },
         seed: () => CreateState(
           requests: emptySuggestionsState.requests,
@@ -88,6 +88,7 @@ void main() {
           duplicated: emptySuggestionsState.duplicated,
           sortType: emptySuggestionsState.sortType,
           activeTab: emptySuggestionsState.activeTab,
+          loading: emptySuggestionsState.loading,
         ),
         act: (cubit) => cubit.closeBottomSheet(),
         expect: () => [
@@ -101,9 +102,7 @@ void main() {
           when(mockSuggestionRepository.suggestionsStream).thenAnswer(
             (_) => Stream.value(mockedSuggestions),
           );
-          return SuggestionsCubit(
-            mockSuggestionRepository,
-          );
+          return SuggestionsCubit(mockSuggestionRepository, mockSortType);
         },
         seed: () => emptySuggestionsState.newState(
           activeTab: SuggestionStatus.inProgress,
@@ -119,24 +118,21 @@ void main() {
       blocTest<SuggestionsCubit, SuggestionsState>(
         'vote requested suggestion',
         build: () {
-          final dataStream = BehaviorSubject.seeded([
+          final dataStream = SimpleBehaviorSubject([
             mockedRequestSuggestion,
             mockedRequestSuggestion2,
           ]);
 
           when(mockSuggestionRepository.suggestionsStream).thenAnswer(
-            (_) => dataStream,
+            (_) => dataStream.stream(),
           );
 
           when(mockSuggestionRepository.upvote(any)).thenAnswer(
-            (_) async => dataStream.add(
-              [mockedRequestSuggestion, upvotedSuggestion],
-            ),
+            (_) async =>
+                dataStream.value = [mockedRequestSuggestion, upvotedSuggestion],
           );
 
-          return SuggestionsCubit(
-            mockSuggestionRepository,
-          );
+          return SuggestionsCubit(mockSuggestionRepository, mockSortType);
         },
         seed: () => SuggestionsState(
           requests: [mockedRequestSuggestion, mockedRequestSuggestion2],
@@ -144,7 +140,8 @@ void main() {
           completed: const [],
           declined: const [],
           duplicated: const [],
-          sortType: SortType.likes,
+          sortType: SortType.upvotes,
+          loading: false,
         ),
         act: (cubit) {
           cubit.vote(SuggestionStatus.requests, 1);
@@ -156,7 +153,8 @@ void main() {
             completed: const [],
             declined: const [],
             duplicated: const [],
-            sortType: SortType.likes,
+            sortType: SortType.upvotes,
+            loading: false,
           ),
         ],
       );

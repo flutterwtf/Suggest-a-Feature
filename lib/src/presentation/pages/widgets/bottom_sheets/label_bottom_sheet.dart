@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
-import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/bottom_sheet_actions.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/clickable_list_item.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_labels.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_radio_button.dart';
 import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
@@ -42,8 +43,9 @@ class _LabelBottomSheetState extends State<LabelBottomSheet> {
       title: context.localization.labels,
       titleBottomPadding: 0,
       controller: widget.controller,
-      previousNavBarColor: theme.bottomSheetBackgroundColor,
-      previousStatusBarColor: theme.thirdBackgroundColor,
+      previousNavBarColor: context.theme.bottomSheetTheme.backgroundColor ??
+          context.theme.colorScheme.background,
+      previousStatusBarColor: context.theme.colorScheme.surface,
       onClose: ([ClosureType? closureType]) async {
         if (closureType == ClosureType.backButton) {
           widget.onCancel();
@@ -52,7 +54,8 @@ class _LabelBottomSheetState extends State<LabelBottomSheet> {
           widget.onCancel();
         }
       },
-      backgroundColor: theme.bottomSheetBackgroundColor,
+      backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
+          context.theme.colorScheme.background,
       contentBuilder: (_, __) {
         return _LabelsListView(
           onTap: (label) => setState(
@@ -93,7 +96,7 @@ class _LabelsListView extends StatelessWidget {
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
-                color: theme.dividerColor,
+                color: context.theme.dividerColor,
                 width: 0.5,
               ),
             ),
@@ -121,51 +124,27 @@ class _LabelsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: Dimensions.marginDefault,
-        vertical: Dimensions.marginBig,
-      ),
+      padding: const EdgeInsets.symmetric(vertical: Dimensions.marginMiddle),
       child: Column(
         children: <Widget>[
-          _LabelItem(
-            label: SuggestionLabel.feature,
-            onTap: onTap,
-            selectedLabels: selectedLabels,
+          ClickableListItem(
+            title: const SuggestionLabels(labels: [SuggestionLabel.feature]),
+            trailing: SuggestionsRadioButton(
+              selected: selectedLabels.contains(SuggestionLabel.feature),
+            ),
+            onClick: () => onTap(SuggestionLabel.feature),
+            verticalPadding: Dimensions.marginMiddle,
           ),
-          const SizedBox(height: Dimensions.marginBig),
-          _LabelItem(
-            label: SuggestionLabel.bug,
-            onTap: onTap,
-            selectedLabels: selectedLabels,
+          ClickableListItem(
+            title: const SuggestionLabels(labels: [SuggestionLabel.bug]),
+            trailing: SuggestionsRadioButton(
+              selected: selectedLabels.contains(SuggestionLabel.bug),
+            ),
+            onClick: () => onTap(SuggestionLabel.bug),
+            verticalPadding: Dimensions.marginMiddle,
           ),
         ],
       ),
-    );
-  }
-}
-
-class _LabelItem extends StatelessWidget {
-  final SuggestionLabel label;
-  final List<SuggestionLabel> selectedLabels;
-  final ValueChanged<SuggestionLabel> onTap;
-
-  const _LabelItem({
-    required this.label,
-    required this.onTap,
-    required this.selectedLabels,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        SuggestionLabels(labels: <SuggestionLabel>[label]),
-        SuggestionsRadioButton(
-          selected: selectedLabels.contains(label),
-          onTap: () => onTap(label),
-        ),
-      ],
     );
   }
 }

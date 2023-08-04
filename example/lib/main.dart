@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
     initializeDateFormatting();
     return MaterialApp(
       title: 'Suggest a Feature',
+      theme: ThemeData(useMaterial3: true),
       home: Scaffold(
         body: SuggestionsPage(
           onGetUserById: (id) => Future<SuggestionAuthor>(

@@ -1,3 +1,9 @@
+## 0.3.0
+* Color theme updated, now material theme is used (migration gid in readme)
+* Clickable item row instead of RadioButton [#56](https://github.com/What-the-Flutter/Suggest-a-Feature/pull/56)
+* Added sorting parameter [#55](https://github.com/What-the-Flutter/Suggest-a-Feature/pull/55)
+* Added initial loading [#54](https://github.com/What-the-Flutter/Suggest-a-Feature/pull/54)
+
 ## 0.2.1
 * Sorting added
 

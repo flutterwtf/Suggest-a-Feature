@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
@@ -72,7 +72,9 @@ class _SuggestionsFabState extends State<SuggestionsFab>
         alignment: Alignment.center,
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
-          color: widget.backgroundColor ?? theme.fabColor,
+          color: widget.backgroundColor ??
+              context.theme.floatingActionButtonTheme.backgroundColor ??
+              theme.fabColor,
           borderRadius: BorderRadius.circular(widget.borderRadius),
         ),
         child: Stack(
@@ -82,7 +84,9 @@ class _SuggestionsFabState extends State<SuggestionsFab>
               bottom: -widget.size / 2,
               child: _AnimatedCircle(
                 animation: _animation,
-                color: widget.splashColor ?? theme.fabColor,
+                color: widget.splashColor ??
+                    context.theme.floatingActionButtonTheme.backgroundColor ??
+                    theme.fabColor,
               ),
             ),
             Center(
@@ -92,7 +96,7 @@ class _SuggestionsFabState extends State<SuggestionsFab>
                 width: Dimensions.defaultSize,
                 height: Dimensions.defaultSize,
                 colorFilter: ColorFilter.mode(
-                  widget.iconColor ?? theme.primaryIconColor,
+                  widget.iconColor ?? context.theme.colorScheme.onBackground,
                   BlendMode.srcIn,
                 ),
               ),

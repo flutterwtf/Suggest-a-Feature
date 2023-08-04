@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:suggest_a_feature/src/domain/entities/admin_settings.dart';
 import 'package:suggest_a_feature/src/domain/entities/comment.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
@@ -9,7 +10,7 @@ import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/suggestion_cubit.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/suggestion_cubit_scope.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/suggestion_state.dart';
-import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/appbar_widget.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/avatar_widget.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/confirmation_bottom_sheet.dart';
@@ -19,7 +20,6 @@ import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/n
 import 'package:suggest_a_feature/src/presentation/pages/widgets/icon_button.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/network_image.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/photo_view.dart';
-import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_elevated_button.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_labels.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/votes_counter.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
@@ -91,7 +91,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
             children: [
               Scaffold(
                 appBar: _appBar(cubit, state.isEditable),
-                backgroundColor: theme.primaryBackgroundColor,
+                backgroundColor: context.theme.scaffoldBackgroundColor,
                 body: _MainContent(
                   onSaveToGallery: widget.onSaveToGallery,
                 ),
@@ -104,11 +104,10 @@ class _SuggestionPageState extends State<SuggestionPage> {
                     bottom: MediaQuery.of(context).padding.bottom +
                         Dimensions.marginSmall,
                   ),
-                  alignment: Alignment.bottomCenter,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Flexible(
+                      Expanded(
                         child: _NewCommentButton(
                           onClick: cubit.openCreateCommentBottomSheet,
                         ),
@@ -117,7 +116,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
                       if (state.suggestion.votedUserIds.contains(i.userId))
                         const SizedBox.shrink()
                       else
-                        Flexible(
+                        Expanded(
                           child: _UpvoteButton(
                             isVisible: !state.suggestion.votedUserIds
                                 .contains(i.userId),
@@ -172,7 +171,8 @@ class _MainContent extends StatelessWidget {
     return BlocBuilder<SuggestionCubit, SuggestionState>(
       buildWhen: (previous, current) =>
           previous.author != current.author ||
-          previous.suggestion != current.suggestion,
+          previous.suggestion != current.suggestion ||
+          previous.loadingComments != current.loadingComments,
       builder: (context, state) {
         final cubit = context.read<SuggestionCubit>();
         return NotificationListener<OverscrollIndicatorNotification>(
@@ -199,7 +199,9 @@ class _MainContent extends StatelessWidget {
                   ),
                   const SizedBox(height: Dimensions.marginSmall),
                 ],
-                if (state.suggestion.comments.isNotEmpty)
+                if (state.loadingComments)
+                  const Center(child: CircularProgressIndicator())
+                else if (state.suggestion.comments.isNotEmpty)
                   _CommentList(comments: state.suggestion.comments),
                 if (state.suggestion.votedUserIds.contains(i.userId))
                   const SizedBox(
@@ -235,7 +237,8 @@ class _UserInfo extends StatelessWidget {
         children: [
           Text(
             context.localization.postedBy,
-            style: theme.textSmallPlusSecondary,
+            style: context.theme.textTheme.bodyMedium
+                ?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
           ),
           _Avatar(avatar: author.avatar),
           Expanded(
@@ -243,7 +246,7 @@ class _UserInfo extends StatelessWidget {
               author.username.isEmpty
                   ? context.localization.anonymousAuthorName
                   : author.username,
-              style: theme.textSmallPlus,
+              style: context.theme.textTheme.bodyMedium,
             ),
           ),
         ],
@@ -264,7 +267,7 @@ class _SuggestionInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: theme.secondaryBackgroundColor,
+      color: context.theme.colorScheme.surfaceVariant,
       padding: const EdgeInsets.only(
         left: Dimensions.marginDefault,
         right: Dimensions.marginBig,
@@ -291,7 +294,7 @@ class _SuggestionInfo extends StatelessWidget {
               padding: const EdgeInsets.only(left: Dimensions.marginSmall),
               child: Text(
                 suggestion.description!,
-                style: theme.textSmallPlus,
+                style: context.theme.textTheme.bodyMedium,
               ),
             ),
             const SizedBox(height: Dimensions.marginDefault),
@@ -321,13 +324,14 @@ class _AttachedImages extends StatelessWidget {
         right: Dimensions.marginDefault,
         bottom: Dimensions.marginBig,
       ),
-      color: theme.secondaryBackgroundColor,
+      color: context.theme.colorScheme.surfaceVariant,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             context.localization.attachedPhotos,
-            style: theme.textSmallPlusSecondaryBold,
+            style: context.theme.textTheme.labelLarge
+                ?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
           ),
           const SizedBox(height: Dimensions.marginMiddle),
           Wrap(
@@ -361,15 +365,15 @@ class _CommentList extends StatelessWidget {
       children: [
         Container(
           width: double.infinity,
-          color: theme.secondaryBackgroundColor,
+          color: context.theme.colorScheme.surfaceVariant,
           padding: const EdgeInsets.only(
             top: Dimensions.marginDefault,
             left: Dimensions.marginDefault,
           ),
           child: Text(
             context.localization.commentsTitle,
-            style: theme.textSmallPlusBold
-                .copyWith(color: theme.secondaryTextColor),
+            style: context.theme.textTheme.labelLarge
+                ?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
           ),
         ),
         Wrap(
@@ -396,7 +400,7 @@ class _Avatar extends StatelessWidget {
         right: Dimensions.marginSmall,
       ),
       child: AvatarWidget(
-        backgroundColor: theme.secondaryBackgroundColor,
+        backgroundColor: context.theme.colorScheme.surfaceVariant,
         avatar: avatar,
         iconPadding: Dimensions.marginMicro,
         size: Dimensions.defaultSize,
@@ -437,7 +441,10 @@ class _SuggestionHeaderContent extends StatelessWidget {
         ),
         const SizedBox(width: Dimensions.marginSmall),
         Expanded(
-          child: Text(title, style: theme.textMediumBold),
+          child: Text(
+            title,
+            style: context.theme.textTheme.titleMedium,
+          ),
         ),
       ],
     );
@@ -474,7 +481,7 @@ class _WrappedAttachedImage extends StatelessWidget {
                   : null,
               initialIndex: images.indexOf(attachedImage),
               photos: images,
-              previousNavBarColor: theme.primaryBackgroundColor,
+              previousNavBarColor: context.theme.colorScheme.background,
             );
           },
         );
@@ -506,7 +513,7 @@ class _CommentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(Dimensions.marginDefault),
-      color: theme.secondaryBackgroundColor,
+      color: context.theme.colorScheme.surfaceVariant,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -517,7 +524,7 @@ class _CommentCard extends StatelessWidget {
             padding: const EdgeInsets.only(left: Dimensions.margin3x),
             child: Text(
               comment.text,
-              style: theme.textSmallPlus,
+              style: context.theme.textTheme.bodyMedium,
               softWrap: true,
             ),
           ),
@@ -722,11 +729,17 @@ class _NewCommentButton extends StatelessWidget {
       padding: const EdgeInsets.only(
         left: Dimensions.marginDefault,
       ),
-      child: SuggestionsElevatedButton(
-        buttonText: context.localization.newComment,
-        onClick: onClick,
-        backgroundColor: theme.secondaryBackgroundColor,
-        textColor: theme.primaryTextColor,
+      child: FilledButton(
+        style: context.theme.filledButtonTheme.style?.copyWith(
+          backgroundColor: MaterialStateProperty.resolveWith<Color>(
+            (states) => context.theme.colorScheme.secondaryContainer,
+          ),
+          foregroundColor: MaterialStatePropertyAll(
+            context.theme.colorScheme.onSecondaryContainer,
+          ),
+        ),
+        onPressed: onClick,
+        child: Text(context.localization.newComment),
       ),
     );
   }
@@ -751,10 +764,27 @@ class _UpvoteButton extends StatelessWidget {
           padding: const EdgeInsets.only(
             right: Dimensions.marginDefault,
           ),
-          child: SuggestionsElevatedButton(
-            onClick: onClick,
-            imageIconPath: AssetStrings.suggestionsUpvoteArrow,
-            buttonText: context.localization.upvote,
+          child: FilledButton(
+            onPressed: onClick,
+            child: Row(
+              children: [
+                SvgPicture.asset(
+                  AssetStrings.suggestionsUpvoteArrow,
+                  package: AssetStrings.packageName,
+                  colorFilter: ColorFilter.mode(
+                    context.theme.colorScheme.onPrimary,
+                    BlendMode.srcIn,
+                  ),
+                ),
+                const SizedBox(width: Dimensions.marginSmall),
+                Flexible(
+                  child: Text(
+                    context.localization.upvote,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -774,7 +804,7 @@ class _CommentInfo extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         AvatarWidget(
-          backgroundColor: theme.primaryBackgroundColor,
+          backgroundColor: context.theme.colorScheme.background,
           avatar: author.avatar,
           size: Dimensions.bigSize,
         ),
@@ -782,12 +812,13 @@ class _CommentInfo extends StatelessWidget {
         Expanded(
           child: Text(
             author.username,
-            style: theme.textSmallPlusBold,
+            style: context.theme.textTheme.labelLarge,
           ),
         ),
         Text(
           comment.creationTime.formatComment(context.localization.localeName),
-          style: theme.textSmallPlusSecondary,
+          style: context.theme.textTheme.bodyMedium
+              ?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
         ),
       ],
     );

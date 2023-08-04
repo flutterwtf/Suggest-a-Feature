@@ -7,7 +7,7 @@ abstract class SuggestionRepository {
   List<Suggestion> get suggestions;
   Map<String, SuggestionAuthor?> get userInfo;
 
-  void initSuggestions();
+  Future<void> initSuggestions();
   Future<Suggestion> getSuggestionById(String suggestionId);
   Future<Suggestion> createSuggestion(CreateSuggestionModel suggestion);
   Future<Suggestion> updateSuggestion(Suggestion suggestion);
