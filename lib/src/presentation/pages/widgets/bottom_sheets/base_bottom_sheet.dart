@@ -299,13 +299,13 @@ class _Grabbing extends StatelessWidget {
       builder: (_, state) {
         if (state.extent != 1) {
           return SizedBox(
-            height: state.extent > 0.95
-                ? (1 - state.extent) / 0.05 * Dimensions.grabbingHeight
+            height: state.extent > 0.8
+                ? (1 - state.extent) / 0.2 * Dimensions.grabbingHeight
                 : Dimensions.grabbingHeight,
             child: FittedBox(
               fit: BoxFit.none,
               child: Opacity(
-                opacity: state.extent > 0.95 ? (1 - state.extent) / 0.05 : 1.0,
+                opacity: state.extent > 0.8 ? (1 - state.extent) / 0.2 : 1.0,
                 child: Center(
                   child: Container(
                     margin: const EdgeInsets.only(
