@@ -88,6 +88,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
         builder: (context, state) {
           final cubit = context.read<SuggestionCubit>();
           return Stack(
+            alignment: Alignment.bottomLeft,
             children: [
               Scaffold(
                 appBar: _appBar(cubit, state.isEditable),
@@ -767,6 +768,7 @@ class _UpvoteButton extends StatelessWidget {
           child: FilledButton(
             onPressed: onClick,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SvgPicture.asset(
                   AssetStrings.suggestionsUpvoteArrow,
