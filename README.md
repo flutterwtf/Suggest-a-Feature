@@ -149,12 +149,20 @@ Since version 0.3.0 the package uses the material theme of your application. Her
 * focusedTextButtonColor -> ThemeData.colorScheme.secondaryContainer
 * focusedTextColor -> ThemeData.colorTheme.onSecondaryContainer
 * focusedTextFieldBorderLine -> ThemeData.colorScheme.primary
-* focusedTonalButtonColor -> ThemeData.colorScheme.secondary
+* focusedTonalButtonColor -> ThemeData.colorScheme.onSecondaryContainer
 * enabledTextColor -> ThemeData.colorScheme.primary
-* tonalButtonColor -> ThemeData.colorScheme.onSecondaryContainer
+* tonalButtonColor -> ThemeData.colorScheme.secondaryContainer
 * fabColor -> ThemeData.floatingActionButtonTheme.backgroundColor ?? SuggestionsTheme.fabColor
 * activatedUpvoteArrowColor -> ThemeData.colorScheme.primary
 * barIndicatorColor -> ThemeData.colorScheme.primary
 * disabledTextButtonColor -> ThemeData.disabledColor
 * errorColor -> ThemeData.colorScheme.error
 * dialogBarrierColor -> not used
+
+Package uses your app's FilledButtonTheme, TextButtonTheme, TabBarTheme, TextTheme, DividerTheme, scaffoldBackgroundColor
+
+Text styles used in package:
+* TextTheme.titleLarge
+* TextTheme.titleMedium
+* TextTheme.labelLarge
+* TextTheme.bodyMedium
