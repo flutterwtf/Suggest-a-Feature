@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:suggest_a_feature/src/data/interfaces/suggestions_data_source.dart';
-import 'package:suggest_a_feature/src/domain/entities/admin_settings.dart';
-import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/localization/localization_extensions.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_bottom_sheet.dart';
@@ -11,15 +8,14 @@ import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_state.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/widgets/suggestion_list.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/widgets/suggestions_tab_bar.dart';
-import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
-import 'package:suggest_a_feature/src/presentation/pages/widgets/appbar_widget.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/sorting_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/fab.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:suggest_a_feature/src/presentation/utils/platform_check.dart';
 import 'package:suggest_a_feature/src/presentation/utils/rendering.dart';
-import 'package:suggest_a_feature/src/presentation/utils/typedefs.dart';
+import 'package:suggest_a_feature/suggest_a_feature.dart';
 import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
 
 class SuggestionsPage extends StatefulWidget {
@@ -57,6 +53,9 @@ class SuggestionsPage extends StatefulWidget {
   /// Current locale
   final String locale;
 
+  /// Initial sorting type
+  final SortType sortType;
+
   SuggestionsPage({
     required this.userId,
     required this.suggestionsDataSource,
@@ -69,6 +68,7 @@ class SuggestionsPage extends StatefulWidget {
     this.customAppBar,
     this.imageHeaders,
     this.locale = 'en',
+    this.sortType = SortType.upvotes,
     super.key,
   }) : assert(
           (isAdmin && adminSettings != null) || !isAdmin,
@@ -93,11 +93,13 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
   @override
   Widget build(BuildContext context) {
     return SuggestionsCubitScope(
+      sortType: widget.sortType,
       child: BlocBuilder<SuggestionsCubit, SuggestionsState>(
         buildWhen: (previous, current) =>
             previous.type != current.type ||
             previous.activeTab != current.activeTab ||
-            previous.sortType != current.sortType,
+            previous.sortType != current.sortType ||
+            previous.loading != current.loading,
         builder: (context, state) {
           final cubit = context.read<SuggestionsCubit>();
           return Stack(
@@ -108,26 +110,29 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
                       onBackClick: Navigator.of(context).pop,
                       screenTitle: localization.suggestAFeature,
                     ),
-                backgroundColor: theme.primaryBackgroundColor,
-                body: Stack(
-                  children: [
-                    _MainContent(
-                      userId: widget.userId,
-                      onTabChanged: (index) {
-                        cubit.changeActiveTab(
-                          SuggestionStatus.values[index],
-                        );
-                      },
-                      activeTab: state.activeTab,
-                      onGetUserById: widget.onGetUserById,
-                      onSaveToGallery: widget.onSaveToGallery,
-                      onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
-                    ),
-                    _BottomFab(
-                      openCreateBottomSheet: cubit.openCreateBottomSheet,
-                    ),
-                  ],
-                ),
+                backgroundColor: context.theme.scaffoldBackgroundColor,
+                body: state.loading
+                    ? const Center(child: CircularProgressIndicator())
+                    : Stack(
+                        children: [
+                          _MainContent(
+                            userId: widget.userId,
+                            onTabChanged: (index) {
+                              cubit.changeActiveTab(
+                                SuggestionStatus.values[index],
+                              );
+                            },
+                            activeTab: state.activeTab,
+                            onGetUserById: widget.onGetUserById,
+                            onSaveToGallery: widget.onSaveToGallery,
+                            onUploadMultiplePhotos:
+                                widget.onUploadMultiplePhotos,
+                          ),
+                          _BottomFab(
+                            openCreateBottomSheet: cubit.openCreateBottomSheet,
+                          ),
+                        ],
+                      ),
               ),
               if (state is CreateState)
                 _BottomSheet(

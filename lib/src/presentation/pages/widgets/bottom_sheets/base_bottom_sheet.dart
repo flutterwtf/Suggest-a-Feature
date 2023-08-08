@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:suggest_a_feature/src/presentation/utils/platform_check.dart';
 import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
@@ -258,7 +258,7 @@ class _SafeArea extends StatelessWidget {
                 ),
                 child: Text(
                   title!,
-                  style: theme.textLargeBold,
+                  style: context.theme.textTheme.titleLarge,
                 ),
               ),
             contentBuilder(context, state),
@@ -299,13 +299,13 @@ class _Grabbing extends StatelessWidget {
       builder: (_, state) {
         if (state.extent != 1) {
           return SizedBox(
-            height: state.extent > 0.95
-                ? (1 - state.extent) / 0.05 * Dimensions.grabbingHeight
+            height: state.extent > 0.8
+                ? (1 - state.extent) / 0.2 * Dimensions.grabbingHeight
                 : Dimensions.grabbingHeight,
             child: FittedBox(
               fit: BoxFit.none,
               child: Opacity(
-                opacity: state.extent > 0.95 ? (1 - state.extent) / 0.05 : 1.0,
+                opacity: state.extent > 0.8 ? (1 - state.extent) / 0.2 : 1.0,
                 child: Center(
                   child: Container(
                     margin: const EdgeInsets.only(

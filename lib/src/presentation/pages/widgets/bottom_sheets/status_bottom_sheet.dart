@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
 import 'package:suggest_a_feature/src/presentation/localization/localization_extensions.dart';
-import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/bottom_sheet_actions.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/clickable_list_item.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_radio_button.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:suggest_a_feature/src/presentation/utils/status_utils.dart';
 import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
@@ -41,8 +43,9 @@ class _StatusBottomSheetState extends State<StatusBottomSheet> {
       title: localization.status,
       titleBottomPadding: 0,
       controller: widget.controller,
-      previousNavBarColor: theme.bottomSheetBackgroundColor,
-      previousStatusBarColor: theme.thirdBackgroundColor,
+      previousNavBarColor: context.theme.bottomSheetTheme.backgroundColor ??
+          context.theme.colorScheme.background,
+      previousStatusBarColor: context.theme.colorScheme.surface,
       onClose: ([ClosureType? closureType]) async {
         if (closureType == ClosureType.backButton) {
           widget.onCancel();
@@ -51,7 +54,8 @@ class _StatusBottomSheetState extends State<StatusBottomSheet> {
           widget.onCancel();
         }
       },
-      backgroundColor: theme.bottomSheetBackgroundColor,
+      backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
+          context.theme.colorScheme.background,
       contentBuilder: (BuildContext context, SheetState sheetState) {
         return ListView(
           padding: const EdgeInsets.only(bottom: Dimensions.marginMiddle),
@@ -92,7 +96,7 @@ class _Statuses extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
-            color: theme.dividerColor,
+            color: context.theme.dividerColor,
             width: 0.5,
           ),
         ),
@@ -123,8 +127,7 @@ class _StatusesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
-        horizontal: Dimensions.marginDefault,
-        vertical: Dimensions.marginBig,
+        vertical: 18,
       ),
       child: Column(
         children: <Widget>[
@@ -133,25 +136,21 @@ class _StatusesList extends StatelessWidget {
             onTap: onStatusTap,
             selectedStatus: selectedStatus,
           ),
-          const SizedBox(height: Dimensions.marginMiddle),
           _StatusItem(
             status: SuggestionStatus.inProgress,
             onTap: onStatusTap,
             selectedStatus: selectedStatus,
           ),
-          const SizedBox(height: Dimensions.marginMiddle),
           _StatusItem(
             status: SuggestionStatus.completed,
             onTap: onStatusTap,
             selectedStatus: selectedStatus,
           ),
-          const SizedBox(height: Dimensions.marginMiddle),
           _StatusItem(
             status: SuggestionStatus.declined,
             onTap: onStatusTap,
             selectedStatus: selectedStatus,
           ),
-          const SizedBox(height: Dimensions.marginMiddle),
           _StatusItem(
             status: SuggestionStatus.duplicated,
             onTap: onStatusTap,
@@ -176,40 +175,15 @@ class _StatusItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Text(
-          status.statusName,
-          style: theme.textSmallPlusSecondaryBold,
-        ),
-        GestureDetector(
-          onTap: () => onTap(status),
-          child: SizedBox(
-            height: Dimensions.defaultSize,
-            width: Dimensions.defaultSize,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: theme.primaryIconColor,
-                  width: 0.5,
-                ),
-                color: selectedStatus == status
-                    ? theme.primaryIconColor
-                    : theme.thirdBackgroundColor,
-                shape: BoxShape.circle,
-              ),
-              child: selectedStatus == status
-                  ? Icon(
-                      Icons.check,
-                      size: Dimensions.smallSize,
-                      color: theme.primaryBackgroundColor,
-                    )
-                  : null,
-            ),
-          ),
-        ),
-      ],
+    return ClickableListItem(
+      title: Text(
+        status.statusName,
+        style: context.theme.textTheme.labelLarge
+            ?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
+      ),
+      trailing: SuggestionsRadioButton(selected: selectedStatus == status),
+      onClick: () => onTap(status),
+      verticalPadding: 6,
     );
   }
 }

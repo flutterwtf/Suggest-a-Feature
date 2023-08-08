@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
-import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:suggest_a_feature/src/presentation/utils/label_utils.dart';
 
@@ -39,11 +39,11 @@ class _Label extends StatelessWidget {
           width: Dimensions.microSize,
           height: Dimensions.microSize,
           decoration: BoxDecoration(
-            color: label.labelColor(),
+            color: label.labelColor(context),
             shape: BoxShape.circle,
             boxShadow: <BoxShadow>[
               BoxShadow(
-                color: label.labelColor().withOpacity(0.16),
+                color: label.labelColor(context).withOpacity(0.16),
                 spreadRadius: 5,
               ),
             ],
@@ -52,8 +52,8 @@ class _Label extends StatelessWidget {
         const SizedBox(width: 11),
         Text(
           label.labelName,
-          style: theme.textSmallPlusBold.copyWith(
-            color: label.labelColor(),
+          style: context.theme.textTheme.labelLarge?.copyWith(
+            color: label.labelColor(context),
           ),
         ),
       ],

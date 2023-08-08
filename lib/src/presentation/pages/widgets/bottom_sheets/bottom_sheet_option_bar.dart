@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/presentation/localization/localization_extensions.dart';
-import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
-import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_text_button.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 
 class BottomSheetOptionBar extends StatelessWidget {
   final String title;
@@ -22,17 +21,17 @@ class BottomSheetOptionBar extends StatelessWidget {
       children: <Widget>[
         Align(
           alignment: Alignment.centerLeft,
-          child: SuggestionsTextButton(
-            title: localization.cancel,
-            onClick: onCancel,
+          child: TextButton(
+            onPressed: onCancel,
+            child: Text(localization.cancel),
           ),
         ),
-        Text(title, style: theme.textMediumPlusBold),
+        Text(title, style: context.theme.textTheme.titleMedium),
         Align(
           alignment: Alignment.centerRight,
-          child: SuggestionsTextButton(
-            title: localization.done,
-            onClick: onDone,
+          child: TextButton(
+            onPressed: onDone,
+            child: Text(localization.done),
           ),
         ),
       ],

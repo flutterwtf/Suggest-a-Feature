@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class FontSizes {
   static const FontWeight weightBold = FontWeight.w500;
+  static const FontWeight weightRegular = FontWeight.w400;
 
   static const double small = 12;
   static const double smallPlus = 14;

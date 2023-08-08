@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:suggest_a_feature/src/domain/data_interfaces/suggestion_repository.dart';
 import 'package:suggest_a_feature/src/domain/entities/comment.dart';
@@ -27,6 +28,7 @@ class SuggestionCubit extends Cubit<SuggestionState> {
             savingImageResultMessageType: SavingResultMessageType.none,
             bottomSheetType: SuggestionBottomSheetType.none,
             suggestion: Suggestion.empty(),
+            loadingComments: true,
           ),
         ) {
     _init(
@@ -106,6 +108,7 @@ class SuggestionCubit extends Cubit<SuggestionState> {
     } catch (e) {
       log('Comments loading error', error: e);
     }
+    emit(state.newState(loadingComments: false));
   }
 
   @override

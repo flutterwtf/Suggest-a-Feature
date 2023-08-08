@@ -6,31 +6,34 @@ import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart'
     as injector;
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_state.dart';
+import 'package:suggest_a_feature/src/presentation/utils/typedefs.dart';
 
 class SuggestionsCubit extends Cubit<SuggestionsState> {
   final SuggestionRepository _suggestionRepository;
   StreamSubscription<List<Suggestion>>? _suggestionSubscription;
 
-  SuggestionsCubit(this._suggestionRepository)
+  SuggestionsCubit(this._suggestionRepository, SortType sortType)
       : super(
-          const SuggestionsState(
-            requests: [],
-            inProgress: [],
-            completed: [],
-            declined: [],
-            duplicated: [],
-            sortType: SortType.likes,
+          SuggestionsState(
+            requests: const [],
+            inProgress: const [],
+            completed: const [],
+            declined: const [],
+            duplicated: const [],
+            sortType: sortType,
+            loading: true,
           ),
         ) {
     _init();
   }
 
-  void _init() {
+  Future<void> _init() async {
     _suggestionSubscription?.cancel();
     _suggestionSubscription = _suggestionRepository.suggestionsStream.listen(
       _onNewSuggestions,
     );
-    _suggestionRepository.initSuggestions();
+    await _suggestionRepository.initSuggestions();
+    emit(state.newState(loading: false));
   }
 
   @override
@@ -97,6 +100,7 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
           duplicated: state.duplicated,
           sortType: state.sortType,
           activeTab: state.activeTab,
+          loading: state.loading,
         ),
       );
 
@@ -108,6 +112,7 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
           declined: state.declined,
           duplicated: state.duplicated,
           sortType: state.sortType,
+          loading: state.loading,
         ),
       );
 
@@ -122,6 +127,7 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
           declined: state.declined,
           duplicated: state.duplicated,
           sortType: state.sortType,
+          loading: state.loading,
         ),
       );
 

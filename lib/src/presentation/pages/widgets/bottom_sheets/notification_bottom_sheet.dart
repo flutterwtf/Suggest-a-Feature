@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/presentation/localization/localization_extensions.dart';
-import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
+import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_switch.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
@@ -40,9 +40,10 @@ class _NotificationSuggestionBottomSheetState
     return BaseBottomSheet(
       controller: widget.controller,
       onClose: ([_]) => widget.onCancel(),
-      backgroundColor: theme.bottomSheetBackgroundColor,
-      previousNavBarColor: theme.primaryBackgroundColor,
-      previousStatusBarColor: theme.primaryBackgroundColor,
+      backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
+          context.theme.colorScheme.background,
+      previousNavBarColor: context.theme.colorScheme.background,
+      previousStatusBarColor: context.theme.colorScheme.background,
       contentBuilder: (BuildContext context, SheetState sheetState) {
         return ListView(
           padding: const EdgeInsets.symmetric(
@@ -87,13 +88,15 @@ class _NotificationSwitch extends StatelessWidget {
               Text(
                 localization.notifyMe,
                 textAlign: TextAlign.start,
-                style: theme.textMedium,
+                style: context.theme.textTheme.bodyLarge,
               ),
               const SizedBox(height: Dimensions.marginMicro),
               Text(
                 localization.notificationDescription,
                 textAlign: TextAlign.start,
-                style: TextStyle(color: theme.secondaryTextColor),
+                style: TextStyle(
+                  color: context.theme.colorScheme.onSurfaceVariant,
+                ),
               ),
             ],
           ),
