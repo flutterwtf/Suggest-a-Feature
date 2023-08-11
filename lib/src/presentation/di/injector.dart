@@ -4,6 +4,8 @@ import 'package:suggest_a_feature/src/data/interfaces/suggestions_data_source.da
 import 'package:suggest_a_feature/src/data/repositories/suggestion_repository.dart';
 import 'package:suggest_a_feature/src/domain/data_interfaces/suggestion_repository.dart';
 import 'package:suggest_a_feature/src/domain/entities/admin_settings.dart';
+import 'package:suggest_a_feature/src/presentation/localization/localization_extensions.dart';
+import 'package:suggest_a_feature/src/presentation/localization/localization_options.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
 
 // ignore: library_private_types_in_public_api
@@ -22,6 +24,7 @@ class _Injector {
     required SuggestionsTheme theme,
     required String userId,
     required SuggestionsDataSource suggestionsDataSource,
+    required String locale,
     AdminSettings? adminSettings,
     bool isAdmin = false,
     Map<String, String>? imageHeaders,
@@ -41,6 +44,7 @@ class _Injector {
     );
     _adminSettings = adminSettings;
     _isAdmin = isAdmin;
+    _localization = locale.localizationOptions;
   }
 
   AdminSettings? _adminSettings;
@@ -72,4 +76,8 @@ class _Injector {
   late SuggestionRepository _suggestionRepository;
 
   SuggestionRepository get suggestionRepository => _suggestionRepository;
+
+  late LocalizationOptions _localization;
+
+  LocalizationOptions get localizations => _localization;
 }

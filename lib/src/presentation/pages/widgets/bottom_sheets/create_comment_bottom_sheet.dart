@@ -1,12 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart';
+import 'package:suggest_a_feature/src/presentation/localization/localization_extensions.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/clickable_list_item.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_switch.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_text_field.dart';
-import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
 
@@ -158,7 +158,7 @@ class _CommentTextField extends StatelessWidget {
       child: SuggestionsTextField(
         focusNode: inputFocusNode,
         controller: commentController,
-        hintText: context.localization.commentHint,
+        hintText: localization.commentHint,
         isShowError: isShowCommentError,
         padding: const EdgeInsets.fromLTRB(
           Dimensions.marginDefault,
@@ -184,7 +184,7 @@ class _PostAnonymously extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClickableListItem(
       title: Text(
-        context.localization.postAnonymously,
+        localization.postAnonymously,
         style: context.theme.textTheme.labelLarge
             ?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
       ),
@@ -209,7 +209,7 @@ class _PostPostedBy extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClickableListItem(
       title: Text(
-        context.localization.postFromAdmin,
+        localization.postFromAdmin,
         style: context.theme.textTheme.labelLarge
             ?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
       ),
@@ -236,7 +236,7 @@ class _CreateCommentButton extends StatelessWidget {
       ),
       child: FilledButton(
         onPressed: onClick,
-        child: Text(context.localization.publish),
+        child: Text(localization.publish),
       ),
     );
   }

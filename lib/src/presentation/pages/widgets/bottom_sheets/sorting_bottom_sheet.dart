@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:suggest_a_feature/src/presentation/localization/localization_extensions.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/clickable_list_item.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_radio_button.dart';
-import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:suggest_a_feature/src/presentation/utils/typedefs.dart';
 import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
@@ -36,13 +36,13 @@ class _SortingBottomSheetState extends State<SortingBottomSheet> {
           context.theme.colorScheme.background,
       previousNavBarColor: context.theme.colorScheme.background,
       previousStatusBarColor: context.theme.colorScheme.background,
-      title: context.localization.sortBy,
+      title: localization.sortBy,
       contentBuilder: (context, _) {
         final textStyle = context.theme.textTheme.titleMedium;
         return Column(
           children: [
             ClickableListItem(
-              title: Text(context.localization.upvote, style: textStyle),
+              title: Text(localization.upvote, style: textStyle),
               onClick: () => widget.onChanged(SortType.upvotes),
               trailing: SuggestionsRadioButton(
                 selected: widget.value == SortType.upvotes,
@@ -50,7 +50,7 @@ class _SortingBottomSheetState extends State<SortingBottomSheet> {
               verticalPadding: Dimensions.marginMiddle,
             ),
             ClickableListItem(
-              title: Text(context.localization.creationDate, style: textStyle),
+              title: Text(localization.creationDate, style: textStyle),
               onClick: () => widget.onChanged(SortType.creationDate),
               trailing: SuggestionsRadioButton(
                 selected: widget.value == SortType.creationDate,

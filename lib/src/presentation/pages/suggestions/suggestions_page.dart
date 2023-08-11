@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart';
+import 'package:suggest_a_feature/src/presentation/localization/localization_extensions.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_cubit.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_cubit_scope.dart';
@@ -11,7 +12,6 @@ import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.d
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/sorting_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/fab.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
-import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:suggest_a_feature/src/presentation/utils/platform_check.dart';
 import 'package:suggest_a_feature/src/presentation/utils/rendering.dart';
@@ -50,10 +50,13 @@ class SuggestionsPage extends StatefulWidget {
   /// If `true` then [adminSettings] will be used instead of user account.
   final bool isAdmin;
 
+  /// Current locale
+  final String? locale;
+
   /// Initial sorting type
   final SortType sortType;
 
-  SuggestionsPage({
+  const SuggestionsPage({
     required this.userId,
     required this.suggestionsDataSource,
     required this.theme,
@@ -64,27 +67,33 @@ class SuggestionsPage extends StatefulWidget {
     this.onUploadMultiplePhotos,
     this.customAppBar,
     this.imageHeaders,
+    this.locale,
     this.sortType = SortType.upvotes,
     super.key,
   }) : assert(
           (isAdmin && adminSettings != null) || !isAdmin,
           'if isAdmin == true, then adminSettings cannot be null',
-        ) {
-    i.init(
-      theme: theme,
-      userId: userId,
-      imageHeaders: imageHeaders,
-      suggestionsDataSource: suggestionsDataSource,
-      adminSettings: adminSettings,
-      isAdmin: isAdmin,
-    );
-  }
+        );
 
   @override
   State<SuggestionsPage> createState() => _SuggestionsPageState();
 }
 
 class _SuggestionsPageState extends State<SuggestionsPage> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    i.init(
+      theme: widget.theme,
+      userId: widget.userId,
+      imageHeaders: widget.imageHeaders,
+      suggestionsDataSource: widget.suggestionsDataSource,
+      adminSettings: widget.adminSettings,
+      isAdmin: widget.isAdmin,
+      locale: widget.locale ?? SuggestionsPlatform.localeName(context),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SuggestionsCubitScope(
@@ -103,7 +112,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
                 appBar: widget.customAppBar ??
                     SuggestionsAppBar(
                       onBackClick: Navigator.of(context).pop,
-                      screenTitle: context.localization.suggestAFeature,
+                      screenTitle: localization.suggestAFeature,
                     ),
                 backgroundColor: context.theme.scaffoldBackgroundColor,
                 body: state.loading
