@@ -51,12 +51,12 @@ class SuggestionsPage extends StatefulWidget {
   final bool isAdmin;
 
   /// Current locale
-  final String locale;
+  final String? locale;
 
   /// Initial sorting type
   final SortType sortType;
 
-  SuggestionsPage({
+  const SuggestionsPage({
     required this.userId,
     required this.suggestionsDataSource,
     required this.theme,
@@ -67,29 +67,33 @@ class SuggestionsPage extends StatefulWidget {
     this.onUploadMultiplePhotos,
     this.customAppBar,
     this.imageHeaders,
-    this.locale = 'en',
+    this.locale,
     this.sortType = SortType.upvotes,
     super.key,
   }) : assert(
           (isAdmin && adminSettings != null) || !isAdmin,
           'if isAdmin == true, then adminSettings cannot be null',
-        ) {
-    i.init(
-      theme: theme,
-      userId: userId,
-      imageHeaders: imageHeaders,
-      suggestionsDataSource: suggestionsDataSource,
-      adminSettings: adminSettings,
-      isAdmin: isAdmin,
-      locale: locale,
-    );
-  }
+        );
 
   @override
   State<SuggestionsPage> createState() => _SuggestionsPageState();
 }
 
 class _SuggestionsPageState extends State<SuggestionsPage> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    i.init(
+      theme: widget.theme,
+      userId: widget.userId,
+      imageHeaders: widget.imageHeaders,
+      suggestionsDataSource: widget.suggestionsDataSource,
+      adminSettings: widget.adminSettings,
+      isAdmin: widget.isAdmin,
+      locale: widget.locale ?? SuggestionsPlatform.localeName(context),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SuggestionsCubitScope(
