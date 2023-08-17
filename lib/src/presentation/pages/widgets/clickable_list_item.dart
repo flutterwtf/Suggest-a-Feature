@@ -56,7 +56,7 @@ class _ClickableListItemState extends State<ClickableListItem> {
               Expanded(
                 child: widget.title,
               ),
-              if (widget.trailing != null) widget.trailing!
+              if (widget.trailing != null) widget.trailing!,
             ],
           ),
         ),

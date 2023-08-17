@@ -33,9 +33,6 @@ class MyApp extends StatelessWidget {
           userId: '1',
           isAdmin: true,
           adminSettings: _adminSettings,
-          customAppBar: const SuggestionsAppBar(
-            screenTitle: 'Suggest a feature',
-          ),
         ),
       ),
     );

@@ -9,6 +9,7 @@ import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/widgets/suggestion_list.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/widgets/suggestions_tab_bar.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/appbar_widget.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/sorting_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/fab.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
@@ -40,8 +41,8 @@ class SuggestionsPage extends StatefulWidget {
   /// Callback returning the current user (SuggestionAuthor).
   final OnGetUserById onGetUserById;
 
-  /// Custom AppBar that will be displayed on the [SuggestionsPage].
-  final PreferredSizeWidget? customAppBar;
+  /// AppBar title that will be displayed on the [SuggestionsPage].
+  final String? appBarTitle;
 
   /// Administrator account settings that will be used instead of the user
   /// account if [isAdmin] == `true`.
@@ -65,7 +66,7 @@ class SuggestionsPage extends StatefulWidget {
     this.isAdmin = false,
     this.onSaveToGallery,
     this.onUploadMultiplePhotos,
-    this.customAppBar,
+    this.appBarTitle,
     this.imageHeaders,
     this.locale,
     this.sortType = SortType.upvotes,
@@ -109,11 +110,11 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
           return Stack(
             children: [
               Scaffold(
-                appBar: widget.customAppBar ??
-                    SuggestionsAppBar(
-                      onBackClick: Navigator.of(context).pop,
-                      screenTitle: localization.suggestAFeature,
-                    ),
+                appBar: SuggestionsAppBar(
+                  onBackClick: Navigator.of(context).pop,
+                  screenTitle:
+                      widget.appBarTitle ?? localization.suggestAFeature,
+                ),
                 backgroundColor: context.theme.scaffoldBackgroundColor,
                 body: state.loading
                     ? const Center(child: CircularProgressIndicator())
@@ -149,7 +150,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
                   closeBottomSheet: cubit.closeBottomSheet,
                   value: state.sortType,
                   onChanged: cubit.onSortTypeChanged,
-                )
+                ),
             ],
           );
         },

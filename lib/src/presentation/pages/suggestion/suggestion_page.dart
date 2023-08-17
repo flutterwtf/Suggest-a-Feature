@@ -150,10 +150,12 @@ class _SuggestionPageState extends State<SuggestionPage> {
             ? SuggestionsIconButton(
                 onClick: cubit.openEditDeleteBottomSheet,
                 imageIcon: AssetStrings.penIconImage,
+                color: context.theme.appBarTheme.actionsIconTheme?.color,
               )
             : SuggestionsIconButton(
                 onClick: cubit.openNotificationBottomSheet,
                 imageIcon: AssetStrings.notificationsIconImage,
+                color: context.theme.appBarTheme.actionsIconTheme?.color,
               ),
       ),
     );
