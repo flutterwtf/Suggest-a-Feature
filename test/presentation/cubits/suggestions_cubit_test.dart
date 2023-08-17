@@ -45,6 +45,7 @@ void main() {
           theme: mockSuggestionsTheme,
           userId: mockedSuggestionAuthor.id,
           suggestionsDataSource: mockSuggestionsDataSource,
+          locale: 'en',
         );
       });
 

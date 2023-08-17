@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:suggest_a_feature/src/presentation/localization/localization_extensions.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/clickable_list_item.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
-import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/date_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
@@ -54,7 +54,7 @@ class _EditDeleteSuggestionBottomSheetState
               children: <Widget>[
                 _LeadingText(
                   text: widget.creationDate
-                      .formatEditSuggestion(context.localization.localeName),
+                      .formatEditSuggestion(localization.locale),
                 ),
                 const SizedBox(height: Dimensions.marginDefault),
                 _EditItem(onEditClick: widget.onEditClick),
@@ -96,7 +96,7 @@ class _EditItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClickableListItem(
       title: Text(
-        context.localization.edit,
+        localization.edit,
         style: context.theme.textTheme.titleMedium,
       ),
       leading: SvgPicture.asset(
@@ -125,7 +125,7 @@ class _DeleteItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClickableListItem(
       title: Text(
-        context.localization.delete,
+        localization.delete,
         style: context.theme.textTheme.titleMedium?.copyWith(
           color: context.theme.colorScheme.error,
         ),

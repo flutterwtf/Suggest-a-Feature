@@ -51,7 +51,7 @@ class _Label extends StatelessWidget {
         ),
         const SizedBox(width: 11),
         Text(
-          label.labelName(context),
+          label.labelName,
           style: context.theme.textTheme.labelLarge?.copyWith(
             color: label.labelColor(context),
           ),

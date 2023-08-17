@@ -1,20 +1,19 @@
-import 'package:flutter/material.dart';
-import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
+import 'package:suggest_a_feature/src/presentation/localization/localization_extensions.dart';
 import 'package:suggest_a_feature/suggest_a_feature.dart';
 
 extension SuggestionStatusExtension on SuggestionStatus {
-  String statusName(BuildContext context) {
+  String get statusName {
     switch (this) {
       case SuggestionStatus.duplicated:
-        return context.localization.duplicated;
+        return localization.duplicated;
       case SuggestionStatus.declined:
-        return context.localization.declined;
+        return localization.declined;
       case SuggestionStatus.requests:
-        return context.localization.requests;
+        return localization.requests;
       case SuggestionStatus.inProgress:
-        return context.localization.inProgress;
+        return localization.inProgress;
       case SuggestionStatus.completed:
-        return context.localization.completed;
+        return localization.completed;
       case SuggestionStatus.unknown:
         return '';
     }

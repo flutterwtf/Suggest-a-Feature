@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:suggest_a_feature/src/presentation/localization/localization_extensions.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/dotted_border.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
-import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
 class AddPhotoButton extends StatelessWidget {
@@ -71,7 +71,7 @@ class _AddButton extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: Dimensions.marginSmall),
           child: Text(
-            context.localization.add,
+            localization.add,
             style:
                 style.copyWith(color: context.theme.colorScheme.onBackground),
           ),

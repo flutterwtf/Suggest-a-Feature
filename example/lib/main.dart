@@ -35,7 +35,6 @@ class MyApp extends StatelessWidget {
           adminSettings: _adminSettings,
         ),
       ),
-      localizationsDelegates: const [SuggestionsLocalizations.delegate],
     );
   }
 }

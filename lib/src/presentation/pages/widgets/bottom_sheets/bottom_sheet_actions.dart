@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
+import 'package:suggest_a_feature/src/presentation/localization/localization_extensions.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:suggest_a_feature/src/presentation/utils/platform_check.dart';
 
@@ -34,12 +34,12 @@ class BottomSheetActions extends StatelessWidget {
           if (hasLeftButton)
             TextButton(
               onPressed: onCancel ?? () {},
-              child: Text(context.localization.cancel),
+              child: Text(localization.cancel),
             ),
           const SizedBox(width: Dimensions.marginMicro),
           FilledButton(
             onPressed: isDoneActive ? onDone : null,
-            child: Text(context.localization.done),
+            child: Text(localization.done),
           ),
         ],
       ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:suggest_a_feature/src/presentation/localization/localization_extensions.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
-import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:suggest_a_feature/suggest_a_feature.dart';
 
@@ -18,35 +18,35 @@ class ListDescription extends StatelessWidget {
     super.key,
   });
 
-  String statusHeader(BuildContext context) {
+  String get statusHeader {
     switch (status) {
       case SuggestionStatus.requests:
-        return context.localization.requestsHeader;
+        return localization.requestsHeader;
       case SuggestionStatus.inProgress:
-        return context.localization.inProgressHeader;
+        return localization.inProgressHeader;
       case SuggestionStatus.completed:
-        return context.localization.completedHeader;
+        return localization.completedHeader;
       case SuggestionStatus.declined:
-        return context.localization.cancelledHeader;
+        return localization.cancelledHeader;
       case SuggestionStatus.duplicated:
-        return context.localization.duplicatedHeader;
+        return localization.duplicatedHeader;
       case SuggestionStatus.unknown:
         return '';
     }
   }
 
-  String statusDescription(BuildContext context) {
+  String get statusDescription {
     switch (status) {
       case SuggestionStatus.requests:
-        return context.localization.requestsDescription;
+        return localization.requestsDescription;
       case SuggestionStatus.inProgress:
-        return context.localization.inProgressDescription;
+        return localization.inProgressDescription;
       case SuggestionStatus.completed:
-        return context.localization.completedDescription;
+        return localization.completedDescription;
       case SuggestionStatus.declined:
-        return context.localization.cancelledDescription;
+        return localization.cancelledDescription;
       case SuggestionStatus.duplicated:
-        return context.localization.duplicatedDescription;
+        return localization.duplicatedDescription;
       case SuggestionStatus.unknown:
         return '';
     }
@@ -54,8 +54,6 @@ class ListDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final header = statusHeader(context);
-    final description = statusDescription(context);
     if (status == SuggestionStatus.unknown) {
       return const SizedBox.shrink();
     }
@@ -71,7 +69,7 @@ class ListDescription extends StatelessWidget {
                 text: TextSpan(
                   children: <TextSpan>[
                     TextSpan(
-                      text: header,
+                      text: statusHeader,
                       style: context.theme.textTheme.titleMedium?.copyWith(
                         color: context.theme.colorScheme.onBackground,
                       ),
@@ -106,7 +104,7 @@ class ListDescription extends StatelessWidget {
                       children: [
                         Flexible(
                           child: Text(
-                            context.localization.sortBy,
+                            localization.sortBy,
                             style: context.theme.textTheme.bodyMedium?.copyWith(
                               color: context.theme.colorScheme.primary,
                             ),
@@ -130,7 +128,7 @@ class ListDescription extends StatelessWidget {
           ),
           const SizedBox(height: Dimensions.marginSmall),
           Text(
-            description,
+            statusDescription,
             textAlign: TextAlign.center,
             style: context.theme.textTheme.bodyMedium,
           ),

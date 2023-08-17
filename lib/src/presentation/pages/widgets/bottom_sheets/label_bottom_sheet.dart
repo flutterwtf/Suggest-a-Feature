@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
+import 'package:suggest_a_feature/src/presentation/localization/localization_extensions.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/bottom_sheet_actions.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/clickable_list_item.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_labels.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_radio_button.dart';
-import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
 
@@ -40,7 +40,7 @@ class _LabelBottomSheetState extends State<LabelBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return BaseBottomSheet(
-      title: context.localization.labels,
+      title: localization.labels,
       titleBottomPadding: 0,
       controller: widget.controller,
       previousNavBarColor: context.theme.bottomSheetTheme.backgroundColor ??

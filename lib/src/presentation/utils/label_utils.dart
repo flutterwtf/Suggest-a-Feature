@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:suggest_a_feature/src/presentation/localization/localization_extensions.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
-import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/suggest_a_feature.dart';
 
 extension SuggestionLabelExtension on SuggestionLabel {
@@ -15,14 +15,14 @@ extension SuggestionLabelExtension on SuggestionLabel {
     }
   }
 
-  String labelName(BuildContext context) {
+  String get labelName {
     switch (this) {
       case SuggestionLabel.feature:
-        return context.localization.feature;
+        return localization.feature;
       case SuggestionLabel.bug:
-        return context.localization.bug;
+        return localization.bug;
       case SuggestionLabel.unknown:
-        return context.localization.bug;
+        return localization.bug;
     }
   }
 }

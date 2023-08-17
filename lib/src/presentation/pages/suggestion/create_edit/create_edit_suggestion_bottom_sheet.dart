@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart';
+import 'package:suggest_a_feature/src/presentation/localization/localization_extensions.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_cubit.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_cubit_scope.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_state.dart';
@@ -20,7 +21,6 @@ import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_swi
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_text_field.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
 import 'package:suggest_a_feature/src/presentation/utils/constants/numeric_constants.dart';
-import 'package:suggest_a_feature/src/presentation/utils/context_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:suggest_a_feature/src/presentation/utils/image_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/typedefs.dart';
@@ -98,8 +98,8 @@ class _CreateEditSuggestionBottomSheetState
           content: Text(
             state.savingImageResultMessageType ==
                     SavingResultMessageType.success
-                ? context.localization.savingImageSuccess
-                : context.localization.savingImageError,
+                ? localization.savingImageSuccess
+                : localization.savingImageError,
           ),
         ),
       );
@@ -242,7 +242,7 @@ class _LabelItems extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClickableListItem(
       title: Text(
-        context.localization.labels,
+        localization.labels,
         style: context.theme.textTheme.labelLarge
             ?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
       ),
@@ -272,18 +272,18 @@ class _SuggestionStatus extends StatelessWidget {
     required this.changeStatusBottomSheetStatus,
   });
 
-  String _suggestionStatus(BuildContext context) {
+  String get _suggestionStatus {
     switch (suggestionStatus) {
       case SuggestionStatus.completed:
-        return context.localization.completed;
+        return localization.completed;
       case SuggestionStatus.inProgress:
-        return context.localization.inProgress;
+        return localization.inProgress;
       case SuggestionStatus.requests:
-        return context.localization.requests;
+        return localization.requests;
       case SuggestionStatus.declined:
-        return context.localization.declined;
+        return localization.declined;
       case SuggestionStatus.duplicated:
-        return context.localization.duplicated;
+        return localization.duplicated;
       case SuggestionStatus.unknown:
         return '';
     }
@@ -293,12 +293,12 @@ class _SuggestionStatus extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClickableListItem(
       title: Text(
-        context.localization.status,
+        localization.status,
         style: context.theme.textTheme.labelLarge
             ?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
       ),
       trailing: Text(
-        _suggestionStatus(context),
+        _suggestionStatus,
         style: context.theme.textTheme.labelLarge,
       ),
       onClick: () => changeStatusBottomSheetStatus(true),
@@ -327,7 +327,7 @@ class _SaveSubmitButton extends StatelessWidget {
       child: FilledButton(
         onPressed: isLoading ? () {} : saveSuggestion,
         child: Text(
-          isEditing ? context.localization.save : context.localization.suggest,
+          isEditing ? localization.save : localization.suggest,
         ),
       ),
     );
@@ -347,7 +347,7 @@ class _PostAnonymously extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClickableListItem(
       title: Text(
-        context.localization.postAnonymously,
+        localization.postAnonymously,
         style: context.theme.textTheme.labelLarge
             ?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
       ),
@@ -410,7 +410,7 @@ class _PhotoPickerItem extends StatelessWidget {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(
-                              context.localization.eventPhotosRestriction,
+                              localization.eventPhotosRestriction,
                             ),
                           ),
                         );
@@ -509,7 +509,7 @@ class _AddButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClickableListItem(
       title: Text(
-        context.localization.addPhoto,
+        localization.addPhoto,
         style: context.theme.textTheme.labelLarge
             ?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
       ),
@@ -637,7 +637,7 @@ class _EditSuggestionBottomSheetListView extends StatelessWidget {
             SuggestionsTextField(
               controller: titleController,
               focusNode: titleFocusNode,
-              hintText: context.localization.title,
+              hintText: localization.title,
               padding: const EdgeInsets.fromLTRB(
                 Dimensions.marginDefault,
                 Dimensions.marginDefault,
@@ -655,7 +655,7 @@ class _EditSuggestionBottomSheetListView extends StatelessWidget {
             SuggestionsTextField(
               controller: descriptionController,
               focusNode: descriptionFocusNode,
-              hintText: context.localization.description,
+              hintText: localization.description,
               padding: const EdgeInsets.fromLTRB(
                 Dimensions.marginDefault,
                 Dimensions.marginDefault,
