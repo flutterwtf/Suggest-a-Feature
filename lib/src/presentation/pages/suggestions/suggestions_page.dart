@@ -150,7 +150,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
                   closeBottomSheet: cubit.closeBottomSheet,
                   value: state.sortType,
                   onChanged: cubit.onSortTypeChanged,
-                )
+                ),
             ],
           );
         },
