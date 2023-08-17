@@ -1,3 +1,7 @@
+## 0.3.1
+* Use AppBarTheme instead of SuggestionsAppBar [#65](https://github.com/What-the-Flutter/Suggest-a-Feature/pull/65)
+* Get rid of flutter-localizations [#58](https://github.com/What-the-Flutter/Suggest-a-Feature/pull/58)
+
 ## 0.3.0
 * Color theme updated, now material theme is used (migration gid in readme)
 * Clickable item row instead of RadioButton [#56](https://github.com/What-the-Flutter/Suggest-a-Feature/pull/56)
