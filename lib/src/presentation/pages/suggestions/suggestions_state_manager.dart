@@ -1,29 +1,50 @@
 import 'dart:async';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/domain/data_interfaces/suggestion_repository.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
-import 'package:suggest_a_feature/src/presentation/di/injector.dart'
-    as injector;
+import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/suggestions_state.dart';
 import 'package:suggest_a_feature/src/presentation/utils/typedefs.dart';
 
-class SuggestionsCubit extends Cubit<SuggestionsState> {
-  final SuggestionRepository _suggestionRepository;
+class SuggestionsManager extends StatefulWidget {
+  final SortType sortType;
+  final Widget child;
+
+  const SuggestionsManager({
+    required this.sortType,
+    required this.child,
+    super.key,
+  });
+
+  static SuggestionsStateManager of(BuildContext context) {
+    return (context
+            .dependOnInheritedWidgetOfExactType<_InheritedSuggestions>()!)
+        .suggestionManager;
+  }
+
+  @override
+  SuggestionsStateManager createState() => SuggestionsStateManager();
+}
+
+class SuggestionsStateManager extends State<SuggestionsManager> {
+  late SuggestionsState state;
+  late final SuggestionRepository _suggestionRepository;
   StreamSubscription<List<Suggestion>>? _suggestionSubscription;
 
-  SuggestionsCubit(this._suggestionRepository, SortType sortType)
-      : super(
-          SuggestionsState(
-            requests: const [],
-            inProgress: const [],
-            completed: const [],
-            declined: const [],
-            duplicated: const [],
-            sortType: sortType,
-            loading: true,
-          ),
-        ) {
+  @override
+  void initState() {
+    super.initState();
+    _suggestionRepository = i.suggestionRepository;
+    state = SuggestionsState(
+      requests: const [],
+      inProgress: const [],
+      completed: const [],
+      declined: const [],
+      duplicated: const [],
+      sortType: widget.sortType,
+      loading: true,
+    );
     _init();
   }
 
@@ -33,20 +54,28 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
       _onNewSuggestions,
     );
     await _suggestionRepository.initSuggestions();
-    emit(state.newState(loading: false));
+    _update(state.newState(loading: false));
   }
 
   @override
-  Future<void> close() async {
+  void dispose() {
     _suggestionSubscription?.cancel();
     _suggestionSubscription = null;
-    await super.close();
+    super.dispose();
+  }
+
+  void _update(SuggestionsState newState) {
+    if (newState != state) {
+      setState(() {
+        state = newState;
+      });
+    }
   }
 
   Future<void> _onNewSuggestions(List<Suggestion> suggestions) async {
     suggestions.sort(state.sortType.sortFunction);
 
-    emit(
+    _update(
       state.newState(
         requests: suggestions
             .where((s) => s.status == SuggestionStatus.requests)
@@ -84,14 +113,14 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
   }
 
   void _voteForSuggestion(Suggestion suggestion) {
-    final isVoted = suggestion.votedUserIds.contains(injector.i.userId);
+    final isVoted = suggestion.votedUserIds.contains(i.userId);
 
     isVoted
         ? _suggestionRepository.downvote(suggestion.id)
         : _suggestionRepository.upvote(suggestion.id);
   }
 
-  void openCreateBottomSheet() => emit(
+  void openCreateBottomSheet() => _update(
         CreateState(
           requests: state.requests,
           inProgress: state.inProgress,
@@ -104,7 +133,7 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
         ),
       );
 
-  void closeBottomSheet() => emit(
+  void closeBottomSheet() => _update(
         SuggestionsState(
           requests: state.requests,
           inProgress: state.inProgress,
@@ -117,9 +146,9 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
       );
 
   void changeActiveTab(SuggestionStatus activeTab) =>
-      emit(state.newState(activeTab: activeTab));
+      _update(state.newState(activeTab: activeTab));
 
-  void openSortingBottomSheet() => emit(
+  void openSortingBottomSheet() => _update(
         SortingState(
           requests: state.requests,
           inProgress: state.inProgress,
@@ -133,8 +162,28 @@ class SuggestionsCubit extends Cubit<SuggestionsState> {
 
   void onSortTypeChanged(SortType sortType) {
     if (sortType != state.sortType) {
-      emit(state.newState(sortType: sortType));
+      _update(state.newState(sortType: sortType));
       _onNewSuggestions(_suggestionRepository.suggestions);
     }
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return _InheritedSuggestions(
+      suggestionManager: this,
+      child: widget.child,
+    );
+  }
+}
+
+class _InheritedSuggestions extends InheritedWidget {
+  final SuggestionsStateManager suggestionManager;
+
+  const _InheritedSuggestions({
+    required this.suggestionManager,
+    required super.child,
+  });
+
+  @override
+  bool updateShouldNotify(_InheritedSuggestions old) => true;
 }
