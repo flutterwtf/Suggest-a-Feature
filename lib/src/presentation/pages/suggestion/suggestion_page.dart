@@ -7,8 +7,8 @@ import 'package:suggest_a_feature/src/domain/entities/suggestion_author.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/localization/localization_extensions.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_bottom_sheet.dart';
-import 'package:suggest_a_feature/src/presentation/pages/suggestion/suggestion_state_manager.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/suggestion_state.dart';
+import 'package:suggest_a_feature/src/presentation/pages/suggestion/suggestion_state_manager.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/appbar_widget.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/avatar_widget.dart';
@@ -78,7 +78,6 @@ class _SuggestionPageState extends State<SuggestionPage> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.suggestion);
     return SuggestionManager(
       suggestion: widget.suggestion,
       onGetUserById: widget.onGetUserById,
@@ -86,7 +85,6 @@ class _SuggestionPageState extends State<SuggestionPage> {
         builder: (context) {
           final stateManager = SuggestionManager.of(context);
           final state = stateManager.state;
-          print('from state: ${state.suggestion}');
           return StateListener(
             state: state,
             listenWhen: _listenWhen,
@@ -146,7 +144,9 @@ class _SuggestionPageState extends State<SuggestionPage> {
   }
 
   SuggestionsAppBar _appBar(
-      SuggestionStateManager stateManager, bool isEditable) {
+    SuggestionStateManager stateManager,
+    bool isEditable,
+  ) {
     return SuggestionsAppBar(
       onBackClick: Navigator.of(context).pop,
       screenTitle: localization.suggestion,
