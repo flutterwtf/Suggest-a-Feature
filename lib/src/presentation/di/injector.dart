@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:suggest_a_feature/src/data/cache_data_source.dart';
 import 'package:suggest_a_feature/src/data/interfaces/cache_data_source.dart';
 import 'package:suggest_a_feature/src/data/interfaces/suggestions_data_source.dart';
@@ -25,6 +26,7 @@ class _Injector {
     required String userId,
     required SuggestionsDataSource suggestionsDataSource,
     required String locale,
+    required GlobalKey<NavigatorState> navigatorKey,
     AdminSettings? adminSettings,
     bool isAdmin = false,
     Map<String, String>? imageHeaders,
@@ -45,6 +47,7 @@ class _Injector {
     _adminSettings = adminSettings;
     _isAdmin = isAdmin;
     _localization = locale.localizationOptions;
+    _navigatorKey = navigatorKey;
   }
 
   AdminSettings? _adminSettings;
@@ -80,4 +83,8 @@ class _Injector {
   late LocalizationOptions _localization;
 
   LocalizationOptions get localizations => _localization;
+
+  late GlobalKey<NavigatorState> _navigatorKey;
+
+  GlobalKey<NavigatorState> get navigatorKey => _navigatorKey;
 }
