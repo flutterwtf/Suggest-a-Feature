@@ -147,7 +147,8 @@ class _ActionButtons extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           SuggestionsIconButton(
-            onClick: () => i.navigatorKey.currentState?.pop(),
+            onClick: () =>
+                (i.navigatorKey?.currentState ?? Navigator.of(context)).pop(),
             imageIcon: AssetStrings.backIconImage,
             color: Colors.white,
           ),
@@ -157,7 +158,8 @@ class _ActionButtons extends StatelessWidget {
                 SuggestionsIconButton(
                   imageIcon: AssetStrings.deleteIconImage,
                   onClick: () {
-                    i.navigatorKey.currentState?.pop();
+                    (i.navigatorKey?.currentState ?? Navigator.of(context))
+                        .pop();
                     onDeleteClick!(photos[currentIndex]);
                   },
                   color: Colors.white,

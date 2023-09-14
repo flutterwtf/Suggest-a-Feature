@@ -96,7 +96,8 @@ class _ListItem extends StatelessWidget {
       color: color,
       status: status,
       index: index - 1,
-      onClick: () => i.navigatorKey.currentState?.push(
+      onClick: () =>
+          (i.navigatorKey?.currentState ?? Navigator.of(context)).push(
         CupertinoPageRoute<dynamic>(
           builder: (_) => SuggestionPage(
             suggestion: suggestions[index - 1],

@@ -58,14 +58,14 @@ class SuggestionsPage extends StatefulWidget {
   final SortType sortType;
 
   /// [navigatorKey] of your Router
-  final GlobalKey<NavigatorState> navigatorKey;
+  final GlobalKey<NavigatorState>? navigatorKey;
 
   const SuggestionsPage({
     required this.userId,
     required this.suggestionsDataSource,
     required this.theme,
     required this.onGetUserById,
-    required this.navigatorKey,
+    this.navigatorKey,
     this.adminSettings,
     this.isAdmin = false,
     this.onSaveToGallery,
@@ -116,7 +116,9 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
             children: [
               Scaffold(
                 appBar: SuggestionsAppBar(
-                  onBackClick: () => i.navigatorKey.currentState?.pop(),
+                  onBackClick: () =>
+                      (i.navigatorKey?.currentState ?? Navigator.of(context))
+                          .pop(),
                   screenTitle:
                       widget.appBarTitle ?? localization.suggestAFeature,
                 ),

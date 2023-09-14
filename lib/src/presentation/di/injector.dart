@@ -26,7 +26,7 @@ class _Injector {
     required String userId,
     required SuggestionsDataSource suggestionsDataSource,
     required String locale,
-    required GlobalKey<NavigatorState> navigatorKey,
+    GlobalKey<NavigatorState>? navigatorKey,
     AdminSettings? adminSettings,
     bool isAdmin = false,
     Map<String, String>? imageHeaders,
@@ -84,7 +84,7 @@ class _Injector {
 
   LocalizationOptions get localizations => _localization;
 
-  late GlobalKey<NavigatorState> _navigatorKey;
+  late GlobalKey<NavigatorState>? _navigatorKey;
 
-  GlobalKey<NavigatorState> get navigatorKey => _navigatorKey;
+  GlobalKey<NavigatorState>? get navigatorKey => _navigatorKey;
 }

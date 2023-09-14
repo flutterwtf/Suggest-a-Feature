@@ -72,7 +72,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
       );
     }
     if (state.isPopped) {
-      i.navigatorKey.currentState?.pop();
+      (i.navigatorKey?.currentState ?? Navigator.of(context)).pop();
     }
     context.read<SuggestionCubit>().reset();
   }
@@ -142,7 +142,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
 
   SuggestionsAppBar _appBar(SuggestionCubit cubit, bool isEditable) {
     return SuggestionsAppBar(
-      onBackClick: () => i.navigatorKey.currentState?.pop(),
+      onBackClick: () =>
+          (i.navigatorKey?.currentState ?? Navigator.of(context)).pop(),
       screenTitle: localization.suggestion,
       trailing: Padding(
         padding: const EdgeInsets.only(right: Dimensions.marginDefault),
