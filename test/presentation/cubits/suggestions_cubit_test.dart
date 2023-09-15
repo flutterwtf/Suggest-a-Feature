@@ -1,4 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
@@ -46,6 +47,7 @@ void main() {
           userId: mockedSuggestionAuthor.id,
           suggestionsDataSource: mockSuggestionsDataSource,
           locale: 'en',
+          navigatorKey: GlobalKey<NavigatorState>(),
         );
       });
 

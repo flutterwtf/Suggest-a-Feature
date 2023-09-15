@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/icon_button.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/zoomable_image.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
@@ -146,7 +147,8 @@ class _ActionButtons extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           SuggestionsIconButton(
-            onClick: Navigator.of(context).pop,
+            onClick: () =>
+                (i.navigatorKey?.currentState ?? Navigator.of(context)).pop(),
             imageIcon: AssetStrings.backIconImage,
             color: Colors.white,
           ),
@@ -156,7 +158,8 @@ class _ActionButtons extends StatelessWidget {
                 SuggestionsIconButton(
                   imageIcon: AssetStrings.deleteIconImage,
                   onClick: () {
-                    Navigator.of(context).pop();
+                    (i.navigatorKey?.currentState ?? Navigator.of(context))
+                        .pop();
                     onDeleteClick!(photos[currentIndex]);
                   },
                   color: Colors.white,
