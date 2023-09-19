@@ -114,4 +114,8 @@ class SuggestionRepositoryImpl implements SuggestionRepository {
   @override
   Future<Comment> createComment(CreateCommentModel comment) =>
       _suggestionsDataSource.createComment(comment);
+
+  @override
+  Future<void> deleteCommentById(String commentId) =>
+      _suggestionsDataSource.deleteCommentById(commentId);
 }

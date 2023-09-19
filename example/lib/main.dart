@@ -231,8 +231,10 @@ class MySuggestionDataSource implements SuggestionsDataSource {
           : <Comment>[];
 
   @override
-  Future<void> deleteCommentById(String commentId) async =>
-      _comments.remove(commentId);
+  Future<void> deleteCommentById(String commentId) async {
+    _comments.removeWhere((_, comment) => comment.id == commentId);
+  }
+
 
   @override
   Future<void> addNotifyToUpdateUser(String suggestionId) async {
