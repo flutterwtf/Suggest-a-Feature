@@ -232,6 +232,29 @@ class SuggestionStateManager extends State<SuggestionManager> {
     }
   }
 
+  void openDeletingCommentConfirmation(String commentId) {
+    _update(
+      state.newState(
+        bottomSheetType: SuggestionBottomSheetType.deleteCommentConfirmation,
+        selectedCommentId: commentId,
+      ),
+    );
+  }
+
+  Future<void> deleteComment() async {
+    final comments = state.suggestion.comments
+        .where((comment) => comment.id != state.selectedCommentId)
+        .toList()
+      ..sort((a, b) => b.creationTime.compareTo(a.creationTime));
+    await _suggestionRepository.deleteCommentById(state.selectedCommentId!);
+    _update(
+      state.newState(
+        suggestion: state.suggestion.copyWith(comments: comments),
+        shouldResetSelectedCommentId: true,
+      ),
+    );
+  }
+
   Future<void> createComment(
     String text,
     OnGetUserById getUserById, {

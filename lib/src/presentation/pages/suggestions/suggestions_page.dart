@@ -56,11 +56,15 @@ class SuggestionsPage extends StatefulWidget {
   /// Initial sorting type
   final SortType sortType;
 
+  /// [navigatorKey] of your Router
+  final GlobalKey<NavigatorState>? navigatorKey;
+
   const SuggestionsPage({
     required this.userId,
     required this.suggestionsDataSource,
     required this.theme,
     required this.onGetUserById,
+    this.navigatorKey,
     this.adminSettings,
     this.isAdmin = false,
     this.onSaveToGallery,
@@ -91,6 +95,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
       adminSettings: widget.adminSettings,
       isAdmin: widget.isAdmin,
       locale: widget.locale ?? SuggestionsPlatform.localeName(context),
+      navigatorKey: widget.navigatorKey,
     );
   }
 
@@ -114,7 +119,9 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
               children: [
                 Scaffold(
                   appBar: SuggestionsAppBar(
-                    onBackClick: Navigator.of(context).pop,
+                    onBackClick: () =>
+                        (i.navigatorKey?.currentState ?? Navigator.of(context))
+                            .pop(),
                     screenTitle:
                         widget.appBarTitle ?? localization.suggestAFeature,
                   ),

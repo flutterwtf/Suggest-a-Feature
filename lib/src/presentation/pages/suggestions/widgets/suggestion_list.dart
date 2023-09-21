@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/suggestion_page.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/widgets/list_description.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/widgets/suggestion_card.dart';
@@ -95,7 +96,8 @@ class _ListItem extends StatelessWidget {
       color: color,
       status: status,
       index: index - 1,
-      onClick: () => Navigator.of(context).push(
+      onClick: () =>
+          (i.navigatorKey?.currentState ?? Navigator.of(context)).push(
         CupertinoPageRoute<dynamic>(
           builder: (_) => SuggestionPage(
             suggestion: suggestions[index - 1],

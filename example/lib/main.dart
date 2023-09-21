@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Suggest a Feature',
       theme: ThemeData(useMaterial3: true),
+      navigatorKey: navigatorKey,
       home: Scaffold(
         body: SuggestionsPage(
           onGetUserById: (id) => Future<SuggestionAuthor>(
@@ -33,11 +34,14 @@ class MyApp extends StatelessWidget {
           userId: '1',
           isAdmin: true,
           adminSettings: _adminSettings,
+          navigatorKey: navigatorKey,
         ),
       ),
     );
   }
 }
+
+final navigatorKey = GlobalKey<NavigatorState>();
 
 const SuggestionAuthor _suggestionAuthor = SuggestionAuthor(
   id: '1',
@@ -231,8 +235,10 @@ class MySuggestionDataSource implements SuggestionsDataSource {
           : <Comment>[];
 
   @override
-  Future<void> deleteCommentById(String commentId) async =>
-      _comments.remove(commentId);
+  Future<void> deleteCommentById(String commentId) async {
+    _comments.removeWhere((_, comment) => comment.id == commentId);
+  }
+
 
   @override
   Future<void> addNotifyToUpdateUser(String suggestionId) async {

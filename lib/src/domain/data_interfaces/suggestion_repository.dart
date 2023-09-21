@@ -22,4 +22,5 @@ abstract class SuggestionRepository {
 
   Future<List<Comment>> getAllComments(String suggestionId);
   Future<Comment> createComment(CreateCommentModel comment);
+  Future<void> deleteCommentById(String commentId);
 }
