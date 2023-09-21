@@ -640,7 +640,7 @@ class _OpenCommentConfirmationBottomSheet extends StatelessWidget {
     final cubit = context.read<SuggestionCubit>();
     return ConfirmationBottomSheet(
       controller: sheetController,
-      question: 'Do you really want to delete this comment?',
+      question: localization.deletionCommentQuestion,
       onConfirm: () {
         cubit
           ..closeBottomSheet()
