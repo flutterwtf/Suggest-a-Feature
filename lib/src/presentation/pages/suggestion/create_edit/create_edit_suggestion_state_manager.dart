@@ -1,33 +1,65 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:async';
+
+import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/domain/data_interfaces/suggestion_repository.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_state.dart';
 import 'package:suggest_a_feature/src/presentation/utils/image_utils.dart';
 
-class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
-  final SuggestionRepository _suggestionRepository;
+class CreateEditSuggestionManager extends StatefulWidget {
+  final Suggestion? suggestion;
+  final Widget child;
 
-  CreateEditSuggestionCubit({
-    required SuggestionRepository suggestionRepository,
-    Suggestion? suggestion,
-  })  : _suggestionRepository = suggestionRepository,
-        super(
-          CreateEditSuggestionState(
-            suggestion: suggestion ?? Suggestion.empty(),
-            savingImageResultMessageType: SavingResultMessageType.none,
-            isShowTitleError: false,
-            isEditing: suggestion != null,
-            isSubmitted: false,
-            isLoading: false,
-            isLabelsBottomSheetOpen: false,
-            isStatusBottomSheetOpen: false,
-            isPhotoViewOpen: false,
-          ),
-        );
+  const CreateEditSuggestionManager({
+    required this.child,
+    this.suggestion,
+    super.key,
+  });
+
+  static CreateEditSuggestionStateManager of(BuildContext context) {
+    return (context.dependOnInheritedWidgetOfExactType<
+            _InheritedCreateEditSuggestion>()!)
+        .suggestionManager;
+  }
+
+  @override
+  CreateEditSuggestionStateManager createState() =>
+      CreateEditSuggestionStateManager();
+}
+
+class CreateEditSuggestionStateManager
+    extends State<CreateEditSuggestionManager> {
+  late CreateEditSuggestionState state;
+  late final SuggestionRepository _suggestionRepository;
+
+  @override
+  void initState() {
+    super.initState();
+    _suggestionRepository = i.suggestionRepository;
+    state = CreateEditSuggestionState(
+      suggestion: widget.suggestion ?? Suggestion.empty(),
+      savingImageResultMessageType: SavingResultMessageType.none,
+      isShowTitleError: false,
+      isEditing: widget.suggestion != null,
+      isSubmitted: false,
+      isLoading: false,
+      isLabelsBottomSheetOpen: false,
+      isStatusBottomSheetOpen: false,
+      isPhotoViewOpen: false,
+    );
+  }
+
+  void _update(CreateEditSuggestionState newState) {
+    if (newState != state) {
+      setState(() {
+        state = newState;
+      });
+    }
+  }
 
   void reset() {
-    emit(
+    _update(
       state.newState(
         savingImageResultMessageType: SavingResultMessageType.none,
       ),
@@ -35,10 +67,10 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
   }
 
   Future<void> addUploadedPhotos(Future<List<String>?> urls) async {
-    emit(state.newState(isLoading: true));
+    _update(state.newState(isLoading: true));
     final photos = await urls;
     if (photos != null) {
-      emit(
+      _update(
         state.newState(
           suggestion: state.suggestion.copyWith(
             images: <String>[...photos, ...state.suggestion.images],
@@ -50,7 +82,7 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
   }
 
   void removePhoto(String path) {
-    emit(
+    _update(
       state.newState(
         suggestion: state.suggestion
             .copyWith(images: state.suggestion.images..remove(path)),
@@ -62,7 +94,7 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
   Future<void> showSavingResultMessage(Future<bool?> isSuccess) async {
     final savingResult = await isSuccess;
     if (savingResult != null) {
-      emit(
+      _update(
         state.newState(
           savingImageResultMessageType: savingResult
               ? SavingResultMessageType.success
@@ -73,7 +105,7 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
   }
 
   void changeSuggestionAnonymity({required bool isAnonymous}) {
-    emit(
+    _update(
       state.newState(
         suggestion: state.suggestion.copyWith(isAnonymous: isAnonymous),
       ),
@@ -81,23 +113,23 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
   }
 
   void changeLabelsBottomSheetStatus({required bool isLabelsBottomSheetOpen}) {
-    emit(state.newState(isLabelsBottomSheetOpen: isLabelsBottomSheetOpen));
+    _update(state.newState(isLabelsBottomSheetOpen: isLabelsBottomSheetOpen));
   }
 
   void changeStatusBottomSheetStatus({required bool isStatusBottomSheetOpen}) {
-    emit(state.newState(isStatusBottomSheetOpen: isStatusBottomSheetOpen));
+    _update(state.newState(isStatusBottomSheetOpen: isStatusBottomSheetOpen));
   }
 
   void changePhotoViewStatus({required bool isPhotoViewOpen}) {
-    emit(state.newState(isPhotoViewOpen: isPhotoViewOpen));
+    _update(state.newState(isPhotoViewOpen: isPhotoViewOpen));
   }
 
   void onPhotoClick(int index) {
-    emit(state.newState(isPhotoViewOpen: true, openPhotoIndex: index));
+    _update(state.newState(isPhotoViewOpen: true, openPhotoIndex: index));
   }
 
   void changeSuggestionTitle(String text) {
-    emit(
+    _update(
       state.newState(
         suggestion: state.suggestion.copyWith(title: text),
         isShowTitleError: false,
@@ -106,7 +138,7 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
   }
 
   void changeSuggestionDescription(String text) {
-    emit(
+    _update(
       state.newState(
         suggestion: state.suggestion.copyWith(description: text),
       ),
@@ -114,7 +146,7 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
   }
 
   void selectLabels(List<SuggestionLabel> selectedLabels) {
-    emit(
+    _update(
       state.newState(
         suggestion: state.suggestion.copyWith(labels: selectedLabels),
       ),
@@ -122,7 +154,7 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
   }
 
   void changeStatus(SuggestionStatus status) {
-    emit(
+    _update(
       state.newState(
         suggestion: state.suggestion.copyWith(status: status),
       ),
@@ -131,7 +163,7 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
 
   Future<void> saveSuggestion() async {
     if (state.suggestion.title.isEmpty || state.isLoading) {
-      emit(state.newState(isShowTitleError: true));
+      _update(state.newState(isShowTitleError: true));
       return;
     }
     if (state.isEditing) {
@@ -147,6 +179,26 @@ class CreateEditSuggestionCubit extends Cubit<CreateEditSuggestionState> {
       );
       await _suggestionRepository.createSuggestion(model);
     }
-    emit(state.newState(isSubmitted: true));
+    _update(state.newState(isSubmitted: true));
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return _InheritedCreateEditSuggestion(
+      suggestionManager: this,
+      child: widget.child,
+    );
+  }
+}
+
+class _InheritedCreateEditSuggestion extends InheritedWidget {
+  final CreateEditSuggestionStateManager suggestionManager;
+
+  const _InheritedCreateEditSuggestion({
+    required this.suggestionManager,
+    required super.child,
+  });
+
+  @override
+  bool updateShouldNotify(_InheritedCreateEditSuggestion old) => true;
 }
