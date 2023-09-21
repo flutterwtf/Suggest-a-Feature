@@ -11,6 +11,7 @@ class SuggestionState extends Equatable {
   final SavingResultMessageType savingImageResultMessageType;
   final SuggestionBottomSheetType bottomSheetType;
   final bool loadingComments;
+  final String? selectedCommentId;
 
   const SuggestionState({
     required this.isPopped,
@@ -20,6 +21,7 @@ class SuggestionState extends Equatable {
     required this.savingImageResultMessageType,
     required this.bottomSheetType,
     required this.loadingComments,
+    this.selectedCommentId,
   });
 
   SuggestionState newState({
@@ -30,6 +32,8 @@ class SuggestionState extends Equatable {
     SavingResultMessageType? savingImageResultMessageType,
     SuggestionBottomSheetType? bottomSheetType,
     bool? loadingComments,
+    String? selectedCommentId,
+    bool shouldResetSelectedCommentId = false,
   }) {
     return SuggestionState(
       isPopped: isPopped ?? this.isPopped,
@@ -40,6 +44,8 @@ class SuggestionState extends Equatable {
       savingImageResultMessageType:
           savingImageResultMessageType ?? this.savingImageResultMessageType,
       loadingComments: loadingComments ?? this.loadingComments,
+      selectedCommentId: selectedCommentId ??
+          (shouldResetSelectedCommentId ? null : this.selectedCommentId),
     );
   }
 
@@ -52,6 +58,7 @@ class SuggestionState extends Equatable {
         bottomSheetType,
         savingImageResultMessageType,
         loadingComments,
+        selectedCommentId,
       ];
 }
 
@@ -62,4 +69,5 @@ enum SuggestionBottomSheetType {
   editDelete,
   createEdit,
   createComment,
+  deleteCommentConfirmation,
 }

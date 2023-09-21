@@ -184,6 +184,29 @@ class SuggestionCubit extends Cubit<SuggestionState> {
     }
   }
 
+  void openDeletingCommentConfirmation(String commentId) {
+    emit(
+      state.newState(
+        bottomSheetType: SuggestionBottomSheetType.deleteCommentConfirmation,
+        selectedCommentId: commentId,
+      ),
+    );
+  }
+
+  Future<void> deleteComment() async {
+    final comments = state.suggestion.comments
+        .where((comment) => comment.id != state.selectedCommentId)
+        .toList()
+      ..sort((a, b) => b.creationTime.compareTo(a.creationTime));
+    await _suggestionRepository.deleteCommentById(state.selectedCommentId!);
+    emit(
+      state.newState(
+        suggestion: state.suggestion.copyWith(comments: comments),
+        shouldResetSelectedCommentId: true,
+      ),
+    );
+  }
+
   Future<void> createComment(
     String text,
     OnGetUserById getUserById, {

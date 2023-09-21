@@ -95,6 +95,7 @@ class _SuggestionPageState extends State<SuggestionPage> {
                 backgroundColor: context.theme.scaffoldBackgroundColor,
                 body: _MainContent(
                   onSaveToGallery: widget.onSaveToGallery,
+                  onCommentTap: cubit.openDeletingCommentConfirmation,
                 ),
               ),
               SafeArea(
@@ -164,9 +165,11 @@ class _SuggestionPageState extends State<SuggestionPage> {
 }
 
 class _MainContent extends StatelessWidget {
+  final ValueChanged<String> onCommentTap;
   final OnSaveToGalleryCallback? onSaveToGallery;
 
   const _MainContent({
+    required this.onCommentTap,
     this.onSaveToGallery,
   });
 
@@ -206,7 +209,10 @@ class _MainContent extends StatelessWidget {
                 if (state.loadingComments)
                   const Center(child: CircularProgressIndicator())
                 else if (state.suggestion.comments.isNotEmpty)
-                  _CommentList(comments: state.suggestion.comments),
+                  _CommentList(
+                    comments: state.suggestion.comments,
+                    onCommentTap: onCommentTap,
+                  ),
                 if (state.suggestion.votedUserIds.contains(i.userId))
                   const SizedBox(
                     height: Dimensions.size2x * 2 + Dimensions.marginMiddle,
@@ -359,8 +365,9 @@ class _AttachedImages extends StatelessWidget {
 
 class _CommentList extends StatelessWidget {
   final List<Comment> comments;
+  final ValueChanged<String> onCommentTap;
 
-  const _CommentList({required this.comments});
+  const _CommentList({required this.comments, required this.onCommentTap});
 
   @override
   Widget build(BuildContext context) {
@@ -383,7 +390,12 @@ class _CommentList extends StatelessWidget {
         Wrap(
           runSpacing: 2,
           children: comments
-              .map((comment) => _CommentCard(comment: comment))
+              .map(
+                (comment) => _CommentCard(
+                  comment: comment,
+                  onTap: onCommentTap,
+                ),
+              )
               .toList(),
         ),
       ],
@@ -510,29 +522,35 @@ class _WrappedAttachedImage extends StatelessWidget {
 
 class _CommentCard extends StatelessWidget {
   final Comment comment;
+  final ValueChanged<String> onTap;
 
-  const _CommentCard({required this.comment});
+  const _CommentCard({required this.comment, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(Dimensions.marginDefault),
-      color: context.theme.colorScheme.surfaceVariant,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _CommentInfo(
-            comment: comment,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: Dimensions.margin3x),
-            child: Text(
-              comment.text,
-              style: context.theme.textTheme.bodyMedium,
-              softWrap: true,
+    return GestureDetector(
+      onTap: i.isAdmin || i.userId == comment.author.id
+          ? () => onTap(comment.id)
+          : null,
+      child: Container(
+        padding: const EdgeInsets.all(Dimensions.marginDefault),
+        color: context.theme.colorScheme.surfaceVariant,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _CommentInfo(
+              comment: comment,
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.only(left: Dimensions.margin3x),
+              child: Text(
+                comment.text,
+                style: context.theme.textTheme.bodyMedium,
+                softWrap: true,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -578,6 +596,8 @@ class _BottomSheet extends StatelessWidget {
             return _OpenCreateCommentBottomSheet(
               onGetUserById: onGetUserById,
             );
+          case SuggestionBottomSheetType.deleteCommentConfirmation:
+            return const _OpenCommentConfirmationBottomSheet();
           case SuggestionBottomSheetType.none:
             return const SizedBox.shrink();
         }
@@ -600,6 +620,32 @@ class _OpenConfirmationBottomSheet extends StatelessWidget {
         cubit
           ..closeBottomSheet()
           ..deleteSuggestion();
+      },
+      onCancel: ([_]) async {
+        await sheetController.collapse();
+        cubit.closeBottomSheet();
+      },
+      onConfirmAsset: AssetStrings.checkIconImage,
+      onCancelText: localization.cancel,
+      onConfirmText: localization.yesDelete,
+    );
+  }
+}
+
+class _OpenCommentConfirmationBottomSheet extends StatelessWidget {
+  const _OpenCommentConfirmationBottomSheet();
+
+  @override
+  Widget build(BuildContext context) {
+    final sheetController = SheetController();
+    final cubit = context.read<SuggestionCubit>();
+    return ConfirmationBottomSheet(
+      controller: sheetController,
+      question: localization.deletionCommentQuestion,
+      onConfirm: () {
+        cubit
+          ..closeBottomSheet()
+          ..deleteComment();
       },
       onCancel: ([_]) async {
         await sheetController.collapse();
