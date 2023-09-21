@@ -528,7 +528,9 @@ class _CommentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: i.isAdmin ? () => onTap(comment.id) : null,
+      onTap: i.isAdmin || i.userId == comment.author.id
+          ? () => onTap(comment.id)
+          : null,
       child: Container(
         padding: const EdgeInsets.all(Dimensions.marginDefault),
         color: context.theme.colorScheme.surfaceVariant,
