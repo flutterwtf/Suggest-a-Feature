@@ -15,6 +15,7 @@ class LocalizationOptions {
   final String delete;
   final String deletionQuestion;
   final String deletionPhotoQuestion;
+  final String deletionCommentQuestion;
   final String title;
   final String description;
   final String postAnonymously;
@@ -71,6 +72,8 @@ class LocalizationOptions {
     this.delete = 'Delete suggestion',
     this.deletionQuestion = 'Are you sure you want to delete the suggestion?',
     this.deletionPhotoQuestion = 'Are you sure you want to delete this photo?',
+    this.deletionCommentQuestion =
+        'Are you sure you want to delete this comment?',
     this.title = 'Briefly describe your suggestion',
     this.description = 'Describe your suggestion in details',
     this.postAnonymously = 'Post anonymously',
@@ -130,6 +133,8 @@ class LocalizationOptions {
         delete: 'Удалить предложение',
         deletionQuestion: 'Вы действительно хотите удалить это предложение?',
         deletionPhotoQuestion: 'Вы действительно хотите удалить это фото?',
+        deletionCommentQuestion:
+            'Вы действительно хотите удалить этот комментарий?',
         title: 'Кратко опишите ваше предложение',
         description: 'Опишите ваше предложение более подробно',
         postAnonymously: 'Опубликовать анонимно',
@@ -187,6 +192,7 @@ class LocalizationOptions {
         delete: 'Видалити пропозицію',
         deletionQuestion: 'Ви дійсно бажаєте видалити цю пропозицію?',
         deletionPhotoQuestion: 'Ви дійсно бажаєте видалити це фото?',
+        deletionCommentQuestion: 'Ви дійсно бажаєте видалити цей коментар?',
         title: 'Коротко опишіть вашу пропозицію',
         description: 'Опишіть вашу пропозицію більш детально',
         postAnonymously: 'Опублікувати анонімно',

@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Suggest a Feature',
       theme: ThemeData(useMaterial3: true),
+      navigatorKey: navigatorKey,
       home: Scaffold(
         body: SuggestionsPage(
           onGetUserById: (id) => Future<SuggestionAuthor>(
@@ -33,11 +34,14 @@ class MyApp extends StatelessWidget {
           userId: '1',
           isAdmin: true,
           adminSettings: _adminSettings,
+          navigatorKey: navigatorKey,
         ),
       ),
     );
   }
 }
+
+final navigatorKey = GlobalKey<NavigatorState>();
 
 const SuggestionAuthor _suggestionAuthor = SuggestionAuthor(
   id: '1',
@@ -50,7 +54,7 @@ const AdminSettings _adminSettings = AdminSettings(
 
 class MySuggestionDataSource implements SuggestionsDataSource {
   final Map<String, Suggestion> _suggestions = <String, Suggestion>{
-    'mockDataSuggestion1': Suggestion(
+    '1': Suggestion(
       id: '1',
       title: 'Hashtags',
       authorId: '1',
@@ -59,7 +63,7 @@ class MySuggestionDataSource implements SuggestionsDataSource {
       description: 'Ability to add and filter events with #hashtags',
       status: SuggestionStatus.requests,
     ),
-    'mockDataSuggestion2': Suggestion(
+    '2': Suggestion(
       id: '2',
       title: 'Import/Export as pdf',
       authorId: '2',
@@ -69,7 +73,7 @@ class MySuggestionDataSource implements SuggestionsDataSource {
       description: 'Feature to import and export events',
       status: SuggestionStatus.requests,
     ),
-    'mockDataSuggestion3': Suggestion(
+    '3': Suggestion(
       id: '3',
       title: 'Notification',
       authorId: '3',
@@ -78,7 +82,7 @@ class MySuggestionDataSource implements SuggestionsDataSource {
       description: 'Implement notification date change',
       status: SuggestionStatus.inProgress,
     ),
-    'mockDataSuggestion4': Suggestion(
+    '4': Suggestion(
       id: '4',
       title: 'Video',
       authorId: '4',
@@ -88,7 +92,7 @@ class MySuggestionDataSource implements SuggestionsDataSource {
       description: 'Аbility to save video',
       status: SuggestionStatus.inProgress,
     ),
-    'mockDataSuggestion5': Suggestion(
+    '5': Suggestion(
       id: '5',
       title: 'Image',
       authorId: '5',
@@ -98,7 +102,7 @@ class MySuggestionDataSource implements SuggestionsDataSource {
       description: 'Poor image quality',
       status: SuggestionStatus.completed,
     ),
-    'mockDataSuggestion6': Suggestion(
+    '6': Suggestion(
       id: '6',
       title: 'Offline authorization',
       authorId: '6',
@@ -108,7 +112,7 @@ class MySuggestionDataSource implements SuggestionsDataSource {
     ),
   };
   final Map<String, Comment> _comments = <String, Comment>{
-    'mockDataComment1': Comment(
+    '1': Comment(
       author: _suggestionAuthor,
       id: '1',
       suggestionId: '1',
@@ -117,7 +121,7 @@ class MySuggestionDataSource implements SuggestionsDataSource {
       creationTime: DateTime.now(),
       isFromAdmin: true,
     ),
-    'mockDataComment2': Comment(
+    '2': Comment(
       author: _suggestionAuthor,
       id: '2',
       suggestionId: '2',
@@ -126,7 +130,7 @@ class MySuggestionDataSource implements SuggestionsDataSource {
       creationTime: DateTime.now(),
       isFromAdmin: false,
     ),
-    'mockDataComment3': Comment(
+    '3': Comment(
       author: _suggestionAuthor,
       id: '3',
       suggestionId: '3',
@@ -135,7 +139,7 @@ class MySuggestionDataSource implements SuggestionsDataSource {
       creationTime: DateTime.now(),
       isFromAdmin: true,
     ),
-    'mockDataComment4': Comment(
+    '4': Comment(
       author: _suggestionAuthor,
       id: '4',
       suggestionId: '4',
@@ -144,7 +148,7 @@ class MySuggestionDataSource implements SuggestionsDataSource {
       creationTime: DateTime.now(),
       isFromAdmin: true,
     ),
-    'mockDataComment5': Comment(
+    '5': Comment(
       author: _suggestionAuthor,
       id: '5',
       suggestionId: '5',
@@ -153,7 +157,7 @@ class MySuggestionDataSource implements SuggestionsDataSource {
       creationTime: DateTime.now(),
       isFromAdmin: false,
     ),
-    'mockDataComment6': Comment(
+    '6': Comment(
       author: _suggestionAuthor,
       id: '6',
       suggestionId: '6',
@@ -231,8 +235,10 @@ class MySuggestionDataSource implements SuggestionsDataSource {
           : <Comment>[];
 
   @override
-  Future<void> deleteCommentById(String commentId) async =>
-      _comments.remove(commentId);
+  Future<void> deleteCommentById(String commentId) async {
+    _comments.removeWhere((_, comment) => comment.id == commentId);
+  }
+
 
   @override
   Future<void> addNotifyToUpdateUser(String suggestionId) async {
@@ -261,7 +267,6 @@ class MySuggestionDataSource implements SuggestionsDataSource {
     final modifiedSet = {
       ..._suggestions[suggestionId]!.votedUserIds,
     }..add(userId);
-
     _suggestions[suggestionId] = _suggestions[suggestionId]!.copyWith(
       votedUserIds: modifiedSet,
     );

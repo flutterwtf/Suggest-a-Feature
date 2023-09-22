@@ -1,3 +1,8 @@
+## 0.4.0
+* New parameter `navigatorKey`
+* Ability to delete the comment for owner and admin
+* Delete `flutter_bloc` dependency
+
 ## 0.3.1
 * Use AppBarTheme instead of SuggestionsAppBar [#65](https://github.com/What-the-Flutter/Suggest-a-Feature/pull/65)
 * Get rid of flutter-localizations [#58](https://github.com/What-the-Flutter/Suggest-a-Feature/pull/58)

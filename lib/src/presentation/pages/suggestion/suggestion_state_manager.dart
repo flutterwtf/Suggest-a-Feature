@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/domain/data_interfaces/suggestion_repository.dart';
 import 'package:suggest_a_feature/src/domain/entities/comment.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
@@ -11,31 +11,57 @@ import 'package:suggest_a_feature/src/presentation/pages/suggestion/suggestion_s
 import 'package:suggest_a_feature/src/presentation/utils/image_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/typedefs.dart';
 
-class SuggestionCubit extends Cubit<SuggestionState> {
-  final SuggestionRepository _suggestionRepository;
+class SuggestionManager extends StatefulWidget {
+  final Suggestion suggestion;
+  final OnGetUserById onGetUserById;
+  final Widget child;
+
+  const SuggestionManager({
+    required this.suggestion,
+    required this.onGetUserById,
+    required this.child,
+    super.key,
+  });
+
+  static SuggestionStateManager of(BuildContext context) {
+    return (context.dependOnInheritedWidgetOfExactType<_InheritedSuggestion>()!)
+        .suggestionManager;
+  }
+
+  @override
+  SuggestionStateManager createState() => SuggestionStateManager();
+}
+
+class SuggestionStateManager extends State<SuggestionManager> {
+  late SuggestionState state;
+  late final SuggestionRepository _suggestionRepository;
   StreamSubscription<List<Suggestion>>? _suggestionSubscription;
 
-  SuggestionCubit({
-    required SuggestionRepository suggestionRepository,
-    required Suggestion suggestion,
-    required OnGetUserById onGetUserById,
-  })  : _suggestionRepository = suggestionRepository,
-        super(
-          SuggestionState(
-            isPopped: false,
-            isEditable: false,
-            author: const SuggestionAuthor.empty(),
-            savingImageResultMessageType: SavingResultMessageType.none,
-            bottomSheetType: SuggestionBottomSheetType.none,
-            suggestion: Suggestion.empty(),
-            loadingComments: true,
-          ),
-        ) {
+  @override
+  void initState() {
+    super.initState();
+    _suggestionRepository = i.suggestionRepository;
+    state = SuggestionState(
+      isPopped: false,
+      isEditable: false,
+      author: const SuggestionAuthor.empty(),
+      savingImageResultMessageType: SavingResultMessageType.none,
+      bottomSheetType: SuggestionBottomSheetType.none,
+      suggestion: Suggestion.empty(),
+      loadingComments: true,
+    );
     _init(
-      suggestion: suggestion,
-      getUserById: onGetUserById,
+      suggestion: widget.suggestion,
+      getUserById: widget.onGetUserById,
       isAdmin: i.isAdmin,
     );
+  }
+
+  @override
+  void dispose() {
+    _suggestionSubscription?.cancel();
+    _suggestionSubscription = null;
+    super.dispose();
   }
 
   void _init({
@@ -43,7 +69,7 @@ class SuggestionCubit extends Cubit<SuggestionState> {
     required OnGetUserById getUserById,
     required bool isAdmin,
   }) {
-    emit(
+    _update(
       state.newState(
         suggestion: suggestion,
         isEditable: (i.userId == suggestion.authorId &&
@@ -68,10 +94,16 @@ class SuggestionCubit extends Cubit<SuggestionState> {
       final author = await getUserById(userId);
       if (author != null) {
         _suggestionRepository.userInfo[userId] = author;
-        emit(state.newState(author: author));
+        _update(
+          state.newState(author: author),
+        );
       }
     } else {
-      emit(state.newState(author: _suggestionRepository.userInfo[userId]));
+      _update(
+        state.newState(
+          author: _suggestionRepository.userInfo[userId],
+        ),
+      );
     }
   }
 
@@ -96,7 +128,7 @@ class SuggestionCubit extends Cubit<SuggestionState> {
         ..sort(
           (a, b) => b.creationTime.compareTo(a.creationTime),
         );
-      emit(
+      _update(
         state.newState(
           suggestion: state.suggestion.copyWith(comments: extendedComments),
         ),
@@ -108,18 +140,21 @@ class SuggestionCubit extends Cubit<SuggestionState> {
     } catch (e) {
       log('Comments loading error', error: e);
     }
-    emit(state.newState(loadingComments: false));
+    _update(
+      state.newState(loadingComments: false),
+    );
   }
 
-  @override
-  Future<void> close() async {
-    _suggestionSubscription?.cancel();
-    _suggestionSubscription = null;
-    await super.close();
+  void _update(SuggestionState newState) {
+    if (newState != state) {
+      setState(() {
+        state = newState;
+      });
+    }
   }
 
   void reset() {
-    emit(
+    _update(
       state.newState(
         savingImageResultMessageType: SavingResultMessageType.none,
       ),
@@ -127,11 +162,15 @@ class SuggestionCubit extends Cubit<SuggestionState> {
   }
 
   void openCreateEditBottomSheet() {
-    emit(state.newState(bottomSheetType: SuggestionBottomSheetType.createEdit));
+    _update(
+      state.newState(
+        bottomSheetType: SuggestionBottomSheetType.createEdit,
+      ),
+    );
   }
 
   void openConfirmationBottomSheet() {
-    emit(
+    _update(
       state.newState(
         bottomSheetType: SuggestionBottomSheetType.confirmation,
       ),
@@ -139,11 +178,15 @@ class SuggestionCubit extends Cubit<SuggestionState> {
   }
 
   void openEditDeleteBottomSheet() {
-    emit(state.newState(bottomSheetType: SuggestionBottomSheetType.editDelete));
+    _update(
+      state.newState(
+        bottomSheetType: SuggestionBottomSheetType.editDelete,
+      ),
+    );
   }
 
   void openNotificationBottomSheet() {
-    emit(
+    _update(
       state.newState(
         bottomSheetType: SuggestionBottomSheetType.notification,
       ),
@@ -151,7 +194,7 @@ class SuggestionCubit extends Cubit<SuggestionState> {
   }
 
   void openCreateCommentBottomSheet() {
-    emit(
+    _update(
       state.newState(
         bottomSheetType: SuggestionBottomSheetType.createComment,
       ),
@@ -159,14 +202,19 @@ class SuggestionCubit extends Cubit<SuggestionState> {
   }
 
   void closeBottomSheet() {
-    emit(state.newState(bottomSheetType: SuggestionBottomSheetType.none));
+    _update(
+      state.newState(
+        bottomSheetType: SuggestionBottomSheetType.none,
+      ),
+    );
   }
 
   void _onNewSuggestions(List<Suggestion> suggestions) {
-    emit(
+    _update(
       state.newState(
-        suggestion: suggestions
-            .firstWhere((Suggestion e) => e.id == state.suggestion.id),
+        suggestion: suggestions.firstWhere(
+          (Suggestion e) => e.id == state.suggestion.id,
+        ),
       ),
     );
   }
@@ -174,7 +222,7 @@ class SuggestionCubit extends Cubit<SuggestionState> {
   Future<void> showSavingResultMessage(Future<bool?> isSuccess) async {
     final savingResult = await isSuccess;
     if (savingResult != null) {
-      emit(
+      _update(
         state.newState(
           savingImageResultMessageType: savingResult
               ? SavingResultMessageType.success
@@ -182,6 +230,29 @@ class SuggestionCubit extends Cubit<SuggestionState> {
         ),
       );
     }
+  }
+
+  void openDeletingCommentConfirmation(String commentId) {
+    _update(
+      state.newState(
+        bottomSheetType: SuggestionBottomSheetType.deleteCommentConfirmation,
+        selectedCommentId: commentId,
+      ),
+    );
+  }
+
+  Future<void> deleteComment() async {
+    final comments = state.suggestion.comments
+        .where((comment) => comment.id != state.selectedCommentId)
+        .toList()
+      ..sort((a, b) => b.creationTime.compareTo(a.creationTime));
+    await _suggestionRepository.deleteCommentById(state.selectedCommentId!);
+    _update(
+      state.newState(
+        suggestion: state.suggestion.copyWith(comments: comments),
+        shouldResetSelectedCommentId: true,
+      ),
+    );
   }
 
   Future<void> createComment(
@@ -203,13 +274,14 @@ class SuggestionCubit extends Cubit<SuggestionState> {
       final comments = [comment, ...state.suggestion.comments]
         ..sort((a, b) => b.creationTime.compareTo(a.creationTime));
 
-      emit(
+      _update(
         state.newState(
           suggestion: state.suggestion.copyWith(
             comments: comments,
           ),
         ),
       );
+
       _suggestionRepository.refreshSuggestions(
         state.suggestion,
         saveComments: false,
@@ -223,17 +295,21 @@ class SuggestionCubit extends Cubit<SuggestionState> {
     _suggestionSubscription?.cancel();
     _suggestionSubscription = null;
     await _suggestionRepository.deleteSuggestion(state.suggestion.id);
-    emit(state.newState(isPopped: true));
+    _update(
+      state.newState(isPopped: true),
+    );
   }
 
   void vote() {
     final isVoted = state.suggestion.votedUserIds.contains(i.userId);
-    final newVotedUserIds = <String>{...state.suggestion.votedUserIds};
+    final newVotedUserIds = <String>{
+      ...state.suggestion.votedUserIds,
+    };
 
     isVoted
         ? _suggestionRepository.downvote(state.suggestion.id)
         : _suggestionRepository.upvote(state.suggestion.id);
-    emit(
+    _update(
       state.newState(
         suggestion: state.suggestion.copyWith(
           votedUserIds: !isVoted
@@ -245,13 +321,15 @@ class SuggestionCubit extends Cubit<SuggestionState> {
   }
 
   Future<void> changeNotification({required bool isNotificationOn}) async {
-    final newNotifyUserIds = <String>{...state.suggestion.notifyUserIds};
+    final newNotifyUserIds = <String>{
+      ...state.suggestion.notifyUserIds,
+    };
 
     isNotificationOn
         ? await _suggestionRepository.addNotifyToUpdateUser(state.suggestion.id)
         : await _suggestionRepository
             .deleteNotifyToUpdateUser(state.suggestion.id);
-    emit(
+    _update(
       state.newState(
         suggestion: state.suggestion.copyWith(
           notifyUserIds: isNotificationOn
@@ -261,4 +339,24 @@ class SuggestionCubit extends Cubit<SuggestionState> {
       ),
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return _InheritedSuggestion(
+      suggestionManager: this,
+      child: widget.child,
+    );
+  }
+}
+
+class _InheritedSuggestion extends InheritedWidget {
+  final SuggestionStateManager suggestionManager;
+
+  const _InheritedSuggestion({
+    required this.suggestionManager,
+    required super.child,
+  });
+
+  @override
+  bool updateShouldNotify(_InheritedSuggestion old) => true;
 }
