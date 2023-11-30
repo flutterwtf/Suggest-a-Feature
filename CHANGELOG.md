@@ -1,3 +1,6 @@
+## 0.4.1
+* Updates to support flutter version 3.16.0
+
 ## 0.4.0
 * New parameter `navigatorKey`
 * Ability to delete the comment for owner and admin
