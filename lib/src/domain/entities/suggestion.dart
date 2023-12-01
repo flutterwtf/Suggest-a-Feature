@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:suggest_a_feature/src/domain/entities/comment.dart';
 import 'package:suggest_a_feature/src/presentation/utils/date_utils.dart';
@@ -129,9 +128,9 @@ class Suggestion extends Equatable {
     return <String, dynamic>{
       'title': title,
       'description': description,
-      'labels': labels.map(describeEnum).toList(),
+      'labels': labels.map((label) => label.name).toList(),
       'images': images,
-      'status': describeEnum(status),
+      'status': status.name,
     };
   }
 
@@ -203,11 +202,11 @@ class CreateSuggestionModel {
     return <String, dynamic>{
       'title': title,
       'description': description,
-      'labels': labels.map(describeEnum).toList(),
+      'labels': labels.map((label) => label.name).toList(),
       'images': images,
       'author_id': authorId,
       'is_anonymous': isAnonymous,
-      'status': describeEnum(status),
+      'status': status.name,
       'creation_time': DateFormat('yyyy-MM-ddTHH:mm:ss').format(DateTime.now()),
     };
   }
