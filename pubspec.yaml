@@ -17,7 +17,7 @@ dependencies:
   equatable: ^2.0.5
   flutter:
     sdk: flutter
-  flutter_svg: ^2.0.10+1
+  flutter_svg: ^2.0.9
   intl: ^0.19.0
   wtf_sliding_sheet: ^1.1.3
 
