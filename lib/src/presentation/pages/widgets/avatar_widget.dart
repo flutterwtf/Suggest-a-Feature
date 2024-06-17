@@ -25,7 +25,7 @@ class AvatarWidget extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: backgroundColor ?? context.theme.colorScheme.background,
+        color: backgroundColor ?? context.theme.colorScheme.surface,
         borderRadius: BorderRadius.all(Radius.circular(size)),
       ),
       child: ClipRRect(
@@ -38,7 +38,7 @@ class AvatarWidget extends StatelessWidget {
                   AssetStrings.profileIconImage,
                   package: AssetStrings.packageName,
                   colorFilter: ColorFilter.mode(
-                    context.theme.colorScheme.onBackground,
+                    context.theme.colorScheme.onSurface,
                     BlendMode.srcIn,
                   ),
                 ),

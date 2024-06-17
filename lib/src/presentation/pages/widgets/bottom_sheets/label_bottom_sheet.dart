@@ -44,7 +44,7 @@ class _LabelBottomSheetState extends State<LabelBottomSheet> {
       titleBottomPadding: 0,
       controller: widget.controller,
       previousNavBarColor: context.theme.bottomSheetTheme.backgroundColor ??
-          context.theme.colorScheme.background,
+          context.theme.colorScheme.surface,
       previousStatusBarColor: context.theme.colorScheme.surface,
       onClose: ([ClosureType? closureType]) async {
         if (closureType == ClosureType.backButton) {
@@ -55,7 +55,7 @@ class _LabelBottomSheetState extends State<LabelBottomSheet> {
         }
       },
       backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
-          context.theme.colorScheme.background,
+          context.theme.colorScheme.surface,
       contentBuilder: (_, __) {
         return _LabelsListView(
           onTap: (label) => setState(

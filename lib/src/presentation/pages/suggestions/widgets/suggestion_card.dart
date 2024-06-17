@@ -40,7 +40,7 @@ class _SuggestionCardState extends State<SuggestionCard> {
               bottom: Dimensions.marginDefault,
             ),
             child: Material(
-              color: context.theme.colorScheme.surfaceVariant,
+              color: context.theme.colorScheme.surfaceContainerHighest,
               borderRadius: const BorderRadius.all(
                 Radius.circular(Dimensions.mediumCircularRadius),
               ),

@@ -31,7 +31,7 @@ class SuggestionsBackButton extends StatelessWidget {
           width: Dimensions.defaultSize,
           colorFilter: ColorFilter.mode(
             context.theme.appBarTheme.iconTheme?.color ??
-                context.theme.colorScheme.onBackground,
+                context.theme.colorScheme.onSurface,
             BlendMode.srcIn,
           ),
         ),

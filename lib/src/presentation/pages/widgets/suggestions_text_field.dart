@@ -48,7 +48,7 @@ class SuggestionsTextField extends StatelessWidget {
                 border: isShowError
                     ? Border.all(color: context.theme.colorScheme.error)
                     : null,
-                color: context.theme.colorScheme.background,
+                color: context.theme.colorScheme.surface,
                 borderRadius: BorderRadius.circular(
                   Dimensions.smallCircularRadius,
                 ),
@@ -117,7 +117,7 @@ class _CommonTextField extends StatelessWidget {
       focusNode: focusNode,
       keyboardAppearance: keyboardAppearance,
       controller: controller,
-      cursorColor: context.theme.colorScheme.onBackground,
+      cursorColor: context.theme.colorScheme.onSurface,
       style: context.theme.textTheme.bodyMedium,
       autofocus: autofocus,
       maxLines: null,
@@ -128,9 +128,9 @@ class _CommonTextField extends StatelessWidget {
         isDense: true,
         hintText: hintText,
         hintStyle: context.theme.textTheme.bodyMedium?.copyWith(
-          color: context.theme.colorScheme.onBackground.withOpacity(0.7),
+          color: context.theme.colorScheme.onSurface.withOpacity(0.7),
         ),
-        fillColor: context.theme.colorScheme.background,
+        fillColor: context.theme.colorScheme.surface,
         filled: true,
         contentPadding: padding,
         border: const OutlineInputBorder(
@@ -190,7 +190,7 @@ class _IosTextField extends StatelessWidget {
       controller: controller,
       focusNode: focusNode,
       keyboardAppearance: keyboardAppearance,
-      cursorColor: context.theme.colorScheme.onBackground,
+      cursorColor: context.theme.colorScheme.onSurface,
       style: context.theme.textTheme.bodyMedium,
       autofocus: autofocus,
       maxLines: null,
@@ -198,11 +198,11 @@ class _IosTextField extends StatelessWidget {
       textInputAction: textInputAction,
       placeholder: hintText,
       placeholderStyle: context.theme.textTheme.bodyMedium?.copyWith(
-        color: context.theme.colorScheme.onBackground.withOpacity(0.7),
+        color: context.theme.colorScheme.onSurface.withOpacity(0.7),
       ),
       cursorHeight: 20,
       decoration: BoxDecoration(
-        color: context.theme.colorScheme.background,
+        color: context.theme.colorScheme.surface,
         borderRadius: const BorderRadius.all(
           Radius.circular(Dimensions.smallCircularRadius),
         ),

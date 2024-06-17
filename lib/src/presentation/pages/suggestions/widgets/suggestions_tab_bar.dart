@@ -114,7 +114,7 @@ class _TabIcon extends StatelessWidget {
         package: AssetStrings.packageName,
         colorFilter: ColorFilter.mode(
           isActive
-              ? context.theme.colorScheme.onBackground
+              ? context.theme.colorScheme.onSurface
               : context.theme.colorScheme.onSurfaceVariant,
           BlendMode.srcIn,
         ),

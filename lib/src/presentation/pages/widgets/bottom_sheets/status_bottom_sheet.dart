@@ -44,7 +44,7 @@ class _StatusBottomSheetState extends State<StatusBottomSheet> {
       titleBottomPadding: 0,
       controller: widget.controller,
       previousNavBarColor: context.theme.bottomSheetTheme.backgroundColor ??
-          context.theme.colorScheme.background,
+          context.theme.colorScheme.surface,
       previousStatusBarColor: context.theme.colorScheme.surface,
       onClose: ([ClosureType? closureType]) async {
         if (closureType == ClosureType.backButton) {
@@ -55,7 +55,7 @@ class _StatusBottomSheetState extends State<StatusBottomSheet> {
         }
       },
       backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
-          context.theme.colorScheme.background,
+          context.theme.colorScheme.surface,
       contentBuilder: (BuildContext context, SheetState sheetState) {
         return ListView(
           padding: const EdgeInsets.only(bottom: Dimensions.marginMiddle),

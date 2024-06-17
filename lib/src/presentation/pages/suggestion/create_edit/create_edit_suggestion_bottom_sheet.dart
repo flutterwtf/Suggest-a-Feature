@@ -207,9 +207,9 @@ class _CreateEditSuggestionBottomSheet extends StatelessWidget {
       onOpen: titleFocusNode.requestFocus,
       onClose: ([_]) => onClose(),
       backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
-          context.theme.colorScheme.background,
-      previousNavBarColor: context.theme.colorScheme.background,
-      previousStatusBarColor: context.theme.colorScheme.surfaceVariant,
+          context.theme.colorScheme.surface,
+      previousNavBarColor: context.theme.colorScheme.surface,
+      previousStatusBarColor: context.theme.colorScheme.surfaceContainerHighest,
       initialSnapping: 0.85,
       contentBuilder: (context, sheetState) {
         return _EditSuggestionBottomSheetListView(
@@ -260,7 +260,7 @@ class _LabelItems extends StatelessWidget {
               AssetStrings.plusIconThickImage,
               package: AssetStrings.packageName,
               colorFilter: ColorFilter.mode(
-                context.theme.colorScheme.onBackground,
+                context.theme.colorScheme.onSurface,
                 BlendMode.srcIn,
               ),
               height: Dimensions.defaultSize,
@@ -518,14 +518,14 @@ class _AddButton extends StatelessWidget {
           ? CircularProgressIndicator(
               strokeWidth: 1,
               valueColor: AlwaysStoppedAnimation<Color>(
-                context.theme.colorScheme.onBackground,
+                context.theme.colorScheme.onSurface,
               ),
             )
           : SvgPicture.asset(
               AssetStrings.plusIconThickImage,
               package: AssetStrings.packageName,
               colorFilter: ColorFilter.mode(
-                context.theme.colorScheme.onBackground,
+                context.theme.colorScheme.onSurface,
                 BlendMode.srcIn,
               ),
               height: isSmall ? Dimensions.smallSize : Dimensions.defaultSize,
@@ -567,7 +567,8 @@ class _PhotoPreviewState extends State<_PhotoPreview> {
                 child: SmallPhotoPreview(
                   src: widget.suggestionImages[0],
                   heroTag: 'photo_view',
-                  backgroundColor: context.theme.colorScheme.surfaceVariant,
+                  backgroundColor:
+                      context.theme.colorScheme.surfaceContainerHighest,
                 ),
               ),
             if (widget.suggestionImages.length >= 2)
@@ -577,7 +578,8 @@ class _PhotoPreviewState extends State<_PhotoPreview> {
                 child: SmallPhotoPreview(
                   src: widget.suggestionImages[1],
                   heroTag: 'photo_view',
-                  backgroundColor: context.theme.colorScheme.surfaceVariant,
+                  backgroundColor:
+                      context.theme.colorScheme.surfaceContainerHighest,
                 ),
               ),
             if (widget.suggestionImages.length >= 3)
@@ -587,7 +589,8 @@ class _PhotoPreviewState extends State<_PhotoPreview> {
                 child: SmallPhotoPreview(
                   src: widget.suggestionImages[2],
                   heroTag: 'photo_view',
-                  backgroundColor: context.theme.colorScheme.surfaceVariant,
+                  backgroundColor:
+                      context.theme.colorScheme.surfaceContainerHighest,
                 ),
               ),
           ],

@@ -16,7 +16,7 @@ class SuggestionsSwitch extends StatelessWidget {
     return CupertinoSwitch(
       value: value,
       activeColor: context.theme.colorScheme.primary,
-      trackColor: context.theme.colorScheme.background,
+      trackColor: context.theme.colorScheme.surface,
       thumbColor: value
           ? context.theme.colorScheme.onPrimary
           : context.theme.dividerColor,

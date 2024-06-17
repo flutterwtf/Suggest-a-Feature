@@ -21,20 +21,20 @@ class SuggestionsRadioButton extends StatelessWidget {
         child: DecoratedBox(
           decoration: BoxDecoration(
             border: Border.all(
-              color: context.theme.colorScheme.onBackground,
+              color: context.theme.colorScheme.onSurface,
               width: 0.5,
             ),
             color: selected
-                ? context.theme.colorScheme.onBackground
+                ? context.theme.colorScheme.onSurface
                 : context.theme.bottomSheetTheme.backgroundColor ??
-                    context.theme.colorScheme.background,
+                    context.theme.colorScheme.surface,
             shape: BoxShape.circle,
           ),
           child: selected
               ? Icon(
                   Icons.check,
                   size: Dimensions.smallSize,
-                  color: context.theme.colorScheme.background,
+                  color: context.theme.colorScheme.surface,
                 )
               : null,
         ),
