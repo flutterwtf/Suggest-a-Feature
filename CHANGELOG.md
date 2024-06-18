@@ -1,3 +1,6 @@
+## 0.4.2
+* Updates to support flutter version 3.22.2
+
 ## 0.4.1
 * Updates to support flutter version 3.16.0
 

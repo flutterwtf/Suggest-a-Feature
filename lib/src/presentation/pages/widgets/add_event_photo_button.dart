@@ -72,8 +72,9 @@ class _AddButton extends StatelessWidget {
           padding: const EdgeInsets.only(top: Dimensions.marginSmall),
           child: Text(
             localization.add,
-            style:
-                style.copyWith(color: context.theme.colorScheme.onSurface),
+            style: style.copyWith(
+              color: context.theme.colorScheme.onSurface,
+            ),
           ),
         ),
       ],
