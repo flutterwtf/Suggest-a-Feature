@@ -32,7 +32,7 @@ This Flutter package is a ready-made module which allows other developers to imp
 menu in their own mobile app where users can share their suggestions about the application in real
 time, discuss them with others, and vote for each other's suggestions.
 
-You can check interactive example [here](https://what-the-flutter.github.io/Suggest-a-Feature/#/).
+You can check interactive example [here](https://flutterwtf.github.io/Suggest-a-Feature/#/).
 
 A small demo:
 
