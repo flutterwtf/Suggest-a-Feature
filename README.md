@@ -18,11 +18,11 @@
   <a href="https://pub.dartlang.org/packages/suggest_a_feature">
     <img alt="Pub" src="https://img.shields.io/pub/v/suggest_a_feature" />
   </a>
-  <a href="https://github.com/What-the-Flutter/Suggest-a-Feature/actions/workflows/build.yml?query=workflow%3ABuild">
-    <img alt="Build Status" src="https://github.com/What-the-Flutter/Suggest-a-Feature/actions/workflows/build.yml/badge.svg?event=push"/>
+  <a href="https://github.com/flutterwtf/Suggest-a-Feature/actions/workflows/build.yml?query=workflow%3ABuild">
+    <img alt="Build Status" src="https://github.com/flutterwtf/Suggest-a-Feature/actions/workflows/build.yml/badge.svg?event=push"/>
   </a>
-  <a href="https://www.codefactor.io/repository/github/what-the-flutter/suggest-a-feature">
-    <img alt="CodeFactor" src="https://www.codefactor.io/repository/github/what-the-flutter/suggest-a-feature/badge"/>
+  <a href="https://www.codefactor.io/repository/github/flutterwtf/suggest-a-feature">
+    <img alt="CodeFactor" src="https://www.codefactor.io/repository/github/flutterwtf/suggest-a-feature/badge"/>
   </a>
 </p>
 
@@ -32,12 +32,12 @@ This Flutter package is a ready-made module which allows other developers to imp
 menu in their own mobile app where users can share their suggestions about the application in real
 time, discuss them with others, and vote for each other's suggestions.
 
-You can check interactive example [here](https://what-the-flutter.github.io/Suggest-a-Feature/#/).
+You can check interactive example [here](https://flutterwtf.github.io/Suggest-a-Feature/#/).
 
 A small demo:
 
 <p align="center">
-  <img src="https://github.com/What-the-Flutter/Suggest-a-Feature/assets/93796040/adb45e1d-204e-4614-932d-3c73d4899a05"/>
+  <img src="https://github.com/flutterwtf/Suggest-a-Feature/assets/93796040/adb45e1d-204e-4614-932d-3c73d4899a05"/>
 </p>
 
 ## Usage
@@ -83,7 +83,7 @@ Admin functionality allows you to edit any suggestion (e.g change its' status) a
 A small demo:
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/What-the-Flutter/Suggest-a-Feature/master/example/assets/suggest_a_feature_admin.gif" width="280" />
+  <img src="https://raw.githubusercontent.com/flutterwtf/Suggest-a-Feature/master/example/assets/suggest_a_feature_admin.gif" width="280" />
 </p>
 
 In order to enable admin functionality, you should specify the `adminSettings` and set `isAdmin` to `true`:
@@ -133,33 +133,9 @@ has created a suggestion/comment is the only one who can delete or update it. If
 that a user without author rights tries to delete/update a suggestion, an Exception will be thrown.
 `onGetUserById()` function in `SuggestionsPage` constructor will help you with this.
 
-## Theme migration
+## Theme
 
-Since version 0.3.0 the package uses the material theme of your application. Here's what's changed from the previous version:
-* primaryBackgroundColor -> ThemeData.colorScheme.background
-* secondaryBackgroundColor -> ThemeData.colorScheme.surfaceVariant
-* thirdBackgroundColor -> ThemeData.colorScheme.surface
-* bottomSheetBackgroundColor -> ThemeData.bottomSheetTheme.backgroundColor ?? ThemeData.colorScheme.background,
-* primaryTextColor and primaryIconColor -> ThemeData.colorScheme.onPrimary
-* secondaryTextColor and secondaryIconColor -> ThemeData.colorScheme.onSurfaceVariant
-* dividerColor -> ThemeData.dividerColor
-* elevatedButtonColor -> ThemeData.colorScheme.primary
-* pressedElevatedButtonColor -> ThemeData.colorScheme.primaryContainer
-* elevatedButtonTextColor -> ThemeData.colorScheme.onPrimary
-* focusedTextButtonColor -> ThemeData.colorScheme.secondaryContainer
-* focusedTextColor -> ThemeData.colorTheme.onSecondaryContainer
-* focusedTextFieldBorderLine -> ThemeData.colorScheme.primary
-* focusedTonalButtonColor -> ThemeData.colorScheme.onSecondaryContainer
-* enabledTextColor -> ThemeData.colorScheme.primary
-* tonalButtonColor -> ThemeData.colorScheme.secondaryContainer
-* fabColor -> ThemeData.floatingActionButtonTheme.backgroundColor ?? SuggestionsTheme.fabColor
-* activatedUpvoteArrowColor -> ThemeData.colorScheme.primary
-* barIndicatorColor -> ThemeData.colorScheme.primary
-* disabledTextButtonColor -> ThemeData.disabledColor
-* errorColor -> ThemeData.colorScheme.error
-* dialogBarrierColor -> not used
-
-Package uses your app's FilledButtonTheme, TextButtonTheme, TabBarTheme, TextTheme, DividerTheme, scaffoldBackgroundColor
+The package uses the material theme of your application. 
 
 Text styles used in package:
 * TextTheme.titleLarge
