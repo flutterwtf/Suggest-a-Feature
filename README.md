@@ -18,11 +18,11 @@
   <a href="https://pub.dartlang.org/packages/suggest_a_feature">
     <img alt="Pub" src="https://img.shields.io/pub/v/suggest_a_feature" />
   </a>
-  <a href="https://github.com/What-the-Flutter/Suggest-a-Feature/actions/workflows/build.yml?query=workflow%3ABuild">
-    <img alt="Build Status" src="https://github.com/What-the-Flutter/Suggest-a-Feature/actions/workflows/build.yml/badge.svg?event=push"/>
+  <a href="https://github.com/flutterwtf/Suggest-a-Feature/actions/workflows/build.yml?query=workflow%3ABuild">
+    <img alt="Build Status" src="https://github.com/flutterwtf/Suggest-a-Feature/actions/workflows/build.yml/badge.svg?event=push"/>
   </a>
-  <a href="https://www.codefactor.io/repository/github/what-the-flutter/suggest-a-feature">
-    <img alt="CodeFactor" src="https://www.codefactor.io/repository/github/what-the-flutter/suggest-a-feature/badge"/>
+  <a href="https://www.codefactor.io/repository/github/flutterwtf/suggest-a-feature">
+    <img alt="CodeFactor" src="https://www.codefactor.io/repository/github/flutterwtf/suggest-a-feature/badge"/>
   </a>
 </p>
 
@@ -37,7 +37,7 @@ You can check interactive example [here](https://flutterwtf.github.io/Suggest-a-
 A small demo:
 
 <p align="center">
-  <img src="https://github.com/What-the-Flutter/Suggest-a-Feature/assets/93796040/adb45e1d-204e-4614-932d-3c73d4899a05"/>
+  <img src="https://github.com/flutterwtf/Suggest-a-Feature/assets/93796040/adb45e1d-204e-4614-932d-3c73d4899a05"/>
 </p>
 
 ## Usage
@@ -83,7 +83,7 @@ Admin functionality allows you to edit any suggestion (e.g change its' status) a
 A small demo:
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/What-the-Flutter/Suggest-a-Feature/master/example/assets/suggest_a_feature_admin.gif" width="280" />
+  <img src="https://raw.githubusercontent.com/flutterwtf/Suggest-a-Feature/master/example/assets/suggest_a_feature_admin.gif" width="280" />
 </p>
 
 In order to enable admin functionality, you should specify the `adminSettings` and set `isAdmin` to `true`:
