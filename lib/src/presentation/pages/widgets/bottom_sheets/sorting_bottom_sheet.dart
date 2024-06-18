@@ -33,9 +33,9 @@ class _SortingBottomSheetState extends State<SortingBottomSheet> {
       controller: _controller,
       onClose: ([_]) => _onClose(),
       backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
-          context.theme.colorScheme.background,
-      previousNavBarColor: context.theme.colorScheme.background,
-      previousStatusBarColor: context.theme.colorScheme.background,
+          context.theme.colorScheme.surface,
+      previousNavBarColor: context.theme.colorScheme.surface,
+      previousStatusBarColor: context.theme.colorScheme.surface,
       title: localization.sortBy,
       contentBuilder: (context, _) {
         final textStyle = context.theme.textTheme.titleMedium;

@@ -37,9 +37,9 @@ class ConfirmationBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseBottomSheet(
       backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
-          context.theme.colorScheme.background,
-      previousNavBarColor: context.theme.colorScheme.background,
-      previousStatusBarColor: context.theme.colorScheme.background,
+          context.theme.colorScheme.surface,
+      previousNavBarColor: context.theme.colorScheme.surface,
+      previousStatusBarColor: context.theme.colorScheme.surface,
       controller: controller,
       onClose: ([ClosureType? closureType]) {
         if (closureType == ClosureType.backButton) {
@@ -184,7 +184,7 @@ class _Cancel extends StatelessWidget {
         width: Dimensions.defaultSize,
         height: Dimensions.defaultSize,
         colorFilter: ColorFilter.mode(
-          context.theme.colorScheme.onBackground,
+          context.theme.colorScheme.onSurface,
           BlendMode.srcIn,
         ),
       ),

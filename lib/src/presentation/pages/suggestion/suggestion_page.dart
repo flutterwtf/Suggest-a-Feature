@@ -276,7 +276,7 @@ class _SuggestionInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: context.theme.colorScheme.surfaceVariant,
+      color: context.theme.colorScheme.surfaceContainerHighest,
       padding: const EdgeInsets.only(
         left: Dimensions.marginDefault,
         right: Dimensions.marginBig,
@@ -333,7 +333,7 @@ class _AttachedImages extends StatelessWidget {
         right: Dimensions.marginDefault,
         bottom: Dimensions.marginBig,
       ),
-      color: context.theme.colorScheme.surfaceVariant,
+      color: context.theme.colorScheme.surfaceContainerHighest,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -375,7 +375,7 @@ class _CommentList extends StatelessWidget {
       children: [
         Container(
           width: double.infinity,
-          color: context.theme.colorScheme.surfaceVariant,
+          color: context.theme.colorScheme.surfaceContainerHighest,
           padding: const EdgeInsets.only(
             top: Dimensions.marginDefault,
             left: Dimensions.marginDefault,
@@ -415,7 +415,7 @@ class _Avatar extends StatelessWidget {
         right: Dimensions.marginSmall,
       ),
       child: AvatarWidget(
-        backgroundColor: context.theme.colorScheme.surfaceVariant,
+        backgroundColor: context.theme.colorScheme.surfaceContainerHighest,
         avatar: avatar,
         iconPadding: Dimensions.marginMicro,
         size: Dimensions.defaultSize,
@@ -496,7 +496,7 @@ class _WrappedAttachedImage extends StatelessWidget {
                   : null,
               initialIndex: images.indexOf(attachedImage),
               photos: images,
-              previousNavBarColor: context.theme.colorScheme.background,
+              previousNavBarColor: context.theme.colorScheme.surface,
             );
           },
         );
@@ -533,7 +533,7 @@ class _CommentCard extends StatelessWidget {
           : null,
       child: Container(
         padding: const EdgeInsets.all(Dimensions.marginDefault),
-        color: context.theme.colorScheme.surfaceVariant,
+        color: context.theme.colorScheme.surfaceContainerHighest,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -774,10 +774,10 @@ class _NewCommentButton extends StatelessWidget {
       ),
       child: FilledButton(
         style: context.theme.filledButtonTheme.style?.copyWith(
-          backgroundColor: MaterialStateProperty.resolveWith<Color>(
+          backgroundColor: WidgetStateProperty.resolveWith<Color>(
             (states) => context.theme.colorScheme.secondaryContainer,
           ),
-          foregroundColor: MaterialStatePropertyAll(
+          foregroundColor: WidgetStatePropertyAll(
             context.theme.colorScheme.onSecondaryContainer,
           ),
         ),
@@ -848,7 +848,7 @@ class _CommentInfo extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         AvatarWidget(
-          backgroundColor: context.theme.colorScheme.background,
+          backgroundColor: context.theme.colorScheme.surface,
           avatar: author.avatar,
           size: Dimensions.bigSize,
         ),

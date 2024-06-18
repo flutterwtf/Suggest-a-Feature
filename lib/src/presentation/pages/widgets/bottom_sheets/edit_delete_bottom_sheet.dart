@@ -38,9 +38,9 @@ class _EditDeleteSuggestionBottomSheetState
       controller: widget.controller,
       onClose: ([_]) => widget.onCancel(),
       backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
-          context.theme.colorScheme.background,
-      previousNavBarColor: context.theme.colorScheme.background,
-      previousStatusBarColor: context.theme.colorScheme.background,
+          context.theme.colorScheme.surface,
+      previousNavBarColor: context.theme.colorScheme.surface,
+      previousStatusBarColor: context.theme.colorScheme.surface,
       contentBuilder: (context, _) {
         return ListView(
           padding: const EdgeInsets.only(
@@ -105,7 +105,7 @@ class _EditItem extends StatelessWidget {
         height: Dimensions.defaultSize,
         width: Dimensions.defaultSize,
         colorFilter: ColorFilter.mode(
-          context.theme.colorScheme.onBackground,
+          context.theme.colorScheme.onSurface,
           BlendMode.srcIn,
         ),
       ),

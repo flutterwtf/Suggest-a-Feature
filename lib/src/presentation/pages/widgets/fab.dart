@@ -96,7 +96,7 @@ class _SuggestionsFabState extends State<SuggestionsFab>
                 width: Dimensions.defaultSize,
                 height: Dimensions.defaultSize,
                 colorFilter: ColorFilter.mode(
-                  widget.iconColor ?? context.theme.colorScheme.onBackground,
+                  widget.iconColor ?? context.theme.colorScheme.onSurface,
                   BlendMode.srcIn,
                 ),
               ),

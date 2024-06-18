@@ -71,7 +71,7 @@ class ListDescription extends StatelessWidget {
                     TextSpan(
                       text: statusHeader,
                       style: context.theme.textTheme.titleMedium?.copyWith(
-                        color: context.theme.colorScheme.onBackground,
+                        color: context.theme.colorScheme.onSurface,
                       ),
                     ),
                     TextSpan(
@@ -94,7 +94,7 @@ class ListDescription extends StatelessWidget {
                       horizontal: Dimensions.marginSmall,
                     ),
                     decoration: BoxDecoration(
-                      color: context.theme.colorScheme.surfaceVariant,
+                      color: context.theme.colorScheme.surfaceContainerHighest,
                       borderRadius: const BorderRadius.all(
                         Radius.circular(Dimensions.verySmallCircularRadius),
                       ),
