@@ -125,7 +125,8 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
                     screenTitle:
                         widget.appBarTitle ?? localization.suggestAFeature,
                   ),
-                  backgroundColor: theme.backgroundColor,
+                  backgroundColor: theme.backgroundColor ??
+                      context.theme.scaffoldBackgroundColor,
                   body: state.loading
                       ? const Center(child: CircularProgressIndicator())
                       : Stack(

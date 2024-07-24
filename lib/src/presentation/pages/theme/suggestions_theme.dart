@@ -17,7 +17,7 @@ class SuggestionsTheme {
 
   final Color featureLabelColor;
   final Color bugLabelColor;
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
   SuggestionsTheme({
     required this.actionColor,
@@ -34,7 +34,7 @@ class SuggestionsTheme {
     required this.bugLabelColor,
     required this.fade,
     required this.fabColor,
-    required this.backgroundColor,
+    this.backgroundColor,
   });
 
   factory SuggestionsTheme.initial() => SuggestionsTheme(
