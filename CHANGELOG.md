@@ -1,3 +1,6 @@
+## 0.4.3
+* Add background color property to theme
+
 ## 0.4.2
 * Updates to support flutter version 3.22.2
 
