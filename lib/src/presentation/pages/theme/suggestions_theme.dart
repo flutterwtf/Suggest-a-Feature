@@ -17,6 +17,7 @@ class SuggestionsTheme {
 
   final Color featureLabelColor;
   final Color bugLabelColor;
+  final Color backgroundColor;
 
   SuggestionsTheme({
     required this.actionColor,
@@ -33,6 +34,7 @@ class SuggestionsTheme {
     required this.bugLabelColor,
     required this.fade,
     required this.fabColor,
+    required this.backgroundColor,
   });
 
   factory SuggestionsTheme.initial() => SuggestionsTheme(
@@ -50,6 +52,7 @@ class SuggestionsTheme {
         bugLabelColor: const Color.fromRGBO(246, 24, 48, 1),
         fade: const Color.fromRGBO(0, 0, 0, 0.65),
         fabColor: const Color.fromRGBO(33, 33, 33, 0.12),
+        backgroundColor: const Color.fromRGBO(255,255,255, 0),
       );
 
   SuggestionsTheme copyWith({
@@ -67,12 +70,12 @@ class SuggestionsTheme {
     Color? bugLabelColor,
     Color? fade,
     Color? fabColor,
+    Color? backgroundColor,
   }) {
     return SuggestionsTheme(
       actionColor: actionColor ?? this.actionColor,
       actionPressedColor: actionPressedColor ?? this.actionPressedColor,
-      actionBackgroundColor:
-          actionBackgroundColor ?? this.actionBackgroundColor,
+      actionBackgroundColor: actionBackgroundColor ?? this.actionBackgroundColor,
       disabledTextColor: disabledTextColor ?? this.disabledTextColor,
       upvoteArrowColor: upvoteArrowColor ?? this.upvoteArrowColor,
       requestsTabColor: requestsTabColor ?? this.requestsTabColor,
@@ -84,6 +87,7 @@ class SuggestionsTheme {
       bugLabelColor: bugLabelColor ?? this.bugLabelColor,
       fade: fade ?? this.fade,
       fabColor: fabColor ?? this.fabColor,
+      backgroundColor: backgroundColor ?? this.backgroundColor,
     );
   }
 }

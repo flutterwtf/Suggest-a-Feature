@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     initializeDateFormatting();
     return MaterialApp(
       title: 'Suggest a Feature',
-      theme: ThemeData(useMaterial3: true),
+      theme: ThemeData(useMaterial3: true, ),
       navigatorKey: navigatorKey,
       home: Scaffold(
         body: SuggestionsPage(
