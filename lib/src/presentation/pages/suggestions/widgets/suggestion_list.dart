@@ -13,6 +13,7 @@ class SuggestionList extends StatelessWidget {
   final Color color;
   final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
   final OnSaveToGalleryCallback? onSaveToGallery;
+  final OnShareSuggestion? onShareSuggestion;
   final OnGetUserById onGetUserById;
   final String userId;
   final ValueChanged<int> vote;
@@ -28,6 +29,7 @@ class SuggestionList extends StatelessWidget {
     required this.openSortingBottomSheet,
     this.onUploadMultiplePhotos,
     this.onSaveToGallery,
+    this.onShareSuggestion,
     super.key,
   });
 
@@ -53,6 +55,7 @@ class SuggestionList extends StatelessWidget {
                     onGetUserById: onGetUserById,
                     onSaveToGallery: onSaveToGallery,
                     onUploadMultiplePhotos: onUploadMultiplePhotos,
+                    onShareSuggestion: onShareSuggestion,
                     userId: userId,
                     status: status,
                     vote: vote,
@@ -75,6 +78,7 @@ class _ListItem extends StatelessWidget {
   final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
   final OnSaveToGalleryCallback? onSaveToGallery;
   final OnGetUserById onGetUserById;
+  final OnShareSuggestion? onShareSuggestion;
   final int index;
 
   const _ListItem({
@@ -87,6 +91,7 @@ class _ListItem extends StatelessWidget {
     required this.index,
     this.onUploadMultiplePhotos,
     this.onSaveToGallery,
+    this.onShareSuggestion,
   });
 
   @override
@@ -103,6 +108,7 @@ class _ListItem extends StatelessWidget {
             suggestion: suggestions[index - 1],
             onUploadMultiplePhotos: onUploadMultiplePhotos,
             onSaveToGallery: onSaveToGallery,
+            onShareSuggestion: onShareSuggestion,
             onGetUserById: onGetUserById,
           ),
         ),

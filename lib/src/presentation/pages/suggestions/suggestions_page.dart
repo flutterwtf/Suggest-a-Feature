@@ -40,6 +40,9 @@ class SuggestionsPage extends StatefulWidget {
   /// Callback returning the current user (SuggestionAuthor).
   final OnGetUserById onGetUserById;
 
+  /// Callback processing event sharing (void).
+  final OnShareSuggestion? onShareSuggestion;
+
   /// AppBar title that will be displayed on the [SuggestionsPage].
   final String? appBarTitle;
 
@@ -69,6 +72,7 @@ class SuggestionsPage extends StatefulWidget {
     this.isAdmin = false,
     this.onSaveToGallery,
     this.onUploadMultiplePhotos,
+    this.onShareSuggestion,
     this.appBarTitle,
     this.imageHeaders,
     this.locale,
@@ -143,6 +147,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
                               onSaveToGallery: widget.onSaveToGallery,
                               onUploadMultiplePhotos:
                                   widget.onUploadMultiplePhotos,
+                              onShareSuggestion: widget.onShareSuggestion,
                             ),
                             _BottomFab(
                               openCreateBottomSheet:
@@ -179,6 +184,7 @@ class _MainContent extends StatefulWidget {
   final OnGetUserById onGetUserById;
   final OnSaveToGalleryCallback? onSaveToGallery;
   final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
+  final OnShareSuggestion? onShareSuggestion;
 
   const _MainContent({
     required this.userId,
@@ -187,6 +193,7 @@ class _MainContent extends StatefulWidget {
     required this.onGetUserById,
     required this.onSaveToGallery,
     required this.onUploadMultiplePhotos,
+    required this.onShareSuggestion,
   });
 
   @override
@@ -227,6 +234,7 @@ class _MainContentState extends State<_MainContent>
             onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
             onSaveToGallery: widget.onSaveToGallery,
             onGetUserById: widget.onGetUserById,
+            onShareSuggestion: widget.onShareSuggestion,
             userId: widget.userId,
             onVote: stateManager.vote,
             tabController: _tabController,
@@ -277,6 +285,7 @@ class _TabBarView extends StatelessWidget {
   final OnGetUserById onGetUserById;
   final OnSaveToGalleryCallback? onSaveToGallery;
   final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
+  final OnShareSuggestion? onShareSuggestion;
   final void Function(SuggestionStatus status, int i) onVote;
   final String userId;
   final VoidCallback openSortingBottomSheet;
@@ -289,6 +298,7 @@ class _TabBarView extends StatelessWidget {
     required this.openSortingBottomSheet,
     this.onSaveToGallery,
     this.onUploadMultiplePhotos,
+    this.onShareSuggestion,
   });
 
   @override
@@ -305,6 +315,7 @@ class _TabBarView extends StatelessWidget {
             onGetUserById: onGetUserById,
             onSaveToGallery: onSaveToGallery,
             onUploadMultiplePhotos: onUploadMultiplePhotos,
+            onShareSuggestion: onShareSuggestion,
             userId: userId,
             vote: (i) => onVote(SuggestionStatus.requests, i),
             openSortingBottomSheet: openSortingBottomSheet,
@@ -316,6 +327,7 @@ class _TabBarView extends StatelessWidget {
             onGetUserById: onGetUserById,
             onSaveToGallery: onSaveToGallery,
             onUploadMultiplePhotos: onUploadMultiplePhotos,
+            onShareSuggestion: onShareSuggestion,
             userId: userId,
             vote: (i) => onVote(SuggestionStatus.inProgress, i),
             openSortingBottomSheet: openSortingBottomSheet,
@@ -327,6 +339,7 @@ class _TabBarView extends StatelessWidget {
             onGetUserById: onGetUserById,
             onSaveToGallery: onSaveToGallery,
             onUploadMultiplePhotos: onUploadMultiplePhotos,
+            onShareSuggestion: onShareSuggestion,
             userId: userId,
             vote: (i) => onVote(SuggestionStatus.completed, i),
             openSortingBottomSheet: openSortingBottomSheet,
@@ -338,6 +351,7 @@ class _TabBarView extends StatelessWidget {
             onGetUserById: onGetUserById,
             onSaveToGallery: onSaveToGallery,
             onUploadMultiplePhotos: onUploadMultiplePhotos,
+            onShareSuggestion: onShareSuggestion,
             userId: userId,
             vote: (i) => onVote(SuggestionStatus.declined, i),
             openSortingBottomSheet: openSortingBottomSheet,
@@ -349,6 +363,7 @@ class _TabBarView extends StatelessWidget {
             onGetUserById: onGetUserById,
             onSaveToGallery: onSaveToGallery,
             onUploadMultiplePhotos: onUploadMultiplePhotos,
+            onShareSuggestion: onShareSuggestion,
             userId: userId,
             vote: (i) => onVote(SuggestionStatus.duplicated, i),
             openSortingBottomSheet: openSortingBottomSheet,
