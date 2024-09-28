@@ -11,6 +11,7 @@ class SuggestionsState extends Equatable {
   final SuggestionStatus activeTab;
   final SortType sortType;
   final bool loading;
+  final Suggestion? suggestion;
 
   const SuggestionsState({
     required this.requests,
@@ -21,6 +22,7 @@ class SuggestionsState extends Equatable {
     required this.sortType,
     required this.loading,
     this.activeTab = SuggestionStatus.requests,
+    this.suggestion,
   });
 
   SuggestionsState newState({
@@ -32,6 +34,7 @@ class SuggestionsState extends Equatable {
     SuggestionStatus? activeTab,
     SortType? sortType,
     bool? loading,
+    Suggestion? suggestion,
   }) {
     return SuggestionsState(
       requests: requests ?? this.requests,
@@ -42,6 +45,7 @@ class SuggestionsState extends Equatable {
       activeTab: activeTab ?? this.activeTab,
       sortType: sortType ?? this.sortType,
       loading: loading ?? this.loading,
+      suggestion: suggestion ?? this.suggestion,
     );
   }
 
@@ -55,6 +59,7 @@ class SuggestionsState extends Equatable {
         activeTab,
         sortType,
         loading,
+        suggestion,
       ];
 }
 
@@ -67,6 +72,7 @@ class CreateState extends SuggestionsState {
     required super.duplicated,
     required super.sortType,
     required super.loading,
+    super.suggestion,
     super.activeTab,
   });
 
@@ -80,6 +86,7 @@ class CreateState extends SuggestionsState {
     SuggestionStatus? activeTab,
     SortType? sortType,
     bool? loading,
+    Suggestion? suggestion,
   }) {
     return CreateState(
       requests: requests ?? this.requests,
@@ -90,6 +97,7 @@ class CreateState extends SuggestionsState {
       activeTab: activeTab ?? this.activeTab,
       sortType: sortType ?? this.sortType,
       loading: loading ?? this.loading,
+      suggestion: suggestion ?? this.suggestion,
     );
   }
 }
@@ -104,6 +112,7 @@ class SortingState extends SuggestionsState {
     required super.sortType,
     required super.loading,
     super.activeTab,
+    super.suggestion,
   });
 
   @override
@@ -116,6 +125,7 @@ class SortingState extends SuggestionsState {
     SuggestionStatus? activeTab,
     SortType? sortType,
     bool? loading,
+    Suggestion? suggestion,
   }) {
     return SortingState(
       requests: requests ?? this.requests,
@@ -126,6 +136,7 @@ class SortingState extends SuggestionsState {
       activeTab: activeTab ?? this.activeTab,
       sortType: sortType ?? this.sortType,
       loading: loading ?? this.loading,
+      suggestion: suggestion ?? this.suggestion,
     );
   }
 }

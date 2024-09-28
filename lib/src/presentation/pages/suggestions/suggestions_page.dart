@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/localization/localization_extensions.dart';
@@ -62,6 +63,9 @@ class SuggestionsPage extends StatefulWidget {
   /// [navigatorKey] of your Router
   final GlobalKey<NavigatorState>? navigatorKey;
 
+  /// Navigates to [SuggestionPage] if not `null`
+  final String? suggestionId;
+
   const SuggestionsPage({
     required this.userId,
     required this.suggestionsDataSource,
@@ -77,6 +81,7 @@ class SuggestionsPage extends StatefulWidget {
     this.imageHeaders,
     this.locale,
     this.sortType = SortType.upvotes,
+    this.suggestionId,
     super.key,
   }) : assert(
           (isAdmin && adminSettings != null) || !isAdmin,
@@ -118,7 +123,28 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
                 previous.type != current.type ||
                 previous.activeTab != current.activeTab ||
                 previous.sortType != current.sortType ||
-                previous.loading != current.loading,
+                previous.loading != current.loading ||
+                previous.suggestion == null && current.suggestion != null ||
+                previous.suggestion != current.suggestion &&
+                    (previous.suggestion == null ||
+                        current.suggestion == null ||
+                        previous.suggestion!.id != current.suggestion!.id),
+            listener: (state) {
+              final suggestion = state.suggestion;
+              if (suggestion != null) {
+                (i.navigatorKey?.currentState ?? Navigator.of(context)).push(
+                  CupertinoPageRoute<dynamic>(
+                    builder: (_) => SuggestionPage(
+                      suggestion: suggestion,
+                      onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
+                      onSaveToGallery: widget.onSaveToGallery,
+                      onShareSuggestion: widget.onShareSuggestion,
+                      onGetUserById: widget.onGetUserById,
+                    ),
+                  ),
+                );
+              }
+            },
             child: Stack(
               children: [
                 Scaffold(
@@ -148,6 +174,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
                               onUploadMultiplePhotos:
                                   widget.onUploadMultiplePhotos,
                               onShareSuggestion: widget.onShareSuggestion,
+                              suggestionId: widget.suggestionId,
                             ),
                             _BottomFab(
                               openCreateBottomSheet:
@@ -185,6 +212,7 @@ class _MainContent extends StatefulWidget {
   final OnSaveToGalleryCallback? onSaveToGallery;
   final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
   final OnShareSuggestion? onShareSuggestion;
+  final String? suggestionId;
 
   const _MainContent({
     required this.userId,
@@ -194,6 +222,7 @@ class _MainContent extends StatefulWidget {
     required this.onSaveToGallery,
     required this.onUploadMultiplePhotos,
     required this.onShareSuggestion,
+    this.suggestionId,
   });
 
   @override
@@ -203,6 +232,15 @@ class _MainContent extends StatefulWidget {
 class _MainContentState extends State<_MainContent>
     with SingleTickerProviderStateMixin {
   late final TabController _tabController;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final suggestionId = widget.suggestionId;
+    if (suggestionId != null) {
+      SuggestionsManager.of(context).onSuggestionTap(suggestionId);
+    }
+  }
 
   @override
   void initState() {

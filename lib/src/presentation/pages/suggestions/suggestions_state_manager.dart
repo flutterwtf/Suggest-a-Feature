@@ -174,6 +174,14 @@ class SuggestionsStateManager extends State<SuggestionsManager> {
       child: widget.child,
     );
   }
+
+  Future<void> onSuggestionTap(String suggestionId) async {
+    try {
+      final suggestion =
+          await _suggestionRepository.getSuggestionById(suggestionId);
+      _update(state.newState(suggestion: suggestion));
+    } catch (_) {}
+  }
 }
 
 class _InheritedSuggestions extends InheritedWidget {
