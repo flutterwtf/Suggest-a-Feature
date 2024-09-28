@@ -10,10 +10,12 @@ import 'package:suggest_a_feature/src/presentation/utils/typedefs.dart';
 class SuggestionsManager extends StatefulWidget {
   final SortType sortType;
   final Widget child;
+  final String? initialSuggestionId;
 
   const SuggestionsManager({
     required this.sortType,
     required this.child,
+    this.initialSuggestionId,
     super.key,
   });
 
@@ -55,6 +57,11 @@ class SuggestionsStateManager extends State<SuggestionsManager> {
     );
     await _suggestionRepository.initSuggestions();
     _update(state.newState(loading: false));
+
+    final suggestionId = widget.initialSuggestionId;
+    if (suggestionId != null) {
+      onSuggestionClick(suggestionId);
+    }
   }
 
   @override
@@ -179,8 +186,17 @@ class SuggestionsStateManager extends State<SuggestionsManager> {
     try {
       final suggestion =
           await _suggestionRepository.getSuggestionById(suggestionId);
-      _update(state.newState(suggestion: suggestion));
+      _update(
+        state.newState(
+          suggestion: suggestion,
+          isRedirect: true,
+        ),
+      );
     } catch (_) {}
+  }
+
+  void onRedirectDone() {
+    _update(state.newState(isRedirect: false));
   }
 }
 

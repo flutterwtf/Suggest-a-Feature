@@ -12,6 +12,7 @@ class SuggestionsState extends Equatable {
   final SortType sortType;
   final bool loading;
   final Suggestion? suggestion;
+  final bool isRedirect;
 
   const SuggestionsState({
     required this.requests,
@@ -23,6 +24,7 @@ class SuggestionsState extends Equatable {
     required this.loading,
     this.activeTab = SuggestionStatus.requests,
     this.suggestion,
+    this.isRedirect = false,
   });
 
   SuggestionsState newState({
@@ -35,6 +37,7 @@ class SuggestionsState extends Equatable {
     SortType? sortType,
     bool? loading,
     Suggestion? suggestion,
+    bool? isRedirect,
   }) {
     return SuggestionsState(
       requests: requests ?? this.requests,
@@ -46,6 +49,7 @@ class SuggestionsState extends Equatable {
       sortType: sortType ?? this.sortType,
       loading: loading ?? this.loading,
       suggestion: suggestion ?? this.suggestion,
+      isRedirect: isRedirect ?? this.isRedirect,
     );
   }
 
@@ -60,6 +64,7 @@ class SuggestionsState extends Equatable {
         sortType,
         loading,
         suggestion,
+        isRedirect,
       ];
 }
 
@@ -74,6 +79,7 @@ class CreateState extends SuggestionsState {
     required super.loading,
     super.suggestion,
     super.activeTab,
+    super.isRedirect,
   });
 
   @override
@@ -87,6 +93,7 @@ class CreateState extends SuggestionsState {
     SortType? sortType,
     bool? loading,
     Suggestion? suggestion,
+    bool? isRedirect,
   }) {
     return CreateState(
       requests: requests ?? this.requests,
@@ -98,6 +105,7 @@ class CreateState extends SuggestionsState {
       sortType: sortType ?? this.sortType,
       loading: loading ?? this.loading,
       suggestion: suggestion ?? this.suggestion,
+      isRedirect: isRedirect ?? this.isRedirect,
     );
   }
 }
@@ -113,6 +121,7 @@ class SortingState extends SuggestionsState {
     required super.loading,
     super.activeTab,
     super.suggestion,
+    super.isRedirect,
   });
 
   @override
@@ -126,6 +135,7 @@ class SortingState extends SuggestionsState {
     SortType? sortType,
     bool? loading,
     Suggestion? suggestion,
+    bool? isRedirect,
   }) {
     return SortingState(
       requests: requests ?? this.requests,
@@ -137,6 +147,7 @@ class SortingState extends SuggestionsState {
       sortType: sortType ?? this.sortType,
       loading: loading ?? this.loading,
       suggestion: suggestion ?? this.suggestion,
+      isRedirect: isRedirect ?? this.isRedirect,
     );
   }
 }

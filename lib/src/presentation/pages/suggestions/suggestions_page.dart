@@ -112,6 +112,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
   Widget build(BuildContext context) {
     return SuggestionsManager(
       sortType: widget.sortType,
+      initialSuggestionId: widget.suggestionId,
       child: Builder(
         builder: (context) {
           final stateManager = SuggestionsManager.of(context);
@@ -124,14 +125,10 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
                 previous.activeTab != current.activeTab ||
                 previous.sortType != current.sortType ||
                 previous.loading != current.loading ||
-                previous.suggestion == null && current.suggestion != null ||
-                previous.suggestion != current.suggestion &&
-                    (previous.suggestion == null ||
-                        current.suggestion == null ||
-                        previous.suggestion!.id != current.suggestion!.id),
+                current.isRedirect,
             listener: (state) {
               final suggestion = state.suggestion;
-              if (suggestion != null) {
+              if (state.isRedirect && suggestion != null) {
                 (i.navigatorKey?.currentState ?? Navigator.of(context)).push(
                   CupertinoPageRoute<dynamic>(
                     builder: (_) => SuggestionPage(
@@ -143,6 +140,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
                     ),
                   ),
                 );
+                stateManager.onRedirectDone();
               }
             },
             child: Stack(
@@ -174,7 +172,6 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
                               onUploadMultiplePhotos:
                                   widget.onUploadMultiplePhotos,
                               onShareSuggestion: widget.onShareSuggestion,
-                              suggestionId: widget.suggestionId,
                               onSuggestionClick: stateManager.onSuggestionClick,
                             ),
                             _BottomFab(
@@ -213,7 +210,6 @@ class _MainContent extends StatefulWidget {
   final OnSaveToGalleryCallback? onSaveToGallery;
   final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
   final OnShareSuggestion? onShareSuggestion;
-  final String? suggestionId;
   final Future<void> Function(String id) onSuggestionClick;
 
   const _MainContent({
@@ -225,7 +221,6 @@ class _MainContent extends StatefulWidget {
     required this.onUploadMultiplePhotos,
     required this.onShareSuggestion,
     required this.onSuggestionClick,
-    this.suggestionId,
   });
 
   @override
@@ -235,15 +230,6 @@ class _MainContent extends StatefulWidget {
 class _MainContentState extends State<_MainContent>
     with SingleTickerProviderStateMixin {
   late final TabController _tabController;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final suggestionId = widget.suggestionId;
-    if (suggestionId != null) {
-      SuggestionsManager.of(context).onSuggestionClick(suggestionId);
-    }
-  }
 
   @override
   void initState() {

@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/suggestion_page.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/widgets/list_description.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/widgets/suggestion_card.dart';
