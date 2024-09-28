@@ -175,7 +175,7 @@ class SuggestionsStateManager extends State<SuggestionsManager> {
     );
   }
 
-  Future<void> onSuggestionTap(String suggestionId) async {
+  Future<void> onSuggestionClick(String suggestionId) async {
     try {
       final suggestion =
           await _suggestionRepository.getSuggestionById(suggestionId);

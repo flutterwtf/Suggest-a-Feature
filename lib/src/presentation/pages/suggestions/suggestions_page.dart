@@ -175,6 +175,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
                                   widget.onUploadMultiplePhotos,
                               onShareSuggestion: widget.onShareSuggestion,
                               suggestionId: widget.suggestionId,
+                              onSuggestionClick: stateManager.onSuggestionClick,
                             ),
                             _BottomFab(
                               openCreateBottomSheet:
@@ -213,6 +214,7 @@ class _MainContent extends StatefulWidget {
   final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
   final OnShareSuggestion? onShareSuggestion;
   final String? suggestionId;
+  final Future<void> Function(String id) onSuggestionClick;
 
   const _MainContent({
     required this.userId,
@@ -222,6 +224,7 @@ class _MainContent extends StatefulWidget {
     required this.onSaveToGallery,
     required this.onUploadMultiplePhotos,
     required this.onShareSuggestion,
+    required this.onSuggestionClick,
     this.suggestionId,
   });
 
@@ -238,7 +241,7 @@ class _MainContentState extends State<_MainContent>
     super.didChangeDependencies();
     final suggestionId = widget.suggestionId;
     if (suggestionId != null) {
-      SuggestionsManager.of(context).onSuggestionTap(suggestionId);
+      SuggestionsManager.of(context).onSuggestionClick(suggestionId);
     }
   }
 
@@ -277,6 +280,7 @@ class _MainContentState extends State<_MainContent>
             onVote: stateManager.vote,
             tabController: _tabController,
             openSortingBottomSheet: stateManager.openSortingBottomSheet,
+            onSuggestionClick: widget.onSuggestionClick,
           ),
         ],
       ),
@@ -327,6 +331,7 @@ class _TabBarView extends StatelessWidget {
   final void Function(SuggestionStatus status, int i) onVote;
   final String userId;
   final VoidCallback openSortingBottomSheet;
+  final Future<void> Function(String id) onSuggestionClick;
 
   const _TabBarView({
     required this.tabController,
@@ -334,6 +339,7 @@ class _TabBarView extends StatelessWidget {
     required this.userId,
     required this.onVote,
     required this.openSortingBottomSheet,
+    required this.onSuggestionClick,
     this.onSaveToGallery,
     this.onUploadMultiplePhotos,
     this.onShareSuggestion,
@@ -357,6 +363,7 @@ class _TabBarView extends StatelessWidget {
             userId: userId,
             vote: (i) => onVote(SuggestionStatus.requests, i),
             openSortingBottomSheet: openSortingBottomSheet,
+            onSuggestionClick: onSuggestionClick,
           ),
           SuggestionList(
             status: SuggestionStatus.inProgress,
@@ -369,6 +376,7 @@ class _TabBarView extends StatelessWidget {
             userId: userId,
             vote: (i) => onVote(SuggestionStatus.inProgress, i),
             openSortingBottomSheet: openSortingBottomSheet,
+            onSuggestionClick: onSuggestionClick,
           ),
           SuggestionList(
             status: SuggestionStatus.completed,
@@ -381,6 +389,7 @@ class _TabBarView extends StatelessWidget {
             userId: userId,
             vote: (i) => onVote(SuggestionStatus.completed, i),
             openSortingBottomSheet: openSortingBottomSheet,
+            onSuggestionClick: onSuggestionClick,
           ),
           SuggestionList(
             status: SuggestionStatus.declined,
@@ -393,6 +402,7 @@ class _TabBarView extends StatelessWidget {
             userId: userId,
             vote: (i) => onVote(SuggestionStatus.declined, i),
             openSortingBottomSheet: openSortingBottomSheet,
+            onSuggestionClick: onSuggestionClick,
           ),
           SuggestionList(
             status: SuggestionStatus.duplicated,
@@ -405,6 +415,7 @@ class _TabBarView extends StatelessWidget {
             userId: userId,
             vote: (i) => onVote(SuggestionStatus.duplicated, i),
             openSortingBottomSheet: openSortingBottomSheet,
+            onSuggestionClick: onSuggestionClick,
           ),
         ],
       ),
