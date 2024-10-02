@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
+import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/utils/typedefs.dart';
 
 class SuggestionsState extends Equatable {
@@ -136,6 +137,17 @@ extension SortTypeExtension on SortType {
       SortType.upvotes => (a, b) => b.upvotesCount.compareTo(a.upvotesCount),
       SortType.creationDate => (a, b) =>
           b.creationTime.compareTo(a.creationTime),
+      SortType.mySuggestions => (a, b) {
+          if (a.authorId == i.userId && b.authorId == i.userId) {
+            return b.upvotesCount.compareTo(a.upvotesCount);
+          } else if (a.authorId == i.userId) {
+            return -1;
+          } else if (b.authorId == i.userId) {
+            return 1;
+          } else {
+            return b.upvotesCount.compareTo(a.upvotesCount);
+          }
+        }
     };
   }
 }
