@@ -11,8 +11,6 @@ class SuggestionsState extends Equatable {
   final SuggestionStatus activeTab;
   final SortType sortType;
   final bool loading;
-  final Suggestion? suggestion;
-  final bool isRedirect;
 
   const SuggestionsState({
     required this.requests,
@@ -23,8 +21,6 @@ class SuggestionsState extends Equatable {
     required this.sortType,
     required this.loading,
     this.activeTab = SuggestionStatus.requests,
-    this.suggestion,
-    this.isRedirect = false,
   });
 
   SuggestionsState newState({
@@ -36,8 +32,6 @@ class SuggestionsState extends Equatable {
     SuggestionStatus? activeTab,
     SortType? sortType,
     bool? loading,
-    Suggestion? suggestion,
-    bool? isRedirect,
   }) {
     return SuggestionsState(
       requests: requests ?? this.requests,
@@ -48,8 +42,6 @@ class SuggestionsState extends Equatable {
       activeTab: activeTab ?? this.activeTab,
       sortType: sortType ?? this.sortType,
       loading: loading ?? this.loading,
-      suggestion: suggestion ?? this.suggestion,
-      isRedirect: isRedirect ?? this.isRedirect,
     );
   }
 
@@ -63,8 +55,6 @@ class SuggestionsState extends Equatable {
         activeTab,
         sortType,
         loading,
-        suggestion,
-        isRedirect,
       ];
 }
 
@@ -77,9 +67,7 @@ class CreateState extends SuggestionsState {
     required super.duplicated,
     required super.sortType,
     required super.loading,
-    super.suggestion,
     super.activeTab,
-    super.isRedirect,
   });
 
   @override
@@ -92,8 +80,6 @@ class CreateState extends SuggestionsState {
     SuggestionStatus? activeTab,
     SortType? sortType,
     bool? loading,
-    Suggestion? suggestion,
-    bool? isRedirect,
   }) {
     return CreateState(
       requests: requests ?? this.requests,
@@ -104,8 +90,47 @@ class CreateState extends SuggestionsState {
       activeTab: activeTab ?? this.activeTab,
       sortType: sortType ?? this.sortType,
       loading: loading ?? this.loading,
+    );
+  }
+}
+
+class SuggestionsRedirectState extends SuggestionsState {
+  final Suggestion suggestion;
+
+  const SuggestionsRedirectState({
+    required super.requests,
+    required super.inProgress,
+    required super.completed,
+    required super.declined,
+    required super.duplicated,
+    required super.sortType,
+    required super.loading,
+    required this.suggestion,
+    super.activeTab,
+  });
+
+  @override
+  SuggestionsRedirectState newState({
+    List<Suggestion>? requests,
+    List<Suggestion>? inProgress,
+    List<Suggestion>? completed,
+    List<Suggestion>? declined,
+    List<Suggestion>? duplicated,
+    SuggestionStatus? activeTab,
+    SortType? sortType,
+    bool? loading,
+    Suggestion? suggestion,
+  }) {
+    return SuggestionsRedirectState(
+      requests: requests ?? this.requests,
+      inProgress: inProgress ?? this.inProgress,
+      completed: completed ?? this.completed,
+      declined: declined ?? this.declined,
+      duplicated: duplicated ?? this.duplicated,
+      activeTab: activeTab ?? this.activeTab,
+      sortType: sortType ?? this.sortType,
+      loading: loading ?? this.loading,
       suggestion: suggestion ?? this.suggestion,
-      isRedirect: isRedirect ?? this.isRedirect,
     );
   }
 }
@@ -120,8 +145,6 @@ class SortingState extends SuggestionsState {
     required super.sortType,
     required super.loading,
     super.activeTab,
-    super.suggestion,
-    super.isRedirect,
   });
 
   @override
@@ -134,8 +157,6 @@ class SortingState extends SuggestionsState {
     SuggestionStatus? activeTab,
     SortType? sortType,
     bool? loading,
-    Suggestion? suggestion,
-    bool? isRedirect,
   }) {
     return SortingState(
       requests: requests ?? this.requests,
@@ -146,8 +167,6 @@ class SortingState extends SuggestionsState {
       activeTab: activeTab ?? this.activeTab,
       sortType: sortType ?? this.sortType,
       loading: loading ?? this.loading,
-      suggestion: suggestion ?? this.suggestion,
-      isRedirect: isRedirect ?? this.isRedirect,
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/widgets/list_description.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/widgets/suggestion_card.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
@@ -16,7 +17,6 @@ class SuggestionList extends StatelessWidget {
   final String userId;
   final ValueChanged<int> vote;
   final VoidCallback openSortingBottomSheet;
-  final Future<void> Function(String id) onSuggestionClick;
 
   const SuggestionList({
     required this.status,
@@ -26,7 +26,6 @@ class SuggestionList extends StatelessWidget {
     required this.userId,
     required this.vote,
     required this.openSortingBottomSheet,
-    required this.onSuggestionClick,
     this.onUploadMultiplePhotos,
     this.onSaveToGallery,
     this.onShareSuggestion,
@@ -56,7 +55,6 @@ class SuggestionList extends StatelessWidget {
                     onSaveToGallery: onSaveToGallery,
                     onUploadMultiplePhotos: onUploadMultiplePhotos,
                     onShareSuggestion: onShareSuggestion,
-                    onSuggestionClick: onSuggestionClick,
                     userId: userId,
                     status: status,
                     vote: vote,
@@ -81,7 +79,6 @@ class _ListItem extends StatelessWidget {
   final OnGetUserById onGetUserById;
   final OnShareSuggestion? onShareSuggestion;
   final int index;
-  final Future<void> Function(String id) onSuggestionClick;
 
   const _ListItem({
     required this.status,
@@ -91,7 +88,6 @@ class _ListItem extends StatelessWidget {
     required this.userId,
     required this.vote,
     required this.index,
-    required this.onSuggestionClick,
     this.onUploadMultiplePhotos,
     this.onSaveToGallery,
     this.onShareSuggestion,
@@ -104,7 +100,17 @@ class _ListItem extends StatelessWidget {
       color: color,
       status: status,
       index: index - 1,
-      onClick: () => onSuggestionClick(suggestions[index - 1].id),
+      onClick: () =>
+          (i.navigatorKey?.currentState ?? Navigator.of(context)).push(
+        CupertinoPageRoute<dynamic>(
+          builder: (_) => SuggestionPage(
+            suggestion: suggestions[index - 1],
+            onUploadMultiplePhotos: onUploadMultiplePhotos,
+            onSaveToGallery: onSaveToGallery,
+            onGetUserById: onGetUserById,
+          ),
+        ),
+      ),
       userId: userId,
       voteCallBack: () => vote(index - 1),
     );

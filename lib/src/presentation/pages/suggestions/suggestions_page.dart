@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/localization/localization_extensions.dart';
@@ -11,7 +10,6 @@ import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.d
 import 'package:suggest_a_feature/src/presentation/pages/widgets/appbar_widget.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/sorting_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/fab.dart';
-import 'package:suggest_a_feature/src/presentation/pages/widgets/state_listener.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:suggest_a_feature/src/presentation/utils/platform_check.dart';
@@ -118,83 +116,65 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
           final stateManager = SuggestionsManager.of(context);
           final state = stateManager.state;
 
-          return StateListener(
-            state: state,
-            listenWhen: (previous, current) =>
-                previous.type != current.type ||
-                previous.activeTab != current.activeTab ||
-                previous.sortType != current.sortType ||
-                previous.loading != current.loading ||
-                current.isRedirect,
-            listener: (state) {
-              final suggestion = state.suggestion;
-              if (state.isRedirect && suggestion != null) {
-                (i.navigatorKey?.currentState ?? Navigator.of(context)).push(
-                  CupertinoPageRoute<dynamic>(
-                    builder: (_) => SuggestionPage(
-                      suggestion: suggestion,
-                      onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
-                      onSaveToGallery: widget.onSaveToGallery,
-                      onShareSuggestion: widget.onShareSuggestion,
-                      onGetUserById: widget.onGetUserById,
-                    ),
-                  ),
-                );
-                stateManager.onRedirectDone();
-              }
-            },
-            child: Stack(
-              children: [
-                Scaffold(
-                  appBar: SuggestionsAppBar(
-                    onBackClick: () =>
-                        (i.navigatorKey?.currentState ?? Navigator.of(context))
-                            .pop(),
-                    screenTitle:
-                        widget.appBarTitle ?? localization.suggestAFeature,
-                  ),
-                  backgroundColor: theme.backgroundColor ??
-                      context.theme.scaffoldBackgroundColor,
-                  body: state.loading
-                      ? const Center(child: CircularProgressIndicator())
-                      : Stack(
-                          children: [
-                            _MainContent(
-                              userId: widget.userId,
-                              onTabChanged: (index) {
-                                stateManager.changeActiveTab(
-                                  SuggestionStatus.values[index],
-                                );
-                              },
-                              activeTab: state.activeTab,
-                              onGetUserById: widget.onGetUserById,
-                              onSaveToGallery: widget.onSaveToGallery,
-                              onUploadMultiplePhotos:
-                                  widget.onUploadMultiplePhotos,
-                              onShareSuggestion: widget.onShareSuggestion,
-                              onSuggestionClick: stateManager.onSuggestionClick,
-                            ),
-                            _BottomFab(
-                              openCreateBottomSheet:
-                                  stateManager.openCreateBottomSheet,
-                            ),
-                          ],
-                        ),
+          if (state is SuggestionsRedirectState) {
+            return SuggestionPage(
+              suggestion: state.suggestion,
+              onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
+              onSaveToGallery: widget.onSaveToGallery,
+              onGetUserById: widget.onGetUserById,
+              onShareSuggestion: widget.onShareSuggestion,
+            );
+          }
+          return Stack(
+            children: [
+              Scaffold(
+                appBar: SuggestionsAppBar(
+                  onBackClick: () =>
+                      (i.navigatorKey?.currentState ?? Navigator.of(context))
+                          .pop(),
+                  screenTitle:
+                      widget.appBarTitle ?? localization.suggestAFeature,
                 ),
-                if (state is CreateState)
-                  _BottomSheet(
-                    onSaveToGallery: widget.onSaveToGallery,
-                    onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
-                    onCloseBottomSheet: stateManager.closeBottomSheet,
-                  ),
-                if (state is SortingState)
-                  SortingBottomSheet(
-                    closeBottomSheet: stateManager.closeBottomSheet,
-                    value: state.sortType,
-                    onChanged: stateManager.onSortTypeChanged,
-                  ),
-              ],
-            ),
+                backgroundColor: theme.backgroundColor ??
+                    context.theme.scaffoldBackgroundColor,
+                body: state.loading
+                    ? const Center(child: CircularProgressIndicator())
+                    : Stack(
+                        children: [
+                          _MainContent(
+                            userId: widget.userId,
+                            onTabChanged: (index) {
+                              stateManager.changeActiveTab(
+                                SuggestionStatus.values[index],
+                              );
+                            },
+                            activeTab: state.activeTab,
+                            onGetUserById: widget.onGetUserById,
+                            onSaveToGallery: widget.onSaveToGallery,
+                            onUploadMultiplePhotos:
+                                widget.onUploadMultiplePhotos,
+                            onShareSuggestion: widget.onShareSuggestion,
+                          ),
+                          _BottomFab(
+                            openCreateBottomSheet:
+                                stateManager.openCreateBottomSheet,
+                          ),
+                        ],
+                      ),
+              ),
+              if (state is CreateState)
+                _BottomSheet(
+                  onSaveToGallery: widget.onSaveToGallery,
+                  onUploadMultiplePhotos: widget.onUploadMultiplePhotos,
+                  onCloseBottomSheet: stateManager.closeBottomSheet,
+                ),
+              if (state is SortingState)
+                SortingBottomSheet(
+                  closeBottomSheet: stateManager.closeBottomSheet,
+                  value: state.sortType,
+                  onChanged: stateManager.onSortTypeChanged,
+                ),
+            ],
           );
         },
       ),
@@ -210,7 +190,6 @@ class _MainContent extends StatefulWidget {
   final OnSaveToGalleryCallback? onSaveToGallery;
   final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
   final OnShareSuggestion? onShareSuggestion;
-  final Future<void> Function(String id) onSuggestionClick;
 
   const _MainContent({
     required this.userId,
@@ -220,7 +199,6 @@ class _MainContent extends StatefulWidget {
     required this.onSaveToGallery,
     required this.onUploadMultiplePhotos,
     required this.onShareSuggestion,
-    required this.onSuggestionClick,
   });
 
   @override
@@ -266,7 +244,6 @@ class _MainContentState extends State<_MainContent>
             onVote: stateManager.vote,
             tabController: _tabController,
             openSortingBottomSheet: stateManager.openSortingBottomSheet,
-            onSuggestionClick: widget.onSuggestionClick,
           ),
         ],
       ),
@@ -317,7 +294,6 @@ class _TabBarView extends StatelessWidget {
   final void Function(SuggestionStatus status, int i) onVote;
   final String userId;
   final VoidCallback openSortingBottomSheet;
-  final Future<void> Function(String id) onSuggestionClick;
 
   const _TabBarView({
     required this.tabController,
@@ -325,7 +301,6 @@ class _TabBarView extends StatelessWidget {
     required this.userId,
     required this.onVote,
     required this.openSortingBottomSheet,
-    required this.onSuggestionClick,
     this.onSaveToGallery,
     this.onUploadMultiplePhotos,
     this.onShareSuggestion,
@@ -349,7 +324,6 @@ class _TabBarView extends StatelessWidget {
             userId: userId,
             vote: (i) => onVote(SuggestionStatus.requests, i),
             openSortingBottomSheet: openSortingBottomSheet,
-            onSuggestionClick: onSuggestionClick,
           ),
           SuggestionList(
             status: SuggestionStatus.inProgress,
@@ -362,7 +336,6 @@ class _TabBarView extends StatelessWidget {
             userId: userId,
             vote: (i) => onVote(SuggestionStatus.inProgress, i),
             openSortingBottomSheet: openSortingBottomSheet,
-            onSuggestionClick: onSuggestionClick,
           ),
           SuggestionList(
             status: SuggestionStatus.completed,
@@ -375,7 +348,6 @@ class _TabBarView extends StatelessWidget {
             userId: userId,
             vote: (i) => onVote(SuggestionStatus.completed, i),
             openSortingBottomSheet: openSortingBottomSheet,
-            onSuggestionClick: onSuggestionClick,
           ),
           SuggestionList(
             status: SuggestionStatus.declined,
@@ -388,7 +360,6 @@ class _TabBarView extends StatelessWidget {
             userId: userId,
             vote: (i) => onVote(SuggestionStatus.declined, i),
             openSortingBottomSheet: openSortingBottomSheet,
-            onSuggestionClick: onSuggestionClick,
           ),
           SuggestionList(
             status: SuggestionStatus.duplicated,
@@ -401,7 +372,6 @@ class _TabBarView extends StatelessWidget {
             userId: userId,
             vote: (i) => onVote(SuggestionStatus.duplicated, i),
             openSortingBottomSheet: openSortingBottomSheet,
-            onSuggestionClick: onSuggestionClick,
           ),
         ],
       ),

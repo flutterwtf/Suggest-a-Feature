@@ -56,12 +56,26 @@ class SuggestionsStateManager extends State<SuggestionsManager> {
       _onNewSuggestions,
     );
     await _suggestionRepository.initSuggestions();
-    _update(state.newState(loading: false));
 
     final suggestionId = widget.initialSuggestionId;
     if (suggestionId != null) {
-      onSuggestionClick(suggestionId);
+      try {
+        final suggestion =
+            await _suggestionRepository.getSuggestionById(suggestionId);
+        state = SuggestionsRedirectState(
+          requests: state.requests,
+          inProgress: state.inProgress,
+          completed: state.completed,
+          declined: state.declined,
+          duplicated: state.duplicated,
+          sortType: state.sortType,
+          loading: state.loading,
+          suggestion: suggestion,
+        );
+      } catch (_) {}
     }
+
+    _update(state.newState(loading: false));
   }
 
   @override
@@ -180,23 +194,6 @@ class SuggestionsStateManager extends State<SuggestionsManager> {
       suggestionManager: this,
       child: widget.child,
     );
-  }
-
-  Future<void> onSuggestionClick(String suggestionId) async {
-    try {
-      final suggestion =
-          await _suggestionRepository.getSuggestionById(suggestionId);
-      _update(
-        state.newState(
-          suggestion: suggestion,
-          isRedirect: true,
-        ),
-      );
-    } catch (_) {}
-  }
-
-  void onRedirectDone() {
-    _update(state.newState(isRedirect: false));
   }
 }
 
