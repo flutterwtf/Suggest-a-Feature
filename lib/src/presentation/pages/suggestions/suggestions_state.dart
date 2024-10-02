@@ -137,7 +137,7 @@ extension SortTypeExtension on SortType {
       SortType.upvotes => (a, b) => b.upvotesCount.compareTo(a.upvotesCount),
       SortType.creationDate => (a, b) =>
           b.creationTime.compareTo(a.creationTime),
-      SortType.mySuggestions => (a, b) {
+      SortType.userSuggestion => (a, b) {
           if (a.authorId == i.userId && b.authorId == i.userId) {
             return b.upvotesCount.compareTo(a.upvotesCount);
           } else if (a.authorId == i.userId) {

@@ -59,9 +59,9 @@ class _SortingBottomSheetState extends State<SortingBottomSheet> {
             ),
             ClickableListItem(
               title: Text(localization.mySuggestions, style: textStyle),
-              onClick: () => widget.onChanged(SortType.mySuggestions),
+              onClick: () => widget.onChanged(SortType.userSuggestion),
               trailing: SuggestionsRadioButton(
-                selected: widget.value == SortType.mySuggestions,
+                selected: widget.value == SortType.userSuggestion,
               ),
               verticalPadding: Dimensions.marginMiddle,
             ),
