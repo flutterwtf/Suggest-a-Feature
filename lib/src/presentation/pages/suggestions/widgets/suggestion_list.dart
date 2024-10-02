@@ -108,6 +108,7 @@ class _ListItem extends StatelessWidget {
             onUploadMultiplePhotos: onUploadMultiplePhotos,
             onSaveToGallery: onSaveToGallery,
             onGetUserById: onGetUserById,
+            onShareSuggestion: onShareSuggestion,
           ),
         ),
       ),
