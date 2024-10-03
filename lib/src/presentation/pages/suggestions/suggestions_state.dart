@@ -138,14 +138,13 @@ extension SortTypeExtension on SortType {
       SortType.creationDate => (a, b) =>
           b.creationTime.compareTo(a.creationTime),
       SortType.userSuggestion => (a, b) {
-          if (a.authorId == i.userId) {
-            if (b.authorId == i.userId) {
-              return b.upvotesCount.compareTo(a.upvotesCount);
-            }
+          if (a.authorId == i.userId && b.authorId != i.userId) {
             return -1;
-          } else if (b.authorId == i.userId) {
+          }
+          if (a.authorId != i.userId && b.authorId == i.userId) {
             return 1;
           }
+
           return b.upvotesCount.compareTo(a.upvotesCount);
         }
     };
