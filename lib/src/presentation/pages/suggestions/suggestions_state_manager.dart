@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/domain/data_interfaces/suggestion_repository.dart';
@@ -72,7 +73,9 @@ class SuggestionsStateManager extends State<SuggestionsManager> {
           loading: state.loading,
           suggestion: suggestion,
         );
-      } catch (_) {}
+      } catch (e) {
+        log('Redirect to suggestion error', error: e);
+      }
     }
 
     _update(state.newState(loading: false));
