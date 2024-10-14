@@ -59,7 +59,7 @@ class MySuggestionDataSource implements SuggestionsDataSource {
       title: 'Hashtags',
       authorId: '1',
       isAnonymous: false,
-      creationTime: DateTime.now(),
+      creationTime: DateTime.now().subtract(const Duration(days: 3)),
       description: 'Ability to add and filter events with #hashtags',
       status: SuggestionStatus.requests,
     ),
@@ -69,7 +69,7 @@ class MySuggestionDataSource implements SuggestionsDataSource {
       authorId: '2',
       isAnonymous: true,
       labels: const [SuggestionLabel.feature],
-      creationTime: DateTime.now(),
+      creationTime: DateTime.now().subtract(const Duration(days: 2)),
       description: 'Feature to import and export events',
       status: SuggestionStatus.requests,
     ),
@@ -88,7 +88,7 @@ class MySuggestionDataSource implements SuggestionsDataSource {
       authorId: '4',
       isAnonymous: true,
       labels: const [SuggestionLabel.feature],
-      creationTime: DateTime.now(),
+      creationTime: DateTime.now().subtract(const Duration(days: 1)),
       description: 'Аbility to save video',
       status: SuggestionStatus.inProgress,
     ),
@@ -105,10 +105,18 @@ class MySuggestionDataSource implements SuggestionsDataSource {
     '6': Suggestion(
       id: '6',
       title: 'Offline authorization',
-      authorId: '6',
+      authorId: '1',
       isAnonymous: false,
       creationTime: DateTime.now(),
       status: SuggestionStatus.completed,
+    ),
+    '7': Suggestion(
+      id: '7',
+      title: 'Ability to add time',
+      authorId: '1',
+      isAnonymous: false,
+      creationTime: DateTime.now(),
+      status: SuggestionStatus.requests,
     ),
   };
   final Map<String, Comment> _comments = <String, Comment>{
@@ -238,7 +246,6 @@ class MySuggestionDataSource implements SuggestionsDataSource {
   Future<void> deleteCommentById(String commentId) async {
     _comments.removeWhere((_, comment) => comment.id == commentId);
   }
-
 
   @override
   Future<void> addNotifyToUpdateUser(String suggestionId) async {

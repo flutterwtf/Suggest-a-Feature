@@ -54,6 +54,7 @@ class LocalizationOptions {
   final String sortBy;
   final String numberOfLikes;
   final String creationDate;
+  final String mySuggestions;
 
   const LocalizationOptions(
     this.locale, {
@@ -112,6 +113,7 @@ class LocalizationOptions {
     this.sortBy = 'Sort by',
     this.numberOfLikes = 'Number of likes',
     this.creationDate = 'Creation date',
+    this.mySuggestions = 'My suggestions',
   });
 
   factory LocalizationOptions.en() => const LocalizationOptions('en');
@@ -173,6 +175,7 @@ class LocalizationOptions {
         sortBy: 'Сортировать по',
         numberOfLikes: 'Количеству лайков',
         creationDate: 'Дате создания',
+        mySuggestions: 'Мои предложения',
       );
 
   factory LocalizationOptions.uk() => const LocalizationOptions(
@@ -231,5 +234,6 @@ class LocalizationOptions {
         sortBy: 'Сортувати за',
         numberOfLikes: 'Кількістю лайків',
         creationDate: 'Датою створення',
+        mySuggestions: 'Мої пропозиції',
       );
 }

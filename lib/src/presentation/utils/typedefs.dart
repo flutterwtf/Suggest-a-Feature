@@ -27,4 +27,4 @@ typedef OnGetUserById = Future<SuggestionAuthor?> Function(String id);
 typedef OnShareSuggestion = Future<void> Function(String id);
 
 /// Sorting type values
-enum SortType { upvotes, creationDate }
+enum SortType { upvotes, creationDate, userSuggestion }
