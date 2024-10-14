@@ -96,7 +96,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
               children: [
                 Scaffold(
                   appBar: _appBar(stateManager, state.isEditable),
-                  backgroundColor: context.theme.scaffoldBackgroundColor,
+                  backgroundColor: theme.backgroundColor ??
+                      context.theme.scaffoldBackgroundColor,
                   body: _MainContent(
                     onSaveToGallery: widget.onSaveToGallery,
                     onCommentTap: stateManager.openDeletingCommentConfirmation,
