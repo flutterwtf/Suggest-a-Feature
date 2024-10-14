@@ -11,6 +11,7 @@ export 'src/domain/entities/admin_settings.dart';
 export 'src/domain/entities/comment.dart';
 export 'src/domain/entities/suggestion.dart';
 export 'src/domain/entities/suggestion_author.dart';
+export 'src/presentation/pages/suggestion/suggestion_page.dart';
 export 'src/presentation/pages/suggestions/suggestions_page.dart';
 export 'src/presentation/pages/theme/suggestions_theme.dart';
 export 'src/presentation/utils/typedefs.dart';

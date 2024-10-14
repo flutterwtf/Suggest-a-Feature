@@ -94,6 +94,47 @@ class CreateState extends SuggestionsState {
   }
 }
 
+class SuggestionsRedirectState extends SuggestionsState {
+  final Suggestion suggestion;
+
+  const SuggestionsRedirectState({
+    required super.requests,
+    required super.inProgress,
+    required super.completed,
+    required super.declined,
+    required super.duplicated,
+    required super.sortType,
+    required super.loading,
+    required this.suggestion,
+    super.activeTab,
+  });
+
+  @override
+  SuggestionsRedirectState newState({
+    List<Suggestion>? requests,
+    List<Suggestion>? inProgress,
+    List<Suggestion>? completed,
+    List<Suggestion>? declined,
+    List<Suggestion>? duplicated,
+    SuggestionStatus? activeTab,
+    SortType? sortType,
+    bool? loading,
+    Suggestion? suggestion,
+  }) {
+    return SuggestionsRedirectState(
+      requests: requests ?? this.requests,
+      inProgress: inProgress ?? this.inProgress,
+      completed: completed ?? this.completed,
+      declined: declined ?? this.declined,
+      duplicated: duplicated ?? this.duplicated,
+      activeTab: activeTab ?? this.activeTab,
+      sortType: sortType ?? this.sortType,
+      loading: loading ?? this.loading,
+      suggestion: suggestion ?? this.suggestion,
+    );
+  }
+}
+
 class SortingState extends SuggestionsState {
   const SortingState({
     required super.requests,

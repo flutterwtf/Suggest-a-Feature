@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/domain/data_interfaces/suggestion_repository.dart';
@@ -10,10 +11,12 @@ import 'package:suggest_a_feature/src/presentation/utils/typedefs.dart';
 class SuggestionsManager extends StatefulWidget {
   final SortType sortType;
   final Widget child;
+  final String? initialSuggestionId;
 
   const SuggestionsManager({
     required this.sortType,
     required this.child,
+    this.initialSuggestionId,
     super.key,
   });
 
@@ -54,6 +57,27 @@ class SuggestionsStateManager extends State<SuggestionsManager> {
       _onNewSuggestions,
     );
     await _suggestionRepository.initSuggestions();
+
+    final suggestionId = widget.initialSuggestionId;
+    if (suggestionId != null) {
+      try {
+        final suggestion =
+            await _suggestionRepository.getSuggestionById(suggestionId);
+        state = SuggestionsRedirectState(
+          requests: state.requests,
+          inProgress: state.inProgress,
+          completed: state.completed,
+          declined: state.declined,
+          duplicated: state.duplicated,
+          sortType: state.sortType,
+          loading: state.loading,
+          suggestion: suggestion,
+        );
+      } catch (e) {
+        log('Redirect to suggestion error', error: e);
+      }
+    }
+
     _update(state.newState(loading: false));
   }
 
