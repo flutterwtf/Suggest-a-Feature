@@ -34,6 +34,7 @@ class SuggestionPage extends StatefulWidget {
   final Suggestion suggestion;
   final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
   final OnSaveToGalleryCallback? onSaveToGallery;
+  final OnShareSuggestion? onShareSuggestion;
   final OnGetUserById onGetUserById;
 
   const SuggestionPage({
@@ -41,6 +42,7 @@ class SuggestionPage extends StatefulWidget {
     required this.onGetUserById,
     this.onUploadMultiplePhotos,
     this.onSaveToGallery,
+    this.onShareSuggestion,
     super.key,
   });
 
@@ -94,10 +96,13 @@ class _SuggestionPageState extends State<SuggestionPage> {
               children: [
                 Scaffold(
                   appBar: _appBar(stateManager, state.isEditable),
-                  backgroundColor: context.theme.scaffoldBackgroundColor,
+                  backgroundColor: theme.backgroundColor ??
+                      context.theme.scaffoldBackgroundColor,
                   body: _MainContent(
                     onSaveToGallery: widget.onSaveToGallery,
                     onCommentTap: stateManager.openDeletingCommentConfirmation,
+                    onShareSuggestion: widget.onShareSuggestion,
+                    suggestionId: widget.suggestion.id,
                   ),
                 ),
                 SafeArea(
@@ -173,10 +178,14 @@ class _SuggestionPageState extends State<SuggestionPage> {
 class _MainContent extends StatelessWidget {
   final ValueChanged<String> onCommentTap;
   final OnSaveToGalleryCallback? onSaveToGallery;
+  final OnShareSuggestion? onShareSuggestion;
+  final String suggestionId;
 
   const _MainContent({
     required this.onCommentTap,
+    required this.suggestionId,
     this.onSaveToGallery,
+    this.onShareSuggestion,
   });
 
   @override
@@ -194,6 +203,8 @@ class _MainContent extends StatelessWidget {
             _UserInfo(
               author: state.author,
               isAnonymous: state.suggestion.isAnonymous,
+              suggestionId: suggestionId,
+              onShareSuggestion: onShareSuggestion,
             ),
             _SuggestionInfo(
               suggestion: state.suggestion,
@@ -232,10 +243,14 @@ class _MainContent extends StatelessWidget {
 class _UserInfo extends StatelessWidget {
   final SuggestionAuthor author;
   final bool isAnonymous;
+  final String suggestionId;
+  final OnShareSuggestion? onShareSuggestion;
 
   const _UserInfo({
     required this.author,
     required this.isAnonymous,
+    required this.suggestionId,
+    this.onShareSuggestion,
   });
 
   @override
@@ -258,6 +273,13 @@ class _UserInfo extends StatelessWidget {
               style: context.theme.textTheme.bodyMedium,
             ),
           ),
+          if (onShareSuggestion != null)
+            IconButton(
+              onPressed: () {
+                onShareSuggestion!(suggestionId);
+              },
+              icon: const Icon(Icons.share),
+            ),
         ],
       ),
     );

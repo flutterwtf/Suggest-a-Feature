@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart';
-import 'package:suggest_a_feature/src/presentation/pages/suggestion/suggestion_page.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/widgets/list_description.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestions/widgets/suggestion_card.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
@@ -13,6 +12,7 @@ class SuggestionList extends StatelessWidget {
   final Color color;
   final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
   final OnSaveToGalleryCallback? onSaveToGallery;
+  final OnShareSuggestion? onShareSuggestion;
   final OnGetUserById onGetUserById;
   final String userId;
   final ValueChanged<int> vote;
@@ -28,6 +28,7 @@ class SuggestionList extends StatelessWidget {
     required this.openSortingBottomSheet,
     this.onUploadMultiplePhotos,
     this.onSaveToGallery,
+    this.onShareSuggestion,
     super.key,
   });
 
@@ -53,6 +54,7 @@ class SuggestionList extends StatelessWidget {
                     onGetUserById: onGetUserById,
                     onSaveToGallery: onSaveToGallery,
                     onUploadMultiplePhotos: onUploadMultiplePhotos,
+                    onShareSuggestion: onShareSuggestion,
                     userId: userId,
                     status: status,
                     vote: vote,
@@ -75,6 +77,7 @@ class _ListItem extends StatelessWidget {
   final OnUploadMultiplePhotosCallback? onUploadMultiplePhotos;
   final OnSaveToGalleryCallback? onSaveToGallery;
   final OnGetUserById onGetUserById;
+  final OnShareSuggestion? onShareSuggestion;
   final int index;
 
   const _ListItem({
@@ -87,6 +90,7 @@ class _ListItem extends StatelessWidget {
     required this.index,
     this.onUploadMultiplePhotos,
     this.onSaveToGallery,
+    this.onShareSuggestion,
   });
 
   @override
@@ -104,6 +108,7 @@ class _ListItem extends StatelessWidget {
             onUploadMultiplePhotos: onUploadMultiplePhotos,
             onSaveToGallery: onSaveToGallery,
             onGetUserById: onGetUserById,
+            onShareSuggestion: onShareSuggestion,
           ),
         ),
       ),

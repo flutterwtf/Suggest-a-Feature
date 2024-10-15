@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
+import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/utils/typedefs.dart';
 
 class SuggestionsState extends Equatable {
@@ -94,6 +95,47 @@ class CreateState extends SuggestionsState {
   }
 }
 
+class SuggestionsRedirectState extends SuggestionsState {
+  final Suggestion suggestion;
+
+  const SuggestionsRedirectState({
+    required super.requests,
+    required super.inProgress,
+    required super.completed,
+    required super.declined,
+    required super.duplicated,
+    required super.sortType,
+    required super.loading,
+    required this.suggestion,
+    super.activeTab,
+  });
+
+  @override
+  SuggestionsRedirectState newState({
+    List<Suggestion>? requests,
+    List<Suggestion>? inProgress,
+    List<Suggestion>? completed,
+    List<Suggestion>? declined,
+    List<Suggestion>? duplicated,
+    SuggestionStatus? activeTab,
+    SortType? sortType,
+    bool? loading,
+    Suggestion? suggestion,
+  }) {
+    return SuggestionsRedirectState(
+      requests: requests ?? this.requests,
+      inProgress: inProgress ?? this.inProgress,
+      completed: completed ?? this.completed,
+      declined: declined ?? this.declined,
+      duplicated: duplicated ?? this.duplicated,
+      activeTab: activeTab ?? this.activeTab,
+      sortType: sortType ?? this.sortType,
+      loading: loading ?? this.loading,
+      suggestion: suggestion ?? this.suggestion,
+    );
+  }
+}
+
 class SortingState extends SuggestionsState {
   const SortingState({
     required super.requests,
@@ -136,6 +178,16 @@ extension SortTypeExtension on SortType {
       SortType.upvotes => (a, b) => b.upvotesCount.compareTo(a.upvotesCount),
       SortType.creationDate => (a, b) =>
           b.creationTime.compareTo(a.creationTime),
+      SortType.userSuggestion => (a, b) {
+          if (a.authorId == i.userId && b.authorId != i.userId) {
+            return -1;
+          }
+          if (a.authorId != i.userId && b.authorId == i.userId) {
+            return 1;
+          }
+
+          return b.upvotesCount.compareTo(a.upvotesCount);
+        }
     };
   }
 }
