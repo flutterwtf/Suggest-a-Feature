@@ -392,7 +392,7 @@ class _BottomFab extends StatelessWidget {
       bottom: (SuggestionsPlatform.isIOS
               ? Dimensions.margin2x
               : Dimensions.marginDefault) +
-          MediaQuery.of(context).viewInsets.bottom,
+          MediaQuery.paddingOf(context).bottom,
       right: Dimensions.marginDefault,
       child: SuggestionsFab(
         padding: const EdgeInsets.all(Dimensions.marginDefault),
