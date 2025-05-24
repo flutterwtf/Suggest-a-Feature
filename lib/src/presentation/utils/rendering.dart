@@ -15,12 +15,12 @@ void renderHidings({
   final topGradient = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
-    colors: <Color>[backgroundColor, backgroundColor.withOpacity(0)],
+    colors: <Color>[backgroundColor, backgroundColor.withValues(alpha: 0)],
   );
   final bottomGradient = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
-    colors: <Color>[backgroundColor.withOpacity(0), backgroundColor],
+    colors: <Color>[backgroundColor.withValues(alpha: 0), backgroundColor],
   );
   final topRectGradient =
       Rect.fromLTWH(0, contentMarginTop - 2, size.width, _hidingGradientHeight);

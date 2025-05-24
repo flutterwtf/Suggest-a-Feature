@@ -128,7 +128,7 @@ class _CommonTextField extends StatelessWidget {
         isDense: true,
         hintText: hintText,
         hintStyle: context.theme.textTheme.bodyMedium?.copyWith(
-          color: context.theme.colorScheme.onSurface.withOpacity(0.7),
+          color: context.theme.colorScheme.onSurface.withValues(alpha: 0.7),
         ),
         fillColor: context.theme.colorScheme.surface,
         filled: true,
@@ -198,7 +198,7 @@ class _IosTextField extends StatelessWidget {
       textInputAction: textInputAction,
       placeholder: hintText,
       placeholderStyle: context.theme.textTheme.bodyMedium?.copyWith(
-        color: context.theme.colorScheme.onSurface.withOpacity(0.7),
+        color: context.theme.colorScheme.onSurface.withValues(alpha: 0.7),
       ),
       cursorHeight: 20,
       decoration: BoxDecoration(
