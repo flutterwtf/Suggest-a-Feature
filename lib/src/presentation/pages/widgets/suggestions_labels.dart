@@ -43,7 +43,7 @@ class _Label extends StatelessWidget {
             shape: BoxShape.circle,
             boxShadow: <BoxShadow>[
               BoxShadow(
-                color: label.labelColor(context).withOpacity(0.16),
+                color: label.labelColor(context).withValues(alpha: 0.16),
                 spreadRadius: 5,
               ),
             ],

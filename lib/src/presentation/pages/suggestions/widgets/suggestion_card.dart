@@ -169,7 +169,7 @@ class _SuggestionIndicator extends StatelessWidget {
           ),
           boxShadow: <BoxShadow>[
             BoxShadow(
-              color: color.withOpacity(0.16),
+              color: color.withValues(alpha: 0.16),
               spreadRadius: 4,
               blurRadius: 4,
             ),

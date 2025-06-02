@@ -40,6 +40,8 @@ class SuggestionList extends StatelessWidget {
           itemCount: suggestions.length + 1,
           padding: const EdgeInsets.symmetric(
             horizontal: Dimensions.marginDefault,
+          ).copyWith(
+            bottom: MediaQuery.paddingOf(context).bottom,
           ),
           itemBuilder: (_, index) {
             return index == 0
