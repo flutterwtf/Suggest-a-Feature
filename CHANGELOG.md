@@ -1,9 +1,12 @@
+## 0.5.1
+* Updates to support flutter version 3.32.1
+* Edge-to-edge mode fixes on Android
+
 ## 0.5.0
 * Added ability to share feature
 * Opening a suggested feature page using a link
 * Add sort by user suggestion
 * Fix bug with background color property
-
 
 ## 0.4.3
 * Add background color property to theme
