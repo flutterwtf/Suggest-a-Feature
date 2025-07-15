@@ -38,17 +38,24 @@ class _Injector {
     _theme = theme;
     _imageHeaders = imageHeaders;
     _userId = userId;
-    _cacheDataSource = CacheDataSourceImpl();
-    _suggestionsDataSource = suggestionsDataSource;
-    _suggestionRepository = SuggestionRepositoryImpl(
-      _suggestionsDataSource,
-      _cacheDataSource,
-    );
+
+    if (!_isInitialized) {
+      _cacheDataSource = CacheDataSourceImpl();
+      _suggestionsDataSource = suggestionsDataSource;
+      _suggestionRepository = SuggestionRepositoryImpl(
+        _suggestionsDataSource,
+        _cacheDataSource,
+      );
+      _isInitialized = true;
+    }
+
     _adminSettings = adminSettings;
     _isAdmin = isAdmin;
     _localization = locale.localizationOptions;
     _navigatorKey = navigatorKey;
   }
+
+  bool _isInitialized = false;
 
   AdminSettings? _adminSettings;
 
