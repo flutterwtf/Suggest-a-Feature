@@ -17,7 +17,10 @@ class SuggestionsTheme {
 
   final Color featureLabelColor;
   final Color bugLabelColor;
+
   final Color? backgroundColor;
+  final Color? secondaryButtonBackgroundColor;
+  final Color? secondaryButtonForegroundColor;
 
   SuggestionsTheme({
     required this.actionColor,
@@ -35,6 +38,8 @@ class SuggestionsTheme {
     required this.fade,
     required this.fabColor,
     this.backgroundColor,
+    this.secondaryButtonBackgroundColor,
+    this.secondaryButtonForegroundColor,
   });
 
   factory SuggestionsTheme.initial() => SuggestionsTheme(
@@ -70,6 +75,8 @@ class SuggestionsTheme {
     Color? fade,
     Color? fabColor,
     Color? backgroundColor,
+    Color? secondaryButtonBackgroundColor,
+    Color? secondaryButtonForegroundColor,
   }) {
     return SuggestionsTheme(
       actionColor: actionColor ?? this.actionColor,
@@ -88,6 +95,10 @@ class SuggestionsTheme {
       fade: fade ?? this.fade,
       fabColor: fabColor ?? this.fabColor,
       backgroundColor: backgroundColor ?? this.backgroundColor,
+      secondaryButtonBackgroundColor:
+          secondaryButtonBackgroundColor ?? this.secondaryButtonBackgroundColor,
+      secondaryButtonForegroundColor:
+          secondaryButtonForegroundColor ?? this.secondaryButtonForegroundColor,
     );
   }
 }
