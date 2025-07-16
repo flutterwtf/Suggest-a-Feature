@@ -797,10 +797,12 @@ class _NewCommentButton extends StatelessWidget {
       child: FilledButton(
         style: context.theme.filledButtonTheme.style?.copyWith(
           backgroundColor: WidgetStateProperty.resolveWith<Color>(
-            (states) => context.theme.colorScheme.secondaryContainer,
+            (states) => theme.secondaryButtonBackgroundColor ??
+                context.theme.colorScheme.secondaryContainer,
           ),
           foregroundColor: WidgetStatePropertyAll(
-            context.theme.colorScheme.onSecondaryContainer,
+            theme.secondaryButtonForegroundColor ??
+                context.theme.colorScheme.onSecondaryContainer,
           ),
         ),
         onPressed: onClick,
