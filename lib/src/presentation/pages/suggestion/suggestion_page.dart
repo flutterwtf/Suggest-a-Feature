@@ -26,7 +26,6 @@ import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
 import 'package:suggest_a_feature/src/presentation/utils/date_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:suggest_a_feature/src/presentation/utils/image_utils.dart';
-import 'package:suggest_a_feature/src/presentation/utils/platform_check.dart';
 import 'package:suggest_a_feature/src/presentation/utils/typedefs.dart';
 import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
 
@@ -107,11 +106,9 @@ class _SuggestionPageState extends State<SuggestionPage> {
                 ),
                 SafeArea(
                   top: false,
-                  bottom: SuggestionsPlatform.isIOS,
                   child: Container(
-                    padding: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).padding.bottom +
-                          Dimensions.marginSmall,
+                    padding: const EdgeInsets.only(
+                      bottom: Dimensions.marginSmall,
                     ),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
