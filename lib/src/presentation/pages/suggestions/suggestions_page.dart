@@ -389,8 +389,7 @@ class _BottomFab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      bottom: Dimensions.marginDefault +
-          MediaQuery.paddingOf(context).bottom,
+      bottom: Dimensions.marginDefault + MediaQuery.paddingOf(context).bottom,
       right: Dimensions.marginDefault,
       child: SuggestionsFab(
         padding: const EdgeInsets.all(Dimensions.marginDefault),
