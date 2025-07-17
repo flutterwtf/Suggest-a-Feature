@@ -1,3 +1,7 @@
+## 0.5.2
+* Fixed creation and editing of suggestions
+* Added secondary button customization
+
 ## 0.5.1
 * Updates to support flutter version 3.32.1
 * Edge-to-edge mode fixes on Android
