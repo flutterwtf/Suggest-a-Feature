@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
-import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_icon.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
 class SuggestionsFab extends StatefulWidget {
@@ -90,15 +89,10 @@ class _SuggestionsFabState extends State<SuggestionsFab>
               ),
             ),
             Center(
-              child: SvgPicture.asset(
+              child: SuggestionsIcon(
                 widget.imageIcon,
-                package: AssetStrings.packageName,
-                width: Dimensions.defaultSize,
-                height: Dimensions.defaultSize,
-                colorFilter: ColorFilter.mode(
-                  widget.iconColor ?? context.theme.colorScheme.onSurface,
-                  BlendMode.srcIn,
-                ),
+                size: Dimensions.defaultSize,
+                color: widget.iconColor ?? context.theme.colorScheme.onSurface,
               ),
             ),
           ],

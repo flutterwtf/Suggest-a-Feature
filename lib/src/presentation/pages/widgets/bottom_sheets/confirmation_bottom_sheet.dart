@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/clickable_list_item.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_icon.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
@@ -144,15 +144,10 @@ class _Confirm extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClickableListItem(
       onClick: onConfirm,
-      leading: SvgPicture.asset(
+      leading: SuggestionsIcon(
         onConfirmAsset,
-        package: AssetStrings.packageName,
-        width: Dimensions.defaultSize,
-        height: Dimensions.defaultSize,
-        colorFilter: ColorFilter.mode(
-          context.theme.colorScheme.error,
-          BlendMode.srcIn,
-        ),
+        size: Dimensions.defaultSize,
+        color: context.theme.colorScheme.error,
       ),
       title: Text(
         onConfirmText,
@@ -178,15 +173,10 @@ class _Cancel extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClickableListItem(
       onClick: onCancel,
-      leading: SvgPicture.asset(
+      leading: SuggestionsIcon(
         AssetStrings.closeIconImage,
-        package: AssetStrings.packageName,
-        width: Dimensions.defaultSize,
-        height: Dimensions.defaultSize,
-        colorFilter: ColorFilter.mode(
-          context.theme.colorScheme.onSurface,
-          BlendMode.srcIn,
-        ),
+        size: Dimensions.defaultSize,
+        color: context.theme.colorScheme.onSurface,
       ),
       title: Text(
         onCancelText,

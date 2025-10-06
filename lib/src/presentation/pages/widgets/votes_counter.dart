@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_icon.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
@@ -23,15 +23,11 @@ class VotesCounter extends StatelessWidget {
           SizedBox(
             height: Dimensions.bigSize,
             width: Dimensions.bigSize,
-            child: SvgPicture.asset(
+            child: SuggestionsIcon(
               AssetStrings.suggestionsUpvoteArrow,
-              package: AssetStrings.packageName,
-              colorFilter: ColorFilter.mode(
-                isVoted
-                    ? context.theme.colorScheme.primary
-                    : theme.upvoteArrowColor,
-                BlendMode.srcIn,
-              ),
+              color: isVoted
+                  ? context.theme.colorScheme.primary
+                  : theme.upvoteArrowColor,
               fit: BoxFit.none,
             ),
           ),

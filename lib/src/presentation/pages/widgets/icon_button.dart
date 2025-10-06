@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
-import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_icon.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
 class SuggestionsIconButton extends StatefulWidget {
@@ -39,17 +38,12 @@ class _SuggestionsIconButtonState extends State<SuggestionsIconButton> {
       onTapCancel: () => _onTap(false),
       child: Padding(
         padding: widget.padding,
-        child: SvgPicture.asset(
+        child: SuggestionsIcon(
           widget.imageIcon,
-          package: AssetStrings.packageName,
-          width: widget.size,
-          height: widget.size,
-          colorFilter: ColorFilter.mode(
-            _pressed
-                ? theme.actionPressedColor
-                : widget.color ?? context.theme.colorScheme.onSurface,
-            BlendMode.srcIn,
-          ),
+          size: widget.size,
+          color: _pressed
+              ? theme.actionPressedColor
+              : widget.color ?? context.theme.colorScheme.onSurface,
         ),
       ),
     );
