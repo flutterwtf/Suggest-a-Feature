@@ -30,6 +30,5 @@ dev_dependencies:
 
 flutter:
   assets:
-    - path: assets/
-      transformers:
-        - package: vector_graphics_compiler
+    - assets/
+    - assets/compiled/
