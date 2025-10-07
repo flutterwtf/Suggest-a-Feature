@@ -272,9 +272,7 @@ class _UserInfo extends StatelessWidget {
           ),
           if (onShareSuggestion != null)
             IconButton(
-              onPressed: () {
-                onShareSuggestion!(suggestionId);
-              },
+              onPressed: () => onShareSuggestion!(suggestionId),
               icon: const Icon(Icons.share),
             ),
         ],
@@ -500,26 +498,24 @@ class _WrappedAttachedImage extends StatelessWidget {
   Widget build(BuildContext context) {
     final suggestionManager = SuggestionManager.of(context);
     return GestureDetector(
-      onTap: () {
-        showDialog<void>(
-          useSafeArea: false,
-          barrierColor: Colors.black,
-          context: context,
-          useRootNavigator: false,
-          builder: (_) {
-            return PhotoView(
-              onDownloadClick: onSaveToGallery != null
-                  ? (path) => suggestionManager.showSavingResultMessage(
-                        onSaveToGallery!(path),
-                      )
-                  : null,
-              initialIndex: images.indexOf(attachedImage),
-              photos: images,
-              previousNavBarColor: context.theme.colorScheme.surface,
-            );
-          },
-        );
-      },
+      onTap: () => showDialog<void>(
+        useSafeArea: false,
+        barrierColor: Colors.black,
+        context: context,
+        useRootNavigator: false,
+        builder: (_) {
+          return PhotoView(
+            onDownloadClick: onSaveToGallery != null
+                ? (path) => suggestionManager.showSavingResultMessage(
+                      onSaveToGallery!(path),
+                    )
+                : null,
+            initialIndex: images.indexOf(attachedImage),
+            photos: images,
+            previousNavBarColor: context.theme.colorScheme.surface,
+          );
+        },
+      ),
       child: Container(
         width: (MediaQuery.of(context).size.width - 80) / 3,
         height: (MediaQuery.of(context).size.width - 80) / 3,
@@ -627,10 +623,9 @@ class _OpenConfirmationBottomSheet extends StatelessWidget {
     return ConfirmationBottomSheet(
       controller: sheetController,
       question: localization.deletionQuestion,
-      onConfirm: () {
-        stateManager
-          ..closeBottomSheet()
-          ..deleteSuggestion();
+      onConfirm: () async {
+        stateManager.closeBottomSheet();
+        await stateManager.deleteSuggestion();
       },
       onCancel: ([_]) async {
         await sheetController.collapse();
@@ -653,10 +648,9 @@ class _OpenCommentConfirmationBottomSheet extends StatelessWidget {
     return ConfirmationBottomSheet(
       controller: sheetController,
       question: localization.deletionCommentQuestion,
-      onConfirm: () {
-        stateManager
-          ..closeBottomSheet()
-          ..deleteComment();
+      onConfirm: () async {
+        stateManager.closeBottomSheet();
+        await stateManager.deleteComment();
       },
       onCancel: ([_]) async {
         await sheetController.collapse();
@@ -768,8 +762,8 @@ class _OpenCreateCommentBottomSheet extends StatelessWidget {
         String text, {
         required bool isAnonymous,
         required bool postedByAdmin,
-      }) {
-        stateManager.createComment(
+      }) async {
+        await stateManager.createComment(
           text,
           onGetUserById,
           isAnonymous: isAnonymous,

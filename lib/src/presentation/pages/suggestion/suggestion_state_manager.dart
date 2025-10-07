@@ -50,25 +50,27 @@ class SuggestionStateManager extends State<SuggestionManager> {
       suggestion: Suggestion.empty(),
       loadingComments: true,
     );
-    _init(
-      suggestion: widget.suggestion,
-      getUserById: widget.onGetUserById,
-      isAdmin: i.isAdmin,
+    unawaited(
+      _init(
+        suggestion: widget.suggestion,
+        getUserById: widget.onGetUserById,
+        isAdmin: i.isAdmin,
+      ),
     );
   }
 
   @override
   void dispose() {
-    _suggestionSubscription?.cancel();
+    unawaited(_suggestionSubscription?.cancel());
     _suggestionSubscription = null;
     super.dispose();
   }
 
-  void _init({
+  Future<void> _init({
     required Suggestion suggestion,
     required OnGetUserById getUserById,
     required bool isAdmin,
-  }) {
+  }) async {
     _update(
       state.newState(
         suggestion: suggestion,
@@ -77,7 +79,7 @@ class SuggestionStateManager extends State<SuggestionManager> {
             isAdmin,
       ),
     );
-    _suggestionSubscription?.cancel();
+    await _suggestionSubscription?.cancel();
     _suggestionSubscription =
         _suggestionRepository.suggestionsStream.listen(_onNewSuggestions);
     _loadComments(getUserById, suggestion.id);
@@ -137,7 +139,7 @@ class SuggestionStateManager extends State<SuggestionManager> {
         state.suggestion,
         saveComments: false,
       );
-    } catch (e) {
+    } on Exception catch (e) {
       log('Comments loading error', error: e);
     }
     _update(
@@ -286,7 +288,7 @@ class SuggestionStateManager extends State<SuggestionManager> {
         state.suggestion,
         saveComments: false,
       );
-    } catch (e) {
+    } on Exception catch (e) {
       log('Comment creation error', error: e);
     }
   }

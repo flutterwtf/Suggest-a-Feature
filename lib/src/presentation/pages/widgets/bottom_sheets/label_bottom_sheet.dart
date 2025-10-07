@@ -56,7 +56,7 @@ class _LabelBottomSheetState extends State<LabelBottomSheet> {
       },
       backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
           context.theme.colorScheme.surface,
-      contentBuilder: (_, __) {
+      contentBuilder: (_, _) {
         return _LabelsListView(
           onTap: (label) => setState(
             () => selectedLabels.contains(label)

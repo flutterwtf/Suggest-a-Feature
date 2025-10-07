@@ -89,7 +89,10 @@ class _CreateEditSuggestionBottomSheetState
         previous.suggestion.status != current.suggestion.status;
   }
 
-  void _listener(BuildContext context, CreateEditSuggestionState state) {
+  Future<void> _listener(
+    BuildContext context,
+    CreateEditSuggestionState state,
+  ) async {
     final stateManager = CreateEditSuggestionManager.of(context);
     if (state.savingImageResultMessageType != SavingResultMessageType.none) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -105,7 +108,7 @@ class _CreateEditSuggestionBottomSheetState
     } else if (state.isSubmitted) {
       widget.onClose();
     } else if (state.isPhotoViewOpen) {
-      _openPhotoView(state, stateManager);
+      await _openPhotoView(state, stateManager);
     }
     stateManager.reset();
   }
@@ -400,11 +403,11 @@ class _PhotoPickerItem extends StatelessWidget {
                 tileWidth: state.suggestion.images.length > 2
                     ? tileWidth * 0.9
                     : tileWidth,
-                onUploadPhotos: () {
+                onUploadPhotos: () async {
                   final availableNumOfPhotos = maxPhotosForOneSuggestion -
                       state.suggestion.images.length;
                   if (availableNumOfPhotos > 0) {
-                    stateManager.addUploadedPhotos(
+                    await stateManager.addUploadedPhotos(
                       onUploadMultiplePhotos!(
                         availableNumOfPhotos: availableNumOfPhotos,
                       ),

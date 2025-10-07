@@ -38,7 +38,7 @@ class SuggestionsNetworkImage extends StatelessWidget {
             color: noImageColor ?? context.theme.colorScheme.surface,
           );
         },
-        errorBuilder: (_, __, ___) => ColoredBox(
+        errorBuilder: (_, _, _) => ColoredBox(
           color: noImageColor ?? context.theme.colorScheme.surface,
         ),
       ),

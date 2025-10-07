@@ -65,7 +65,7 @@ class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
           context.theme.colorScheme.surface,
       previousNavBarColor: context.theme.colorScheme.surface,
       previousStatusBarColor: context.theme.colorScheme.surface,
-      contentBuilder: (_, __) {
+      contentBuilder: (_, _) {
         return ListView(
           padding: const EdgeInsets.only(
             top: Dimensions.marginSmall,
