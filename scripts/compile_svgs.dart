@@ -1,3 +1,4 @@
+// Script needs print for CLI progress/output
 // ignore_for_file: avoid_print
 
 /// Compiles all SVG assets to .vec format for vector_graphics package.
@@ -97,7 +98,7 @@ Future<bool> _compileSvg(
       print('✗ $fileName - Error: $error');
       return false;
     }
-  } catch (e) {
+  } on Exception catch (e) {
     print('✗ $fileName - Error: $e');
     return false;
   }
