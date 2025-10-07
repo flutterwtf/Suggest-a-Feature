@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:suggest_a_feature/src/presentation/localization/localization_extensions.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/dotted_border.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_icon.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
@@ -59,14 +59,10 @@ class _AddButton extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        SvgPicture.asset(
+        SuggestionsIcon(
           AssetStrings.addPhotoButton,
-          package: AssetStrings.packageName,
-          height: Dimensions.defaultSize,
-          colorFilter: ColorFilter.mode(
-            context.theme.colorScheme.onSurface,
-            BlendMode.srcIn,
-          ),
+          color: context.theme.colorScheme.onSurface,
+          size: Dimensions.defaultSize,
         ),
         Padding(
           padding: const EdgeInsets.only(top: Dimensions.marginSmall),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:suggest_a_feature/src/presentation/localization/localization_extensions.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/bottom_sheets/base_bottom_sheet.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/clickable_list_item.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_icon.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
 import 'package:suggest_a_feature/src/presentation/utils/date_utils.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
@@ -99,15 +99,10 @@ class _EditItem extends StatelessWidget {
         localization.edit,
         style: context.theme.textTheme.titleMedium,
       ),
-      leading: SvgPicture.asset(
+      leading: SuggestionsIcon(
         AssetStrings.penIconImage,
-        package: AssetStrings.packageName,
-        height: Dimensions.defaultSize,
-        width: Dimensions.defaultSize,
-        colorFilter: ColorFilter.mode(
-          context.theme.colorScheme.onSurface,
-          BlendMode.srcIn,
-        ),
+        size: Dimensions.defaultSize,
+        color: context.theme.colorScheme.onSurface,
       ),
       onClick: onEditClick,
     );
@@ -130,15 +125,10 @@ class _DeleteItem extends StatelessWidget {
           color: context.theme.colorScheme.error,
         ),
       ),
-      leading: SvgPicture.asset(
+      leading: SuggestionsIcon(
         AssetStrings.deleteIconImage,
-        package: AssetStrings.packageName,
-        colorFilter: ColorFilter.mode(
-          context.theme.colorScheme.error,
-          BlendMode.srcIn,
-        ),
-        height: Dimensions.defaultSize,
-        width: Dimensions.defaultSize,
+        size: Dimensions.defaultSize,
+        color: context.theme.colorScheme.error,
       ),
       onClick: onDeleteClick,
     );

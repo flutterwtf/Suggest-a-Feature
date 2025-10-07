@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/localization/localization_extensions.dart';
@@ -15,6 +14,7 @@ import 'package:suggest_a_feature/src/presentation/pages/widgets/network_image.d
 import 'package:suggest_a_feature/src/presentation/pages/widgets/photo_view.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/small_photo_preview.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/state_listener.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_icon.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_labels.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_switch.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_text_field.dart';
@@ -256,14 +256,10 @@ class _LabelItems extends StatelessWidget {
       ),
       trailing: labels.isNotEmpty
           ? SuggestionLabels(labels: labels)
-          : SvgPicture.asset(
+          : SuggestionsIcon(
               AssetStrings.plusIconThickImage,
-              package: AssetStrings.packageName,
-              colorFilter: ColorFilter.mode(
-                context.theme.colorScheme.onSurface,
-                BlendMode.srcIn,
-              ),
-              height: Dimensions.defaultSize,
+              color: context.theme.colorScheme.onSurface,
+              size: Dimensions.defaultSize,
             ),
       onClick: () => changeLabelsBottomSheetStatus(true),
       verticalPadding: Dimensions.marginDefault,
@@ -521,14 +517,10 @@ class _AddButton extends StatelessWidget {
                 context.theme.colorScheme.onSurface,
               ),
             )
-          : SvgPicture.asset(
+          : SuggestionsIcon(
               AssetStrings.plusIconThickImage,
-              package: AssetStrings.packageName,
-              colorFilter: ColorFilter.mode(
-                context.theme.colorScheme.onSurface,
-                BlendMode.srcIn,
-              ),
-              height: isSmall ? Dimensions.smallSize : Dimensions.defaultSize,
+              color: context.theme.colorScheme.onSurface,
+              size: isSmall ? Dimensions.smallSize : Dimensions.defaultSize,
             ),
       onClick: onUploadPhotos,
       verticalPadding: Dimensions.marginDefault,

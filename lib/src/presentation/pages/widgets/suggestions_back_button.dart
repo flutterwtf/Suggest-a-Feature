@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_icon.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
@@ -24,16 +24,11 @@ class SuggestionsBackButton extends StatelessWidget {
           left: Dimensions.marginDefault + Dimensions.marginMicro,
           right: Dimensions.marginMiddle,
         ),
-        child: SvgPicture.asset(
+        child: SuggestionsIcon(
           AssetStrings.backIconImage,
-          package: AssetStrings.packageName,
-          height: Dimensions.defaultSize,
-          width: Dimensions.defaultSize,
-          colorFilter: ColorFilter.mode(
-            context.theme.appBarTheme.iconTheme?.color ??
-                context.theme.colorScheme.onSurface,
-            BlendMode.srcIn,
-          ),
+          size: Dimensions.defaultSize,
+          color: context.theme.appBarTheme.iconTheme?.color ??
+              context.theme.colorScheme.onSurface,
         ),
       ),
     );

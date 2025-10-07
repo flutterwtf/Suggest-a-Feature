@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/network_image.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_icon.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 
@@ -34,13 +34,9 @@ class AvatarWidget extends StatelessWidget {
             ? SuggestionsNetworkImage(url: avatar!)
             : Padding(
                 padding: EdgeInsets.all(iconPadding),
-                child: SvgPicture.asset(
+                child: SuggestionsIcon(
                   AssetStrings.profileIconImage,
-                  package: AssetStrings.packageName,
-                  colorFilter: ColorFilter.mode(
-                    context.theme.colorScheme.onSurface,
-                    BlendMode.srcIn,
-                  ),
+                  color: context.theme.colorScheme.onSurface,
                 ),
               ),
       ),

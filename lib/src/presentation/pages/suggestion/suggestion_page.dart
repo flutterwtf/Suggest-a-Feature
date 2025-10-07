@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:suggest_a_feature/src/domain/entities/admin_settings.dart';
 import 'package:suggest_a_feature/src/domain/entities/comment.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
@@ -20,6 +19,7 @@ import 'package:suggest_a_feature/src/presentation/pages/widgets/icon_button.dar
 import 'package:suggest_a_feature/src/presentation/pages/widgets/network_image.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/photo_view.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/state_listener.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_icon.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_labels.dart';
 import 'package:suggest_a_feature/src/presentation/pages/widgets/votes_counter.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
@@ -834,13 +834,9 @@ class _UpvoteButton extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SvgPicture.asset(
+                SuggestionsIcon(
                   AssetStrings.suggestionsUpvoteArrow,
-                  package: AssetStrings.packageName,
-                  colorFilter: ColorFilter.mode(
-                    context.theme.colorScheme.onPrimary,
-                    BlendMode.srcIn,
-                  ),
+                  color: context.theme.colorScheme.onPrimary,
                 ),
                 const SizedBox(width: Dimensions.marginSmall),
                 Flexible(

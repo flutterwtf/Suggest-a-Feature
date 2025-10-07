@@ -1,25 +1,33 @@
 class AssetStrings {
   static const String packageName = 'suggest_a_feature';
 
-  static const String arrowDownIcon = 'assets/arrow_down_icon.svg';
-  static const String addPhotoButton = 'assets/add_photo_icon.svg';
-  static const String backIconImage = 'assets/arrow_left_icon.svg';
-  static const String checkIconImage = 'assets/check_icon.svg';
-  static const String closeIconImage = 'assets/close_icon.svg';
-  static const String deleteIconImage = 'assets/delete_icon.svg';
-  static const String downloadIconImage = 'assets/download_icon.svg';
-  static const String notificationsIconImage = 'assets/notifications_icon.svg';
-  static const String penIconImage = 'assets/pen_icon.svg';
-  static const String profileIconImage = 'assets/profile_icon.svg';
-  static const String plusIconThinImage = 'assets/plus_icon_thin.svg';
-  static const String plusIconThickImage = 'assets/plus_icon_thick.svg';
+  static const String arrowDownIcon = 'assets/compiled/arrow_down_icon.svg.vec';
+  static const String addPhotoButton = 'assets/compiled/add_photo_icon.svg.vec';
+  static const String backIconImage = 'assets/compiled/arrow_left_icon.svg.vec';
+  static const String checkIconImage = 'assets/compiled/check_icon.svg.vec';
+  static const String closeIconImage = 'assets/compiled/close_icon.svg.vec';
+  static const String deleteIconImage = 'assets/compiled/delete_icon.svg.vec';
+  static const String downloadIconImage =
+      'assets/compiled/download_icon.svg.vec';
+  static const String notificationsIconImage =
+      'assets/compiled/notifications_icon.svg.vec';
+  static const String penIconImage = 'assets/compiled/pen_icon.svg.vec';
+  static const String profileIconImage = 'assets/compiled/profile_icon.svg.vec';
+  static const String plusIconThinImage =
+      'assets/compiled/plus_icon_thin.svg.vec';
+  static const String plusIconThickImage =
+      'assets/compiled/plus_icon_thick.svg.vec';
 
-  static const String suggestionsRequests = 'assets/suggestions_requests.svg';
+  static const String suggestionsRequests =
+      'assets/compiled/suggestions_requests.svg.vec';
   static const String suggestionsInProgress =
-      'assets/suggestions_in_progress.svg';
-  static const String suggestionsCompleted = 'assets/suggestions_completed.svg';
-  static const String suggestionsDeclined = 'assets/suggestions_declined.svg';
+      'assets/compiled/suggestions_in_progress.svg.vec';
+  static const String suggestionsCompleted =
+      'assets/compiled/suggestions_completed.svg.vec';
+  static const String suggestionsDeclined =
+      'assets/compiled/suggestions_declined.svg.vec';
   static const String suggestionsDuplicated =
-      'assets/suggestions_duplicated.svg';
-  static const String suggestionsUpvoteArrow = 'assets/arrow_up_suggestion.svg';
+      'assets/compiled/suggestions_duplicated.svg.vec';
+  static const String suggestionsUpvoteArrow =
+      'assets/compiled/arrow_up_suggestion.svg.vec';
 }

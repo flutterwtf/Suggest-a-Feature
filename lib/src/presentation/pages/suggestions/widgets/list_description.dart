@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:suggest_a_feature/src/presentation/localization/localization_extensions.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
+import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_icon.dart';
 import 'package:suggest_a_feature/src/presentation/utils/assets_strings.dart';
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:suggest_a_feature/suggest_a_feature.dart';
@@ -111,13 +111,9 @@ class ListDescription extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        SvgPicture.asset(
+                        SuggestionsIcon(
                           AssetStrings.arrowDownIcon,
-                          package: AssetStrings.packageName,
-                          colorFilter: ColorFilter.mode(
-                            context.theme.colorScheme.primary,
-                            BlendMode.srcIn,
-                          ),
+                          color: context.theme.colorScheme.primary,
                         ),
                       ],
                     ),
