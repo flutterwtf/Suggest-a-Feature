@@ -62,7 +62,7 @@ class _ZoomableImageState extends State<ZoomableImage>
     );
   }
 
-  void _onDoubleTap(TapDownDetails details) {
+  Future<void> _onDoubleTap(TapDownDetails details) async {
     _animationController.addListener(_animationListener);
 
     widget.changeZoomStatus(
@@ -74,20 +74,21 @@ class _ZoomableImageState extends State<ZoomableImage>
     final x = -pos.dx * (_doubleTapZoomScale - 1);
     final y = -pos.dy * (_doubleTapZoomScale - 1);
     final zoomedMatrix = Matrix4.identity()
-      ..translate(x, y)
-      ..scale(_doubleTapZoomScale);
+      ..translateByDouble(x, y, 1, 1)
+      ..scaleByDouble(_doubleTapZoomScale, _doubleTapZoomScale, 1, 1);
 
     final endMatrix = _transformationController.value.isIdentity()
         ? zoomedMatrix
         : Matrix4.identity();
 
-    _animation = Matrix4Tween(
-      begin: _transformationController.value,
-      end: endMatrix,
-    ).animate(
-      CurveTween(curve: Curves.easeInOut).animate(_animationController),
-    );
-    _animationController.forward(from: 0).then(
+    _animation =
+        Matrix4Tween(
+          begin: _transformationController.value,
+          end: endMatrix,
+        ).animate(
+          CurveTween(curve: Curves.easeInOut).animate(_animationController),
+        );
+    await _animationController.forward(from: 0).then(
       (_) {
         _animationController.removeListener(
           _animationListener,

@@ -9,6 +9,7 @@ import 'package:suggest_a_feature/src/presentation/localization/localization_ext
 import 'package:suggest_a_feature/src/presentation/localization/localization_options.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
 
+// Singleton accessor pattern - private implementation is intentional
 // ignore: library_private_types_in_public_api
 _Injector get i => _Injector();
 

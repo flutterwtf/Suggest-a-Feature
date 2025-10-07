@@ -49,11 +49,11 @@ class SuggestionsStateManager extends State<SuggestionsManager> {
       sortType: widget.sortType,
       loading: true,
     );
-    _init();
+    unawaited(_init());
   }
 
   Future<void> _init() async {
-    _suggestionSubscription?.cancel();
+    await _suggestionSubscription?.cancel();
     _suggestionSubscription = _suggestionRepository.suggestionsStream.listen(
       _onNewSuggestions,
     );
@@ -74,7 +74,7 @@ class SuggestionsStateManager extends State<SuggestionsManager> {
           loading: state.loading,
           suggestion: suggestion,
         );
-      } catch (e) {
+      } on Exception catch (e) {
         if (kDebugMode) {
           log('Redirect to suggestion error', error: e);
         }
@@ -86,7 +86,7 @@ class SuggestionsStateManager extends State<SuggestionsManager> {
 
   @override
   void dispose() {
-    _suggestionSubscription?.cancel();
+    unawaited(_suggestionSubscription?.cancel());
     _suggestionSubscription = null;
     super.dispose();
   }
@@ -187,10 +187,10 @@ class SuggestionsStateManager extends State<SuggestionsManager> {
         ),
       );
 
-  void onSortTypeChanged(SortType sortType) {
+  Future<void> onSortTypeChanged(SortType sortType) async {
     if (sortType != state.sortType) {
       _update(state.newState(sortType: sortType));
-      _onNewSuggestions(_suggestionRepository.suggestions);
+      await _onNewSuggestions(_suggestionRepository.suggestions);
     }
   }
 
