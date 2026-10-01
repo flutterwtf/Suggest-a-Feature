@@ -19,8 +19,8 @@ class SuggestionAuthor extends Equatable {
   factory SuggestionAuthor.fromJson(Map<String, dynamic> json) {
     return SuggestionAuthor(
       id: json['id'].toString(),
-      avatar: json['avatar'],
-      username: json['username'],
+      avatar: json['avatar'] as String?,
+      username: json['username'] as String,
     );
   }
 
@@ -28,8 +28,8 @@ class SuggestionAuthor extends Equatable {
 
   @override
   List<Object?> get props => <Object?>[
-        id,
-        username,
-        avatar,
-      ];
+    id,
+    username,
+    avatar,
+  ];
 }

@@ -44,22 +44,23 @@ class SuggestionState extends Equatable {
       savingImageResultMessageType:
           savingImageResultMessageType ?? this.savingImageResultMessageType,
       loadingComments: loadingComments ?? this.loadingComments,
-      selectedCommentId: selectedCommentId ??
+      selectedCommentId:
+          selectedCommentId ??
           (shouldResetSelectedCommentId ? null : this.selectedCommentId),
     );
   }
 
   @override
   List<Object?> get props => <Object?>[
-        isPopped,
-        isEditable,
-        author,
-        suggestion,
-        bottomSheetType,
-        savingImageResultMessageType,
-        loadingComments,
-        selectedCommentId,
-      ];
+    isPopped,
+    isEditable,
+    author,
+    suggestion,
+    bottomSheetType,
+    savingImageResultMessageType,
+    loadingComments,
+    selectedCommentId,
+  ];
 }
 
 enum SuggestionBottomSheetType {

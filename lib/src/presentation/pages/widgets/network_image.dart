@@ -26,19 +26,20 @@ class SuggestionsNetworkImage extends StatelessWidget {
         url,
         headers: i.imageHeaders,
         fit: boxFit,
-        loadingBuilder: (
-          BuildContext context,
-          Widget child,
-          ImageChunkEvent? loadingProgress,
-        ) {
-          if (loadingProgress == null) {
-            return child;
-          }
-          return ColoredBox(
-            color: noImageColor ?? context.theme.colorScheme.surface,
-          );
-        },
-        errorBuilder: (_, __, ___) => ColoredBox(
+        loadingBuilder:
+            (
+              context,
+              child,
+              loadingProgress,
+            ) {
+              if (loadingProgress == null) {
+                return child;
+              }
+              return ColoredBox(
+                color: noImageColor ?? context.theme.colorScheme.surface,
+              );
+            },
+        errorBuilder: (_, _, _) => ColoredBox(
           color: noImageColor ?? context.theme.colorScheme.surface,
         ),
       ),

@@ -12,6 +12,7 @@ class SuggestionsTextField extends StatelessWidget {
   final EdgeInsetsGeometry padding;
   final bool autofocus;
   final bool isShowError;
+  final String? errorText;
   final Brightness? keyboardAppearance;
   final FocusNode? focusNode;
   final TextAlign textAlign;
@@ -27,6 +28,7 @@ class SuggestionsTextField extends StatelessWidget {
     this.padding = EdgeInsets.zero,
     this.autofocus = false,
     this.isShowError = false,
+    this.errorText,
     this.textAlign = TextAlign.start,
     this.textInputAction,
     this.inputFormatters,
@@ -39,47 +41,58 @@ class SuggestionsTextField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(
         horizontal: Dimensions.marginDefault,
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Expanded(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                border: isShowError
-                    ? Border.all(color: context.theme.colorScheme.error)
-                    : null,
-                color: context.theme.colorScheme.surface,
-                borderRadius: BorderRadius.circular(
-                  Dimensions.smallCircularRadius,
+          DecoratedBox(
+            decoration: BoxDecoration(
+              border: isShowError
+                  ? Border.all(color: context.theme.colorScheme.error)
+                  : null,
+              color: context.theme.colorScheme.surface,
+              borderRadius: BorderRadius.circular(
+                Dimensions.smallCircularRadius,
+              ),
+            ),
+            child: SuggestionsPlatform.isIOS
+                ? _IosTextField(
+                    controller: controller,
+                    hintText: hintText,
+                    onChanged: onChanged,
+                    padding: padding,
+                    autofocus: autofocus,
+                    keyboardAppearance: keyboardAppearance,
+                    focusNode: focusNode,
+                    textAlign: textAlign,
+                    textInputAction: textInputAction,
+                    inputFormatters: inputFormatters,
+                  )
+                : _CommonTextField(
+                    controller: controller,
+                    hintText: hintText,
+                    onChanged: onChanged,
+                    padding: padding,
+                    autofocus: autofocus,
+                    keyboardAppearance: keyboardAppearance,
+                    focusNode: focusNode,
+                    textAlign: textAlign,
+                    textInputAction: textInputAction,
+                    inputFormatters: inputFormatters,
+                  ),
+          ),
+          if (isShowError && errorText != null)
+            Padding(
+              padding: const EdgeInsets.only(
+                top: Dimensions.marginMicro,
+                left: Dimensions.marginDefault,
+              ),
+              child: Text(
+                errorText!,
+                style: context.theme.textTheme.bodySmall?.copyWith(
+                  color: context.theme.colorScheme.error,
                 ),
               ),
-              child: SuggestionsPlatform.isIOS
-                  ? _IosTextField(
-                      controller: controller,
-                      hintText: hintText,
-                      onChanged: onChanged,
-                      padding: padding,
-                      autofocus: autofocus,
-                      keyboardAppearance: keyboardAppearance,
-                      focusNode: focusNode,
-                      textAlign: textAlign,
-                      textInputAction: textInputAction,
-                      inputFormatters: inputFormatters,
-                    )
-                  : _CommonTextField(
-                      controller: controller,
-                      hintText: hintText,
-                      onChanged: onChanged,
-                      padding: padding,
-                      autofocus: autofocus,
-                      keyboardAppearance: keyboardAppearance,
-                      focusNode: focusNode,
-                      textAlign: textAlign,
-                      textInputAction: textInputAction,
-                      inputFormatters: inputFormatters,
-                    ),
             ),
-          ),
         ],
       ),
     );
@@ -144,8 +157,9 @@ class _CommonTextField extends StatelessWidget {
                 borderRadius: const BorderRadius.all(
                   Radius.circular(Dimensions.smallCircularRadius),
                 ),
-                borderSide:
-                    BorderSide(color: context.theme.colorScheme.primary),
+                borderSide: BorderSide(
+                  color: context.theme.colorScheme.primary,
+                ),
               )
             : null,
       ),

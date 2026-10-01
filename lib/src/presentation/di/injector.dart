@@ -5,10 +5,13 @@ import 'package:suggest_a_feature/src/data/interfaces/suggestions_data_source.da
 import 'package:suggest_a_feature/src/data/repositories/suggestion_repository.dart';
 import 'package:suggest_a_feature/src/domain/data_interfaces/suggestion_repository.dart';
 import 'package:suggest_a_feature/src/domain/entities/admin_settings.dart';
+import 'package:suggest_a_feature/src/domain/utils/suggestion_validator.dart';
 import 'package:suggest_a_feature/src/presentation/localization/localization_extensions.dart';
 import 'package:suggest_a_feature/src/presentation/localization/localization_options.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/suggestions_theme.dart';
 
+// The injector is internal: `i` is only used inside the package, so its type
+// stays private.
 // ignore: library_private_types_in_public_api
 _Injector get i => _Injector();
 
@@ -30,6 +33,8 @@ class _Injector {
     AdminSettings? adminSettings,
     bool isAdmin = false,
     Map<String, String>? imageHeaders,
+    List<SuggestionValidationRule> titleValidationRules = const [],
+    List<SuggestionValidationRule> descriptionValidationRules = const [],
   }) {
     assert(
       (isAdmin && adminSettings != null) || !isAdmin,
@@ -53,6 +58,8 @@ class _Injector {
     _isAdmin = isAdmin;
     _localization = locale.localizationOptions;
     _navigatorKey = navigatorKey;
+    _titleValidationRules = titleValidationRules;
+    _descriptionValidationRules = descriptionValidationRules;
   }
 
   bool _isInitialized = false;
@@ -94,4 +101,14 @@ class _Injector {
   late GlobalKey<NavigatorState>? _navigatorKey;
 
   GlobalKey<NavigatorState>? get navigatorKey => _navigatorKey;
+
+  List<SuggestionValidationRule> _titleValidationRules = const [];
+
+  List<SuggestionValidationRule> get titleValidationRules =>
+      _titleValidationRules;
+
+  List<SuggestionValidationRule> _descriptionValidationRules = const [];
+
+  List<SuggestionValidationRule> get descriptionValidationRules =>
+      _descriptionValidationRules;
 }

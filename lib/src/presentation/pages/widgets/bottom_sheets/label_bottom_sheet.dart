@@ -43,10 +43,11 @@ class _LabelBottomSheetState extends State<LabelBottomSheet> {
       title: localization.labels,
       titleBottomPadding: 0,
       controller: widget.controller,
-      previousNavBarColor: context.theme.bottomSheetTheme.backgroundColor ??
+      previousNavBarColor:
+          context.theme.bottomSheetTheme.backgroundColor ??
           context.theme.colorScheme.surface,
       previousStatusBarColor: context.theme.colorScheme.surface,
-      onClose: ([ClosureType? closureType]) async {
+      onClose: ([closureType]) async {
         if (closureType == ClosureType.backButton) {
           widget.onCancel();
         } else {
@@ -54,9 +55,10 @@ class _LabelBottomSheetState extends State<LabelBottomSheet> {
           widget.onCancel();
         }
       },
-      backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
+      backgroundColor:
+          context.theme.bottomSheetTheme.backgroundColor ??
           context.theme.colorScheme.surface,
-      contentBuilder: (_, __) {
+      contentBuilder: (_, _) {
         return _LabelsListView(
           onTap: (label) => setState(
             () => selectedLabels.contains(label)

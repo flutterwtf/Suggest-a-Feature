@@ -39,11 +39,11 @@ class Comment extends Equatable {
     return Comment(
       id: json['comment_id'].toString(),
       suggestionId: json['suggestion_id'].toString(),
-      author: SuggestionAuthor.empty(id: json['author_id']),
-      isAnonymous: json['is_anonymous'],
-      text: json['text'],
-      creationTime: fromDateTime(json['creation_time']),
-      isFromAdmin: json['is_from_admin'] ?? false,
+      author: SuggestionAuthor.empty(id: json['author_id'] as String?),
+      isAnonymous: json['is_anonymous'] as bool,
+      text: json['text'] as String,
+      creationTime: fromDateTime(json['creation_time'] as String),
+      isFromAdmin: json['is_from_admin'] as bool? ?? false,
     );
   }
 
@@ -76,13 +76,13 @@ class Comment extends Equatable {
 
   @override
   List<Object?> get props => <Object?>[
-        id,
-        suggestionId,
-        author,
-        isAnonymous,
-        text,
-        isFromAdmin,
-      ];
+    id,
+    suggestionId,
+    author,
+    isAnonymous,
+    text,
+    isFromAdmin,
+  ];
 }
 
 class CreateCommentModel extends Equatable {
@@ -113,10 +113,10 @@ class CreateCommentModel extends Equatable {
 
   @override
   List<Object?> get props => <Object?>[
-        authorId,
-        isAnonymous,
-        text,
-        suggestionId,
-        isFromAdmin,
-      ];
+    authorId,
+    isAnonymous,
+    text,
+    suggestionId,
+    isFromAdmin,
+  ];
 }

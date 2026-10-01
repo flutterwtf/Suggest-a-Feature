@@ -32,7 +32,8 @@ class _SortingBottomSheetState extends State<SortingBottomSheet> {
     return BaseBottomSheet(
       controller: _controller,
       onClose: ([_]) => _onClose(),
-      backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
+      backgroundColor:
+          context.theme.bottomSheetTheme.backgroundColor ??
           context.theme.colorScheme.surface,
       previousNavBarColor: context.theme.colorScheme.surface,
       previousStatusBarColor: context.theme.colorScheme.surface,

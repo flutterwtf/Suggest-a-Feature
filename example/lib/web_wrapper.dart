@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 class WebWrapper extends StatelessWidget {
   final Widget app;
 
-  const WebWrapper({
-    required this.app,
-    super.key,
-  });
+  const WebWrapper({required this.app, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +19,7 @@ class WebWrapper extends StatelessWidget {
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.blue,
-                      Color.fromARGB(255, 136, 9, 187),
-                    ],
+                    colors: [Colors.blue, Color.fromARGB(255, 136, 9, 187)],
                   ),
                 ),
                 child: Row(
@@ -80,17 +74,11 @@ class _PhoneWrapper extends StatelessWidget {
       height: height,
       width: width,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(
-          outerRadius,
-        ),
-        border: Border.all(
-          width: borderWidth,
-        ),
+        borderRadius: BorderRadius.circular(outerRadius),
+        border: Border.all(width: borderWidth),
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(
-          outerRadius - borderWidth,
-        ),
+        borderRadius: BorderRadius.circular(outerRadius - borderWidth),
         child: child,
       ),
     );
@@ -101,10 +89,7 @@ class _AppInfo extends StatelessWidget {
   final String title;
   final String content;
 
-  const _AppInfo({
-    required this.title,
-    required this.content,
-  });
+  const _AppInfo({required this.title, required this.content});
 
   @override
   Widget build(BuildContext context) {
@@ -118,20 +103,12 @@ class _AppInfo extends StatelessWidget {
           children: [
             Text(
               title,
-              style: const TextStyle(
-                fontSize: 70,
-                color: Colors.white,
-              ),
+              style: const TextStyle(fontSize: 70, color: Colors.white),
             ),
-            const SizedBox(
-              height: 30,
-            ),
+            const SizedBox(height: 30),
             Text(
               content,
-              style: const TextStyle(
-                fontSize: 18,
-                color: Colors.white,
-              ),
+              style: const TextStyle(fontSize: 18, color: Colors.white),
             ),
           ],
         ),

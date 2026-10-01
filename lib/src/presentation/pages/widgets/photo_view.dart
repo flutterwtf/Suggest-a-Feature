@@ -30,7 +30,7 @@ class _PhotoViewState extends State<PhotoView> {
   late PageController _galleryPageController;
   late int _currentIndex;
   final Map<int, Offset> _touchPositions = <int, Offset>{};
-  ScrollPhysics _scrollPhysics = const _CustomPageViewScrollPhysics();
+  ScrollPhysics _scrollPhysics = const PageScrollPhysics();
 
   var _isZoomed = false;
 
@@ -105,7 +105,7 @@ class _PhotoViewState extends State<PhotoView> {
     setState(() {
       _scrollPhysics = _touchPositions.length > 1 || _isZoomed
           ? const NeverScrollableScrollPhysics()
-          : const _CustomPageViewScrollPhysics();
+          : const PageScrollPhysics();
     });
   }
 
@@ -179,19 +179,4 @@ class _ActionButtons extends StatelessWidget {
       ),
     );
   }
-}
-
-class _CustomPageViewScrollPhysics extends ScrollPhysics {
-  const _CustomPageViewScrollPhysics({super.parent});
-
-  @override
-  _CustomPageViewScrollPhysics applyTo(ScrollPhysics? ancestor) =>
-      _CustomPageViewScrollPhysics(parent: buildParent(ancestor));
-
-  @override
-  SpringDescription get spring => const SpringDescription(
-        mass: 50,
-        stiffness: 100,
-        damping: 0.8,
-      );
 }

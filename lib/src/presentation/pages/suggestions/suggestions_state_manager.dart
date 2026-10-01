@@ -49,7 +49,7 @@ class SuggestionsStateManager extends State<SuggestionsManager> {
       sortType: widget.sortType,
       loading: true,
     );
-    _init();
+    unawaited(_init());
   }
 
   Future<void> _init() async {
@@ -62,8 +62,9 @@ class SuggestionsStateManager extends State<SuggestionsManager> {
     final suggestionId = widget.initialSuggestionId;
     if (suggestionId != null) {
       try {
-        final suggestion =
-            await _suggestionRepository.getSuggestionById(suggestionId);
+        final suggestion = await _suggestionRepository.getSuggestionById(
+          suggestionId,
+        );
         state = SuggestionsRedirectState(
           requests: state.requests,
           inProgress: state.inProgress,
@@ -74,7 +75,7 @@ class SuggestionsStateManager extends State<SuggestionsManager> {
           loading: state.loading,
           suggestion: suggestion,
         );
-      } catch (e) {
+      } on Object catch (e) {
         if (kDebugMode) {
           log('Redirect to suggestion error', error: e);
         }
@@ -86,7 +87,7 @@ class SuggestionsStateManager extends State<SuggestionsManager> {
 
   @override
   void dispose() {
-    _suggestionSubscription?.cancel();
+    unawaited(_suggestionSubscription?.cancel());
     _suggestionSubscription = null;
     super.dispose();
   }
@@ -148,49 +149,49 @@ class SuggestionsStateManager extends State<SuggestionsManager> {
   }
 
   void openCreateBottomSheet() => _update(
-        CreateState(
-          requests: state.requests,
-          inProgress: state.inProgress,
-          completed: state.completed,
-          declined: state.declined,
-          duplicated: state.duplicated,
-          sortType: state.sortType,
-          activeTab: state.activeTab,
-          loading: state.loading,
-        ),
-      );
+    CreateState(
+      requests: state.requests,
+      inProgress: state.inProgress,
+      completed: state.completed,
+      declined: state.declined,
+      duplicated: state.duplicated,
+      sortType: state.sortType,
+      activeTab: state.activeTab,
+      loading: state.loading,
+    ),
+  );
 
   void closeBottomSheet() => _update(
-        SuggestionsState(
-          requests: state.requests,
-          inProgress: state.inProgress,
-          completed: state.completed,
-          declined: state.declined,
-          duplicated: state.duplicated,
-          sortType: state.sortType,
-          loading: state.loading,
-        ),
-      );
+    SuggestionsState(
+      requests: state.requests,
+      inProgress: state.inProgress,
+      completed: state.completed,
+      declined: state.declined,
+      duplicated: state.duplicated,
+      sortType: state.sortType,
+      loading: state.loading,
+    ),
+  );
 
   void changeActiveTab(SuggestionStatus activeTab) =>
       _update(state.newState(activeTab: activeTab));
 
   void openSortingBottomSheet() => _update(
-        SortingState(
-          requests: state.requests,
-          inProgress: state.inProgress,
-          completed: state.completed,
-          declined: state.declined,
-          duplicated: state.duplicated,
-          sortType: state.sortType,
-          loading: state.loading,
-        ),
-      );
+    SortingState(
+      requests: state.requests,
+      inProgress: state.inProgress,
+      completed: state.completed,
+      declined: state.declined,
+      duplicated: state.duplicated,
+      sortType: state.sortType,
+      loading: state.loading,
+    ),
+  );
 
   void onSortTypeChanged(SortType sortType) {
     if (sortType != state.sortType) {
       _update(state.newState(sortType: sortType));
-      _onNewSuggestions(_suggestionRepository.suggestions);
+      unawaited(_onNewSuggestions(_suggestionRepository.suggestions));
     }
   }
 

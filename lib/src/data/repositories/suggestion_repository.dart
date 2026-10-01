@@ -53,8 +53,9 @@ class SuggestionRepositoryImpl implements SuggestionRepository {
 
   @override
   Future<Suggestion> createSuggestion(CreateSuggestionModel suggestion) async {
-    final createdSuggestion =
-        await _suggestionsDataSource.createSuggestion(suggestion);
+    final createdSuggestion = await _suggestionsDataSource.createSuggestion(
+      suggestion,
+    );
 
     final suggestions = List<Suggestion>.from(this.suggestions)
       ..add(createdSuggestion);
@@ -75,7 +76,7 @@ class SuggestionRepositoryImpl implements SuggestionRepository {
   Future<void> deleteSuggestion(String suggestionId) async {
     await _suggestionsDataSource.deleteSuggestionById(suggestionId);
     final suggestions = List<Suggestion>.from(this.suggestions)
-      ..removeWhere((Suggestion e) => e.id == suggestionId);
+      ..removeWhere((e) => e.id == suggestionId);
     _suggestionsSubject.value = suggestions;
   }
 

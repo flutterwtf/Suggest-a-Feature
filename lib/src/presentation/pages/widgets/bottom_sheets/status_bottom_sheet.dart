@@ -43,10 +43,11 @@ class _StatusBottomSheetState extends State<StatusBottomSheet> {
       title: localization.status,
       titleBottomPadding: 0,
       controller: widget.controller,
-      previousNavBarColor: context.theme.bottomSheetTheme.backgroundColor ??
+      previousNavBarColor:
+          context.theme.bottomSheetTheme.backgroundColor ??
           context.theme.colorScheme.surface,
       previousStatusBarColor: context.theme.colorScheme.surface,
-      onClose: ([ClosureType? closureType]) async {
+      onClose: ([closureType]) async {
         if (closureType == ClosureType.backButton) {
           widget.onCancel();
         } else {
@@ -54,9 +55,10 @@ class _StatusBottomSheetState extends State<StatusBottomSheet> {
           widget.onCancel();
         }
       },
-      backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
+      backgroundColor:
+          context.theme.bottomSheetTheme.backgroundColor ??
           context.theme.colorScheme.surface,
-      contentBuilder: (BuildContext context, SheetState sheetState) {
+      contentBuilder: (context, sheetState) {
         return ListView(
           padding: const EdgeInsets.only(bottom: Dimensions.marginMiddle),
           physics: const NeverScrollableScrollPhysics(),
@@ -178,8 +180,9 @@ class _StatusItem extends StatelessWidget {
     return ClickableListItem(
       title: Text(
         status.statusName,
-        style: context.theme.textTheme.labelLarge
-            ?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
+        style: context.theme.textTheme.labelLarge?.copyWith(
+          color: context.theme.colorScheme.onSurfaceVariant,
+        ),
       ),
       trailing: SuggestionsRadioButton(selected: selectedStatus == status),
       onClick: () => onTap(status),

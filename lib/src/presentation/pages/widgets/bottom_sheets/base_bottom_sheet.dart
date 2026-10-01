@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
@@ -70,11 +72,12 @@ class _BaseBottomSheetState extends State<BaseBottomSheet>
     _dimmingController = AnimationController(
       vsync: this,
       duration: widget.openDuration,
-    )..forward();
+    );
+    unawaited(_dimmingController.forward());
   }
 
   void _onDismiss(ClosureType closureType) {
-    _dimmingController.reverse();
+    unawaited(_dimmingController.reverse());
     widget.onClose(closureType);
   }
 
@@ -206,7 +209,7 @@ class _SlidingSheet extends StatelessWidget {
         state: state,
         headerBuilder: headerBuilder,
       ),
-      builder: (BuildContext context, SheetState state) {
+      builder: (context, state) {
         return _SafeArea(
           contentBuilder: contentBuilder,
           contentPadding: contentPadding,

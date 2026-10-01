@@ -10,11 +10,12 @@ import 'package:suggest_a_feature/src/presentation/pages/widgets/suggestions_tex
 import 'package:suggest_a_feature/src/presentation/utils/dimensions.dart';
 import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
 
-typedef OnCreateComment = void Function(
-  String text, {
-  required bool isAnonymous,
-  required bool postedByAdmin,
-});
+typedef OnCreateComment =
+    void Function(
+      String text, {
+      required bool isAnonymous,
+      required bool postedByAdmin,
+    });
 
 class CreateCommentBottomSheet extends StatefulWidget {
   final AsyncCallback onClose;
@@ -61,11 +62,12 @@ class _CreateCommentBottomSheetState extends State<CreateCommentBottomSheet> {
       controller: widget.controller,
       onOpen: _inputFocusNode.requestFocus,
       onClose: ([_]) => widget.onClose(),
-      backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
+      backgroundColor:
+          context.theme.bottomSheetTheme.backgroundColor ??
           context.theme.colorScheme.surface,
       previousNavBarColor: context.theme.colorScheme.surface,
       previousStatusBarColor: context.theme.colorScheme.surface,
-      contentBuilder: (_, __) {
+      contentBuilder: (_, _) {
         return ListView(
           padding: const EdgeInsets.only(
             top: Dimensions.marginSmall,
@@ -185,8 +187,9 @@ class _PostAnonymously extends StatelessWidget {
     return ClickableListItem(
       title: Text(
         localization.postAnonymously,
-        style: context.theme.textTheme.labelLarge
-            ?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
+        style: context.theme.textTheme.labelLarge?.copyWith(
+          color: context.theme.colorScheme.onSurfaceVariant,
+        ),
       ),
       trailing: SuggestionsSwitch(
         value: isAnonymously,
@@ -210,8 +213,9 @@ class _PostPostedBy extends StatelessWidget {
     return ClickableListItem(
       title: Text(
         localization.postFromAdmin,
-        style: context.theme.textTheme.labelLarge
-            ?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
+        style: context.theme.textTheme.labelLarge?.copyWith(
+          color: context.theme.colorScheme.onSurfaceVariant,
+        ),
       ),
       trailing: SuggestionsSwitch(
         value: isFromAdmin,

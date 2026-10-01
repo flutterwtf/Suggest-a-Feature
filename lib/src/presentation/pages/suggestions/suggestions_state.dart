@@ -48,15 +48,15 @@ class SuggestionsState extends Equatable {
 
   @override
   List<Object?> get props => <Object?>[
-        requests,
-        inProgress,
-        completed,
-        declined,
-        duplicated,
-        activeTab,
-        sortType,
-        loading,
-      ];
+    requests,
+    inProgress,
+    completed,
+    declined,
+    duplicated,
+    activeTab,
+    sortType,
+    loading,
+  ];
 }
 
 class CreateState extends SuggestionsState {
@@ -176,18 +176,19 @@ extension SortTypeExtension on SortType {
   Comparator<Suggestion> get sortFunction {
     return switch (this) {
       SortType.upvotes => (a, b) => b.upvotesCount.compareTo(a.upvotesCount),
-      SortType.creationDate => (a, b) =>
-          b.creationTime.compareTo(a.creationTime),
+      SortType.creationDate => (a, b) => b.creationTime.compareTo(
+        a.creationTime,
+      ),
       SortType.userSuggestion => (a, b) {
-          if (a.authorId == i.userId && b.authorId != i.userId) {
-            return -1;
-          }
-          if (a.authorId != i.userId && b.authorId == i.userId) {
-            return 1;
-          }
-
-          return b.upvotesCount.compareTo(a.upvotesCount);
+        if (a.authorId == i.userId && b.authorId != i.userId) {
+          return -1;
         }
+        if (a.authorId != i.userId && b.authorId == i.userId) {
+          return 1;
+        }
+
+        return b.upvotesCount.compareTo(a.upvotesCount);
+      },
     };
   }
 }

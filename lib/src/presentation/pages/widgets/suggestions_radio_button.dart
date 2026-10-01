@@ -27,7 +27,7 @@ class SuggestionsRadioButton extends StatelessWidget {
             color: selected
                 ? context.theme.colorScheme.onSurface
                 : context.theme.bottomSheetTheme.backgroundColor ??
-                    context.theme.colorScheme.surface,
+                      context.theme.colorScheme.surface,
             shape: BoxShape.circle,
           ),
           child: selected

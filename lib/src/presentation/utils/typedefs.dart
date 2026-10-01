@@ -4,9 +4,10 @@ import 'package:suggest_a_feature/suggest_a_feature.dart';
 ///
 /// The function has [Future<List<String>?>] return type and takes 1 named
 /// argument [availableNumOfPhotos] which is an [int] object.
-typedef OnUploadMultiplePhotosCallback = Future<List<String>?> Function({
-  required int availableNumOfPhotos,
-});
+typedef OnUploadMultiplePhotosCallback =
+    Future<List<String>?> Function({
+      required int availableNumOfPhotos,
+    });
 
 /// The function has [Future<bool?>] return type and takes 1 positional
 /// argument [url] which is a [String] object.
@@ -20,7 +21,7 @@ typedef OnSaveToGalleryCallback = Future<bool?> Function(String url);
 /// The [id] argument is an id of the author which we want to get.
 typedef OnGetUserById = Future<SuggestionAuthor?> Function(String id);
 
-/// The function has [void] return type and
+/// The function returns a [Future] that completes when sharing is done and
 /// takes 1 positional argument [id] which is a [String] object.
 ///
 /// The [id] argument is an id of the suggestion which we want to share.

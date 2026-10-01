@@ -1,3 +1,9 @@
+## 0.6.0
+* Title and description are now required to create or edit a suggestion; whitespace-only values are rejected and both are trimmed before saving
+* New `titleValidationRules` and `descriptionValidationRules` parameters in `SuggestionsPage`: lists of `SuggestionValidationRule` (`RegExp` pattern, forbidden pattern, min or max length), each with its own error text
+* Fixed the deprecated `Matrix4` calls in the photo zoom
+* Fixed scrolling between photos in the photo view when a suggestion has several images
+
 ## 0.5.2
 * Fixed creation and editing of suggestions
 * Added secondary button customization
@@ -27,14 +33,14 @@
 * Delete `flutter_bloc` dependency
 
 ## 0.3.1
-* Use AppBarTheme instead of SuggestionsAppBar [#65](https://github.com/What-the-Flutter/Suggest-a-Feature/pull/65)
-* Get rid of flutter-localizations [#58](https://github.com/What-the-Flutter/Suggest-a-Feature/pull/58)
+* Use AppBarTheme instead of SuggestionsAppBar [#65](https://github.com/flutterwtf/Suggest-a-Feature/pull/65)
+* Get rid of flutter-localizations [#58](https://github.com/flutterwtf/Suggest-a-Feature/pull/58)
 
 ## 0.3.0
 * Color theme updated, now material theme is used (migration gid in readme)
-* Clickable item row instead of RadioButton [#56](https://github.com/What-the-Flutter/Suggest-a-Feature/pull/56)
-* Added sorting parameter [#55](https://github.com/What-the-Flutter/Suggest-a-Feature/pull/55)
-* Added initial loading [#54](https://github.com/What-the-Flutter/Suggest-a-Feature/pull/54)
+* Clickable item row instead of RadioButton [#56](https://github.com/flutterwtf/Suggest-a-Feature/pull/56)
+* Added sorting parameter [#55](https://github.com/flutterwtf/Suggest-a-Feature/pull/55)
+* Added initial loading [#54](https://github.com/flutterwtf/Suggest-a-Feature/pull/54)
 
 ## 0.2.1
 * Sorting added
@@ -42,14 +48,14 @@
 ## 0.2.0
 * Dart 3.0.0 is now the minimum version
 * Upgrade dependencies
-* Removed cached_network_image dependency [#46](https://github.com/What-the-Flutter/Suggest-a-Feature/pull/46)
-* Added `Declined` and `Duplicated` suggestion statuses [#45](https://github.com/What-the-Flutter/Suggest-a-Feature/pull/45)
+* Removed cached_network_image dependency [#46](https://github.com/flutterwtf/Suggest-a-Feature/pull/46)
+* Added `Declined` and `Duplicated` suggestion statuses [#45](https://github.com/flutterwtf/Suggest-a-Feature/pull/45)
 
 ## 0.1.2
-* Removed transitive dependency extended_image [#43](https://github.com/What-the-Flutter/Suggest-a-Feature/pull/43)
+* Removed transitive dependency extended_image [#43](https://github.com/flutterwtf/Suggest-a-Feature/pull/43)
 
 ## 0.1.1
-* Fixed localization delegate [#40](https://github.com/What-the-Flutter/Suggest-a-Feature/pull/40)
+* Fixed localization delegate [#40](https://github.com/flutterwtf/Suggest-a-Feature/pull/40)
 * Update web example
 
 ## 0.1.0
