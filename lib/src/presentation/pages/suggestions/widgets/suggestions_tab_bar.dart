@@ -87,8 +87,9 @@ class _TabButton extends StatelessWidget {
           child: Text(
             text,
             style: context.theme.textTheme.labelLarge?.copyWith(
-              color:
-                  isActive ? null : context.theme.colorScheme.onSurfaceVariant,
+              color: isActive
+                  ? null
+                  : context.theme.colorScheme.onSurfaceVariant,
             ),
           ),
         ),

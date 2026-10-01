@@ -4,13 +4,15 @@
 /// to implement additional menu in their own mobile app where users can share
 /// their suggestions about the application in real time, discuss them with
 /// others, and vote for each other's suggestions.
-library suggest_a_feature;
+library;
 
 export 'src/data/interfaces/suggestions_data_source.dart';
 export 'src/domain/entities/admin_settings.dart';
 export 'src/domain/entities/comment.dart';
 export 'src/domain/entities/suggestion.dart';
 export 'src/domain/entities/suggestion_author.dart';
+export 'src/domain/utils/suggestion_validator.dart'
+    show SuggestionValidationRule;
 export 'src/presentation/pages/suggestion/suggestion_page.dart';
 export 'src/presentation/pages/suggestions/suggestions_page.dart';
 export 'src/presentation/pages/theme/suggestions_theme.dart';

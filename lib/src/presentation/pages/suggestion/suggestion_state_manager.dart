@@ -59,7 +59,7 @@ class SuggestionStateManager extends State<SuggestionManager> {
 
   @override
   void dispose() {
-    _suggestionSubscription?.cancel();
+    unawaited(_suggestionSubscription?.cancel());
     _suggestionSubscription = null;
     super.dispose();
   }
@@ -72,17 +72,19 @@ class SuggestionStateManager extends State<SuggestionManager> {
     _update(
       state.newState(
         suggestion: suggestion,
-        isEditable: (i.userId == suggestion.authorId &&
+        isEditable:
+            (i.userId == suggestion.authorId &&
                 suggestion.status == SuggestionStatus.requests) ||
             isAdmin,
       ),
     );
-    _suggestionSubscription?.cancel();
-    _suggestionSubscription =
-        _suggestionRepository.suggestionsStream.listen(_onNewSuggestions);
-    _loadComments(getUserById, suggestion.id);
+    unawaited(_suggestionSubscription?.cancel());
+    _suggestionSubscription = _suggestionRepository.suggestionsStream.listen(
+      _onNewSuggestions,
+    );
+    unawaited(_loadComments(getUserById, suggestion.id));
     if (!suggestion.isAnonymous) {
-      _loadAuthorProfile(getUserById, suggestion.authorId);
+      unawaited(_loadAuthorProfile(getUserById, suggestion.authorId));
     }
   }
 
@@ -113,21 +115,24 @@ class SuggestionStateManager extends State<SuggestionManager> {
   ) async {
     try {
       final comments = await _suggestionRepository.getAllComments(suggestionId);
-      final extendedComments = await Future.wait(
-        comments.map(
-          (Comment e) async {
-            if (!e.isFromAdmin) {
-              return e.copyWith(
-                author: e.isAnonymous ? null : await getUserById(e.author.id),
-              );
-            }
-            return e;
-          },
-        ),
-      )
-        ..sort(
-          (a, b) => b.creationTime.compareTo(a.creationTime),
-        );
+      final extendedComments =
+          await Future.wait(
+              comments.map(
+                (e) async {
+                  if (!e.isFromAdmin) {
+                    return e.copyWith(
+                      author: e.isAnonymous
+                          ? null
+                          : await getUserById(e.author.id),
+                    );
+                  }
+                  return e;
+                },
+              ),
+            )
+            ..sort(
+              (a, b) => b.creationTime.compareTo(a.creationTime),
+            );
       _update(
         state.newState(
           suggestion: state.suggestion.copyWith(comments: extendedComments),
@@ -137,7 +142,7 @@ class SuggestionStateManager extends State<SuggestionManager> {
         state.suggestion,
         saveComments: false,
       );
-    } catch (e) {
+    } on Object catch (e) {
       log('Comments loading error', error: e);
     }
     _update(
@@ -213,7 +218,7 @@ class SuggestionStateManager extends State<SuggestionManager> {
     _update(
       state.newState(
         suggestion: suggestions.firstWhere(
-          (Suggestion e) => e.id == state.suggestion.id,
+          (e) => e.id == state.suggestion.id,
         ),
       ),
     );
@@ -242,10 +247,11 @@ class SuggestionStateManager extends State<SuggestionManager> {
   }
 
   Future<void> deleteComment() async {
-    final comments = state.suggestion.comments
-        .where((comment) => comment.id != state.selectedCommentId)
-        .toList()
-      ..sort((a, b) => b.creationTime.compareTo(a.creationTime));
+    final comments =
+        state.suggestion.comments
+            .where((comment) => comment.id != state.selectedCommentId)
+            .toList()
+          ..sort((a, b) => b.creationTime.compareTo(a.creationTime));
     await _suggestionRepository.deleteCommentById(state.selectedCommentId!);
     _update(
       state.newState(
@@ -286,7 +292,7 @@ class SuggestionStateManager extends State<SuggestionManager> {
         state.suggestion,
         saveComments: false,
       );
-    } catch (e) {
+    } on Object catch (e) {
       log('Comment creation error', error: e);
     }
   }
@@ -327,8 +333,9 @@ class SuggestionStateManager extends State<SuggestionManager> {
 
     isNotificationOn
         ? await _suggestionRepository.addNotifyToUpdateUser(state.suggestion.id)
-        : await _suggestionRepository
-            .deleteNotifyToUpdateUser(state.suggestion.id);
+        : await _suggestionRepository.deleteNotifyToUpdateUser(
+            state.suggestion.id,
+          );
     _update(
       state.newState(
         suggestion: state.suggestion.copyWith(

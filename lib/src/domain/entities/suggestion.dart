@@ -108,17 +108,17 @@ class Suggestion extends Equatable {
 
     return Suggestion(
       id: json['suggestion_id'].toString(),
-      title: json['title'],
-      description: json['description'],
+      title: json['title'] as String,
+      description: json['description'] as String?,
       labels: (json['labels'] as List<dynamic>)
           .cast<String>()
           .map(SuggestionLabel.fromName)
           .toList(),
       images: (json['images'] as List<dynamic>).cast<String>(),
-      authorId: json['author_id'],
-      isAnonymous: json['is_anonymous'],
-      creationTime: fromDateTime(json['creation_time']),
-      status: SuggestionStatus.fromName(json['status']),
+      authorId: json['author_id'] as String,
+      isAnonymous: json['is_anonymous'] as bool,
+      creationTime: fromDateTime(json['creation_time'] as String),
+      status: SuggestionStatus.fromName(json['status'] as String?),
       votedUserIds: votedUserIds?.cast<String>().toSet() ?? {},
       notifyUserIds: notifyUserIds?.cast<String>().toSet() ?? {},
     );
@@ -136,18 +136,18 @@ class Suggestion extends Equatable {
 
   @override
   List<Object?> get props => <Object?>[
-        id,
-        title,
-        description,
-        labels,
-        images,
-        comments,
-        authorId,
-        isAnonymous,
-        status,
-        votedUserIds,
-        notifyUserIds,
-      ];
+    id,
+    title,
+    description,
+    labels,
+    images,
+    comments,
+    authorId,
+    isAnonymous,
+    status,
+    votedUserIds,
+    notifyUserIds,
+  ];
 }
 
 enum SuggestionStatus {

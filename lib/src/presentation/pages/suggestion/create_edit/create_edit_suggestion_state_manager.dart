@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:suggest_a_feature/src/domain/data_interfaces/suggestion_repository.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
+import 'package:suggest_a_feature/src/domain/utils/suggestion_validator.dart';
 import 'package:suggest_a_feature/src/presentation/di/injector.dart';
 import 'package:suggest_a_feature/src/presentation/pages/suggestion/create_edit/create_edit_suggestion_state.dart';
 import 'package:suggest_a_feature/src/presentation/utils/image_utils.dart';
@@ -18,8 +19,10 @@ class CreateEditSuggestionManager extends StatefulWidget {
   });
 
   static CreateEditSuggestionStateManager of(BuildContext context) {
-    return (context.dependOnInheritedWidgetOfExactType<
-            _InheritedCreateEditSuggestion>()!)
+    return (context
+            .dependOnInheritedWidgetOfExactType<
+              _InheritedCreateEditSuggestion
+            >()!)
         .suggestionManager;
   }
 
@@ -41,6 +44,7 @@ class CreateEditSuggestionStateManager
       suggestion: widget.suggestion ?? Suggestion.empty(),
       savingImageResultMessageType: SavingResultMessageType.none,
       isShowTitleError: false,
+      isShowDescriptionError: false,
       isEditing: widget.suggestion != null,
       isSubmitted: false,
       isLoading: false,
@@ -84,8 +88,9 @@ class CreateEditSuggestionStateManager
   void removePhoto(String path) {
     _update(
       state.newState(
-        suggestion: state.suggestion
-            .copyWith(images: state.suggestion.images..remove(path)),
+        suggestion: state.suggestion.copyWith(
+          images: state.suggestion.images..remove(path),
+        ),
         isPhotoViewOpen: false,
       ),
     );
@@ -141,6 +146,7 @@ class CreateEditSuggestionStateManager
     _update(
       state.newState(
         suggestion: state.suggestion.copyWith(description: text),
+        isShowDescriptionError: false,
       ),
     );
   }
@@ -162,20 +168,44 @@ class CreateEditSuggestionStateManager
   }
 
   Future<void> saveSuggestion() async {
-    if (state.suggestion.title.isEmpty || state.isLoading) {
-      _update(state.newState(isShowTitleError: true));
+    if (state.isLoading) {
       return;
     }
+    final titleError = SuggestionValidator.validate(
+      state.suggestion.title,
+      requiredErrorText: i.localizations.titleRequiredError,
+      rules: i.titleValidationRules,
+    );
+    final descriptionError = SuggestionValidator.validate(
+      state.suggestion.description,
+      requiredErrorText: i.localizations.descriptionRequiredError,
+      rules: i.descriptionValidationRules,
+    );
+    if (titleError != null || descriptionError != null) {
+      _update(
+        state.newState(
+          isShowTitleError: titleError != null,
+          isShowDescriptionError: descriptionError != null,
+          titleErrorText: titleError,
+          descriptionErrorText: descriptionError,
+        ),
+      );
+      return;
+    }
+    final suggestion = state.suggestion.copyWith(
+      title: state.suggestion.title.trim(),
+      description: state.suggestion.description?.trim(),
+    );
     if (state.isEditing) {
-      await _suggestionRepository.updateSuggestion(state.suggestion);
+      await _suggestionRepository.updateSuggestion(suggestion);
     } else {
       final model = CreateSuggestionModel(
-        title: state.suggestion.title,
-        description: state.suggestion.description,
-        labels: state.suggestion.labels,
-        images: state.suggestion.images,
+        title: suggestion.title,
+        description: suggestion.description,
+        labels: suggestion.labels,
+        images: suggestion.images,
         authorId: i.userId,
-        isAnonymous: state.suggestion.isAnonymous,
+        isAnonymous: suggestion.isAnonymous,
       );
       await _suggestionRepository.createSuggestion(model);
     }

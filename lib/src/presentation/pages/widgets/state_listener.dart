@@ -26,8 +26,9 @@ class _StateListenerState<T> extends State<StateListener<T>> {
     if (widget.listener != null &&
         (widget.listenWhen == null ||
             widget.listenWhen!(oldWidget.state, widget.state))) {
-      WidgetsBinding.instance
-          .addPostFrameCallback((_) => widget.listener!(widget.state));
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => widget.listener!(widget.state),
+      );
     }
   }
 

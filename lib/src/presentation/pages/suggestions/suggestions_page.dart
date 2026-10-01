@@ -64,6 +64,16 @@ class SuggestionsPage extends StatefulWidget {
   /// Navigates to [SuggestionPage] if not `null`
   final String? suggestionId;
 
+  /// Extra rules for the suggestion title, checked in order after the
+  /// built-in "not empty" check when a suggestion is created or edited.
+  /// The first rule that fails shows its error.
+  final List<SuggestionValidationRule> titleValidationRules;
+
+  /// Extra rules for the suggestion description, checked in order after the
+  /// built-in "not empty" check when a suggestion is created or edited.
+  /// The first rule that fails shows its error.
+  final List<SuggestionValidationRule> descriptionValidationRules;
+
   const SuggestionsPage({
     required this.userId,
     required this.suggestionsDataSource,
@@ -80,11 +90,13 @@ class SuggestionsPage extends StatefulWidget {
     this.locale,
     this.sortType = SortType.upvotes,
     this.suggestionId,
+    this.titleValidationRules = const [],
+    this.descriptionValidationRules = const [],
     super.key,
   }) : assert(
-          (isAdmin && adminSettings != null) || !isAdmin,
-          'if isAdmin == true, then adminSettings cannot be null',
-        );
+         (isAdmin && adminSettings != null) || !isAdmin,
+         'if isAdmin == true, then adminSettings cannot be null',
+       );
 
   @override
   State<SuggestionsPage> createState() => _SuggestionsPageState();
@@ -94,6 +106,18 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    _initInjector();
+  }
+
+  // Re-run on widget updates too, so error texts passed by the app follow
+  // its locale when it rebuilds the page with new strings.
+  @override
+  void didUpdateWidget(SuggestionsPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _initInjector();
+  }
+
+  void _initInjector() {
     i.init(
       theme: widget.theme,
       userId: widget.userId,
@@ -103,6 +127,8 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
       isAdmin: widget.isAdmin,
       locale: widget.locale ?? SuggestionsPlatform.localeName(context),
       navigatorKey: widget.navigatorKey,
+      titleValidationRules: widget.titleValidationRules,
+      descriptionValidationRules: widget.descriptionValidationRules,
     );
   }
 
@@ -135,7 +161,8 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
                   screenTitle:
                       widget.appBarTitle ?? localization.suggestAFeature,
                 ),
-                backgroundColor: theme.backgroundColor ??
+                backgroundColor:
+                    theme.backgroundColor ??
                     context.theme.scaffoldBackgroundColor,
                 body: state.loading
                     ? const Center(child: CircularProgressIndicator())

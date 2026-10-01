@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="https://flutter.wtf/">
-    <img alt="What the Flutter" src="https://static.tildacdn.com/tild6330-3461-4139-a163-666435336663/Group_13.svg" height=140/>
+    <img alt="What the Flutter" src="https://raw.githubusercontent.com/flutterwtf/Suggest-a-Feature/master/images/logo.svg" width="140" height="140"/>
   </a>
 </p>
 
@@ -15,7 +15,7 @@
 </p>
 
 <p align="center">
-  <a href="https://pub.dartlang.org/packages/suggest_a_feature">
+  <a href="https://pub.dev/packages/suggest_a_feature">
     <img alt="Pub" src="https://img.shields.io/pub/v/suggest_a_feature" />
   </a>
   <a href="https://github.com/flutterwtf/Suggest-a-Feature/actions/workflows/build.yml?query=workflow%3ABuild">
@@ -116,12 +116,44 @@ MaterialApp(
 - `SuggestionsLocalizations` - strings localization
 - `GlobalMaterialLocalizations`- date format localization
 
-You also have to invoke [initializeDateFormatting()](https://api.flutter.dev/flutter/date_symbol_data_local/initializeDateFormatting.html) before `MaterialApp()` widget creation in order to support date formatting.
+You also have to invoke [initializeDateFormatting()](https://pub.dev/documentation/intl/latest/date_symbol_data_local/initializeDateFormatting.html) before `MaterialApp()` widget creation in order to support date formatting.
 
 ``` dart
 initializeDateFormatting();
 return MaterialApp(
   home: SuggestionsPage(),
+);
+```
+
+## Validation
+
+A suggestion can't be created or edited with an empty title or description. Whitespace-only text
+counts as empty, and both fields are trimmed before saving.
+
+You can add your own rules for each field with `titleValidationRules` and
+`descriptionValidationRules`. Rules are checked in order against the trimmed text, and the first one
+that fails shows its error under the field. Each rule has its own error text, so pass strings from
+your app's localization.
+
+- `SuggestionValidationRule(pattern:, errorText:)` passes when the text matches `pattern`. Anchor it
+  with `^` and `$` to check the whole text.
+- `SuggestionValidationRule.forbidden(pattern:, errorText:)` fails when `pattern` is found anywhere
+  in the text, for example a banned word.
+- `SuggestionValidationRule.minLength` and `SuggestionValidationRule.maxLength` limit the length.
+
+``` dart
+SuggestionsPage(
+  titleValidationRules: [
+    SuggestionValidationRule.forbidden(
+      pattern: RegExp(r'\bbadword\b', caseSensitive: false),
+      errorText: context.l10n.suggestionBannedWord,
+    ),
+    SuggestionValidationRule.minLength(5, errorText: context.l10n.titleTooShort),
+    SuggestionValidationRule.maxLength(80, errorText: context.l10n.titleTooLong),
+  ],
+  descriptionValidationRules: [
+    SuggestionValidationRule.minLength(20, errorText: context.l10n.descriptionTooShort),
+  ],
 );
 ```
 

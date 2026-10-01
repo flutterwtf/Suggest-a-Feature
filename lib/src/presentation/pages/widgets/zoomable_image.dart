@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 const double _minZoomScale = 1;
@@ -74,25 +76,33 @@ class _ZoomableImageState extends State<ZoomableImage>
     final x = -pos.dx * (_doubleTapZoomScale - 1);
     final y = -pos.dy * (_doubleTapZoomScale - 1);
     final zoomedMatrix = Matrix4.identity()
-      ..translate(x, y)
-      ..scale(_doubleTapZoomScale);
+      ..translateByDouble(x, y, 0, 1)
+      ..scaleByDouble(
+        _doubleTapZoomScale,
+        _doubleTapZoomScale,
+        _doubleTapZoomScale,
+        1,
+      );
 
     final endMatrix = _transformationController.value.isIdentity()
         ? zoomedMatrix
         : Matrix4.identity();
 
-    _animation = Matrix4Tween(
-      begin: _transformationController.value,
-      end: endMatrix,
-    ).animate(
-      CurveTween(curve: Curves.easeInOut).animate(_animationController),
-    );
-    _animationController.forward(from: 0).then(
-      (_) {
-        _animationController.removeListener(
-          _animationListener,
+    _animation =
+        Matrix4Tween(
+          begin: _transformationController.value,
+          end: endMatrix,
+        ).animate(
+          CurveTween(curve: Curves.easeInOut).animate(_animationController),
         );
-      },
+    unawaited(
+      _animationController.forward(from: 0).then(
+        (_) {
+          _animationController.removeListener(
+            _animationListener,
+          );
+        },
+      ),
     );
   }
 

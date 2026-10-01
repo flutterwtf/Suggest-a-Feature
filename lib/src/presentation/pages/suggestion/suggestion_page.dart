@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:suggest_a_feature/src/domain/entities/admin_settings.dart';
@@ -95,7 +97,8 @@ class _SuggestionPageState extends State<SuggestionPage> {
               children: [
                 Scaffold(
                   appBar: _appBar(stateManager, state.isEditable),
-                  backgroundColor: theme.backgroundColor ??
+                  backgroundColor:
+                      theme.backgroundColor ??
                       context.theme.scaffoldBackgroundColor,
                   body: _MainContent(
                     onSaveToGallery: widget.onSaveToGallery,
@@ -190,7 +193,7 @@ class _MainContent extends StatelessWidget {
     final stateManager = SuggestionManager.of(context);
     final state = stateManager.state;
     return NotificationListener<OverscrollIndicatorNotification>(
-      onNotification: (OverscrollIndicatorNotification overscroll) {
+      onNotification: (overscroll) {
         overscroll.disallowIndicator();
         return true;
       },
@@ -258,8 +261,9 @@ class _UserInfo extends StatelessWidget {
         children: [
           Text(
             localization.postedBy,
-            style: context.theme.textTheme.bodyMedium
-                ?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
+            style: context.theme.textTheme.bodyMedium?.copyWith(
+              color: context.theme.colorScheme.onSurfaceVariant,
+            ),
           ),
           _Avatar(avatar: author.avatar),
           Expanded(
@@ -272,9 +276,7 @@ class _UserInfo extends StatelessWidget {
           ),
           if (onShareSuggestion != null)
             IconButton(
-              onPressed: () {
-                onShareSuggestion!(suggestionId);
-              },
+              onPressed: () => unawaited(onShareSuggestion!(suggestionId)),
               icon: const Icon(Icons.share),
             ),
         ],
@@ -358,8 +360,9 @@ class _AttachedImages extends StatelessWidget {
         children: [
           Text(
             localization.attachedPhotos,
-            style: context.theme.textTheme.labelLarge
-                ?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
+            style: context.theme.textTheme.labelLarge?.copyWith(
+              color: context.theme.colorScheme.onSurfaceVariant,
+            ),
           ),
           const SizedBox(height: Dimensions.marginMiddle),
           Wrap(
@@ -401,8 +404,9 @@ class _CommentList extends StatelessWidget {
           ),
           child: Text(
             localization.commentsTitle,
-            style: context.theme.textTheme.labelLarge
-                ?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
+            style: context.theme.textTheme.labelLarge?.copyWith(
+              color: context.theme.colorScheme.onSurfaceVariant,
+            ),
           ),
         ),
         Wrap(
@@ -465,8 +469,9 @@ class _SuggestionHeaderContent extends StatelessWidget {
           behavior: HitTestBehavior.translucent,
           onTap: onVote,
           child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: Dimensions.marginSmall),
+            padding: const EdgeInsets.symmetric(
+              horizontal: Dimensions.marginSmall,
+            ),
             child: VotesCounter(
               isVoted: isVoted,
               upvotesCount: upvotesCount,
@@ -501,23 +506,25 @@ class _WrappedAttachedImage extends StatelessWidget {
     final suggestionManager = SuggestionManager.of(context);
     return GestureDetector(
       onTap: () {
-        showDialog<void>(
-          useSafeArea: false,
-          barrierColor: Colors.black,
-          context: context,
-          useRootNavigator: false,
-          builder: (_) {
-            return PhotoView(
-              onDownloadClick: onSaveToGallery != null
-                  ? (path) => suggestionManager.showSavingResultMessage(
+        unawaited(
+          showDialog<void>(
+            useSafeArea: false,
+            barrierColor: Colors.black,
+            context: context,
+            useRootNavigator: false,
+            builder: (_) {
+              return PhotoView(
+                onDownloadClick: onSaveToGallery != null
+                    ? (path) => suggestionManager.showSavingResultMessage(
                         onSaveToGallery!(path),
                       )
-                  : null,
-              initialIndex: images.indexOf(attachedImage),
-              photos: images,
-              previousNavBarColor: context.theme.colorScheme.surface,
-            );
-          },
+                    : null,
+                initialIndex: images.indexOf(attachedImage),
+                photos: images,
+                previousNavBarColor: context.theme.colorScheme.surface,
+              );
+            },
+          ),
         );
       },
       child: Container(
@@ -628,9 +635,8 @@ class _OpenConfirmationBottomSheet extends StatelessWidget {
       controller: sheetController,
       question: localization.deletionQuestion,
       onConfirm: () {
-        stateManager
-          ..closeBottomSheet()
-          ..deleteSuggestion();
+        stateManager.closeBottomSheet();
+        unawaited(stateManager.deleteSuggestion());
       },
       onCancel: ([_]) async {
         await sheetController.collapse();
@@ -654,9 +660,8 @@ class _OpenCommentConfirmationBottomSheet extends StatelessWidget {
       controller: sheetController,
       question: localization.deletionCommentQuestion,
       onConfirm: () {
-        stateManager
-          ..closeBottomSheet()
-          ..deleteComment();
+        stateManager.closeBottomSheet();
+        unawaited(stateManager.deleteComment());
       },
       onCancel: ([_]) async {
         await sheetController.collapse();
@@ -685,8 +690,8 @@ class _OpenNotificationBottomSheet extends StatelessWidget {
       isNotificationOn: isNotificationOn,
       onChangeNotification: (isNotificationOn) =>
           stateManager.changeNotification(
-        isNotificationOn: isNotificationOn,
-      ),
+            isNotificationOn: isNotificationOn,
+          ),
       onCancel: ([_]) async {
         await sheetController.collapse();
         stateManager.closeBottomSheet();
@@ -764,18 +769,21 @@ class _OpenCreateCommentBottomSheet extends StatelessWidget {
         await sheetController.collapse();
         stateManager.closeBottomSheet();
       },
-      onCreateComment: (
-        String text, {
-        required bool isAnonymous,
-        required bool postedByAdmin,
-      }) {
-        stateManager.createComment(
-          text,
-          onGetUserById,
-          isAnonymous: isAnonymous,
-          postedByAdmin: postedByAdmin,
-        );
-      },
+      onCreateComment:
+          (
+            text, {
+            required isAnonymous,
+            required postedByAdmin,
+          }) {
+            unawaited(
+              stateManager.createComment(
+                text,
+                onGetUserById,
+                isAnonymous: isAnonymous,
+                postedByAdmin: postedByAdmin,
+              ),
+            );
+          },
     );
   }
 }
@@ -883,8 +891,9 @@ class _CommentInfo extends StatelessWidget {
         ),
         Text(
           comment.creationTime.formatComment(localization.locale),
-          style: context.theme.textTheme.bodyMedium
-              ?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
+          style: context.theme.textTheme.bodyMedium?.copyWith(
+            color: context.theme.colorScheme.onSurfaceVariant,
+          ),
         ),
       ],
     );

@@ -5,6 +5,9 @@ class CreateEditSuggestionState {
   final Suggestion suggestion;
   final bool isEditing;
   final bool isShowTitleError;
+  final bool isShowDescriptionError;
+  final String? titleErrorText;
+  final String? descriptionErrorText;
   final bool isSubmitted;
   final bool isLoading;
   final bool isLabelsBottomSheetOpen;
@@ -17,6 +20,7 @@ class CreateEditSuggestionState {
     required this.suggestion,
     required this.isEditing,
     required this.isShowTitleError,
+    required this.isShowDescriptionError,
     required this.isSubmitted,
     required this.isLoading,
     required this.isLabelsBottomSheetOpen,
@@ -24,12 +28,15 @@ class CreateEditSuggestionState {
     required this.savingImageResultMessageType,
     required this.isStatusBottomSheetOpen,
     this.openPhotoIndex,
+    this.titleErrorText,
+    this.descriptionErrorText,
   });
 
   CreateEditSuggestionState newState({
     Suggestion? suggestion,
     bool? isEditing,
     bool? isShowTitleError,
+    bool? isShowDescriptionError,
     bool? isSubmitted,
     bool? isLoading,
     bool? isLabelsBottomSheetOpen,
@@ -37,11 +44,15 @@ class CreateEditSuggestionState {
     bool? isPhotoViewOpen,
     SavingResultMessageType? savingImageResultMessageType,
     int? openPhotoIndex,
+    String? titleErrorText,
+    String? descriptionErrorText,
   }) {
     return CreateEditSuggestionState(
       suggestion: suggestion ?? this.suggestion,
       isEditing: isEditing ?? this.isEditing,
       isShowTitleError: isShowTitleError ?? this.isShowTitleError,
+      isShowDescriptionError:
+          isShowDescriptionError ?? this.isShowDescriptionError,
       isSubmitted: isSubmitted ?? this.isSubmitted,
       isLoading: isLoading ?? this.isLoading,
       isLabelsBottomSheetOpen:
@@ -52,6 +63,8 @@ class CreateEditSuggestionState {
       savingImageResultMessageType:
           savingImageResultMessageType ?? this.savingImageResultMessageType,
       openPhotoIndex: openPhotoIndex ?? this.openPhotoIndex,
+      titleErrorText: titleErrorText ?? this.titleErrorText,
+      descriptionErrorText: descriptionErrorText ?? this.descriptionErrorText,
     );
   }
 }

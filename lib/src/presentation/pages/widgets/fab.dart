@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:suggest_a_feature/src/presentation/pages/theme/theme_extension.dart';
@@ -60,9 +62,10 @@ class _SuggestionsFabState extends State<SuggestionsFab>
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: widget.onClick,
-      onTapDown: (_) => _controller
-        ..reset()
-        ..forward(),
+      onTapDown: (_) {
+        _controller.reset();
+        unawaited(_controller.forward());
+      },
       onTapUp: (_) => _controller.reset(),
       onTapCancel: _controller.reset,
       child: Container(
@@ -72,7 +75,8 @@ class _SuggestionsFabState extends State<SuggestionsFab>
         alignment: Alignment.center,
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
-          color: widget.backgroundColor ??
+          color:
+              widget.backgroundColor ??
               context.theme.floatingActionButtonTheme.backgroundColor ??
               theme.fabColor,
           borderRadius: BorderRadius.circular(widget.borderRadius),
@@ -84,7 +88,8 @@ class _SuggestionsFabState extends State<SuggestionsFab>
               bottom: -widget.size / 2,
               child: _AnimatedCircle(
                 animation: _animation,
-                color: widget.splashColor ??
+                color:
+                    widget.splashColor ??
                     context.theme.floatingActionButtonTheme.backgroundColor ??
                     theme.fabColor,
               ),

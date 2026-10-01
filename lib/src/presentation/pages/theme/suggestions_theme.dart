@@ -43,21 +43,21 @@ class SuggestionsTheme {
   });
 
   factory SuggestionsTheme.initial() => SuggestionsTheme(
-        actionColor: const Color.fromRGBO(51, 51, 51, 0.15),
-        actionPressedColor: const Color.fromRGBO(51, 51, 51, 0.2),
-        actionBackgroundColor: const Color.fromRGBO(224, 224, 224, 1),
-        disabledTextColor: const Color.fromRGBO(51, 51, 51, 0.38),
-        upvoteArrowColor: const Color.fromRGBO(140, 140, 140, 1),
-        requestsTabColor: const Color.fromRGBO(241, 96, 29, 1),
-        inProgressTabColor: const Color.fromRGBO(245, 167, 24, 1),
-        completedTabColor: const Color.fromRGBO(38, 155, 85, 1),
-        declinedTabColor: const Color.fromRGBO(246, 24, 48, 1),
-        duplicatedTabColor: const Color.fromRGBO(29, 121, 241, 1),
-        featureLabelColor: const Color.fromRGBO(0, 133, 255, 1),
-        bugLabelColor: const Color.fromRGBO(246, 24, 48, 1),
-        fade: const Color.fromRGBO(0, 0, 0, 0.65),
-        fabColor: const Color.fromRGBO(33, 33, 33, 0.12),
-      );
+    actionColor: const Color.fromRGBO(51, 51, 51, 0.15),
+    actionPressedColor: const Color.fromRGBO(51, 51, 51, 0.2),
+    actionBackgroundColor: const Color.fromRGBO(224, 224, 224, 1),
+    disabledTextColor: const Color.fromRGBO(51, 51, 51, 0.38),
+    upvoteArrowColor: const Color.fromRGBO(140, 140, 140, 1),
+    requestsTabColor: const Color.fromRGBO(241, 96, 29, 1),
+    inProgressTabColor: const Color.fromRGBO(245, 167, 24, 1),
+    completedTabColor: const Color.fromRGBO(38, 155, 85, 1),
+    declinedTabColor: const Color.fromRGBO(246, 24, 48, 1),
+    duplicatedTabColor: const Color.fromRGBO(29, 121, 241, 1),
+    featureLabelColor: const Color.fromRGBO(0, 133, 255, 1),
+    bugLabelColor: const Color.fromRGBO(246, 24, 48, 1),
+    fade: const Color.fromRGBO(0, 0, 0, 0.65),
+    fabColor: const Color.fromRGBO(33, 33, 33, 0.12),
+  );
 
   SuggestionsTheme copyWith({
     Color? actionColor,

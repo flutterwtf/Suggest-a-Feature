@@ -38,11 +38,12 @@ class SuggestionList extends StatelessWidget {
       children: <Widget>[
         ListView.builder(
           itemCount: suggestions.length + 1,
-          padding: const EdgeInsets.symmetric(
-            horizontal: Dimensions.marginDefault,
-          ).copyWith(
-            bottom: MediaQuery.paddingOf(context).bottom,
-          ),
+          padding:
+              const EdgeInsets.symmetric(
+                horizontal: Dimensions.marginDefault,
+              ).copyWith(
+                bottom: MediaQuery.paddingOf(context).bottom,
+              ),
           itemBuilder: (_, index) {
             return index == 0
                 ? ListDescription(
@@ -104,16 +105,16 @@ class _ListItem extends StatelessWidget {
       index: index - 1,
       onClick: () =>
           (i.navigatorKey?.currentState ?? Navigator.of(context)).push(
-        CupertinoPageRoute<dynamic>(
-          builder: (_) => SuggestionPage(
-            suggestion: suggestions[index - 1],
-            onUploadMultiplePhotos: onUploadMultiplePhotos,
-            onSaveToGallery: onSaveToGallery,
-            onGetUserById: onGetUserById,
-            onShareSuggestion: onShareSuggestion,
+            CupertinoPageRoute<dynamic>(
+              builder: (_) => SuggestionPage(
+                suggestion: suggestions[index - 1],
+                onUploadMultiplePhotos: onUploadMultiplePhotos,
+                onSaveToGallery: onSaveToGallery,
+                onGetUserById: onGetUserById,
+                onShareSuggestion: onShareSuggestion,
+              ),
+            ),
           ),
-        ),
-      ),
       userId: userId,
       voteCallBack: () => vote(index - 1),
     );

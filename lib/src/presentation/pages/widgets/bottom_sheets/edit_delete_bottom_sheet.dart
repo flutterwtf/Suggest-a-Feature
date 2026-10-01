@@ -37,7 +37,8 @@ class _EditDeleteSuggestionBottomSheetState
     return BaseBottomSheet(
       controller: widget.controller,
       onClose: ([_]) => widget.onCancel(),
-      backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
+      backgroundColor:
+          context.theme.bottomSheetTheme.backgroundColor ??
           context.theme.colorScheme.surface,
       previousNavBarColor: context.theme.colorScheme.surface,
       previousStatusBarColor: context.theme.colorScheme.surface,
@@ -53,8 +54,9 @@ class _EditDeleteSuggestionBottomSheetState
             Column(
               children: <Widget>[
                 _LeadingText(
-                  text: widget.creationDate
-                      .formatEditSuggestion(localization.locale),
+                  text: widget.creationDate.formatEditSuggestion(
+                    localization.locale,
+                  ),
                 ),
                 const SizedBox(height: Dimensions.marginDefault),
                 _EditItem(onEditClick: widget.onEditClick),

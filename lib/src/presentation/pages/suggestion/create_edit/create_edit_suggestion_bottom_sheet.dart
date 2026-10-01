@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:suggest_a_feature/src/domain/entities/suggestion.dart';
@@ -61,8 +63,9 @@ class _CreateEditSuggestionBottomSheetState
     _labelsSheetController = SheetController();
     _statusesSheetController = SheetController();
     _titleController = TextEditingController(text: widget.suggestion?.title);
-    _descriptionController =
-        TextEditingController(text: widget.suggestion?.description);
+    _descriptionController = TextEditingController(
+      text: widget.suggestion?.description,
+    );
     _titleFocusNode = FocusNode();
     _descriptionFocusNode = FocusNode();
   }
@@ -105,7 +108,7 @@ class _CreateEditSuggestionBottomSheetState
     } else if (state.isSubmitted) {
       widget.onClose();
     } else if (state.isPhotoViewOpen) {
-      _openPhotoView(state, stateManager);
+      unawaited(_openPhotoView(state, stateManager));
     }
     stateManager.reset();
   }
@@ -163,13 +166,14 @@ class _CreateEditSuggestionBottomSheetState
       barrierColor: Colors.black,
       context: context,
       useRootNavigator: false,
-      builder: (BuildContext context) {
+      builder: (context) {
         return PhotoView(
           initialIndex: state.openPhotoIndex!,
           onDeleteClick: stateManager.removePhoto,
           onDownloadClick: widget.onSaveToGallery != null
-              ? (String path) => stateManager
-                  .showSavingResultMessage(widget.onSaveToGallery!(path))
+              ? (path) => stateManager.showSavingResultMessage(
+                  widget.onSaveToGallery!(path),
+                )
               : null,
           photos: state.suggestion.images,
           previousNavBarColor: context.theme.colorScheme.surface,
@@ -206,7 +210,8 @@ class _CreateEditSuggestionBottomSheet extends StatelessWidget {
       controller: controller,
       onOpen: titleFocusNode.requestFocus,
       onClose: ([_]) => onClose(),
-      backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
+      backgroundColor:
+          context.theme.bottomSheetTheme.backgroundColor ??
           context.theme.colorScheme.surface,
       previousNavBarColor: context.theme.colorScheme.surface,
       previousStatusBarColor: context.theme.colorScheme.surfaceContainerHighest,
@@ -228,8 +233,8 @@ class _CreateEditSuggestionBottomSheet extends StatelessWidget {
           ),
           onStatusChanged: (value) =>
               stateManager.changeStatusBottomSheetStatus(
-            isStatusBottomSheetOpen: value,
-          ),
+                isStatusBottomSheetOpen: value,
+              ),
           onSave: stateManager.saveSuggestion,
         );
       },
@@ -251,8 +256,9 @@ class _LabelItems extends StatelessWidget {
     return ClickableListItem(
       title: Text(
         localization.labels,
-        style: context.theme.textTheme.labelLarge
-            ?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
+        style: context.theme.textTheme.labelLarge?.copyWith(
+          color: context.theme.colorScheme.onSurfaceVariant,
+        ),
       ),
       trailing: labels.isNotEmpty
           ? SuggestionLabels(labels: labels)
@@ -302,8 +308,9 @@ class _SuggestionStatus extends StatelessWidget {
     return ClickableListItem(
       title: Text(
         localization.status,
-        style: context.theme.textTheme.labelLarge
-            ?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
+        style: context.theme.textTheme.labelLarge?.copyWith(
+          color: context.theme.colorScheme.onSurfaceVariant,
+        ),
       ),
       trailing: Text(
         _suggestionStatus,
@@ -356,8 +363,9 @@ class _PostAnonymously extends StatelessWidget {
     return ClickableListItem(
       title: Text(
         localization.postAnonymously,
-        style: context.theme.textTheme.labelLarge
-            ?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
+        style: context.theme.textTheme.labelLarge?.copyWith(
+          color: context.theme.colorScheme.onSurfaceVariant,
+        ),
       ),
       trailing: SuggestionsSwitch(
         value: isAnonymously,
@@ -392,7 +400,7 @@ class _PhotoPickerItem extends StatelessWidget {
             physics: const BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
             itemCount: state.suggestion.images.length + 1,
-            itemBuilder: (BuildContext context, int i) {
+            itemBuilder: (context, i) {
               return _PhotoItem(
                 isAddButtonShown: i == 0,
                 isLoading: state.isLoading,
@@ -401,12 +409,15 @@ class _PhotoPickerItem extends StatelessWidget {
                     ? tileWidth * 0.9
                     : tileWidth,
                 onUploadPhotos: () {
-                  final availableNumOfPhotos = maxPhotosForOneSuggestion -
+                  final availableNumOfPhotos =
+                      maxPhotosForOneSuggestion -
                       state.suggestion.images.length;
                   if (availableNumOfPhotos > 0) {
-                    stateManager.addUploadedPhotos(
-                      onUploadMultiplePhotos!(
-                        availableNumOfPhotos: availableNumOfPhotos,
+                    unawaited(
+                      stateManager.addUploadedPhotos(
+                        onUploadMultiplePhotos!(
+                          availableNumOfPhotos: availableNumOfPhotos,
+                        ),
                       ),
                     );
                   } else {
@@ -511,8 +522,9 @@ class _AddButton extends StatelessWidget {
     return ClickableListItem(
       title: Text(
         localization.addPhoto,
-        style: context.theme.textTheme.labelLarge
-            ?.copyWith(color: context.theme.colorScheme.onSurfaceVariant),
+        style: context.theme.textTheme.labelLarge?.copyWith(
+          color: context.theme.colorScheme.onSurfaceVariant,
+        ),
       ),
       trailing: isLoading
           ? CircularProgressIndicator(
@@ -557,7 +569,7 @@ class _PhotoPreviewState extends State<_PhotoPreview> {
       child: SizedBox(
         width: widget.suggestionImages.length <= 3
             ? Dimensions.microSize +
-                Dimensions.smallSize * widget.suggestionImages.length
+                  Dimensions.smallSize * widget.suggestionImages.length
             : Dimensions.veryBigSize,
         child: Stack(
           children: [
@@ -654,6 +666,7 @@ class _EditSuggestionBottomSheetListView extends StatelessWidget {
             }
           },
           isShowError: state.isShowTitleError,
+          errorText: state.titleErrorText,
         ),
         const SizedBox(height: Dimensions.marginDefault),
         SuggestionsTextField(
@@ -666,11 +679,13 @@ class _EditSuggestionBottomSheetListView extends StatelessWidget {
             Dimensions.marginSmall,
             Dimensions.marginDefault,
           ),
-          onChanged: (String text) {
+          onChanged: (text) {
             if (state.suggestion.description != text) {
               onDescriptionChanged(text);
             }
           },
+          isShowError: state.isShowDescriptionError,
+          errorText: state.descriptionErrorText,
         ),
         const SizedBox(height: Dimensions.marginBig),
         const Divider(thickness: 0.5, height: 1.5),

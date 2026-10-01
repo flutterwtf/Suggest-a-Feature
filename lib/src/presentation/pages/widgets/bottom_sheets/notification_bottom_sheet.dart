@@ -40,11 +40,12 @@ class _NotificationSuggestionBottomSheetState
     return BaseBottomSheet(
       controller: widget.controller,
       onClose: ([_]) => widget.onCancel(),
-      backgroundColor: context.theme.bottomSheetTheme.backgroundColor ??
+      backgroundColor:
+          context.theme.bottomSheetTheme.backgroundColor ??
           context.theme.colorScheme.surface,
       previousNavBarColor: context.theme.colorScheme.surface,
       previousStatusBarColor: context.theme.colorScheme.surface,
-      contentBuilder: (BuildContext context, SheetState sheetState) {
+      contentBuilder: (context, sheetState) {
         return ListView(
           padding: const EdgeInsets.symmetric(
             vertical: Dimensions.marginSmall,

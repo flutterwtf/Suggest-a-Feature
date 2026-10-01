@@ -4,18 +4,10 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:saf_example/web_wrapper.dart';
 import 'package:suggest_a_feature/suggest_a_feature.dart';
 
-void main() => runApp(
-      kIsWeb
-          ? const WebWrapper(
-              app: MyApp(),
-            )
-          : const MyApp(),
-    );
+void main() => runApp(kIsWeb ? const WebWrapper(app: MyApp()) : const MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({
-    Key? key,
-  }) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +18,8 @@ class MyApp extends StatelessWidget {
       navigatorKey: navigatorKey,
       home: Scaffold(
         body: SuggestionsPage(
-          onGetUserById: (id) => Future<SuggestionAuthor>(
-            () => _suggestionAuthor,
-          ),
+          onGetUserById: (id) =>
+              Future<SuggestionAuthor>(() => _suggestionAuthor),
           suggestionsDataSource: MySuggestionDataSource(userId: '1'),
           theme: SuggestionsTheme.initial(),
           userId: '1',
@@ -47,10 +38,7 @@ const SuggestionAuthor _suggestionAuthor = SuggestionAuthor(
   id: '1',
   username: 'Author',
 );
-const AdminSettings _adminSettings = AdminSettings(
-  id: '2',
-  username: 'Admin',
-);
+const AdminSettings _adminSettings = AdminSettings(id: '2', username: 'Admin');
 
 class MySuggestionDataSource implements SuggestionsDataSource {
   final Map<String, Suggestion> _suggestions = <String, Suggestion>{
@@ -237,10 +225,10 @@ class MySuggestionDataSource implements SuggestionsDataSource {
   @override
   Future<List<Comment>> getAllComments(String suggestionId) async =>
       _comments.isNotEmpty
-          ? _comments.values
-              .where((comment) => comment.suggestionId == suggestionId)
-              .toList()
-          : <Comment>[];
+      ? _comments.values
+            .where((comment) => comment.suggestionId == suggestionId)
+            .toList()
+      : <Comment>[];
 
   @override
   Future<void> deleteCommentById(String commentId) async {
@@ -249,9 +237,8 @@ class MySuggestionDataSource implements SuggestionsDataSource {
 
   @override
   Future<void> addNotifyToUpdateUser(String suggestionId) async {
-    final modifiedSet = {
-      ..._suggestions[suggestionId]!.notifyUserIds,
-    }..add(userId);
+    final modifiedSet = {..._suggestions[suggestionId]!.notifyUserIds}
+      ..add(userId);
 
     _suggestions[suggestionId] = _suggestions[suggestionId]!.copyWith(
       notifyUserIds: modifiedSet,
@@ -260,9 +247,8 @@ class MySuggestionDataSource implements SuggestionsDataSource {
 
   @override
   Future<void> deleteNotifyToUpdateUser(String suggestionId) async {
-    final modifiedSet = {
-      ..._suggestions[suggestionId]!.notifyUserIds,
-    }..remove(userId);
+    final modifiedSet = {..._suggestions[suggestionId]!.notifyUserIds}
+      ..remove(userId);
 
     _suggestions[suggestionId] = _suggestions[suggestionId]!.copyWith(
       notifyUserIds: modifiedSet,
@@ -271,9 +257,8 @@ class MySuggestionDataSource implements SuggestionsDataSource {
 
   @override
   Future<void> upvote(String suggestionId) async {
-    final modifiedSet = {
-      ..._suggestions[suggestionId]!.votedUserIds,
-    }..add(userId);
+    final modifiedSet = {..._suggestions[suggestionId]!.votedUserIds}
+      ..add(userId);
     _suggestions[suggestionId] = _suggestions[suggestionId]!.copyWith(
       votedUserIds: modifiedSet,
     );
@@ -281,9 +266,8 @@ class MySuggestionDataSource implements SuggestionsDataSource {
 
   @override
   Future<void> downvote(String suggestionId) async {
-    final modifiedSet = {
-      ..._suggestions[suggestionId]!.votedUserIds,
-    }..remove(userId);
+    final modifiedSet = {..._suggestions[suggestionId]!.votedUserIds}
+      ..remove(userId);
 
     _suggestions[suggestionId] = _suggestions[suggestionId]!.copyWith(
       votedUserIds: modifiedSet,
